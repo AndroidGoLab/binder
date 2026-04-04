@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/attention"
@@ -42,7 +44,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnSuccess() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnSuccess() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionCallback")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnSuccess() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -99,7 +101,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnFailure() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -110,7 +112,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnFailure() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionCallback")
 			}
 			if err != nil {
 				return err
@@ -129,7 +131,7 @@ func newCmdAndroidServiceAttentionIAttentionCallback_OnFailure() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -163,7 +165,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CheckAttention() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -174,7 +176,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CheckAttention() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
 			}
 			if err != nil {
 				return err
@@ -198,7 +200,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CheckAttention() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -218,7 +220,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CancelAttentionCheck() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -229,7 +231,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CancelAttentionCheck() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
 			}
 			if err != nil {
 				return err
@@ -253,7 +255,7 @@ func newCmdAndroidServiceAttentionIAttentionService_CancelAttentionCheck() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -273,7 +275,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStartProximityUpdates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -284,7 +286,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStartProximityUpdates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
 			}
 			if err != nil {
 				return err
@@ -308,7 +310,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStartProximityUpdates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -328,7 +330,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStopProximityUpdates() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -339,7 +341,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStopProximityUpdates() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IAttentionService")
 			}
 			if err != nil {
 				return err
@@ -353,7 +355,7 @@ func newCmdAndroidServiceAttentionIAttentionService_OnStopProximityUpdates() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -382,7 +384,7 @@ func newCmdAndroidServiceAttentionIProximityUpdateCallback_OnProximityUpdate() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -393,7 +395,7 @@ func newCmdAndroidServiceAttentionIProximityUpdateCallback_OnProximityUpdate() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.attention.IProximityUpdateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.attention.IProximityUpdateCallback")
 			}
 			if err != nil {
 				return err
@@ -412,7 +414,7 @@ func newCmdAndroidServiceAttentionIProximityUpdateCallback_OnProximityUpdate() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

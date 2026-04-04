@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	common2 "github.com/AndroidGoLab/binder/android/hardware/audio/common"
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_IsEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_IsEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_IsEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SetEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SetEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SetEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SupportsOffloadReconfiguration
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SupportsOffloadReconfiguration
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_SupportsOffloadReconfiguration
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -193,7 +195,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_ReconfigureOffload() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -204,7 +206,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_ReconfigureOffload() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -229,7 +231,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothA2dp_ReconfigureOffload() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -263,7 +265,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_IsEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -274,7 +276,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_IsEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
 			}
 			if err != nil {
 				return err
@@ -288,7 +290,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_IsEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -306,7 +308,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SetEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -317,7 +319,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SetEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SetEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -356,7 +358,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SupportsOffloadReconfiguration()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -367,7 +369,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SupportsOffloadReconfiguration()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_SupportsOffloadReconfiguration()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -399,7 +401,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_ReconfigureOffload() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -410,7 +412,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_ReconfigureOffload() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IBluetoothLe")
 			}
 			if err != nil {
 				return err
@@ -435,7 +437,7 @@ func newCmdAndroidHardwareAudioCoreIBluetoothLe_ReconfigureOffload() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -467,7 +469,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetSurroundSoundConfig() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -478,7 +480,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetSurroundSoundConfig() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IConfig")
 			}
 			if err != nil {
 				return err
@@ -492,7 +494,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetSurroundSoundConfig() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -510,7 +512,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetEngineConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -521,7 +523,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetEngineConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IConfig")
 			}
 			if err != nil {
 				return err
@@ -535,7 +537,7 @@ func newCmdAndroidHardwareAudioCoreIConfig_GetEngineConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -599,7 +601,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetModuleDebug() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -610,7 +612,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetModuleDebug() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -628,7 +630,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetModuleDebug() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetTelephony() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -659,7 +661,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetTelephony() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -673,7 +675,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetTelephony() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -691,7 +693,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetooth() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetooth() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -716,7 +718,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetooth() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -734,7 +736,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothA2dp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -745,7 +747,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothA2dp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -759,7 +761,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothA2dp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -777,7 +779,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothLe() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -788,7 +790,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothLe() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -802,7 +804,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetBluetoothLe() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -820,7 +822,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ConnectExternalDevice() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -831,7 +833,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ConnectExternalDevice() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -895,7 +897,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ConnectExternalDevice() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -935,7 +937,7 @@ func newCmdAndroidHardwareAudioCoreIModule_DisconnectExternalDevice() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -946,7 +948,7 @@ func newCmdAndroidHardwareAudioCoreIModule_DisconnectExternalDevice() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -965,7 +967,7 @@ func newCmdAndroidHardwareAudioCoreIModule_DisconnectExternalDevice() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -985,7 +987,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPatches() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -996,7 +998,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPatches() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1010,7 +1012,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPatches() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1028,7 +1030,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1039,7 +1041,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1058,7 +1060,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1078,7 +1080,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPortConfigs() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1089,7 +1091,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPortConfigs() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1103,7 +1105,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPortConfigs() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1121,7 +1123,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPorts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1132,7 +1134,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPorts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1146,7 +1148,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioPorts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1164,7 +1166,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1175,7 +1177,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1189,7 +1191,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1207,7 +1209,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutesForAudioPort() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1218,7 +1220,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutesForAudioPort() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1237,7 +1239,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAudioRoutesForAudioPort() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1257,7 +1259,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSupportedPlaybackRateFactors() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1268,7 +1270,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSupportedPlaybackRateFactors() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1282,7 +1284,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSupportedPlaybackRateFactors() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1300,7 +1302,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1311,7 +1313,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1356,7 +1358,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1379,7 +1381,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPortConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1390,7 +1392,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPortConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1468,7 +1470,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetAudioPortConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1523,7 +1525,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1534,7 +1536,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1553,7 +1555,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1573,7 +1575,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPortConfig() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1584,7 +1586,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPortConfig() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1603,7 +1605,7 @@ func newCmdAndroidHardwareAudioCoreIModule_ResetAudioPortConfig() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1623,7 +1625,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1634,7 +1636,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1648,7 +1650,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1666,7 +1668,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1677,7 +1679,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1696,7 +1698,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1716,7 +1718,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1727,7 +1729,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1741,7 +1743,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMasterVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1759,7 +1761,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1770,7 +1772,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1789,7 +1791,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMasterVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1809,7 +1811,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1820,7 +1822,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1834,7 +1836,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1852,7 +1854,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMicMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1863,7 +1865,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMicMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1882,7 +1884,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetMicMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1902,7 +1904,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicrophones() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1913,7 +1915,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicrophones() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1927,7 +1929,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMicrophones() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1945,7 +1947,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateAudioMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1956,7 +1958,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateAudioMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -1976,7 +1978,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateAudioMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1996,7 +1998,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateScreenState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2007,7 +2009,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateScreenState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2026,7 +2028,7 @@ func newCmdAndroidHardwareAudioCoreIModule_UpdateScreenState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2046,7 +2048,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSoundDose() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2057,7 +2059,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSoundDose() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2071,7 +2073,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetSoundDose() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2089,7 +2091,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GenerateHwAvSyncId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2100,7 +2102,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GenerateHwAvSyncId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2114,7 +2116,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GenerateHwAvSyncId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2132,7 +2134,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetVendorParameters() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2143,7 +2145,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetVendorParameters() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2166,7 +2168,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetVendorParameters() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2186,7 +2188,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetVendorParameters() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2197,7 +2199,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetVendorParameters() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2227,7 +2229,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SetVendorParameters() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2249,7 +2251,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMmapPolicyInfos() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2260,7 +2262,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMmapPolicyInfos() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2280,7 +2282,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetMmapPolicyInfos() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2300,7 +2302,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SupportsVariableLatency() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2311,7 +2313,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SupportsVariableLatency() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2325,7 +2327,7 @@ func newCmdAndroidHardwareAudioCoreIModule_SupportsVariableLatency() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2343,7 +2345,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioMixerBurstCount() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2354,7 +2356,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioMixerBurstCount() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2368,7 +2370,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioMixerBurstCount() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2386,7 +2388,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioHardwareBurstMinUsec() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2397,7 +2399,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioHardwareBurstMinUsec() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2411,7 +2413,7 @@ func newCmdAndroidHardwareAudioCoreIModule_GetAAudioHardwareBurstMinUsec() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2429,7 +2431,7 @@ func newCmdAndroidHardwareAudioCoreIModule_PrepareToDisconnectExternalDevice() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2440,7 +2442,7 @@ func newCmdAndroidHardwareAudioCoreIModule_PrepareToDisconnectExternalDevice() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IModule")
 			}
 			if err != nil {
 				return err
@@ -2459,7 +2461,7 @@ func newCmdAndroidHardwareAudioCoreIModule_PrepareToDisconnectExternalDevice() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2492,7 +2494,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnTransferReady() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2503,7 +2505,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnTransferReady() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
 			}
 			if err != nil {
 				return err
@@ -2517,7 +2519,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnTransferReady() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2535,7 +2537,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2546,7 +2548,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
 			}
 			if err != nil {
 				return err
@@ -2560,7 +2562,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2578,7 +2580,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnDrainReady() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2589,7 +2591,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnDrainReady() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCallback")
 			}
 			if err != nil {
 				return err
@@ -2603,7 +2605,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCallback_OnDrainReady() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2636,7 +2638,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2647,7 +2649,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
 			}
 			if err != nil {
 				return err
@@ -2661,7 +2663,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2679,7 +2681,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_PrepareToClose() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2690,7 +2692,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_PrepareToClose() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
 			}
 			if err != nil {
 				return err
@@ -2704,7 +2706,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_PrepareToClose() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2722,7 +2724,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_UpdateHwAvSyncId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2733,7 +2735,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_UpdateHwAvSyncId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
 			}
 			if err != nil {
 				return err
@@ -2752,7 +2754,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_UpdateHwAvSyncId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2772,7 +2774,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_GetVendorParameters() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2783,7 +2785,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_GetVendorParameters() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
 			}
 			if err != nil {
 				return err
@@ -2806,7 +2808,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_GetVendorParameters() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2826,7 +2828,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_SetVendorParameters() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2837,7 +2839,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_SetVendorParameters() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamCommon")
 			}
 			if err != nil {
 				return err
@@ -2867,7 +2869,7 @@ func newCmdAndroidHardwareAudioCoreIStreamCommon_SetVendorParameters() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2906,7 +2908,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetStreamCommon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2917,7 +2919,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetStreamCommon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -2931,7 +2933,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetStreamCommon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2949,7 +2951,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetActiveMicrophones() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2960,7 +2962,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetActiveMicrophones() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -2974,7 +2976,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetActiveMicrophones() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2992,7 +2994,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneDirection() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3003,7 +3005,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneDirection() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -3017,7 +3019,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneDirection() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3035,7 +3037,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneFieldDimension() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3046,7 +3048,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneFieldDimension() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -3060,7 +3062,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetMicrophoneFieldDimension() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3078,7 +3080,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetMicrophoneFieldDimension() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3089,7 +3091,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetMicrophoneFieldDimension() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -3108,7 +3110,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetMicrophoneFieldDimension() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3128,7 +3130,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetHwGain() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3139,7 +3141,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetHwGain() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -3153,7 +3155,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_GetHwGain() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3171,7 +3173,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetHwGain() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3182,7 +3184,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetHwGain() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamIn")
 			}
 			if err != nil {
 				return err
@@ -3211,7 +3213,7 @@ func newCmdAndroidHardwareAudioCoreIStreamIn_SetHwGain() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3252,7 +3254,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetStreamCommon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3263,7 +3265,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetStreamCommon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3277,7 +3279,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetStreamCommon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3295,7 +3297,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateMetadata() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3306,7 +3308,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateMetadata() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3327,7 +3329,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateMetadata() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3346,7 +3348,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateOffloadMetadata() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3357,7 +3359,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateOffloadMetadata() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3382,7 +3384,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_UpdateOffloadMetadata() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3409,7 +3411,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetHwVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3420,7 +3422,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetHwVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3434,7 +3436,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetHwVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3452,7 +3454,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetHwVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3463,7 +3465,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetHwVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3492,7 +3494,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetHwVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3512,7 +3514,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetAudioDescriptionMixLevel() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3523,7 +3525,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetAudioDescriptionMixLevel() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3537,7 +3539,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetAudioDescriptionMixLevel() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3555,7 +3557,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetAudioDescriptionMixLevel() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3566,7 +3568,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetAudioDescriptionMixLevel() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3585,7 +3587,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SetAudioDescriptionMixLevel() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3605,7 +3607,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetDualMonoMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3616,7 +3618,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetDualMonoMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3630,7 +3632,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetDualMonoMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3648,7 +3650,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetRecommendedLatencyModes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3659,7 +3661,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetRecommendedLatencyModes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3673,7 +3675,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetRecommendedLatencyModes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3691,7 +3693,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetPlaybackRateParameters() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3702,7 +3704,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetPlaybackRateParameters() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3716,7 +3718,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_GetPlaybackRateParameters() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3734,7 +3736,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SelectPresentation() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3745,7 +3747,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SelectPresentation() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOut")
 			}
 			if err != nil {
 				return err
@@ -3769,7 +3771,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOut_SelectPresentation() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3803,7 +3805,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnCodecFormatChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3814,7 +3816,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnCodecFormatChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOutEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOutEventCallback")
 			}
 			if err != nil {
 				return err
@@ -3837,7 +3839,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnCodecFormatChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3857,7 +3859,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnRecommendedLatencyM
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3868,7 +3870,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnRecommendedLatencyM
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOutEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.IStreamOutEventCallback")
 			}
 			if err != nil {
 				return err
@@ -3893,7 +3895,7 @@ func newCmdAndroidHardwareAudioCoreIStreamOutEventCallback_OnRecommendedLatencyM
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3925,7 +3927,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_GetSupportedAudioModes() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3936,7 +3938,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_GetSupportedAudioModes() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.ITelephony")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.ITelephony")
 			}
 			if err != nil {
 				return err
@@ -3950,7 +3952,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_GetSupportedAudioModes() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3968,7 +3970,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_SwitchAudioMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3979,7 +3981,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_SwitchAudioMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.ITelephony")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.core.ITelephony")
 			}
 			if err != nil {
 				return err
@@ -3999,7 +4001,7 @@ func newCmdAndroidHardwareAudioCoreITelephony_SwitchAudioMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

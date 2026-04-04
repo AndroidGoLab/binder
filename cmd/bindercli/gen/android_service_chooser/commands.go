@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -42,7 +44,7 @@ func newCmdAndroidServiceChooserIChooserTargetResult_SendResult() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidServiceChooserIChooserTargetResult_SendResult() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.chooser.IChooserTargetResult")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.chooser.IChooserTargetResult")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidServiceChooserIChooserTargetResult_SendResult() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -109,7 +111,7 @@ func newCmdAndroidServiceChooserIChooserTargetService_GetChooserTargets() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -120,7 +122,7 @@ func newCmdAndroidServiceChooserIChooserTargetService_GetChooserTargets() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.chooser.IChooserTargetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.chooser.IChooserTargetService")
 			}
 			if err != nil {
 				return err
@@ -148,7 +150,7 @@ func newCmdAndroidServiceChooserIChooserTargetService_GetChooserTargets() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

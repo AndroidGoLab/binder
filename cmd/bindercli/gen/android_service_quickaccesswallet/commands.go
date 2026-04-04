@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -46,7 +48,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletCard
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletDism
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletDism
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -173,7 +175,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnWalletDism
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -191,7 +193,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_RegisterWall
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -202,7 +204,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_RegisterWall
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_RegisterWall
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -248,7 +250,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_UnregisterWa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -259,7 +261,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_UnregisterWa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -275,7 +277,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_UnregisterWa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -293,7 +295,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnTargetActi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -304,7 +306,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnTargetActi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletService")
 			}
 			if err != nil {
 				return err
@@ -328,7 +330,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletService_OnTargetActi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -362,7 +364,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -373,7 +375,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -389,7 +391,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -434,7 +436,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnG
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -452,7 +454,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -463,7 +465,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -479,7 +481,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -497,7 +499,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -508,7 +510,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -524,7 +526,7 @@ func newCmdAndroidServiceQuickaccesswalletIQuickAccessWalletServiceCallbacks_OnT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

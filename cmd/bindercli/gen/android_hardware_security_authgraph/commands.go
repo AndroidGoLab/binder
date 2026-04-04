@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/security/authgraph"
@@ -44,7 +46,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Create() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Create() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Create() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -87,7 +89,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Init() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -98,7 +100,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Init() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
 			}
 			if err != nil {
 				return err
@@ -151,7 +153,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Init() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -176,7 +178,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Finish() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -187,7 +189,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Finish() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
 			}
 			if err != nil {
 				return err
@@ -272,7 +274,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_Finish() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -301,7 +303,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_AuthenticationC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -312,7 +314,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_AuthenticationC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.authgraph.IAuthGraphKeyExchange")
 			}
 			if err != nil {
 				return err
@@ -346,7 +348,7 @@ func newCmdAndroidHardwareSecurityAuthgraphIAuthGraphKeyExchange_AuthenticationC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

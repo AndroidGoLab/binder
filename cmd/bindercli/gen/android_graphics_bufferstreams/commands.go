@@ -12,7 +12,9 @@ import (
 	"strconv"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics/bufferstreams"
@@ -43,7 +45,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferOwner_OnBufferReleased() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferOwner_OnBufferReleased() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferOwner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferOwner")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferOwner_OnBufferReleased() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -120,7 +122,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnSubscribe() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -131,7 +133,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnSubscribe() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnSubscribe() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnBufferCacheUpdate() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnBufferCacheUpdate() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
 			}
 			if err != nil {
 				return err
@@ -212,7 +214,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnBufferCacheUpdate() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -232,7 +234,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnNext() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -243,7 +245,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnNext() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnNext() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -283,7 +285,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnError() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -294,7 +296,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnError() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
 			}
 			if err != nil {
 				return err
@@ -308,7 +310,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnError() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -326,7 +328,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnComplete() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -337,7 +339,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnComplete() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscriber")
 			}
 			if err != nil {
 				return err
@@ -351,7 +353,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscriber_OnComplete() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Request() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Request() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscription")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscription")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Request() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -431,7 +433,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Cancel() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -442,7 +444,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Cancel() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscription")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.graphics.bufferstreams.IBufferSubscription")
 			}
 			if err != nil {
 				return err
@@ -456,7 +458,7 @@ func newCmdAndroidGraphicsBufferstreamsIBufferSubscription_Cancel() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

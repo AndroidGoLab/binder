@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -48,7 +50,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_RegisterRecentTasksListener() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_RegisterRecentTasksListener() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_RegisterRecentTasksListener() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_UnregisterRecentTasksListener() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_UnregisterRecentTasksListener() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
 			}
 			if err != nil {
 				return err
@@ -138,7 +140,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_UnregisterRecentTasksListener() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -158,7 +160,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRecentTasks() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -169,7 +171,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRecentTasks() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
 			}
 			if err != nil {
 				return err
@@ -193,7 +195,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRecentTasks() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -215,7 +217,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRunningTasks() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -226,7 +228,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRunningTasks() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_GetRunningTasks() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -265,7 +267,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_StartRecentsTransition() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -276,7 +278,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_StartRecentsTransition() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasks")
 			}
 			if err != nil {
 				return err
@@ -316,7 +318,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasks_StartRecentsTransition() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -349,7 +351,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasksListener_OnRecentTasksChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -360,7 +362,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasksListener_OnRecentTasksChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasksListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.recents.IRecentTasksListener")
 			}
 			if err != nil {
 				return err
@@ -374,7 +376,7 @@ func newCmdComAndroidWmShellRecentsIRecentTasksListener_OnRecentTasksChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

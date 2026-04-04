@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/om"
@@ -53,7 +55,7 @@ func newCmdAndroidContentOmIOverlayManager_GetAllOverlays() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidContentOmIOverlayManager_GetAllOverlays() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidContentOmIOverlayManager_GetAllOverlays() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -96,7 +98,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfosForTarget() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -107,7 +109,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfosForTarget() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -126,7 +128,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfosForTarget() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -146,7 +148,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -157,7 +159,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -176,7 +178,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -196,7 +198,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfoByIdentifier() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -207,7 +209,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfoByIdentifier() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -223,7 +225,7 @@ func newCmdAndroidContentOmIOverlayManager_GetOverlayInfoByIdentifier() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -241,7 +243,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -252,7 +254,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -298,7 +300,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusive() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -309,7 +311,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusive() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusive() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -355,7 +357,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusiveInCategory() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -366,7 +368,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusiveInCategory() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdAndroidContentOmIOverlayManager_SetEnabledExclusiveInCategory() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -405,7 +407,7 @@ func newCmdAndroidContentOmIOverlayManager_SetPriority() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -416,7 +418,7 @@ func newCmdAndroidContentOmIOverlayManager_SetPriority() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -440,7 +442,7 @@ func newCmdAndroidContentOmIOverlayManager_SetPriority() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -462,7 +464,7 @@ func newCmdAndroidContentOmIOverlayManager_SetHighestPriority() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -473,7 +475,7 @@ func newCmdAndroidContentOmIOverlayManager_SetHighestPriority() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -492,7 +494,7 @@ func newCmdAndroidContentOmIOverlayManager_SetHighestPriority() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -512,7 +514,7 @@ func newCmdAndroidContentOmIOverlayManager_SetLowestPriority() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -523,7 +525,7 @@ func newCmdAndroidContentOmIOverlayManager_SetLowestPriority() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -542,7 +544,7 @@ func newCmdAndroidContentOmIOverlayManager_SetLowestPriority() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -562,7 +564,7 @@ func newCmdAndroidContentOmIOverlayManager_GetDefaultOverlayPackages() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -573,7 +575,7 @@ func newCmdAndroidContentOmIOverlayManager_GetDefaultOverlayPackages() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -587,7 +589,7 @@ func newCmdAndroidContentOmIOverlayManager_GetDefaultOverlayPackages() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -605,7 +607,7 @@ func newCmdAndroidContentOmIOverlayManager_InvalidateCachesForOverlay() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -616,7 +618,7 @@ func newCmdAndroidContentOmIOverlayManager_InvalidateCachesForOverlay() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -635,7 +637,7 @@ func newCmdAndroidContentOmIOverlayManager_InvalidateCachesForOverlay() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -655,7 +657,7 @@ func newCmdAndroidContentOmIOverlayManager_Commit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -666,7 +668,7 @@ func newCmdAndroidContentOmIOverlayManager_Commit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -682,7 +684,7 @@ func newCmdAndroidContentOmIOverlayManager_Commit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -700,7 +702,7 @@ func newCmdAndroidContentOmIOverlayManager_GetPartitionOrder() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -711,7 +713,7 @@ func newCmdAndroidContentOmIOverlayManager_GetPartitionOrder() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -725,7 +727,7 @@ func newCmdAndroidContentOmIOverlayManager_GetPartitionOrder() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -743,7 +745,7 @@ func newCmdAndroidContentOmIOverlayManager_IsDefaultPartitionOrder() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -754,7 +756,7 @@ func newCmdAndroidContentOmIOverlayManager_IsDefaultPartitionOrder() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.om.IOverlayManager")
 			}
 			if err != nil {
 				return err
@@ -768,7 +770,7 @@ func newCmdAndroidContentOmIOverlayManager_IsDefaultPartitionOrder() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

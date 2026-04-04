@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -44,7 +46,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerService_GetISpellCheckerSes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerService_GetISpellCheckerSes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerService")
 			}
 			if err != nil {
 				return err
@@ -101,7 +103,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerService_GetISpellCheckerSes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -138,7 +140,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerServiceCallback_OnSessionCr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -149,7 +151,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerServiceCallback_OnSessionCr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -173,7 +175,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerServiceCallback_OnSessionCr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnCancel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnCancel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerSession")
 			}
 			if err != nil {
 				return err
@@ -230,7 +232,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnCancel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -248,7 +250,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnClose() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -259,7 +261,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnClose() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ISpellCheckerSession")
 			}
 			if err != nil {
 				return err
@@ -273,7 +275,7 @@ func newCmdComAndroidInternalTextserviceISpellCheckerSession_OnClose() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -337,7 +339,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -387,7 +389,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetCurrentSpellChec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetSpellCheckerServ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetSpellCheckerServ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -469,7 +471,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetSpellCheckerServ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -497,7 +499,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_FinishSpellCheckerS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -508,7 +510,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_FinishSpellCheckerS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -532,7 +534,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_FinishSpellCheckerS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -552,7 +554,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_IsSpellCheckerEnabl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -563,7 +565,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_IsSpellCheckerEnabl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -577,7 +579,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_IsSpellCheckerEnabl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -595,7 +597,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetEnabledSpellChec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -606,7 +608,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetEnabledSpellChec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesManager")
 			}
 			if err != nil {
 				return err
@@ -620,7 +622,7 @@ func newCmdComAndroidInternalTextserviceITextServicesManager_GetEnabledSpellChec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -649,7 +651,7 @@ func newCmdComAndroidInternalTextserviceITextServicesSessionListener_OnServiceCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -660,7 +662,7 @@ func newCmdComAndroidInternalTextserviceITextServicesSessionListener_OnServiceCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.textservice.ITextServicesSessionListener")
 			}
 			if err != nil {
 				return err
@@ -684,7 +686,7 @@ func newCmdComAndroidInternalTextserviceITextServicesSessionListener_OnServiceCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

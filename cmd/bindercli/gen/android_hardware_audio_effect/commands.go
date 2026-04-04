@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/audio/effect"
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Open() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Open() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Open() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -584,7 +586,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -609,7 +611,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -627,7 +629,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetDescriptor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -638,7 +640,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetDescriptor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -652,7 +654,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetDescriptor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -670,7 +672,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Command() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -681,7 +683,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Command() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -701,7 +703,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Command() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -721,7 +723,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -732,7 +734,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -746,7 +748,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -764,7 +766,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_SetParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -775,7 +777,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_SetParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -826,7 +828,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_SetParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -853,7 +855,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -864,7 +866,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -1055,7 +1057,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_GetParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1108,7 +1110,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Reopen() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1119,7 +1121,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Reopen() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IEffect")
 			}
 			if err != nil {
 				return err
@@ -1133,7 +1135,7 @@ func newCmdAndroidHardwareAudioEffectIEffect_Reopen() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1165,7 +1167,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryEffects() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1176,7 +1178,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryEffects() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
 			}
 			if err != nil {
 				return err
@@ -1232,7 +1234,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryEffects() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1265,7 +1267,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryProcessing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1276,7 +1278,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryProcessing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
 			}
 			if err != nil {
 				return err
@@ -1297,7 +1299,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_QueryProcessing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1317,7 +1319,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_CreateEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1328,7 +1330,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_CreateEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
 			}
 			if err != nil {
 				return err
@@ -1355,7 +1357,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_CreateEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1378,7 +1380,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_DestroyEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1389,7 +1391,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_DestroyEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.audio.effect.IFactory")
 			}
 			if err != nil {
 				return err
@@ -1413,7 +1415,7 @@ func newCmdAndroidHardwareAudioEffectIFactory_DestroyEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

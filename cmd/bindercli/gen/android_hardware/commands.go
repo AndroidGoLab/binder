@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware"
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareICamera_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidHardwareICamera_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICamera")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidHardwareICamera_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -133,7 +135,7 @@ func newCmdAndroidHardwareICameraService_GetNumberOfCameras() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -144,7 +146,7 @@ func newCmdAndroidHardwareICameraService_GetNumberOfCameras() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareICameraService_GetNumberOfCameras() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAndroidHardwareICameraService_GetCameraInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareICameraService_GetCameraInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdAndroidHardwareICameraService_GetCameraInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -240,7 +242,7 @@ func newCmdAndroidHardwareICameraService_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareICameraService_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareICameraService_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -337,7 +339,7 @@ func newCmdAndroidHardwareICameraService_ConnectDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -348,7 +350,7 @@ func newCmdAndroidHardwareICameraService_ConnectDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -402,7 +404,7 @@ func newCmdAndroidHardwareICameraService_ConnectDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -434,7 +436,7 @@ func newCmdAndroidHardwareICameraService_AddListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -445,7 +447,7 @@ func newCmdAndroidHardwareICameraService_AddListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -469,7 +471,7 @@ func newCmdAndroidHardwareICameraService_AddListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -489,7 +491,7 @@ func newCmdAndroidHardwareICameraService_GetConcurrentCameraIds() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -500,7 +502,7 @@ func newCmdAndroidHardwareICameraService_GetConcurrentCameraIds() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -514,7 +516,7 @@ func newCmdAndroidHardwareICameraService_GetConcurrentCameraIds() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -532,7 +534,7 @@ func newCmdAndroidHardwareICameraService_IsConcurrentSessionConfigurationSupport
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -543,7 +545,7 @@ func newCmdAndroidHardwareICameraService_IsConcurrentSessionConfigurationSupport
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -573,7 +575,7 @@ func newCmdAndroidHardwareICameraService_IsConcurrentSessionConfigurationSupport
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareICameraService_RemapCameraIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareICameraService_RemapCameraIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -627,7 +629,7 @@ func newCmdAndroidHardwareICameraService_RemapCameraIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -646,7 +648,7 @@ func newCmdAndroidHardwareICameraService_InjectSessionParams() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -657,7 +659,7 @@ func newCmdAndroidHardwareICameraService_InjectSessionParams() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -678,7 +680,7 @@ func newCmdAndroidHardwareICameraService_InjectSessionParams() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -698,7 +700,7 @@ func newCmdAndroidHardwareICameraService_RemoveListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -709,7 +711,7 @@ func newCmdAndroidHardwareICameraService_RemoveListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -733,7 +735,7 @@ func newCmdAndroidHardwareICameraService_RemoveListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -753,7 +755,7 @@ func newCmdAndroidHardwareICameraService_GetCameraCharacteristics() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -764,7 +766,7 @@ func newCmdAndroidHardwareICameraService_GetCameraCharacteristics() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -793,7 +795,7 @@ func newCmdAndroidHardwareICameraService_GetCameraCharacteristics() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -817,7 +819,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagDescriptor() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -828,7 +830,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagDescriptor() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -842,7 +844,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagDescriptor() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -860,7 +862,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagCache() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -871,7 +873,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagCache() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -885,7 +887,7 @@ func newCmdAndroidHardwareICameraService_GetCameraVendorTagCache() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -903,7 +905,7 @@ func newCmdAndroidHardwareICameraService_GetLegacyParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -914,7 +916,7 @@ func newCmdAndroidHardwareICameraService_GetLegacyParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -933,7 +935,7 @@ func newCmdAndroidHardwareICameraService_GetLegacyParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -953,7 +955,7 @@ func newCmdAndroidHardwareICameraService_SupportsCameraApi() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -964,7 +966,7 @@ func newCmdAndroidHardwareICameraService_SupportsCameraApi() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -988,7 +990,7 @@ func newCmdAndroidHardwareICameraService_SupportsCameraApi() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1010,7 +1012,7 @@ func newCmdAndroidHardwareICameraService_IsHiddenPhysicalCamera() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1021,7 +1023,7 @@ func newCmdAndroidHardwareICameraService_IsHiddenPhysicalCamera() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1040,7 +1042,7 @@ func newCmdAndroidHardwareICameraService_IsHiddenPhysicalCamera() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1060,7 +1062,7 @@ func newCmdAndroidHardwareICameraService_InjectCamera() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1071,7 +1073,7 @@ func newCmdAndroidHardwareICameraService_InjectCamera() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1110,7 +1112,7 @@ func newCmdAndroidHardwareICameraService_InjectCamera() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1136,7 +1138,7 @@ func newCmdAndroidHardwareICameraService_SetTorchMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1147,7 +1149,7 @@ func newCmdAndroidHardwareICameraService_SetTorchMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1180,7 +1182,7 @@ func newCmdAndroidHardwareICameraService_SetTorchMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1204,7 +1206,7 @@ func newCmdAndroidHardwareICameraService_TurnOnTorchWithStrengthLevel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1215,7 +1217,7 @@ func newCmdAndroidHardwareICameraService_TurnOnTorchWithStrengthLevel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1248,7 +1250,7 @@ func newCmdAndroidHardwareICameraService_TurnOnTorchWithStrengthLevel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1272,7 +1274,7 @@ func newCmdAndroidHardwareICameraService_GetTorchStrengthLevel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1283,7 +1285,7 @@ func newCmdAndroidHardwareICameraService_GetTorchStrengthLevel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1302,7 +1304,7 @@ func newCmdAndroidHardwareICameraService_GetTorchStrengthLevel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1322,7 +1324,7 @@ func newCmdAndroidHardwareICameraService_NotifySystemEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1333,7 +1335,7 @@ func newCmdAndroidHardwareICameraService_NotifySystemEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1367,7 +1369,7 @@ func newCmdAndroidHardwareICameraService_NotifySystemEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1389,7 +1391,7 @@ func newCmdAndroidHardwareICameraService_NotifyDisplayConfigurationChange() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1400,7 +1402,7 @@ func newCmdAndroidHardwareICameraService_NotifyDisplayConfigurationChange() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1414,7 +1416,7 @@ func newCmdAndroidHardwareICameraService_NotifyDisplayConfigurationChange() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1432,7 +1434,7 @@ func newCmdAndroidHardwareICameraService_NotifyDeviceStateChange() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1443,7 +1445,7 @@ func newCmdAndroidHardwareICameraService_NotifyDeviceStateChange() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1462,7 +1464,7 @@ func newCmdAndroidHardwareICameraService_NotifyDeviceStateChange() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1482,7 +1484,7 @@ func newCmdAndroidHardwareICameraService_ReportExtensionSessionStats() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1493,7 +1495,7 @@ func newCmdAndroidHardwareICameraService_ReportExtensionSessionStats() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1518,7 +1520,7 @@ func newCmdAndroidHardwareICameraService_ReportExtensionSessionStats() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1541,7 +1543,7 @@ func newCmdAndroidHardwareICameraService_CreateDefaultRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1552,7 +1554,7 @@ func newCmdAndroidHardwareICameraService_CreateDefaultRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1576,7 +1578,7 @@ func newCmdAndroidHardwareICameraService_CreateDefaultRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1598,7 +1600,7 @@ func newCmdAndroidHardwareICameraService_IsSessionConfigurationWithParametersSup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1609,7 +1611,7 @@ func newCmdAndroidHardwareICameraService_IsSessionConfigurationWithParametersSup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1630,7 +1632,7 @@ func newCmdAndroidHardwareICameraService_IsSessionConfigurationWithParametersSup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1650,7 +1652,7 @@ func newCmdAndroidHardwareICameraService_GetSessionCharacteristics() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1661,7 +1663,7 @@ func newCmdAndroidHardwareICameraService_GetSessionCharacteristics() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraService")
 			}
 			if err != nil {
 				return err
@@ -1692,7 +1694,7 @@ func newCmdAndroidHardwareICameraService_GetSessionCharacteristics() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1733,7 +1735,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnStatusChanged() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1744,7 +1746,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnStatusChanged() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -1768,7 +1770,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnStatusChanged() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1790,7 +1792,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnPhysicalCameraStatusChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1801,7 +1803,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnPhysicalCameraStatusChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -1830,7 +1832,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnPhysicalCameraStatusChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1854,7 +1856,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStatusChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1865,7 +1867,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStatusChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -1889,7 +1891,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStatusChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1911,7 +1913,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStrengthLevelChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1922,7 +1924,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStrengthLevelChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -1946,7 +1948,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnTorchStrengthLevelChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1968,7 +1970,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraAccessPrioritiesChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1979,7 +1981,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraAccessPrioritiesChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -1993,7 +1995,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraAccessPrioritiesChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2011,7 +2013,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraOpened() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2022,7 +2024,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraOpened() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -2046,7 +2048,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraOpened() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2068,7 +2070,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraClosed() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2079,7 +2081,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraClosed() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceListener")
 			}
 			if err != nil {
 				return err
@@ -2098,7 +2100,7 @@ func newCmdAndroidHardwareICameraServiceListener_OnCameraClosed() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2133,7 +2135,7 @@ func newCmdAndroidHardwareICameraServiceProxy_PingForUserUpdate() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2144,7 +2146,7 @@ func newCmdAndroidHardwareICameraServiceProxy_PingForUserUpdate() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
 			}
 			if err != nil {
 				return err
@@ -2158,7 +2160,7 @@ func newCmdAndroidHardwareICameraServiceProxy_PingForUserUpdate() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2176,7 +2178,7 @@ func newCmdAndroidHardwareICameraServiceProxy_NotifyCameraState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2187,7 +2189,7 @@ func newCmdAndroidHardwareICameraServiceProxy_NotifyCameraState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
 			}
 			if err != nil {
 				return err
@@ -2203,7 +2205,7 @@ func newCmdAndroidHardwareICameraServiceProxy_NotifyCameraState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2221,7 +2223,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetRotateAndCropOverride() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2232,7 +2234,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetRotateAndCropOverride() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
 			}
 			if err != nil {
 				return err
@@ -2256,7 +2258,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetRotateAndCropOverride() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2278,7 +2280,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetAutoframingOverride() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2289,7 +2291,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetAutoframingOverride() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
 			}
 			if err != nil {
 				return err
@@ -2308,7 +2310,7 @@ func newCmdAndroidHardwareICameraServiceProxy_GetAutoframingOverride() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2328,7 +2330,7 @@ func newCmdAndroidHardwareICameraServiceProxy_IsCameraDisabled() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2339,7 +2341,7 @@ func newCmdAndroidHardwareICameraServiceProxy_IsCameraDisabled() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ICameraServiceProxy")
 			}
 			if err != nil {
 				return err
@@ -2353,7 +2355,7 @@ func newCmdAndroidHardwareICameraServiceProxy_IsCameraDisabled() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2384,7 +2386,7 @@ func newCmdAndroidHardwareIConsumerIrService_HasIrEmitter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2395,7 +2397,7 @@ func newCmdAndroidHardwareIConsumerIrService_HasIrEmitter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
 			}
 			if err != nil {
 				return err
@@ -2409,7 +2411,7 @@ func newCmdAndroidHardwareIConsumerIrService_HasIrEmitter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2427,7 +2429,7 @@ func newCmdAndroidHardwareIConsumerIrService_Transmit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2438,7 +2440,7 @@ func newCmdAndroidHardwareIConsumerIrService_Transmit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
 			}
 			if err != nil {
 				return err
@@ -2477,7 +2479,7 @@ func newCmdAndroidHardwareIConsumerIrService_Transmit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2501,7 +2503,7 @@ func newCmdAndroidHardwareIConsumerIrService_GetCarrierFrequencies() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2512,7 +2514,7 @@ func newCmdAndroidHardwareIConsumerIrService_GetCarrierFrequencies() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.IConsumerIrService")
 			}
 			if err != nil {
 				return err
@@ -2526,7 +2528,7 @@ func newCmdAndroidHardwareIConsumerIrService_GetCarrierFrequencies() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2556,7 +2558,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyChanged() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2567,7 +2569,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyChanged() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyListener")
 			}
 			if err != nil {
 				return err
@@ -2596,7 +2598,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyChanged() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2620,7 +2622,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyStateChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2631,7 +2633,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyStateChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyListener")
 			}
 			if err != nil {
 				return err
@@ -2660,7 +2662,7 @@ func newCmdAndroidHardwareISensorPrivacyListener_OnSensorPrivacyStateChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2710,7 +2712,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SupportsSensorToggle() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2721,7 +2723,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SupportsSensorToggle() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -2745,7 +2747,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SupportsSensorToggle() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2767,7 +2769,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddSensorPrivacyListener() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2778,7 +2780,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddSensorPrivacyListener() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -2802,7 +2804,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddSensorPrivacyListener() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2822,7 +2824,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddToggleSensorPrivacyListener()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2833,7 +2835,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddToggleSensorPrivacyListener()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -2857,7 +2859,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_AddToggleSensorPrivacyListener()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2877,7 +2879,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveSensorPrivacyListener() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2888,7 +2890,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveSensorPrivacyListener() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -2912,7 +2914,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveSensorPrivacyListener() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2932,7 +2934,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveToggleSensorPrivacyListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2943,7 +2945,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveToggleSensorPrivacyListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -2967,7 +2969,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_RemoveToggleSensorPrivacyListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2987,7 +2989,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsSensorPrivacyEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2998,7 +3000,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsSensorPrivacyEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3012,7 +3014,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsSensorPrivacyEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3030,7 +3032,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCombinedToggleSensorPrivacyEna
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3041,7 +3043,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCombinedToggleSensorPrivacyEna
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3060,7 +3062,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCombinedToggleSensorPrivacyEna
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3080,7 +3082,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsToggleSensorPrivacyEnabled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3091,7 +3093,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsToggleSensorPrivacyEnabled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3115,7 +3117,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsToggleSensorPrivacyEnabled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3137,7 +3139,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetSensorPrivacy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3148,7 +3150,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetSensorPrivacy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3167,7 +3169,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetSensorPrivacy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3187,7 +3189,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3198,7 +3200,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3227,7 +3229,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3251,7 +3253,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyForProfile
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3262,7 +3264,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyForProfile
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3291,7 +3293,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyForProfile
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3315,7 +3317,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetCameraPrivacyAllowlist() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3326,7 +3328,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetCameraPrivacyAllowlist() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3340,7 +3342,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetCameraPrivacyAllowlist() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3358,7 +3360,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetToggleSensorPrivacyState() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3369,7 +3371,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetToggleSensorPrivacyState() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3393,7 +3395,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_GetToggleSensorPrivacyState() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3415,7 +3417,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyState() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3426,7 +3428,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyState() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3455,7 +3457,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyState() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3479,7 +3481,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyStateForPr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3490,7 +3492,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyStateForPr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3519,7 +3521,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_SetToggleSensorPrivacyStateForPr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3543,7 +3545,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCameraPrivacyEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3554,7 +3556,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCameraPrivacyEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISensorPrivacyManager")
 			}
 			if err != nil {
 				return err
@@ -3573,7 +3575,7 @@ func newCmdAndroidHardwareISensorPrivacyManager_IsCameraPrivacyEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3605,7 +3607,7 @@ func newCmdAndroidHardwareISerialManager_GetSerialPorts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3616,7 +3618,7 @@ func newCmdAndroidHardwareISerialManager_GetSerialPorts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISerialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISerialManager")
 			}
 			if err != nil {
 				return err
@@ -3630,7 +3632,7 @@ func newCmdAndroidHardwareISerialManager_GetSerialPorts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3648,7 +3650,7 @@ func newCmdAndroidHardwareISerialManager_OpenSerialPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3659,7 +3661,7 @@ func newCmdAndroidHardwareISerialManager_OpenSerialPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.ISerialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.ISerialManager")
 			}
 			if err != nil {
 				return err
@@ -3678,7 +3680,7 @@ func newCmdAndroidHardwareISerialManager_OpenSerialPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

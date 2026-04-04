@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -41,7 +43,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilICommandReceiver_SendCommand() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilICommandReceiver_SendCommand() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.perftests.am.util.ICommandReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.perftests.am.util.ICommandReceiver")
 			}
 			if err != nil {
 				return err
@@ -93,7 +95,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilICommandReceiver_SendCommand() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -132,7 +134,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilITimeReceiverCallback_SendTime() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -143,7 +145,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilITimeReceiverCallback_SendTime() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.perftests.am.util.ITimeReceiverCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.perftests.am.util.ITimeReceiverCallback")
 			}
 			if err != nil {
 				return err
@@ -167,7 +169,7 @@ func newCmdComAndroidFrameworksPerftestsAmUtilITimeReceiverCallback_SendTime() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

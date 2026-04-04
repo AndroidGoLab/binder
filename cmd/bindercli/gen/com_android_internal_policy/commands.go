@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -49,7 +51,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissError() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissError() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissError() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissSucceeded()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissSucceeded()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
 			}
 			if err != nil {
 				return err
@@ -117,7 +119,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissSucceeded()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -135,7 +137,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissCancelled()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -146,7 +148,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissCancelled()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDismissCallback")
 			}
 			if err != nil {
 				return err
@@ -160,7 +162,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDismissCallback_OnDismissCancelled()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -189,7 +191,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDrawnCallback_OnDrawn() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -200,7 +202,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDrawnCallback_OnDrawn() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDrawnCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardDrawnCallback")
 			}
 			if err != nil {
 				return err
@@ -214,7 +216,7 @@ func newCmdComAndroidInternalPolicyIKeyguardDrawnCallback_OnDrawn() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -243,7 +245,7 @@ func newCmdComAndroidInternalPolicyIKeyguardExitCallback_OnKeyguardExitResult() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -254,7 +256,7 @@ func newCmdComAndroidInternalPolicyIKeyguardExitCallback_OnKeyguardExitResult() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardExitCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardExitCallback")
 			}
 			if err != nil {
 				return err
@@ -273,7 +275,7 @@ func newCmdComAndroidInternalPolicyIKeyguardExitCallback_OnKeyguardExitResult() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -304,7 +306,7 @@ func newCmdComAndroidInternalPolicyIKeyguardLockedStateListener_OnKeyguardLocked
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -315,7 +317,7 @@ func newCmdComAndroidInternalPolicyIKeyguardLockedStateListener_OnKeyguardLocked
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardLockedStateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardLockedStateListener")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdComAndroidInternalPolicyIKeyguardLockedStateListener_OnKeyguardLocked
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetOccluded() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetOccluded() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetOccluded() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -446,7 +448,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_AddStateMonitorCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -457,7 +459,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_AddStateMonitorCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -481,7 +483,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_AddStateMonitorCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -501,7 +503,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_VerifyUnlock() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -512,7 +514,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_VerifyUnlock() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -536,7 +538,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_VerifyUnlock() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -556,7 +558,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_Dismiss() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -567,7 +569,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_Dismiss() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -596,7 +598,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_Dismiss() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -618,7 +620,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStarted() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -629,7 +631,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStarted() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -643,7 +645,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStarted() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -661,7 +663,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStopped() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -672,7 +674,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStopped() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -686,7 +688,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnDreamingStopped() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -704,7 +706,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedGoingToSleep() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -715,7 +717,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedGoingToSleep() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -734,7 +736,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedGoingToSleep() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -754,7 +756,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedGoingToSleep() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -765,7 +767,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedGoingToSleep() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -789,7 +791,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedGoingToSleep() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -811,7 +813,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedWakingUp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -822,7 +824,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedWakingUp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -846,7 +848,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnStartedWakingUp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -868,7 +870,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedWakingUp() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -879,7 +881,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedWakingUp() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -893,7 +895,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnFinishedWakingUp() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -911,7 +913,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOn() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -922,7 +924,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOn() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -946,7 +948,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOn() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -966,7 +968,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOn() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -977,7 +979,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOn() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -991,7 +993,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOn() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1009,7 +1011,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOff() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1020,7 +1022,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOff() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1034,7 +1036,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurningOff() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1052,7 +1054,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOff() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1063,7 +1065,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOff() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1077,7 +1079,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnScreenTurnedOff() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1095,7 +1097,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetKeyguardEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1106,7 +1108,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetKeyguardEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1125,7 +1127,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetKeyguardEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1145,7 +1147,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemReady() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1156,7 +1158,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemReady() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1170,7 +1172,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemReady() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1188,7 +1190,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DoKeyguardTimeout() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1199,7 +1201,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DoKeyguardTimeout() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1215,7 +1217,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DoKeyguardTimeout() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1233,7 +1235,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetSwitchingUser() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1244,7 +1246,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetSwitchingUser() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1263,7 +1265,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetSwitchingUser() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1283,7 +1285,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetCurrentUser() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1294,7 +1296,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetCurrentUser() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1308,7 +1310,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_SetCurrentUser() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1326,7 +1328,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnBootCompleted() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1337,7 +1339,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnBootCompleted() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1351,7 +1353,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnBootCompleted() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1369,7 +1371,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_StartKeyguardExitAnimation()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1380,7 +1382,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_StartKeyguardExitAnimation()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1404,7 +1406,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_StartKeyguardExitAnimation()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1426,7 +1428,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnShortPowerPressedGoHome() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1437,7 +1439,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnShortPowerPressedGoHome() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1451,7 +1453,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnShortPowerPressedGoHome() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1469,7 +1471,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DismissKeyguardToLaunch() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1480,7 +1482,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DismissKeyguardToLaunch() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1496,7 +1498,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_DismissKeyguardToLaunch() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1514,7 +1516,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemKeyPressed() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1525,7 +1527,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemKeyPressed() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1544,7 +1546,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_OnSystemKeyPressed() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1564,7 +1566,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_ShowDismissibleKeyguard() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1575,7 +1577,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_ShowDismissibleKeyguard() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardService")
 			}
 			if err != nil {
 				return err
@@ -1589,7 +1591,7 @@ func newCmdComAndroidInternalPolicyIKeyguardService_ShowDismissibleKeyguard() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1621,7 +1623,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnShowingStateChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1632,7 +1634,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnShowingStateChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
 			}
 			if err != nil {
 				return err
@@ -1651,7 +1653,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnShowingStateChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1671,7 +1673,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnSimSecureStateChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1682,7 +1684,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnSimSecureStateChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
 			}
 			if err != nil {
 				return err
@@ -1701,7 +1703,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnSimSecureStateChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1721,7 +1723,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnInputRestrictedState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1732,7 +1734,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnInputRestrictedState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
 			}
 			if err != nil {
 				return err
@@ -1751,7 +1753,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnInputRestrictedState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1771,7 +1773,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnTrustedChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1782,7 +1784,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnTrustedChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IKeyguardStateCallback")
 			}
 			if err != nil {
 				return err
@@ -1801,7 +1803,7 @@ func newCmdComAndroidInternalPolicyIKeyguardStateCallback_OnTrustedChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1832,7 +1834,7 @@ func newCmdComAndroidInternalPolicyIShortcutService_NotifyShortcutKeyPressed() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1843,7 +1845,7 @@ func newCmdComAndroidInternalPolicyIShortcutService_NotifyShortcutKeyPressed() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IShortcutService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.policy.IShortcutService")
 			}
 			if err != nil {
 				return err
@@ -1862,7 +1864,7 @@ func newCmdComAndroidInternalPolicyIShortcutService_NotifyShortcutKeyPressed() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

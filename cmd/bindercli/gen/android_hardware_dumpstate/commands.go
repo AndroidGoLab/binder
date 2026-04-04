@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/dumpstate"
@@ -40,7 +42,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_GetVerboseLoggingEnabled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_GetVerboseLoggingEnabled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.dumpstate.IDumpstateDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.dumpstate.IDumpstateDevice")
 			}
 			if err != nil {
 				return err
@@ -65,7 +67,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_GetVerboseLoggingEnabled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -83,7 +85,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_SetVerboseLoggingEnabled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -94,7 +96,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_SetVerboseLoggingEnabled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.dumpstate.IDumpstateDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.dumpstate.IDumpstateDevice")
 			}
 			if err != nil {
 				return err
@@ -113,7 +115,7 @@ func newCmdAndroidHardwareDumpstateIDumpstateDevice_SetVerboseLoggingEnabled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

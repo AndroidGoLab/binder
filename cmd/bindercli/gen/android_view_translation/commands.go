@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -45,7 +47,7 @@ func newCmdAndroidViewTranslationITranslationDirectManager_OnFinishTranslationSe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidViewTranslationITranslationDirectManager_OnFinishTranslationSe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationDirectManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationDirectManager")
 			}
 			if err != nil {
 				return err
@@ -75,7 +77,7 @@ func newCmdAndroidViewTranslationITranslationDirectManager_OnFinishTranslationSe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -112,7 +114,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationCapabilitiesRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -123,7 +125,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationCapabilitiesRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -149,7 +151,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationCapabilitiesRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterTranslationCapabili
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterTranslationCapabili
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -206,7 +208,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterTranslationCapabili
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -226,7 +228,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterTranslationCapabi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -237,7 +239,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterTranslationCapabi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -261,7 +263,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterTranslationCapabi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -281,7 +283,7 @@ func newCmdAndroidViewTranslationITranslationManager_UpdateUiTranslationState() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -292,7 +294,7 @@ func newCmdAndroidViewTranslationITranslationManager_UpdateUiTranslationState() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -342,7 +344,7 @@ func newCmdAndroidViewTranslationITranslationManager_UpdateUiTranslationState() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -368,7 +370,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterUiTranslationStateC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -379,7 +381,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterUiTranslationStateC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -403,7 +405,7 @@ func newCmdAndroidViewTranslationITranslationManager_RegisterUiTranslationStateC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -423,7 +425,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterUiTranslationStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -434,7 +436,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterUiTranslationStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -458,7 +460,7 @@ func newCmdAndroidViewTranslationITranslationManager_UnregisterUiTranslationStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -478,7 +480,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationFinished() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -489,7 +491,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationFinished() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationManager")
 			}
 			if err != nil {
 				return err
@@ -519,7 +521,7 @@ func newCmdAndroidViewTranslationITranslationManager_OnTranslationFinished() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -552,7 +554,7 @@ func newCmdAndroidViewTranslationITranslationServiceCallback_UpdateTranslationCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -563,7 +565,7 @@ func newCmdAndroidViewTranslationITranslationServiceCallback_UpdateTranslationCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.translation.ITranslationServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -579,7 +581,7 @@ func newCmdAndroidViewTranslationITranslationServiceCallback_UpdateTranslationCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

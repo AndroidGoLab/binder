@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -40,7 +42,7 @@ func newCmdAndroidServiceContentsuggestionsIContentSuggestionsService_NotifyInte
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidServiceContentsuggestionsIContentSuggestionsService_NotifyInte
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentsuggestions.IContentSuggestionsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentsuggestions.IContentSuggestionsService")
 			}
 			if err != nil {
 				return err
@@ -72,7 +74,7 @@ func newCmdAndroidServiceContentsuggestionsIContentSuggestionsService_NotifyInte
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

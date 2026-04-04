@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/systemui/screenshot/appclips"
@@ -39,7 +41,7 @@ func newCmdComAndroidSystemuiScreenshotAppclipsIAppClipsScreenshotHelperService_
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -50,7 +52,7 @@ func newCmdComAndroidSystemuiScreenshotAppclipsIAppClipsScreenshotHelperService_
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.screenshot.appclips.IAppClipsScreenshotHelperService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.screenshot.appclips.IAppClipsScreenshotHelperService")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdComAndroidSystemuiScreenshotAppclipsIAppClipsScreenshotHelperService_
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

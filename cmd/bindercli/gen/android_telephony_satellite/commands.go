@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/telephony/satellite"
@@ -45,7 +47,7 @@ func newCmdAndroidTelephonySatelliteINtnSignalStrengthCallback_OnNtnSignalStreng
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidTelephonySatelliteINtnSignalStrengthCallback_OnNtnSignalStreng
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.INtnSignalStrengthCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.INtnSignalStrengthCallback")
 			}
 			if err != nil {
 				return err
@@ -72,7 +74,7 @@ func newCmdAndroidTelephonySatelliteINtnSignalStrengthCallback_OnNtnSignalStreng
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCapabilitiesCallback_OnSatelliteCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCapabilitiesCallback_OnSatelliteCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteCapabilitiesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteCapabilitiesCallback")
 			}
 			if err != nil {
 				return err
@@ -128,7 +130,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCapabilitiesCallback_OnSatelliteCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -157,7 +159,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCommunicationAllowedStateCallback_
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -168,7 +170,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCommunicationAllowedStateCallback_
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteCommunicationAllowedStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteCommunicationAllowedStateCallback")
 			}
 			if err != nil {
 				return err
@@ -187,7 +189,7 @@ func newCmdAndroidTelephonySatelliteISatelliteCommunicationAllowedStateCallback_
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -218,7 +220,7 @@ func newCmdAndroidTelephonySatelliteISatelliteModemStateCallback_OnSatelliteMode
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -229,7 +231,7 @@ func newCmdAndroidTelephonySatelliteISatelliteModemStateCallback_OnSatelliteMode
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteModemStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteModemStateCallback")
 			}
 			if err != nil {
 				return err
@@ -248,7 +250,7 @@ func newCmdAndroidTelephonySatelliteISatelliteModemStateCallback_OnSatelliteMode
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -279,7 +281,7 @@ func newCmdAndroidTelephonySatelliteISatelliteProvisionStateCallback_OnSatellite
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -290,7 +292,7 @@ func newCmdAndroidTelephonySatelliteISatelliteProvisionStateCallback_OnSatellite
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteProvisionStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteProvisionStateCallback")
 			}
 			if err != nil {
 				return err
@@ -309,7 +311,7 @@ func newCmdAndroidTelephonySatelliteISatelliteProvisionStateCallback_OnSatellite
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -340,7 +342,7 @@ func newCmdAndroidTelephonySatelliteISatelliteSupportedStateCallback_OnSatellite
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -351,7 +353,7 @@ func newCmdAndroidTelephonySatelliteISatelliteSupportedStateCallback_OnSatellite
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteSupportedStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteSupportedStateCallback")
 			}
 			if err != nil {
 				return err
@@ -370,7 +372,7 @@ func newCmdAndroidTelephonySatelliteISatelliteSupportedStateCallback_OnSatellite
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -403,7 +405,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSendD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -414,7 +416,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSendD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
 			}
 			if err != nil {
 				return err
@@ -448,7 +450,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSendD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -474,7 +476,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnRecei
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -485,7 +487,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnRecei
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
 			}
 			if err != nil {
 				return err
@@ -514,7 +516,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnRecei
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -538,7 +540,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSatel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -549,7 +551,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSatel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.ISatelliteTransmissionUpdateCallback")
 			}
 			if err != nil {
 				return err
@@ -565,7 +567,7 @@ func newCmdAndroidTelephonySatelliteISatelliteTransmissionUpdateCallback_OnSatel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

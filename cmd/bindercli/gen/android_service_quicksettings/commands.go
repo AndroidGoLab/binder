@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -52,7 +54,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_GetTile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_GetTile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -86,7 +88,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_GetTile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateQsTile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateQsTile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateQsTile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -162,7 +164,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateStatusIcon() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -173,7 +175,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateStatusIcon() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_UpdateStatusIcon() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -225,7 +227,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnShowDialog() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -236,7 +238,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnShowDialog() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -259,7 +261,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnShowDialog() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -279,7 +281,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartActivity() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -290,7 +292,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartActivity() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -313,7 +315,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartActivity() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -333,7 +335,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartActivity() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -344,7 +346,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartActivity() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartActivity() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsLocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsLocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -414,7 +416,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsLocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -432,7 +434,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsSecure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -443,7 +445,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsSecure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -457,7 +459,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_IsSecure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -475,7 +477,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartUnlockAndRun() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -486,7 +488,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartUnlockAndRun() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -509,7 +511,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_StartUnlockAndRun() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -529,7 +531,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnDialogHidden() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -540,7 +542,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnDialogHidden() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -563,7 +565,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnDialogHidden() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -583,7 +585,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartSuccessful() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -594,7 +596,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartSuccessful() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSService")
 			}
 			if err != nil {
 				return err
@@ -617,7 +619,7 @@ func newCmdAndroidServiceQuicksettingsIQSService_OnStartSuccessful() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -653,7 +655,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileAdded() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -664,7 +666,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileAdded() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -678,7 +680,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileAdded() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -696,7 +698,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileRemoved() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -707,7 +709,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileRemoved() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -721,7 +723,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnTileRemoved() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -739,7 +741,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStartListening() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -750,7 +752,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStartListening() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -764,7 +766,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStartListening() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -782,7 +784,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStopListening() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -793,7 +795,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStopListening() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -807,7 +809,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnStopListening() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -825,7 +827,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnClick() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -836,7 +838,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnClick() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -859,7 +861,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnClick() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -879,7 +881,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnUnlockComplete() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -890,7 +892,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnUnlockComplete() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.quicksettings.IQSTileService")
 			}
 			if err != nil {
 				return err
@@ -904,7 +906,7 @@ func newCmdAndroidServiceQuicksettingsIQSTileService_OnUnlockComplete() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/ondeviceintelligence"
@@ -52,7 +54,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadStarted() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadStarted() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadStarted() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadProgress() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadProgress() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadProgress() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadFailed() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadFailed() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
 			}
 			if err != nil {
 				return err
@@ -189,7 +191,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadFailed() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadCompleted()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadCompleted()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IDownloadCallback")
 			}
 			if err != nil {
 				return err
@@ -238,7 +240,7 @@ func newCmdAndroidAppOndeviceintelligenceIDownloadCallback_OnDownloadCompleted()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -268,7 +270,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnSuccess() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -279,7 +281,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnSuccess() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureCallback")
 			}
 			if err != nil {
 				return err
@@ -295,7 +297,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnSuccess() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnFailure() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnFailure() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureCallback")
 			}
 			if err != nil {
 				return err
@@ -350,7 +352,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureCallback_OnFailure() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -384,7 +386,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnSuccess() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -395,7 +397,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnSuccess() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureDetailsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureDetailsCallback")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnSuccess() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnFailure() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnFailure() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureDetailsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IFeatureDetailsCallback")
 			}
 			if err != nil {
 				return err
@@ -466,7 +468,7 @@ func newCmdAndroidAppOndeviceintelligenceIFeatureDetailsCallback_OnFailure() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -500,7 +502,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnSuccess() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -511,7 +513,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnSuccess() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IListFeaturesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IListFeaturesCallback")
 			}
 			if err != nil {
 				return err
@@ -536,7 +538,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnSuccess() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -556,7 +558,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnFailure() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -567,7 +569,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnFailure() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IListFeaturesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IListFeaturesCallback")
 			}
 			if err != nil {
 				return err
@@ -593,7 +595,7 @@ func newCmdAndroidAppOndeviceintelligenceIListFeaturesCallback_OnFailure() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -633,7 +635,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetVersion
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -644,7 +646,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetVersion
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -660,7 +662,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetVersion
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -678,7 +680,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -689,7 +691,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -718,7 +720,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -740,7 +742,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ListFeatur
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -751,7 +753,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ListFeatur
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -775,7 +777,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ListFeatur
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -795,7 +797,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -806,7 +808,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -832,7 +834,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_GetFeature
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -852,7 +854,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestFea
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -863,7 +865,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestFea
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -899,7 +901,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestFea
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -921,7 +923,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestTok
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -932,7 +934,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestTok
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -970,7 +972,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_RequestTok
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -992,7 +994,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1003,7 +1005,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -1056,7 +1058,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1082,7 +1084,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1093,7 +1095,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager")
 			}
 			if err != nil {
 				return err
@@ -1146,7 +1148,7 @@ func newCmdAndroidAppOndeviceintelligenceIOnDeviceIntelligenceManager_ProcessReq
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1183,7 +1185,7 @@ func newCmdAndroidAppOndeviceintelligenceIProcessingSignal_SendSignal() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1194,7 +1196,7 @@ func newCmdAndroidAppOndeviceintelligenceIProcessingSignal_SendSignal() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IProcessingSignal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IProcessingSignal")
 			}
 			if err != nil {
 				return err
@@ -1210,7 +1212,7 @@ func newCmdAndroidAppOndeviceintelligenceIProcessingSignal_SendSignal() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1240,7 +1242,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnSuccess() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1251,7 +1253,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnSuccess() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IResponseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IResponseCallback")
 			}
 			if err != nil {
 				return err
@@ -1267,7 +1269,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnSuccess() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1285,7 +1287,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnFailure() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1296,7 +1298,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnFailure() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IResponseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IResponseCallback")
 			}
 			if err != nil {
 				return err
@@ -1322,7 +1324,7 @@ func newCmdAndroidAppOndeviceintelligenceIResponseCallback_OnFailure() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1357,7 +1359,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnNewContent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1368,7 +1370,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnNewContent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
 			}
 			if err != nil {
 				return err
@@ -1384,7 +1386,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnNewContent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1402,7 +1404,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnSuccess() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1413,7 +1415,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnSuccess() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
 			}
 			if err != nil {
 				return err
@@ -1429,7 +1431,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnSuccess() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1447,7 +1449,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnFailure() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1458,7 +1460,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnFailure() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.IStreamingResponseCallback")
 			}
 			if err != nil {
 				return err
@@ -1484,7 +1486,7 @@ func newCmdAndroidAppOndeviceintelligenceIStreamingResponseCallback_OnFailure() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1518,7 +1520,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnSuccess() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1529,7 +1531,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnSuccess() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.ITokenCountCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.ITokenCountCallback")
 			}
 			if err != nil {
 				return err
@@ -1548,7 +1550,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnSuccess() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1568,7 +1570,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnFailure() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1579,7 +1581,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnFailure() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.ITokenCountCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ondeviceintelligence.ITokenCountCallback")
 			}
 			if err != nil {
 				return err
@@ -1605,7 +1607,7 @@ func newCmdAndroidAppOndeviceintelligenceITokenCountCallback_OnFailure() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

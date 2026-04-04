@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -49,7 +51,7 @@ func newCmdAndroidHardwareUsbIDisplayPortAltModeInfoListener_OnDisplayPortAltMod
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidHardwareUsbIDisplayPortAltModeInfoListener_OnDisplayPortAltMod
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IDisplayPortAltModeInfoListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IDisplayPortAltModeInfoListener")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidHardwareUsbIDisplayPortAltModeInfoListener_OnDisplayPortAltMod
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -119,7 +121,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableContaminantPresenceDetection() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableContaminantPresenceDetection() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableContaminantPresenceDetection() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -223,7 +225,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -247,7 +249,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbDataWhileDocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -258,7 +260,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbDataWhileDocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareUsbIUsb_EnableUsbDataWhileDocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -304,7 +306,7 @@ func newCmdAndroidHardwareUsbIUsb_QueryPortStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -315,7 +317,7 @@ func newCmdAndroidHardwareUsbIUsb_QueryPortStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdAndroidHardwareUsbIUsb_QueryPortStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -354,7 +356,7 @@ func newCmdAndroidHardwareUsbIUsb_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -365,7 +367,7 @@ func newCmdAndroidHardwareUsbIUsb_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -389,7 +391,7 @@ func newCmdAndroidHardwareUsbIUsb_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -409,7 +411,7 @@ func newCmdAndroidHardwareUsbIUsb_SwitchRole() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -420,7 +422,7 @@ func newCmdAndroidHardwareUsbIUsb_SwitchRole() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -452,7 +454,7 @@ func newCmdAndroidHardwareUsbIUsb_SwitchRole() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareUsbIUsb_LimitPowerTransfer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdAndroidHardwareUsbIUsb_LimitPowerTransfer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -517,7 +519,7 @@ func newCmdAndroidHardwareUsbIUsb_LimitPowerTransfer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -541,7 +543,7 @@ func newCmdAndroidHardwareUsbIUsb_ResetUsbPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -552,7 +554,7 @@ func newCmdAndroidHardwareUsbIUsb_ResetUsbPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsb")
 			}
 			if err != nil {
 				return err
@@ -576,7 +578,7 @@ func newCmdAndroidHardwareUsbIUsb_ResetUsbPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -616,7 +618,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyPortStatusChange() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -627,7 +629,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyPortStatusChange() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -658,7 +660,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyPortStatusChange() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -680,7 +682,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyRoleSwitchStatus() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -691,7 +693,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyRoleSwitchStatus() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -729,7 +731,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyRoleSwitchStatus() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataStatus() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -767,7 +769,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataStatus() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -802,7 +804,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataStatus() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -828,7 +830,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataWhileDockedStatus()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -839,7 +841,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataWhileDockedStatus()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -869,7 +871,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyEnableUsbDataWhileDockedStatus()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -893,7 +895,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyContaminantEnabledStatus() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -904,7 +906,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyContaminantEnabledStatus() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -939,7 +941,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyContaminantEnabledStatus() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -965,7 +967,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyQueryPortStatus() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -976,7 +978,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyQueryPortStatus() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -1006,7 +1008,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyQueryPortStatus() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1030,7 +1032,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyLimitPowerTransferStatus() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1041,7 +1043,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyLimitPowerTransferStatus() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -1076,7 +1078,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyLimitPowerTransferStatus() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1102,7 +1104,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyResetUsbPortStatus() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1113,7 +1115,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyResetUsbPortStatus() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbCallback")
 			}
 			if err != nil {
 				return err
@@ -1143,7 +1145,7 @@ func newCmdAndroidHardwareUsbIUsbCallback_NotifyResetUsbPortStatus() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1222,7 +1224,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetDeviceList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1233,7 +1235,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetDeviceList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1248,7 +1250,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetDeviceList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1266,7 +1268,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1277,7 +1279,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1301,7 +1303,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1323,7 +1325,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentAccessory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1334,7 +1336,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentAccessory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1348,7 +1350,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentAccessory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1366,7 +1368,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenAccessory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1377,7 +1379,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenAccessory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1393,7 +1395,7 @@ func newCmdAndroidHardwareUsbIUsbManager_OpenAccessory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1411,7 +1413,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePackage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1422,7 +1424,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePackage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1443,7 +1445,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePackage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1463,7 +1465,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPackage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1474,7 +1476,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPackage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1495,7 +1497,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPackage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1515,7 +1517,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddDevicePackagesToPreferenceDenied() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1526,7 +1528,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddDevicePackagesToPreferenceDenied() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1553,7 +1555,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddDevicePackagesToPreferenceDenied() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1573,7 +1575,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddAccessoryPackagesToPreferenceDenied(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1584,7 +1586,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddAccessoryPackagesToPreferenceDenied(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1611,7 +1613,7 @@ func newCmdAndroidHardwareUsbIUsbManager_AddAccessoryPackagesToPreferenceDenied(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1631,7 +1633,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveDevicePackagesFromPreferenceDenie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1642,7 +1644,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveDevicePackagesFromPreferenceDenie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1669,7 +1671,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveDevicePackagesFromPreferenceDenie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1689,7 +1691,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveAccessoryPackagesFromPreferenceDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1700,7 +1702,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveAccessoryPackagesFromPreferenceDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1727,7 +1729,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RemoveAccessoryPackagesFromPreferenceDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1747,7 +1749,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePersistentPermission() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1758,7 +1760,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePersistentPermission() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1786,7 +1788,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetDevicePersistentPermission() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1808,7 +1810,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPersistentPermission() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1819,7 +1821,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPersistentPermission() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1847,7 +1849,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetAccessoryPersistentPermission() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1869,7 +1871,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1880,7 +1882,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1901,7 +1903,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1921,7 +1923,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermissionWithIdentity() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1932,7 +1934,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermissionWithIdentity() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -1963,7 +1965,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDevicePermissionWithIdentity() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1987,7 +1989,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermission() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1998,7 +2000,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermission() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2014,7 +2016,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermission() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2032,7 +2034,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermissionWithIdentity() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2043,7 +2045,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermissionWithIdentity() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2069,7 +2071,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasAccessoryPermissionWithIdentity() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2091,7 +2093,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestDevicePermission() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2102,7 +2104,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestDevicePermission() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2125,7 +2127,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestDevicePermission() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2145,7 +2147,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestAccessoryPermission() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2156,7 +2158,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestAccessoryPermission() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2179,7 +2181,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RequestAccessoryPermission() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2199,7 +2201,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantDevicePermission() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2210,7 +2212,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantDevicePermission() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2231,7 +2233,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantDevicePermission() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2251,7 +2253,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantAccessoryPermission() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2262,7 +2264,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantAccessoryPermission() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2283,7 +2285,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GrantAccessoryPermission() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2303,7 +2305,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDefaults() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2314,7 +2316,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDefaults() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2333,7 +2335,7 @@ func newCmdAndroidHardwareUsbIUsbManager_HasDefaults() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2353,7 +2355,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ClearDefaults() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2364,7 +2366,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ClearDefaults() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2383,7 +2385,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ClearDefaults() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2403,7 +2405,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsFunctionEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2414,7 +2416,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsFunctionEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2433,7 +2435,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsFunctionEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2453,7 +2455,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunctions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2464,7 +2466,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunctions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2488,7 +2490,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunctions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2510,7 +2512,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2521,7 +2523,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2550,7 +2552,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetCurrentFunction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2574,7 +2576,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentFunctions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2585,7 +2587,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentFunctions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2599,7 +2601,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentFunctions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2617,7 +2619,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentUsbSpeed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2628,7 +2630,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentUsbSpeed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2642,7 +2644,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetCurrentUsbSpeed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2660,7 +2662,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetGadgetHalVersion() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2671,7 +2673,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetGadgetHalVersion() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2685,7 +2687,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetGadgetHalVersion() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2703,7 +2705,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetScreenUnlockedFunctions() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2714,7 +2716,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetScreenUnlockedFunctions() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2733,7 +2735,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetScreenUnlockedFunctions() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2753,7 +2755,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetScreenUnlockedFunctions() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2764,7 +2766,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetScreenUnlockedFunctions() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2778,7 +2780,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetScreenUnlockedFunctions() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2796,7 +2798,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbGadget() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2807,7 +2809,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbGadget() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2821,7 +2823,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbGadget() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2839,7 +2841,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2850,7 +2852,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2884,7 +2886,7 @@ func newCmdAndroidHardwareUsbIUsbManager_ResetUsbPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2908,7 +2910,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2919,7 +2921,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -2958,7 +2960,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2984,7 +2986,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbDataWhileDocked() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2995,7 +2997,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbDataWhileDocked() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3029,7 +3031,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableUsbDataWhileDocked() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3053,7 +3055,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetUsbHalVersion() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3064,7 +3066,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetUsbHalVersion() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3078,7 +3080,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetUsbHalVersion() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3096,7 +3098,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetControlFd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3107,7 +3109,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetControlFd() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3126,7 +3128,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetControlFd() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3146,7 +3148,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPorts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3157,7 +3159,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPorts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3171,7 +3173,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPorts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3189,7 +3191,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPortStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3200,7 +3202,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPortStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3219,7 +3221,7 @@ func newCmdAndroidHardwareUsbIUsbManager_GetPortStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3239,7 +3241,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsModeChangeSupported() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3250,7 +3252,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsModeChangeSupported() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3269,7 +3271,7 @@ func newCmdAndroidHardwareUsbIUsbManager_IsModeChangeSupported() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3289,7 +3291,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetPortRoles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3300,7 +3302,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetPortRoles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3329,7 +3331,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetPortRoles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3353,7 +3355,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableLimitPowerTransfer() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3364,7 +3366,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableLimitPowerTransfer() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3403,7 +3405,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableLimitPowerTransfer() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3429,7 +3431,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableContaminantDetection() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3440,7 +3442,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableContaminantDetection() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3464,7 +3466,7 @@ func newCmdAndroidHardwareUsbIUsbManager_EnableContaminantDetection() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3486,7 +3488,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetUsbDeviceConnectionHandler() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3497,7 +3499,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetUsbDeviceConnectionHandler() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3513,7 +3515,7 @@ func newCmdAndroidHardwareUsbIUsbManager_SetUsbDeviceConnectionHandler() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3531,7 +3533,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RegisterForDisplayPortEvents() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3542,7 +3544,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RegisterForDisplayPortEvents() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3566,7 +3568,7 @@ func newCmdAndroidHardwareUsbIUsbManager_RegisterForDisplayPortEvents() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3586,7 +3588,7 @@ func newCmdAndroidHardwareUsbIUsbManager_UnregisterForDisplayPortEvents() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3597,7 +3599,7 @@ func newCmdAndroidHardwareUsbIUsbManager_UnregisterForDisplayPortEvents() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbManager")
 			}
 			if err != nil {
 				return err
@@ -3621,7 +3623,7 @@ func newCmdAndroidHardwareUsbIUsbManager_UnregisterForDisplayPortEvents() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3652,7 +3654,7 @@ func newCmdAndroidHardwareUsbIUsbOperationInternal_OnOperationComplete() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3663,7 +3665,7 @@ func newCmdAndroidHardwareUsbIUsbOperationInternal_OnOperationComplete() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbOperationInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbOperationInternal")
 			}
 			if err != nil {
 				return err
@@ -3682,7 +3684,7 @@ func newCmdAndroidHardwareUsbIUsbOperationInternal_OnOperationComplete() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3713,7 +3715,7 @@ func newCmdAndroidHardwareUsbIUsbSerialReader_GetSerial() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3724,7 +3726,7 @@ func newCmdAndroidHardwareUsbIUsbSerialReader_GetSerial() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbSerialReader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.IUsbSerialReader")
 			}
 			if err != nil {
 				return err
@@ -3743,7 +3745,7 @@ func newCmdAndroidHardwareUsbIUsbSerialReader_GetSerial() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

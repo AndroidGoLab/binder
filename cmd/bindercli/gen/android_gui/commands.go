@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/gui"
@@ -56,7 +58,7 @@ func newCmdAndroidGuiIDisplayEventConnection_StealReceiveChannel() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -67,7 +69,7 @@ func newCmdAndroidGuiIDisplayEventConnection_StealReceiveChannel() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidGuiIDisplayEventConnection_StealReceiveChannel() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidGuiIDisplayEventConnection_SetVsyncRate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidGuiIDisplayEventConnection_SetVsyncRate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidGuiIDisplayEventConnection_SetVsyncRate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidGuiIDisplayEventConnection_RequestNextVsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidGuiIDisplayEventConnection_RequestNextVsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
 			}
 			if err != nil {
 				return err
@@ -175,7 +177,7 @@ func newCmdAndroidGuiIDisplayEventConnection_RequestNextVsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -193,7 +195,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetLatestVsyncEventData() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -204,7 +206,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetLatestVsyncEventData() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetLatestVsyncEventData() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -236,7 +238,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetSchedulingPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -247,7 +249,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetSchedulingPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IDisplayEventConnection")
 			}
 			if err != nil {
 				return err
@@ -261,7 +263,7 @@ func newCmdAndroidGuiIDisplayEventConnection_GetSchedulingPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -290,7 +292,7 @@ func newCmdAndroidGuiIFpsListener_OnFpsReported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -301,7 +303,7 @@ func newCmdAndroidGuiIFpsListener_OnFpsReported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IFpsListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IFpsListener")
 			}
 			if err != nil {
 				return err
@@ -320,7 +322,7 @@ func newCmdAndroidGuiIFpsListener_OnFpsReported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -351,7 +353,7 @@ func newCmdAndroidGuiIHdrLayerInfoListener_OnHdrLayerInfoChanged() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -362,7 +364,7 @@ func newCmdAndroidGuiIHdrLayerInfoListener_OnHdrLayerInfoChanged() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IHdrLayerInfoListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IHdrLayerInfoListener")
 			}
 			if err != nil {
 				return err
@@ -401,7 +403,7 @@ func newCmdAndroidGuiIHdrLayerInfoListener_OnHdrLayerInfoChanged() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -440,7 +442,7 @@ func newCmdAndroidGuiIRegionSamplingListener_OnSampleCollected() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -451,7 +453,7 @@ func newCmdAndroidGuiIRegionSamplingListener_OnSampleCollected() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IRegionSamplingListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IRegionSamplingListener")
 			}
 			if err != nil {
 				return err
@@ -470,7 +472,7 @@ func newCmdAndroidGuiIRegionSamplingListener_OnSampleCollected() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -501,7 +503,7 @@ func newCmdAndroidGuiIScreenCaptureListener_OnScreenCaptureCompleted() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -512,7 +514,7 @@ func newCmdAndroidGuiIScreenCaptureListener_OnScreenCaptureCompleted() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IScreenCaptureListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IScreenCaptureListener")
 			}
 			if err != nil {
 				return err
@@ -528,7 +530,7 @@ func newCmdAndroidGuiIScreenCaptureListener_OnScreenCaptureCompleted() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -625,7 +627,7 @@ func newCmdAndroidGuiISurfaceComposer_BootFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -636,7 +638,7 @@ func newCmdAndroidGuiISurfaceComposer_BootFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -650,7 +652,7 @@ func newCmdAndroidGuiISurfaceComposer_BootFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -668,7 +670,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateConnection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -679,7 +681,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateConnection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -693,7 +695,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateConnection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -711,7 +713,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -722,7 +724,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -751,7 +753,7 @@ func newCmdAndroidGuiISurfaceComposer_CreateDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -775,7 +777,7 @@ func newCmdAndroidGuiISurfaceComposer_DestroyDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -786,7 +788,7 @@ func newCmdAndroidGuiISurfaceComposer_DestroyDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -809,7 +811,7 @@ func newCmdAndroidGuiISurfaceComposer_DestroyDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -829,7 +831,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -840,7 +842,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -854,7 +856,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -872,7 +874,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -883,7 +885,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -902,7 +904,7 @@ func newCmdAndroidGuiISurfaceComposer_GetPhysicalDisplayToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -922,7 +924,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSupportedFrameTimestamps() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -933,7 +935,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSupportedFrameTimestamps() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -947,7 +949,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSupportedFrameTimestamps() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -965,7 +967,7 @@ func newCmdAndroidGuiISurfaceComposer_SetPowerMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -976,7 +978,7 @@ func newCmdAndroidGuiISurfaceComposer_SetPowerMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1004,7 +1006,7 @@ func newCmdAndroidGuiISurfaceComposer_SetPowerMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1026,7 +1028,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayStats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1037,7 +1039,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayStats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1060,7 +1062,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayStats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1080,7 +1082,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1091,7 +1093,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1114,7 +1116,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1134,7 +1136,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStaticDisplayInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1145,7 +1147,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStaticDisplayInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1164,7 +1166,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStaticDisplayInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1184,7 +1186,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1195,7 +1197,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1214,7 +1216,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1234,7 +1236,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromToken() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1245,7 +1247,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromToken() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1268,7 +1270,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDynamicDisplayInfoFromToken() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1288,7 +1290,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayNativePrimaries() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1299,7 +1301,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayNativePrimaries() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1322,7 +1324,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayNativePrimaries() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1342,7 +1344,7 @@ func newCmdAndroidGuiISurfaceComposer_SetActiveColorMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1353,7 +1355,7 @@ func newCmdAndroidGuiISurfaceComposer_SetActiveColorMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1381,7 +1383,7 @@ func newCmdAndroidGuiISurfaceComposer_SetActiveColorMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1403,7 +1405,7 @@ func newCmdAndroidGuiISurfaceComposer_SetBootDisplayMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1414,7 +1416,7 @@ func newCmdAndroidGuiISurfaceComposer_SetBootDisplayMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1442,7 +1444,7 @@ func newCmdAndroidGuiISurfaceComposer_SetBootDisplayMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1464,7 +1466,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearBootDisplayMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1475,7 +1477,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearBootDisplayMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1498,7 +1500,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearBootDisplayMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1518,7 +1520,7 @@ func newCmdAndroidGuiISurfaceComposer_GetBootDisplayModeSupport() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1529,7 +1531,7 @@ func newCmdAndroidGuiISurfaceComposer_GetBootDisplayModeSupport() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1543,7 +1545,7 @@ func newCmdAndroidGuiISurfaceComposer_GetBootDisplayModeSupport() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1561,7 +1563,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrConversionCapabilities() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1572,7 +1574,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrConversionCapabilities() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1586,7 +1588,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrConversionCapabilities() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1604,7 +1606,7 @@ func newCmdAndroidGuiISurfaceComposer_SetHdrConversionStrategy() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1615,7 +1617,7 @@ func newCmdAndroidGuiISurfaceComposer_SetHdrConversionStrategy() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1642,7 +1644,7 @@ func newCmdAndroidGuiISurfaceComposer_SetHdrConversionStrategy() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1663,7 +1665,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrOutputConversionSupport() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1674,7 +1676,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrOutputConversionSupport() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1688,7 +1690,7 @@ func newCmdAndroidGuiISurfaceComposer_GetHdrOutputConversionSupport() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1706,7 +1708,7 @@ func newCmdAndroidGuiISurfaceComposer_SetAutoLowLatencyMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1717,7 +1719,7 @@ func newCmdAndroidGuiISurfaceComposer_SetAutoLowLatencyMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1745,7 +1747,7 @@ func newCmdAndroidGuiISurfaceComposer_SetAutoLowLatencyMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1767,7 +1769,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameContentType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1778,7 +1780,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameContentType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1806,7 +1808,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameContentType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1828,7 +1830,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1839,7 +1841,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1865,7 +1867,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1885,7 +1887,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplayById() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1896,7 +1898,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplayById() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1927,7 +1929,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureDisplayById() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1949,7 +1951,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayersSync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1960,7 +1962,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayersSync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -1976,7 +1978,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayersSync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1994,7 +1996,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayers() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2005,7 +2007,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayers() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2031,7 +2033,7 @@ func newCmdAndroidGuiISurfaceComposer_CaptureLayers() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2051,7 +2053,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearAnimationFrameStats() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2062,7 +2064,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearAnimationFrameStats() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2076,7 +2078,7 @@ func newCmdAndroidGuiISurfaceComposer_ClearAnimationFrameStats() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2094,7 +2096,7 @@ func newCmdAndroidGuiISurfaceComposer_GetAnimationFrameStats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2105,7 +2107,7 @@ func newCmdAndroidGuiISurfaceComposer_GetAnimationFrameStats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2119,7 +2121,7 @@ func newCmdAndroidGuiISurfaceComposer_GetAnimationFrameStats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2137,7 +2139,7 @@ func newCmdAndroidGuiISurfaceComposer_OverrideHdrTypes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2148,7 +2150,7 @@ func newCmdAndroidGuiISurfaceComposer_OverrideHdrTypes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2186,7 +2188,7 @@ func newCmdAndroidGuiISurfaceComposer_OverrideHdrTypes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2208,7 +2210,7 @@ func newCmdAndroidGuiISurfaceComposer_OnPullAtom() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2219,7 +2221,7 @@ func newCmdAndroidGuiISurfaceComposer_OnPullAtom() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2238,7 +2240,7 @@ func newCmdAndroidGuiISurfaceComposer_OnPullAtom() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2258,7 +2260,7 @@ func newCmdAndroidGuiISurfaceComposer_GetLayerDebugInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2269,7 +2271,7 @@ func newCmdAndroidGuiISurfaceComposer_GetLayerDebugInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2283,7 +2285,7 @@ func newCmdAndroidGuiISurfaceComposer_GetLayerDebugInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2301,7 +2303,7 @@ func newCmdAndroidGuiISurfaceComposer_GetCompositionPreference() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2312,7 +2314,7 @@ func newCmdAndroidGuiISurfaceComposer_GetCompositionPreference() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2326,7 +2328,7 @@ func newCmdAndroidGuiISurfaceComposer_GetCompositionPreference() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2344,7 +2346,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSamplingAttributes() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2355,7 +2357,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSamplingAttributes() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2378,7 +2380,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSamplingAttributes() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2398,7 +2400,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayContentSamplingEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2409,7 +2411,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayContentSamplingEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2447,7 +2449,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayContentSamplingEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2473,7 +2475,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSample() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2484,7 +2486,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSample() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2517,7 +2519,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayedContentSample() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2541,7 +2543,7 @@ func newCmdAndroidGuiISurfaceComposer_GetProtectedContentSupport() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2552,7 +2554,7 @@ func newCmdAndroidGuiISurfaceComposer_GetProtectedContentSupport() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2566,7 +2568,7 @@ func newCmdAndroidGuiISurfaceComposer_GetProtectedContentSupport() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2584,7 +2586,7 @@ func newCmdAndroidGuiISurfaceComposer_IsWideColorDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2595,7 +2597,7 @@ func newCmdAndroidGuiISurfaceComposer_IsWideColorDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2618,7 +2620,7 @@ func newCmdAndroidGuiISurfaceComposer_IsWideColorDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2638,7 +2640,7 @@ func newCmdAndroidGuiISurfaceComposer_AddRegionSamplingListener() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2649,7 +2651,7 @@ func newCmdAndroidGuiISurfaceComposer_AddRegionSamplingListener() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2688,7 +2690,7 @@ func newCmdAndroidGuiISurfaceComposer_AddRegionSamplingListener() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2714,7 +2716,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveRegionSamplingListener() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2725,7 +2727,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveRegionSamplingListener() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2749,7 +2751,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveRegionSamplingListener() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2769,7 +2771,7 @@ func newCmdAndroidGuiISurfaceComposer_AddFpsListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2780,7 +2782,7 @@ func newCmdAndroidGuiISurfaceComposer_AddFpsListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2809,7 +2811,7 @@ func newCmdAndroidGuiISurfaceComposer_AddFpsListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2831,7 +2833,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveFpsListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2842,7 +2844,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveFpsListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2866,7 +2868,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveFpsListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2886,7 +2888,7 @@ func newCmdAndroidGuiISurfaceComposer_AddTunnelModeEnabledListener() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2897,7 +2899,7 @@ func newCmdAndroidGuiISurfaceComposer_AddTunnelModeEnabledListener() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2921,7 +2923,7 @@ func newCmdAndroidGuiISurfaceComposer_AddTunnelModeEnabledListener() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2941,7 +2943,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveTunnelModeEnabledListener() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2952,7 +2954,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveTunnelModeEnabledListener() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -2976,7 +2978,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveTunnelModeEnabledListener() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2996,7 +2998,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDesiredDisplayModeSpecs() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3007,7 +3009,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDesiredDisplayModeSpecs() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3044,7 +3046,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDesiredDisplayModeSpecs() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3068,7 +3070,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDesiredDisplayModeSpecs() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3079,7 +3081,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDesiredDisplayModeSpecs() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3102,7 +3104,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDesiredDisplayModeSpecs() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3122,7 +3124,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayBrightnessSupport() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3133,7 +3135,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayBrightnessSupport() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3156,7 +3158,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayBrightnessSupport() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3176,7 +3178,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayBrightness() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3187,7 +3189,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayBrightness() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3216,7 +3218,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDisplayBrightness() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3240,7 +3242,7 @@ func newCmdAndroidGuiISurfaceComposer_AddHdrLayerInfoListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3251,7 +3253,7 @@ func newCmdAndroidGuiISurfaceComposer_AddHdrLayerInfoListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3284,7 +3286,7 @@ func newCmdAndroidGuiISurfaceComposer_AddHdrLayerInfoListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3306,7 +3308,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveHdrLayerInfoListener() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3317,7 +3319,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveHdrLayerInfoListener() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3350,7 +3352,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveHdrLayerInfoListener() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3372,7 +3374,7 @@ func newCmdAndroidGuiISurfaceComposer_NotifyPowerBoost() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3383,7 +3385,7 @@ func newCmdAndroidGuiISurfaceComposer_NotifyPowerBoost() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3402,7 +3404,7 @@ func newCmdAndroidGuiISurfaceComposer_NotifyPowerBoost() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3422,7 +3424,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGlobalShadowSettings() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3433,7 +3435,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGlobalShadowSettings() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3474,7 +3476,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGlobalShadowSettings() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3506,7 +3508,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayDecorationSupport() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3517,7 +3519,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayDecorationSupport() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3540,7 +3542,7 @@ func newCmdAndroidGuiISurfaceComposer_GetDisplayDecorationSupport() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3560,7 +3562,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameModeFrameRateOverride() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3571,7 +3573,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameModeFrameRateOverride() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3595,7 +3597,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameModeFrameRateOverride() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3617,7 +3619,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameDefaultFrameRateOverride() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3628,7 +3630,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameDefaultFrameRateOverride() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3652,7 +3654,7 @@ func newCmdAndroidGuiISurfaceComposer_SetGameDefaultFrameRateOverride() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3674,7 +3676,7 @@ func newCmdAndroidGuiISurfaceComposer_UpdateSmallAreaDetection() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3685,7 +3687,7 @@ func newCmdAndroidGuiISurfaceComposer_UpdateSmallAreaDetection() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3729,7 +3731,7 @@ func newCmdAndroidGuiISurfaceComposer_UpdateSmallAreaDetection() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3751,7 +3753,7 @@ func newCmdAndroidGuiISurfaceComposer_SetSmallAreaDetectionThreshold() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3762,7 +3764,7 @@ func newCmdAndroidGuiISurfaceComposer_SetSmallAreaDetectionThreshold() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3786,7 +3788,7 @@ func newCmdAndroidGuiISurfaceComposer_SetSmallAreaDetectionThreshold() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3808,7 +3810,7 @@ func newCmdAndroidGuiISurfaceComposer_EnableRefreshRateOverlay() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3819,7 +3821,7 @@ func newCmdAndroidGuiISurfaceComposer_EnableRefreshRateOverlay() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3838,7 +3840,7 @@ func newCmdAndroidGuiISurfaceComposer_EnableRefreshRateOverlay() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3858,7 +3860,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDebugFlash() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3869,7 +3871,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDebugFlash() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3888,7 +3890,7 @@ func newCmdAndroidGuiISurfaceComposer_SetDebugFlash() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3908,7 +3910,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleComposite() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3919,7 +3921,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleComposite() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3933,7 +3935,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleComposite() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3951,7 +3953,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleCommit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3962,7 +3964,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleCommit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -3976,7 +3978,7 @@ func newCmdAndroidGuiISurfaceComposer_ScheduleCommit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3994,7 +3996,7 @@ func newCmdAndroidGuiISurfaceComposer_ForceClientComposition() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4005,7 +4007,7 @@ func newCmdAndroidGuiISurfaceComposer_ForceClientComposition() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4024,7 +4026,7 @@ func newCmdAndroidGuiISurfaceComposer_ForceClientComposition() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4044,7 +4046,7 @@ func newCmdAndroidGuiISurfaceComposer_GetGpuContextPriority() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4055,7 +4057,7 @@ func newCmdAndroidGuiISurfaceComposer_GetGpuContextPriority() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4069,7 +4071,7 @@ func newCmdAndroidGuiISurfaceComposer_GetGpuContextPriority() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4087,7 +4089,7 @@ func newCmdAndroidGuiISurfaceComposer_GetMaxAcquiredBufferCount() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4098,7 +4100,7 @@ func newCmdAndroidGuiISurfaceComposer_GetMaxAcquiredBufferCount() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4112,7 +4114,7 @@ func newCmdAndroidGuiISurfaceComposer_GetMaxAcquiredBufferCount() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4130,7 +4132,7 @@ func newCmdAndroidGuiISurfaceComposer_AddWindowInfosListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4141,7 +4143,7 @@ func newCmdAndroidGuiISurfaceComposer_AddWindowInfosListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4165,7 +4167,7 @@ func newCmdAndroidGuiISurfaceComposer_AddWindowInfosListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4185,7 +4187,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveWindowInfosListener() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4196,7 +4198,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveWindowInfosListener() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4220,7 +4222,7 @@ func newCmdAndroidGuiISurfaceComposer_RemoveWindowInfosListener() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4240,7 +4242,7 @@ func newCmdAndroidGuiISurfaceComposer_GetOverlaySupport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4251,7 +4253,7 @@ func newCmdAndroidGuiISurfaceComposer_GetOverlaySupport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4265,7 +4267,7 @@ func newCmdAndroidGuiISurfaceComposer_GetOverlaySupport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4283,7 +4285,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStalledTransactionInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4294,7 +4296,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStalledTransactionInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4313,7 +4315,7 @@ func newCmdAndroidGuiISurfaceComposer_GetStalledTransactionInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4333,7 +4335,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSchedulingPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4344,7 +4346,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSchedulingPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposer")
 			}
 			if err != nil {
 				return err
@@ -4358,7 +4360,7 @@ func newCmdAndroidGuiISurfaceComposer_GetSchedulingPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4392,7 +4394,7 @@ func newCmdAndroidGuiISurfaceComposerClient_CreateSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4403,7 +4405,7 @@ func newCmdAndroidGuiISurfaceComposerClient_CreateSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4438,7 +4440,7 @@ func newCmdAndroidGuiISurfaceComposerClient_CreateSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4462,7 +4464,7 @@ func newCmdAndroidGuiISurfaceComposerClient_ClearLayerFrameStats() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4473,7 +4475,7 @@ func newCmdAndroidGuiISurfaceComposerClient_ClearLayerFrameStats() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4496,7 +4498,7 @@ func newCmdAndroidGuiISurfaceComposerClient_ClearLayerFrameStats() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4516,7 +4518,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetLayerFrameStats() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4527,7 +4529,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetLayerFrameStats() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4550,7 +4552,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetLayerFrameStats() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4570,7 +4572,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4581,7 +4583,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4604,7 +4606,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4624,7 +4626,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4635,7 +4637,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4654,7 +4656,7 @@ func newCmdAndroidGuiISurfaceComposerClient_MirrorDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4674,7 +4676,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetSchedulingPolicy() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4685,7 +4687,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetSchedulingPolicy() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ISurfaceComposerClient")
 			}
 			if err != nil {
 				return err
@@ -4699,7 +4701,7 @@ func newCmdAndroidGuiISurfaceComposerClient_GetSchedulingPolicy() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4728,7 +4730,7 @@ func newCmdAndroidGuiITunnelModeEnabledListener_OnTunnelModeEnabledChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4739,7 +4741,7 @@ func newCmdAndroidGuiITunnelModeEnabledListener_OnTunnelModeEnabledChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.ITunnelModeEnabledListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.ITunnelModeEnabledListener")
 			}
 			if err != nil {
 				return err
@@ -4758,7 +4760,7 @@ func newCmdAndroidGuiITunnelModeEnabledListener_OnTunnelModeEnabledChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4789,7 +4791,7 @@ func newCmdAndroidGuiIWindowInfosListener_OnWindowInfosChanged() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4800,7 +4802,7 @@ func newCmdAndroidGuiIWindowInfosListener_OnWindowInfosChanged() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosListener")
 			}
 			if err != nil {
 				return err
@@ -4816,7 +4818,7 @@ func newCmdAndroidGuiIWindowInfosListener_OnWindowInfosChanged() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4845,7 +4847,7 @@ func newCmdAndroidGuiIWindowInfosPublisher_AckWindowInfosReceived() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4856,7 +4858,7 @@ func newCmdAndroidGuiIWindowInfosPublisher_AckWindowInfosReceived() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosPublisher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosPublisher")
 			}
 			if err != nil {
 				return err
@@ -4880,7 +4882,7 @@ func newCmdAndroidGuiIWindowInfosPublisher_AckWindowInfosReceived() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4913,7 +4915,7 @@ func newCmdAndroidGuiIWindowInfosReportedListener_OnWindowInfosReported() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4924,7 +4926,7 @@ func newCmdAndroidGuiIWindowInfosReportedListener_OnWindowInfosReported() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosReportedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.gui.IWindowInfosReportedListener")
 			}
 			if err != nil {
 				return err
@@ -4938,7 +4940,7 @@ func newCmdAndroidGuiIWindowInfosReportedListener_OnWindowInfosReported() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	internal_ "github.com/AndroidGoLab/binder/android/system/suspend/internal_"
@@ -43,7 +45,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_EnableAuto
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_EnableAuto
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_EnableAuto
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_ForceSuspe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_ForceSuspe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
 			}
 			if err != nil {
 				return err
@@ -122,7 +124,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_ForceSuspe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -140,7 +142,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeLoc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -151,7 +153,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeLoc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
 			}
 			if err != nil {
 				return err
@@ -165,7 +167,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeLoc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeupS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeupS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
 			}
 			if err != nil {
 				return err
@@ -208,7 +210,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetWakeupS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -226,7 +228,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetSuspend
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -237,7 +239,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetSuspend
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.internal.ISuspendControlServiceInternal")
 			}
 			if err != nil {
 				return err
@@ -251,7 +253,7 @@ func newCmdAndroidSystemSuspendInternalISuspendControlServiceInternal_GetSuspend
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

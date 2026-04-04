@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/com/android/internal_/os"
@@ -45,7 +47,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_GetSignedImageInfo() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_GetSignedImageInfo() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
 			}
 			if err != nil {
 				return err
@@ -70,7 +72,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_GetSignedImageInfo() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -88,7 +90,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_RecordMeasurementsForA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -99,7 +101,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_RecordMeasurementsForA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
 			}
 			if err != nil {
 				return err
@@ -113,7 +115,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_RecordMeasurementsForA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -131,7 +133,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_CollectAllApexInfo() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -142,7 +144,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_CollectAllApexInfo() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IBinaryTransparencyService")
 			}
 			if err != nil {
 				return err
@@ -161,7 +163,7 @@ func newCmdComAndroidInternalOsIBinaryTransparencyService_CollectAllApexInfo() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -196,7 +198,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -207,7 +209,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
 			}
 			if err != nil {
 				return err
@@ -240,7 +242,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_AddFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -328,7 +330,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_IsTagEnabled() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -339,7 +341,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_IsTagEnabled() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
 			}
 			if err != nil {
 				return err
@@ -358,7 +360,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_IsTagEnabled() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -378,7 +380,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntry() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -389,7 +391,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntry() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
 			}
 			if err != nil {
 				return err
@@ -418,7 +420,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntry() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -442,7 +444,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntryWithAttributio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -453,7 +455,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntryWithAttributio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IDropBoxManagerService")
 			}
 			if err != nil {
 				return err
@@ -482,7 +484,7 @@ func newCmdComAndroidInternalOsIDropBoxManagerService_GetNextEntryWithAttributio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -517,7 +519,7 @@ func newCmdComAndroidInternalOsIParcelFileDescriptorFactory_Open() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -528,7 +530,7 @@ func newCmdComAndroidInternalOsIParcelFileDescriptorFactory_Open() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IParcelFileDescriptorFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IParcelFileDescriptorFactory")
 			}
 			if err != nil {
 				return err
@@ -552,7 +554,7 @@ func newCmdComAndroidInternalOsIParcelFileDescriptorFactory_Open() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -585,7 +587,7 @@ func newCmdComAndroidInternalOsIShellCallback_OpenFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -596,7 +598,7 @@ func newCmdComAndroidInternalOsIShellCallback_OpenFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IShellCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.os.IShellCallback")
 			}
 			if err != nil {
 				return err
@@ -625,7 +627,7 @@ func newCmdComAndroidInternalOsIShellCallback_OpenFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

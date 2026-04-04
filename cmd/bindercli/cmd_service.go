@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
@@ -105,7 +105,7 @@ func newServiceInspectCmd() *cobra.Command {
 				return err
 			}
 
-			descriptor := cliutil.QueryDescriptor(ctx, svc)
+			descriptor := discovery.QueryDescriptor(ctx, svc)
 
 			mode, err := cmd.Root().PersistentFlags().GetString("format")
 			if err != nil {
@@ -205,12 +205,12 @@ func newServiceMethodsCmd() *cobra.Command {
 				return err
 			}
 
-			descriptor := cliutil.QueryDescriptor(ctx, svc)
+			descriptor := discovery.QueryDescriptor(ctx, svc)
 
 			// InterfaceTransaction may return empty on some services.
 			// Fall back to the static knownServiceNames map (reverse lookup).
 			if descriptor == "" || descriptor == "(unknown)" {
-				for desc, svcName := range cliutil.KnownServiceNames {
+				for desc, svcName := range discovery.KnownServiceNames {
 					if svcName == name {
 						descriptor = desc
 						break

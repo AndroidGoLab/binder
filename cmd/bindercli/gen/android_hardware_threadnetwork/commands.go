@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/threadnetwork"
@@ -44,7 +46,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Open() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Open() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
 			}
 			if err != nil {
 				return err
@@ -79,7 +81,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Open() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -99,7 +101,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -110,7 +112,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -142,7 +144,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_HardwareReset() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -153,7 +155,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_HardwareReset() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
 			}
 			if err != nil {
 				return err
@@ -167,7 +169,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_HardwareReset() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -185,7 +187,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_SendSpinelFrame() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -196,7 +198,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_SendSpinelFrame() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChip")
 			}
 			if err != nil {
 				return err
@@ -219,7 +221,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChip_SendSpinelFrame() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -250,7 +252,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChipCallback_OnReceiveSpinelFrame(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -261,7 +263,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChipCallback_OnReceiveSpinelFrame(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChipCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.threadnetwork.IThreadChipCallback")
 			}
 			if err != nil {
 				return err
@@ -284,7 +286,7 @@ func newCmdAndroidHardwareThreadnetworkIThreadChipCallback_OnReceiveSpinelFrame(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

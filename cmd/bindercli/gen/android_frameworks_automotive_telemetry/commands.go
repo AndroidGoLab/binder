@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/frameworks/automotive/telemetry"
@@ -45,7 +47,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_Write() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_Write() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_Write() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_AddCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_AddCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
 			}
 			if err != nil {
 				return err
@@ -147,7 +149,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_AddCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -168,7 +170,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_RemoveCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -179,7 +181,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_RemoveCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetry")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetry_RemoveCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -234,7 +236,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetryCallback_OnChange() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -245,7 +247,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetryCallback_OnChange() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetryCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.telemetry.ICarTelemetryCallback")
 			}
 			if err != nil {
 				return err
@@ -274,7 +276,7 @@ func newCmdAndroidFrameworksAutomotiveTelemetryICarTelemetryCallback_OnChange() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

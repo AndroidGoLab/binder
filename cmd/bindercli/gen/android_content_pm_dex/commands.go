@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/pm/dex"
@@ -41,7 +43,7 @@ func newCmdAndroidContentPmDexIArtManager_SnapshotRuntimeProfile() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdAndroidContentPmDexIArtManager_SnapshotRuntimeProfile() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.IArtManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.IArtManager")
 			}
 			if err != nil {
 				return err
@@ -91,7 +93,7 @@ func newCmdAndroidContentPmDexIArtManager_SnapshotRuntimeProfile() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -117,7 +119,7 @@ func newCmdAndroidContentPmDexIArtManager_IsRuntimeProfilingEnabled() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,7 @@ func newCmdAndroidContentPmDexIArtManager_IsRuntimeProfilingEnabled() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.IArtManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.IArtManager")
 			}
 			if err != nil {
 				return err
@@ -147,7 +149,7 @@ func newCmdAndroidContentPmDexIArtManager_IsRuntimeProfilingEnabled() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -179,7 +181,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnSuccess() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -190,7 +192,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnSuccess() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.ISnapshotRuntimeProfileCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.ISnapshotRuntimeProfileCallback")
 			}
 			if err != nil {
 				return err
@@ -209,7 +211,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnSuccess() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -229,7 +231,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnError() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -240,7 +242,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnError() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.ISnapshotRuntimeProfileCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.dex.ISnapshotRuntimeProfileCallback")
 			}
 			if err != nil {
 				return err
@@ -259,7 +261,7 @@ func newCmdAndroidContentPmDexISnapshotRuntimeProfileCallback_OnError() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

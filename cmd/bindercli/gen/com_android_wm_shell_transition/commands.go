@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/window"
@@ -41,7 +43,7 @@ func newCmdComAndroidWmShellTransitionIHomeTransitionListener_OnHomeVisibilityCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdComAndroidWmShellTransitionIHomeTransitionListener_OnHomeVisibilityCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IHomeTransitionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IHomeTransitionListener")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdComAndroidWmShellTransitionIHomeTransitionListener_OnHomeVisibilityCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_RegisterRemote() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_RegisterRemote() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_RegisterRemote() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -153,7 +155,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_UnregisterRemote() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -164,7 +166,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_UnregisterRemote() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
 			}
 			if err != nil {
 				return err
@@ -180,7 +182,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_UnregisterRemote() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -198,7 +200,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetShellApplyToken() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -209,7 +211,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetShellApplyToken() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
 			}
 			if err != nil {
 				return err
@@ -223,7 +225,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetShellApplyToken() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -241,7 +243,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_SetHomeTransitionListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -252,7 +254,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_SetHomeTransitionListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_SetHomeTransitionListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -296,7 +298,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetHomeTaskOverlayContai
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -307,7 +309,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetHomeTaskOverlayContai
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.transition.IShellTransitions")
 			}
 			if err != nil {
 				return err
@@ -321,7 +323,7 @@ func newCmdComAndroidWmShellTransitionIShellTransitions_GetHomeTaskOverlayContai
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

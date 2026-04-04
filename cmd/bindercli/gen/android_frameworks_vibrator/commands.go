@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/frameworks/vibrator"
@@ -45,7 +47,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_RegisterVibratorCont
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_RegisterVibratorCont
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
 			}
 			if err != nil {
 				return err
@@ -80,7 +82,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_RegisterVibratorCont
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_UnregisterVibratorCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_UnregisterVibratorCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_UnregisterVibratorCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -155,7 +157,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_SetVibrationParams()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -166,7 +168,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_SetVibrationParams()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_SetVibrationParams()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -223,7 +225,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_ClearVibrationParams
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -234,7 +236,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_ClearVibrationParams
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
 			}
 			if err != nil {
 				return err
@@ -263,7 +265,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_ClearVibrationParams
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -285,7 +287,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_OnRequestVibrationPa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -296,7 +298,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_OnRequestVibrationPa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorControlService")
 			}
 			if err != nil {
 				return err
@@ -330,7 +332,7 @@ func newCmdAndroidFrameworksVibratorIVibratorControlService_OnRequestVibrationPa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -363,7 +365,7 @@ func newCmdAndroidFrameworksVibratorIVibratorController_RequestVibrationParams()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -374,7 +376,7 @@ func newCmdAndroidFrameworksVibratorIVibratorController_RequestVibrationParams()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.vibrator.IVibratorController")
 			}
 			if err != nil {
 				return err
@@ -407,7 +409,7 @@ func newCmdAndroidFrameworksVibratorIVibratorController_RequestVibrationParams()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/time"
@@ -48,7 +50,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetCapabilitiesAnd
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetCapabilitiesAnd
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetCapabilitiesAnd
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_AddListener() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_AddListener() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -126,7 +128,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_AddListener() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -146,7 +148,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_RemoveListener() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -157,7 +159,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_RemoveListener() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -181,7 +183,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_RemoveListener() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -201,7 +203,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_UpdateConfiguratio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -212,7 +214,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_UpdateConfiguratio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_UpdateConfiguratio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetTimeZoneState()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetTimeZoneState()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -271,7 +273,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_GetTimeZoneState()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -289,7 +291,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_ConfirmTimeZone() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -300,7 +302,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_ConfirmTimeZone() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_ConfirmTimeZone() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -339,7 +341,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SetManualTimeZone(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -350,7 +352,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SetManualTimeZone(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -366,7 +368,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SetManualTimeZone(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -384,7 +386,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestManualTimeZ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -395,7 +397,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestManualTimeZ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestManualTimeZ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestTelephonyTi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestTelephonyTi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timezonedetector.ITimeZoneDetectorService")
 			}
 			if err != nil {
 				return err
@@ -456,7 +458,7 @@ func newCmdAndroidAppTimezonedetectorITimeZoneDetectorService_SuggestTelephonyTi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

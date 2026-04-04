@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/contexthub"
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetContextHubs() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetContextHubs() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetContextHubs() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareContexthubIContextHub_LoadNanoapp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidHardwareContexthubIContextHub_LoadNanoapp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -149,7 +151,7 @@ func newCmdAndroidHardwareContexthubIContextHub_LoadNanoapp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -177,7 +179,7 @@ func newCmdAndroidHardwareContexthubIContextHub_UnloadNanoapp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -188,7 +190,7 @@ func newCmdAndroidHardwareContexthubIContextHub_UnloadNanoapp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidHardwareContexthubIContextHub_UnloadNanoapp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -241,7 +243,7 @@ func newCmdAndroidHardwareContexthubIContextHub_DisableNanoapp() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -252,7 +254,7 @@ func newCmdAndroidHardwareContexthubIContextHub_DisableNanoapp() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -281,7 +283,7 @@ func newCmdAndroidHardwareContexthubIContextHub_DisableNanoapp() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareContexthubIContextHub_EnableNanoapp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -316,7 +318,7 @@ func newCmdAndroidHardwareContexthubIContextHub_EnableNanoapp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -345,7 +347,7 @@ func newCmdAndroidHardwareContexthubIContextHub_EnableNanoapp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnSettingChanged() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -380,7 +382,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnSettingChanged() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -405,7 +407,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnSettingChanged() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -427,7 +429,7 @@ func newCmdAndroidHardwareContexthubIContextHub_QueryNanoapps() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -438,7 +440,7 @@ func newCmdAndroidHardwareContexthubIContextHub_QueryNanoapps() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareContexthubIContextHub_QueryNanoapps() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareContexthubIContextHub_RegisterCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdAndroidHardwareContexthubIContextHub_RegisterCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -517,7 +519,7 @@ func newCmdAndroidHardwareContexthubIContextHub_RegisterCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageToHub() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -550,7 +552,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageToHub() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -586,7 +588,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageToHub() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -613,7 +615,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointConnected() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -624,7 +626,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointConnected() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointConnected() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -670,7 +672,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointDisconnected() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -681,7 +683,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointDisconnected() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -700,7 +702,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnHostEndpointDisconnected() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -720,7 +722,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetPreloadedNanoappIds() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -731,7 +733,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetPreloadedNanoappIds() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -750,7 +752,7 @@ func newCmdAndroidHardwareContexthubIContextHub_GetPreloadedNanoappIds() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -770,7 +772,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnNanSessionStateChanged() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -781,7 +783,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnNanSessionStateChanged() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -798,7 +800,7 @@ func newCmdAndroidHardwareContexthubIContextHub_OnNanSessionStateChanged() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -817,7 +819,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SetTestMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -828,7 +830,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SetTestMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -847,7 +849,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SetTestMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -867,7 +869,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageDeliveryStatusToHub()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -878,7 +880,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageDeliveryStatusToHub()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHub")
 			}
 			if err != nil {
 				return err
@@ -902,7 +904,7 @@ func newCmdAndroidHardwareContexthubIContextHub_SendMessageDeliveryStatusToHub()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -942,7 +944,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanoappInfo() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -953,7 +955,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanoappInfo() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -978,7 +980,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanoappInfo() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -998,7 +1000,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubMessage(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1009,7 +1011,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubMessage(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1049,7 +1051,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubMessage(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1076,7 +1078,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubAsyncEve
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1087,7 +1089,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubAsyncEve
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1107,7 +1109,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleContextHubAsyncEve
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1127,7 +1129,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleTransactionResult(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1138,7 +1140,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleTransactionResult(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1162,7 +1164,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleTransactionResult(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1184,7 +1186,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanSessionRequest(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1195,7 +1197,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanSessionRequest(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1212,7 +1214,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleNanSessionRequest(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1231,7 +1233,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleMessageDeliverySta
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1242,7 +1244,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleMessageDeliverySta
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1266,7 +1268,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_HandleMessageDeliverySta
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1288,7 +1290,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetUuid() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1299,7 +1301,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetUuid() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1313,7 +1315,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetUuid() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1331,7 +1333,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetName() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1342,7 +1344,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetName() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.contexthub.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -1356,7 +1358,7 @@ func newCmdAndroidHardwareContexthubIContextHubCallback_GetName() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

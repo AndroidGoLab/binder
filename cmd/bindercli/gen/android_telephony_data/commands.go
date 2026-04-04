@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/telephony"
@@ -58,7 +60,7 @@ func newCmdAndroidTelephonyDataIDataService_CreateDataServiceProvider() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -69,7 +71,7 @@ func newCmdAndroidTelephonyDataIDataService_CreateDataServiceProvider() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -88,7 +90,7 @@ func newCmdAndroidTelephonyDataIDataService_CreateDataServiceProvider() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -108,7 +110,7 @@ func newCmdAndroidTelephonyDataIDataService_RemoveDataServiceProvider() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -119,7 +121,7 @@ func newCmdAndroidTelephonyDataIDataService_RemoveDataServiceProvider() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -138,7 +140,7 @@ func newCmdAndroidTelephonyDataIDataService_RemoveDataServiceProvider() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -158,7 +160,7 @@ func newCmdAndroidTelephonyDataIDataService_DeactivateDataCall() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -169,7 +171,7 @@ func newCmdAndroidTelephonyDataIDataService_DeactivateDataCall() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -208,7 +210,7 @@ func newCmdAndroidTelephonyDataIDataService_DeactivateDataCall() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -234,7 +236,7 @@ func newCmdAndroidTelephonyDataIDataService_SetInitialAttachApn() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -245,7 +247,7 @@ func newCmdAndroidTelephonyDataIDataService_SetInitialAttachApn() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -281,7 +283,7 @@ func newCmdAndroidTelephonyDataIDataService_SetInitialAttachApn() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -305,7 +307,7 @@ func newCmdAndroidTelephonyDataIDataService_SetDataProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -316,7 +318,7 @@ func newCmdAndroidTelephonyDataIDataService_SetDataProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -361,7 +363,7 @@ func newCmdAndroidTelephonyDataIDataService_SetDataProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -387,7 +389,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestDataCallList() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -398,7 +400,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestDataCallList() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -427,7 +429,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestDataCallList() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -449,7 +451,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForDataCallListChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -460,7 +462,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForDataCallListChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -489,7 +491,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForDataCallListChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -511,7 +513,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForDataCallListChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -522,7 +524,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForDataCallListChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -551,7 +553,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForDataCallListChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -573,7 +575,7 @@ func newCmdAndroidTelephonyDataIDataService_StartHandover() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -584,7 +586,7 @@ func newCmdAndroidTelephonyDataIDataService_StartHandover() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -618,7 +620,7 @@ func newCmdAndroidTelephonyDataIDataService_StartHandover() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -642,7 +644,7 @@ func newCmdAndroidTelephonyDataIDataService_CancelHandover() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -653,7 +655,7 @@ func newCmdAndroidTelephonyDataIDataService_CancelHandover() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -687,7 +689,7 @@ func newCmdAndroidTelephonyDataIDataService_CancelHandover() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -711,7 +713,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForUnthrottleApn() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -722,7 +724,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForUnthrottleApn() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -751,7 +753,7 @@ func newCmdAndroidTelephonyDataIDataService_RegisterForUnthrottleApn() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -773,7 +775,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForUnthrottleApn() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -784,7 +786,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForUnthrottleApn() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -813,7 +815,7 @@ func newCmdAndroidTelephonyDataIDataService_UnregisterForUnthrottleApn() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -835,7 +837,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestNetworkValidation() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -846,7 +848,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestNetworkValidation() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataService")
 			}
 			if err != nil {
 				return err
@@ -880,7 +882,7 @@ func newCmdAndroidTelephonyDataIDataService_RequestNetworkValidation() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -924,7 +926,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetupDataCallComplete() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -935,7 +937,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetupDataCallComplete() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -956,7 +958,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetupDataCallComplete() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -976,7 +978,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDeactivateDataCallComplete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -987,7 +989,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDeactivateDataCallComplete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1006,7 +1008,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDeactivateDataCallComplete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1026,7 +1028,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetInitialAttachApnComplet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1037,7 +1039,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetInitialAttachApnComplet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1056,7 +1058,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetInitialAttachApnComplet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1076,7 +1078,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetDataProfileComplete() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1087,7 +1089,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetDataProfileComplete() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1106,7 +1108,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnSetDataProfileComplete() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1126,7 +1128,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnRequestDataCallListComplet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1137,7 +1139,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnRequestDataCallListComplet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1167,7 +1169,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnRequestDataCallListComplet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1189,7 +1191,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataCallListChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1200,7 +1202,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataCallListChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1225,7 +1227,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataCallListChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1245,7 +1247,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverStarted() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1256,7 +1258,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverStarted() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1275,7 +1277,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverStarted() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1295,7 +1297,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverCancelled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1306,7 +1308,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverCancelled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1325,7 +1327,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnHandoverCancelled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1345,7 +1347,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnApnUnthrottled() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1356,7 +1358,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnApnUnthrottled() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1375,7 +1377,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnApnUnthrottled() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1395,7 +1397,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataProfileUnthrottled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1406,7 +1408,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataProfileUnthrottled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IDataServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1422,7 +1424,7 @@ func newCmdAndroidTelephonyDataIDataServiceCallback_OnDataProfileUnthrottled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1454,7 +1456,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_CreateNetworkAvailabili
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1465,7 +1467,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_CreateNetworkAvailabili
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
 			}
 			if err != nil {
 				return err
@@ -1494,7 +1496,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_CreateNetworkAvailabili
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1516,7 +1518,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_RemoveNetworkAvailabili
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1527,7 +1529,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_RemoveNetworkAvailabili
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
 			}
 			if err != nil {
 				return err
@@ -1546,7 +1548,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_RemoveNetworkAvailabili
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1566,7 +1568,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportThrottleStatusCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1577,7 +1579,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportThrottleStatusCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
 			}
 			if err != nil {
 				return err
@@ -1607,7 +1609,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportThrottleStatusCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1629,7 +1631,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportEmergencyDataNetw
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1640,7 +1642,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportEmergencyDataNetw
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksService")
 			}
 			if err != nil {
 				return err
@@ -1664,7 +1666,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksService_ReportEmergencyDataNetw
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1699,7 +1701,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnQualifiedNetw
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1710,7 +1712,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnQualifiedNetw
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1744,7 +1746,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnQualifiedNetw
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1766,7 +1768,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnNetworkValida
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1777,7 +1779,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnNetworkValida
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1806,7 +1808,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnNetworkValida
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1828,7 +1830,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnReconnectQual
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1839,7 +1841,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnReconnectQual
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.data.IQualifiedNetworksServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1863,7 +1865,7 @@ func newCmdAndroidTelephonyDataIQualifiedNetworksServiceCallback_OnReconnectQual
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

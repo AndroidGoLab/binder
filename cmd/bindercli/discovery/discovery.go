@@ -1,12 +1,13 @@
 //go:build linux
 
-package cliutil
+package discovery
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
@@ -21,26 +22,26 @@ var KnownServiceNames map[string]string
 // slow enumeration, then falls back to listing all services.
 func FindServiceByDescriptor(
 	ctx context.Context,
-	conn *Conn,
+	c *conn.Conn,
 	descriptor string,
 ) (binder.IBinder, error) {
 	// Try the static map of well-known service names first to avoid
 	// slow enumeration of all registered services.
 	if name, ok := KnownServiceNames[descriptor]; ok {
-		svc, err := conn.SM.CheckService(ctx, servicemanager.ServiceName(name))
+		svc, err := c.SM.CheckService(ctx, servicemanager.ServiceName(name))
 		if err == nil && svc != nil {
 			return svc, nil
 		}
 	}
 
 	// Fall back to enumeration.
-	services, err := conn.SM.ListServices(ctx)
+	services, err := c.SM.ListServices(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("listing services: %w", err)
 	}
 
 	for _, name := range services {
-		svc, err := conn.SM.CheckService(ctx, name)
+		svc, err := c.SM.CheckService(ctx, name)
 		if err != nil || svc == nil {
 			continue
 		}

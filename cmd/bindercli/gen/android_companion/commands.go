@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -55,7 +57,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationPending() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -66,7 +68,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationPending() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationPending() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationCreated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationCreated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -127,7 +129,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnAssociationCreated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -145,7 +147,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnFailure() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -156,7 +158,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnFailure() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IAssociationRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -175,7 +177,7 @@ func newCmdAndroidCompanionIAssociationRequestCallback_OnFailure() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -207,7 +209,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_StartDiscovery() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -218,7 +220,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_StartDiscovery() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceDiscoveryService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceDiscoveryService")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_StartDiscovery() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -266,7 +268,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_OnAssociationCreated
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -277,7 +279,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_OnAssociationCreated
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceDiscoveryService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceDiscoveryService")
 			}
 			if err != nil {
 				return err
@@ -291,7 +293,7 @@ func newCmdAndroidCompanionICompanionDeviceDiscoveryService_OnAssociationCreated
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -359,7 +361,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Associate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -370,7 +372,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Associate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Associate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -416,7 +418,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAssociations() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -427,7 +429,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAssociations() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -441,7 +443,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAssociations() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -459,7 +461,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAllAssociationsForUser() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -470,7 +472,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAllAssociationsForUser() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -484,7 +486,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetAllAssociationsForUser() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -502,7 +504,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_LegacyDisassociate() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -513,7 +515,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_LegacyDisassociate() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -532,7 +534,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_LegacyDisassociate() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -552,7 +554,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Disassociate() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -563,7 +565,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Disassociate() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -582,7 +584,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_Disassociate() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -602,7 +604,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_HasNotificationAccess() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -613,7 +615,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_HasNotificationAccess() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -629,7 +631,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_HasNotificationAccess() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -647,7 +649,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RequestNotificationAccess() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -658,7 +660,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RequestNotificationAccess() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -674,7 +676,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RequestNotificationAccess() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -692,7 +694,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsDeviceAssociatedForWifiConn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -703,7 +705,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsDeviceAssociatedForWifiConn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -727,7 +729,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsDeviceAssociatedForWifiConn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -749,7 +751,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RegisterDevicePresenceListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -760,7 +762,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RegisterDevicePresenceListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -779,7 +781,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RegisterDevicePresenceListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -799,7 +801,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_UnregisterDevicePresenceListe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -810,7 +812,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_UnregisterDevicePresenceListe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -829,7 +831,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_UnregisterDevicePresenceListe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -849,7 +851,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CanPairWithoutPrompt() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -860,7 +862,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CanPairWithoutPrompt() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -884,7 +886,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CanPairWithoutPrompt() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -906,7 +908,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CreateAssociation() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -917,7 +919,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CreateAssociation() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -950,7 +952,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_CreateAssociation() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -974,7 +976,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnAssociationsChangedListe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -985,7 +987,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnAssociationsChangedListe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1009,7 +1011,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnAssociationsChangedListe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1029,7 +1031,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnAssociationsChangedLi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1040,7 +1042,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnAssociationsChangedLi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1064,7 +1066,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnAssociationsChangedLi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1084,7 +1086,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnTransportsChangedListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1095,7 +1097,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnTransportsChangedListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1119,7 +1121,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnTransportsChangedListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1139,7 +1141,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnTransportsChangedList
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1150,7 +1152,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnTransportsChangedList
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1174,7 +1176,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnTransportsChangedList
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1194,7 +1196,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SendMessage() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1205,7 +1207,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SendMessage() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1248,7 +1250,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SendMessage() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1272,7 +1274,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnMessageReceivedListener(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1283,7 +1285,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnMessageReceivedListener(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1312,7 +1314,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AddOnMessageReceivedListener(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1334,7 +1336,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnMessageReceivedListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1345,7 +1347,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnMessageReceivedListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1374,7 +1376,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_RemoveOnMessageReceivedListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1396,7 +1398,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceAppeared() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1407,7 +1409,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceAppeared() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1426,7 +1428,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceAppeared() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1446,7 +1448,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceDisappeared() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1457,7 +1459,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceDisappeared() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1476,7 +1478,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_NotifyDeviceDisappeared() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1496,7 +1498,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildPermissionTransferUserCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1507,7 +1509,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildPermissionTransferUserCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1526,7 +1528,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildPermissionTransferUserCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1546,7 +1548,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsPermissionTransferUserConse
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1557,7 +1559,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsPermissionTransferUserConse
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1576,7 +1578,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsPermissionTransferUserConse
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1596,7 +1598,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartSystemDataTransfer() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1607,7 +1609,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartSystemDataTransfer() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1641,7 +1643,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartSystemDataTransfer() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1665,7 +1667,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AttachSystemDataTransport() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1676,7 +1678,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AttachSystemDataTransport() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1705,7 +1707,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_AttachSystemDataTransport() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1729,7 +1731,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DetachSystemDataTransport() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1740,7 +1742,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DetachSystemDataTransport() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1764,7 +1766,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DetachSystemDataTransport() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1786,7 +1788,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsCompanionApplicationBound()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1797,7 +1799,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsCompanionApplicationBound()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1816,7 +1818,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_IsCompanionApplicationBound()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1836,7 +1838,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildAssociationCancellationI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1847,7 +1849,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildAssociationCancellationI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1861,7 +1863,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_BuildAssociationCancellationI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1879,7 +1881,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSystemDataSync() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1890,7 +1892,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSystemDataSync() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1914,7 +1916,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSystemDataSync() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1936,7 +1938,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisableSystemDataSync() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1947,7 +1949,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisableSystemDataSync() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -1971,7 +1973,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisableSystemDataSync() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1993,7 +1995,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnablePermissionsSync() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2004,7 +2006,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnablePermissionsSync() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2023,7 +2025,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnablePermissionsSync() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2043,7 +2045,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisablePermissionsSync() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2054,7 +2056,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisablePermissionsSync() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2073,7 +2075,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_DisablePermissionsSync() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2093,7 +2095,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetPermissionSyncRequest() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2104,7 +2106,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetPermissionSyncRequest() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2123,7 +2125,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetPermissionSyncRequest() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2143,7 +2145,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSecureTransport() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2154,7 +2156,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSecureTransport() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2173,7 +2175,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_EnableSecureTransport() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2193,7 +2195,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SetAssociationTag() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2204,7 +2206,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SetAssociationTag() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2228,7 +2230,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_SetAssociationTag() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2250,7 +2252,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ClearAssociationTag() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2261,7 +2263,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ClearAssociationTag() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2280,7 +2282,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ClearAssociationTag() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2300,7 +2302,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetBackupPayload() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2311,7 +2313,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetBackupPayload() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2325,7 +2327,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_GetBackupPayload() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2343,7 +2345,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ApplyRestoredPayload() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2354,7 +2356,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ApplyRestoredPayload() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2377,7 +2379,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_ApplyRestoredPayload() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2397,7 +2399,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartObservingDevicePresence(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2408,7 +2410,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartObservingDevicePresence(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2429,7 +2431,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StartObservingDevicePresence(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2449,7 +2451,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StopObservingDevicePresence()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2460,7 +2462,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StopObservingDevicePresence()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2481,7 +2483,7 @@ func newCmdAndroidCompanionICompanionDeviceManager_StopObservingDevicePresence()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2514,7 +2516,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceAppeared() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2525,7 +2527,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceAppeared() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
 			}
 			if err != nil {
 				return err
@@ -2541,7 +2543,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceAppeared() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2559,7 +2561,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceDisappeared() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2570,7 +2572,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceDisappeared() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
 			}
 			if err != nil {
 				return err
@@ -2586,7 +2588,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDeviceDisappeared() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2604,7 +2606,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDevicePresenceEvent() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2615,7 +2617,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDevicePresenceEvent() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ICompanionDeviceService")
 			}
 			if err != nil {
 				return err
@@ -2631,7 +2633,7 @@ func newCmdAndroidCompanionICompanionDeviceService_OnDevicePresenceEvent() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2660,7 +2662,7 @@ func newCmdAndroidCompanionIOnAssociationsChangedListener_OnAssociationsChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2671,7 +2673,7 @@ func newCmdAndroidCompanionIOnAssociationsChangedListener_OnAssociationsChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IOnAssociationsChangedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IOnAssociationsChangedListener")
 			}
 			if err != nil {
 				return err
@@ -2696,7 +2698,7 @@ func newCmdAndroidCompanionIOnAssociationsChangedListener_OnAssociationsChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2727,7 +2729,7 @@ func newCmdAndroidCompanionIOnMessageReceivedListener_OnMessageReceived() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2738,7 +2740,7 @@ func newCmdAndroidCompanionIOnMessageReceivedListener_OnMessageReceived() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IOnMessageReceivedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IOnMessageReceivedListener")
 			}
 			if err != nil {
 				return err
@@ -2766,7 +2768,7 @@ func newCmdAndroidCompanionIOnMessageReceivedListener_OnMessageReceived() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2799,7 +2801,7 @@ func newCmdAndroidCompanionIOnTransportsChangedListener_OnTransportsChanged() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2810,7 +2812,7 @@ func newCmdAndroidCompanionIOnTransportsChangedListener_OnTransportsChanged() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.IOnTransportsChangedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.IOnTransportsChangedListener")
 			}
 			if err != nil {
 				return err
@@ -2835,7 +2837,7 @@ func newCmdAndroidCompanionIOnTransportsChangedListener_OnTransportsChanged() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2867,7 +2869,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnResult() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2878,7 +2880,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnResult() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ISystemDataTransferCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ISystemDataTransferCallback")
 			}
 			if err != nil {
 				return err
@@ -2892,7 +2894,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnResult() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2910,7 +2912,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnError() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2921,7 +2923,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnError() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.ISystemDataTransferCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.ISystemDataTransferCallback")
 			}
 			if err != nil {
 				return err
@@ -2940,7 +2942,7 @@ func newCmdAndroidCompanionISystemDataTransferCallback_OnError() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

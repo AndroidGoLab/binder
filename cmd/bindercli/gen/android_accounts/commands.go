@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/accounts"
@@ -56,7 +58,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -67,7 +69,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -112,7 +114,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -138,7 +140,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_ConfirmCredentials() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -149,7 +151,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_ConfirmCredentials() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -177,7 +179,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_ConfirmCredentials() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -197,7 +199,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -208,7 +210,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -241,7 +243,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -263,7 +265,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthTokenLabel() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -274,7 +276,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthTokenLabel() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -303,7 +305,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAuthTokenLabel() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -325,7 +327,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_UpdateCredentials() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -336,7 +338,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_UpdateCredentials() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_UpdateCredentials() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -391,7 +393,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_EditProperties() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -402,7 +404,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_EditProperties() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -431,7 +433,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_EditProperties() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -453,7 +455,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountRemovalAllowed() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -464,7 +466,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountRemovalAllowed() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -490,7 +492,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountRemovalAllowed() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -510,7 +512,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountCredentialsForCloning(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -521,7 +523,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountCredentialsForCloning(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -547,7 +549,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_GetAccountCredentialsForCloning(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -567,7 +569,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccountFromCredentials() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -578,7 +580,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccountFromCredentials() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -606,7 +608,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_AddAccountFromCredentials() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -626,7 +628,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartAddAccountSession() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -637,7 +639,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartAddAccountSession() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -682,7 +684,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartAddAccountSession() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -708,7 +710,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartUpdateCredentialsSession() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -719,7 +721,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartUpdateCredentialsSession() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -752,7 +754,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_StartUpdateCredentialsSession() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -774,7 +776,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_FinishSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -785,7 +787,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_FinishSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticator")
 			}
 			if err != nil {
 				return err
@@ -816,7 +818,7 @@ func newCmdAndroidAccountsIAccountAuthenticator_FinishSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -851,7 +853,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnResult() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -862,7 +864,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnResult() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnResult() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -896,7 +898,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnRequestContinued() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -907,7 +909,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnRequestContinued() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
 			}
 			if err != nil {
 				return err
@@ -921,7 +923,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnRequestContinued() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -939,7 +941,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnError() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -950,7 +952,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnError() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountAuthenticatorResponse")
 			}
 			if err != nil {
 				return err
@@ -974,7 +976,7 @@ func newCmdAndroidAccountsIAccountAuthenticatorResponse_OnError() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1052,7 +1054,7 @@ func newCmdAndroidAccountsIAccountManager_GetPassword() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1063,7 +1065,7 @@ func newCmdAndroidAccountsIAccountManager_GetPassword() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1079,7 +1081,7 @@ func newCmdAndroidAccountsIAccountManager_GetPassword() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1097,7 +1099,7 @@ func newCmdAndroidAccountsIAccountManager_GetUserData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1108,7 +1110,7 @@ func newCmdAndroidAccountsIAccountManager_GetUserData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1129,7 +1131,7 @@ func newCmdAndroidAccountsIAccountManager_GetUserData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1149,7 +1151,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthenticatorTypes() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1160,7 +1162,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthenticatorTypes() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1174,7 +1176,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthenticatorTypes() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1192,7 +1194,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsForPackage() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1203,7 +1205,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsForPackage() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1227,7 +1229,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsForPackage() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1249,7 +1251,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByTypeForPackage() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1260,7 +1262,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByTypeForPackage() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1284,7 +1286,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByTypeForPackage() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1306,7 +1308,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAsUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1317,7 +1319,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAsUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1336,7 +1338,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAsUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1356,7 +1358,7 @@ func newCmdAndroidAccountsIAccountManager_HasFeatures() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1367,7 +1369,7 @@ func newCmdAndroidAccountsIAccountManager_HasFeatures() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1402,7 +1404,7 @@ func newCmdAndroidAccountsIAccountManager_HasFeatures() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1424,7 +1426,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountByTypeAndFeatures() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1435,7 +1437,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountByTypeAndFeatures() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1473,7 +1475,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountByTypeAndFeatures() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1497,7 +1499,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByFeatures() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1508,7 +1510,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByFeatures() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1546,7 +1548,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsByFeatures() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1570,7 +1572,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitly() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1581,7 +1583,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitly() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1604,7 +1606,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitly() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1624,7 +1626,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountAsUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1635,7 +1637,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountAsUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1666,7 +1668,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountAsUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1688,7 +1690,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountExplicitly() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1699,7 +1701,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountExplicitly() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1715,7 +1717,7 @@ func newCmdAndroidAccountsIAccountManager_RemoveAccountExplicitly() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1733,7 +1735,7 @@ func newCmdAndroidAccountsIAccountManager_CopyAccountToUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1744,7 +1746,7 @@ func newCmdAndroidAccountsIAccountManager_CopyAccountToUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1780,7 +1782,7 @@ func newCmdAndroidAccountsIAccountManager_CopyAccountToUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1804,7 +1806,7 @@ func newCmdAndroidAccountsIAccountManager_InvalidateAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1815,7 +1817,7 @@ func newCmdAndroidAccountsIAccountManager_InvalidateAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1839,7 +1841,7 @@ func newCmdAndroidAccountsIAccountManager_InvalidateAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1861,7 +1863,7 @@ func newCmdAndroidAccountsIAccountManager_PeekAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1872,7 +1874,7 @@ func newCmdAndroidAccountsIAccountManager_PeekAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1893,7 +1895,7 @@ func newCmdAndroidAccountsIAccountManager_PeekAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1913,7 +1915,7 @@ func newCmdAndroidAccountsIAccountManager_SetAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1924,7 +1926,7 @@ func newCmdAndroidAccountsIAccountManager_SetAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -1950,7 +1952,7 @@ func newCmdAndroidAccountsIAccountManager_SetAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1972,7 +1974,7 @@ func newCmdAndroidAccountsIAccountManager_SetPassword() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1983,7 +1985,7 @@ func newCmdAndroidAccountsIAccountManager_SetPassword() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2004,7 +2006,7 @@ func newCmdAndroidAccountsIAccountManager_SetPassword() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2024,7 +2026,7 @@ func newCmdAndroidAccountsIAccountManager_ClearPassword() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2035,7 +2037,7 @@ func newCmdAndroidAccountsIAccountManager_ClearPassword() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2051,7 +2053,7 @@ func newCmdAndroidAccountsIAccountManager_ClearPassword() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2069,7 +2071,7 @@ func newCmdAndroidAccountsIAccountManager_SetUserData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2080,7 +2082,7 @@ func newCmdAndroidAccountsIAccountManager_SetUserData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2106,7 +2108,7 @@ func newCmdAndroidAccountsIAccountManager_SetUserData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2128,7 +2130,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateAppPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2139,7 +2141,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateAppPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2170,7 +2172,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateAppPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2194,7 +2196,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2205,7 +2207,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2248,7 +2250,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2274,7 +2276,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2285,7 +2287,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2335,7 +2337,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2363,7 +2365,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountAsUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2374,7 +2376,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountAsUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2424,7 +2426,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountAsUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2452,7 +2454,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateCredentials() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2463,7 +2465,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateCredentials() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2501,7 +2503,7 @@ func newCmdAndroidAccountsIAccountManager_UpdateCredentials() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2525,7 +2527,7 @@ func newCmdAndroidAccountsIAccountManager_EditProperties() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2536,7 +2538,7 @@ func newCmdAndroidAccountsIAccountManager_EditProperties() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2570,7 +2572,7 @@ func newCmdAndroidAccountsIAccountManager_EditProperties() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2594,7 +2596,7 @@ func newCmdAndroidAccountsIAccountManager_ConfirmCredentialsAsUser() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2605,7 +2607,7 @@ func newCmdAndroidAccountsIAccountManager_ConfirmCredentialsAsUser() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2638,7 +2640,7 @@ func newCmdAndroidAccountsIAccountManager_ConfirmCredentialsAsUser() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2660,7 +2662,7 @@ func newCmdAndroidAccountsIAccountManager_AccountAuthenticated() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2671,7 +2673,7 @@ func newCmdAndroidAccountsIAccountManager_AccountAuthenticated() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2687,7 +2689,7 @@ func newCmdAndroidAccountsIAccountManager_AccountAuthenticated() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2705,7 +2707,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthTokenLabel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2716,7 +2718,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthTokenLabel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2750,7 +2752,7 @@ func newCmdAndroidAccountsIAccountManager_GetAuthTokenLabel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2774,7 +2776,7 @@ func newCmdAndroidAccountsIAccountManager_AddSharedAccountsFromParentUser() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2785,7 +2787,7 @@ func newCmdAndroidAccountsIAccountManager_AddSharedAccountsFromParentUser() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2804,7 +2806,7 @@ func newCmdAndroidAccountsIAccountManager_AddSharedAccountsFromParentUser() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2824,7 +2826,7 @@ func newCmdAndroidAccountsIAccountManager_RenameAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2835,7 +2837,7 @@ func newCmdAndroidAccountsIAccountManager_RenameAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2866,7 +2868,7 @@ func newCmdAndroidAccountsIAccountManager_RenameAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2888,7 +2890,7 @@ func newCmdAndroidAccountsIAccountManager_GetPreviousName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2899,7 +2901,7 @@ func newCmdAndroidAccountsIAccountManager_GetPreviousName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2915,7 +2917,7 @@ func newCmdAndroidAccountsIAccountManager_GetPreviousName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2933,7 +2935,7 @@ func newCmdAndroidAccountsIAccountManager_StartAddAccountSession() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2944,7 +2946,7 @@ func newCmdAndroidAccountsIAccountManager_StartAddAccountSession() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -2994,7 +2996,7 @@ func newCmdAndroidAccountsIAccountManager_StartAddAccountSession() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3022,7 +3024,7 @@ func newCmdAndroidAccountsIAccountManager_StartUpdateCredentialsSession() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3033,7 +3035,7 @@ func newCmdAndroidAccountsIAccountManager_StartUpdateCredentialsSession() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3071,7 +3073,7 @@ func newCmdAndroidAccountsIAccountManager_StartUpdateCredentialsSession() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3095,7 +3097,7 @@ func newCmdAndroidAccountsIAccountManager_FinishSessionAsUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3106,7 +3108,7 @@ func newCmdAndroidAccountsIAccountManager_FinishSessionAsUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3139,7 +3141,7 @@ func newCmdAndroidAccountsIAccountManager_FinishSessionAsUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3161,7 +3163,7 @@ func newCmdAndroidAccountsIAccountManager_SomeUserHasAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3172,7 +3174,7 @@ func newCmdAndroidAccountsIAccountManager_SomeUserHasAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3188,7 +3190,7 @@ func newCmdAndroidAccountsIAccountManager_SomeUserHasAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3206,7 +3208,7 @@ func newCmdAndroidAccountsIAccountManager_IsCredentialsUpdateSuggested() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3217,7 +3219,7 @@ func newCmdAndroidAccountsIAccountManager_IsCredentialsUpdateSuggested() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3248,7 +3250,7 @@ func newCmdAndroidAccountsIAccountManager_IsCredentialsUpdateSuggested() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3270,7 +3272,7 @@ func newCmdAndroidAccountsIAccountManager_GetPackagesAndVisibilityForAccount() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3281,7 +3283,7 @@ func newCmdAndroidAccountsIAccountManager_GetPackagesAndVisibilityForAccount() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3297,7 +3299,7 @@ func newCmdAndroidAccountsIAccountManager_GetPackagesAndVisibilityForAccount() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3315,7 +3317,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitlyWithVisibility() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3326,7 +3328,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitlyWithVisibility() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3360,7 +3362,7 @@ func newCmdAndroidAccountsIAccountManager_AddAccountExplicitlyWithVisibility() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3382,7 +3384,7 @@ func newCmdAndroidAccountsIAccountManager_SetAccountVisibility() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3393,7 +3395,7 @@ func newCmdAndroidAccountsIAccountManager_SetAccountVisibility() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3419,7 +3421,7 @@ func newCmdAndroidAccountsIAccountManager_SetAccountVisibility() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3441,7 +3443,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountVisibility() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3452,7 +3454,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountVisibility() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3473,7 +3475,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountVisibility() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3493,7 +3495,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAndVisibilityForPackage() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3504,7 +3506,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAndVisibilityForPackage() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3528,7 +3530,7 @@ func newCmdAndroidAccountsIAccountManager_GetAccountsAndVisibilityForPackage() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3550,7 +3552,7 @@ func newCmdAndroidAccountsIAccountManager_RegisterAccountListener() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3561,7 +3563,7 @@ func newCmdAndroidAccountsIAccountManager_RegisterAccountListener() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3584,7 +3586,7 @@ func newCmdAndroidAccountsIAccountManager_RegisterAccountListener() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3604,7 +3606,7 @@ func newCmdAndroidAccountsIAccountManager_UnregisterAccountListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3615,7 +3617,7 @@ func newCmdAndroidAccountsIAccountManager_UnregisterAccountListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3638,7 +3640,7 @@ func newCmdAndroidAccountsIAccountManager_UnregisterAccountListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3658,7 +3660,7 @@ func newCmdAndroidAccountsIAccountManager_HasAccountAccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3669,7 +3671,7 @@ func newCmdAndroidAccountsIAccountManager_HasAccountAccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3692,7 +3694,7 @@ func newCmdAndroidAccountsIAccountManager_HasAccountAccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3712,7 +3714,7 @@ func newCmdAndroidAccountsIAccountManager_CreateRequestAccountAccessIntentSender
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3723,7 +3725,7 @@ func newCmdAndroidAccountsIAccountManager_CreateRequestAccountAccessIntentSender
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3746,7 +3748,7 @@ func newCmdAndroidAccountsIAccountManager_CreateRequestAccountAccessIntentSender
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3766,7 +3768,7 @@ func newCmdAndroidAccountsIAccountManager_OnAccountAccessed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3777,7 +3779,7 @@ func newCmdAndroidAccountsIAccountManager_OnAccountAccessed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManager")
 			}
 			if err != nil {
 				return err
@@ -3796,7 +3798,7 @@ func newCmdAndroidAccountsIAccountManager_OnAccountAccessed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3828,7 +3830,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3839,7 +3841,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManagerResponse")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManagerResponse")
 			}
 			if err != nil {
 				return err
@@ -3855,7 +3857,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3873,7 +3875,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3884,7 +3886,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManagerResponse")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.accounts.IAccountManagerResponse")
 			}
 			if err != nil {
 				return err
@@ -3908,7 +3910,7 @@ func newCmdAndroidAccountsIAccountManagerResponse_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

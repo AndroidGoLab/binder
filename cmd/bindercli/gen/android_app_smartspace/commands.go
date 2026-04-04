@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/smartspace"
@@ -41,7 +43,7 @@ func newCmdAndroidAppSmartspaceISmartspaceCallback_OnResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdAndroidAppSmartspaceISmartspaceCallback_OnResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceCallback")
 			}
 			if err != nil {
 				return err
@@ -68,7 +70,7 @@ func newCmdAndroidAppSmartspaceISmartspaceCallback_OnResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_CreateSmartspaceSession() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_CreateSmartspaceSession() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -140,7 +142,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_CreateSmartspaceSession() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_NotifySmartspaceEvent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_NotifySmartspaceEvent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -189,7 +191,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_NotifySmartspaceEvent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -207,7 +209,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RequestSmartspaceUpdate() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -218,7 +220,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RequestSmartspaceUpdate() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -234,7 +236,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RequestSmartspaceUpdate() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -252,7 +254,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RegisterSmartspaceUpdates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -263,7 +265,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RegisterSmartspaceUpdates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -289,7 +291,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_RegisterSmartspaceUpdates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -309,7 +311,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_UnregisterSmartspaceUpdates() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -320,7 +322,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_UnregisterSmartspaceUpdates() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -346,7 +348,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_UnregisterSmartspaceUpdates() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -366,7 +368,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_DestroySmartspaceSession() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -377,7 +379,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_DestroySmartspaceSession() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.smartspace.ISmartspaceManager")
 			}
 			if err != nil {
 				return err
@@ -393,7 +395,7 @@ func newCmdAndroidAppSmartspaceISmartspaceManager_DestroySmartspaceSession() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/internal_/net"
@@ -45,7 +47,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StartWatchlistLogging()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StartWatchlistLogging()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
 			}
 			if err != nil {
 				return err
@@ -70,7 +72,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StartWatchlistLogging()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -88,7 +90,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StopWatchlistLogging() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -99,7 +101,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StopWatchlistLogging() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
 			}
 			if err != nil {
 				return err
@@ -113,7 +115,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_StopWatchlistLogging() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -131,7 +133,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReloadWatchlist() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -142,7 +144,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReloadWatchlist() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
 			}
 			if err != nil {
 				return err
@@ -156,7 +158,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReloadWatchlist() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -174,7 +176,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReportWatchlistIfNecess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -185,7 +187,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReportWatchlistIfNecess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
 			}
 			if err != nil {
 				return err
@@ -199,7 +201,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_ReportWatchlistIfNecess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -217,7 +219,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_GetWatchlistConfigHash(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -228,7 +230,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_GetWatchlistConfigHash(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.INetworkWatchlistManager")
 			}
 			if err != nil {
 				return err
@@ -242,7 +244,7 @@ func newCmdComAndroidInternalNetINetworkWatchlistManager_GetWatchlistConfigHash(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -272,7 +274,7 @@ func newCmdComAndroidInternalNetIOemNetd_IsAlive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -283,7 +285,7 @@ func newCmdComAndroidInternalNetIOemNetd_IsAlive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetd")
 			}
 			if err != nil {
 				return err
@@ -297,7 +299,7 @@ func newCmdComAndroidInternalNetIOemNetd_IsAlive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -315,7 +317,7 @@ func newCmdComAndroidInternalNetIOemNetd_RegisterOemUnsolicitedEventListener() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -326,7 +328,7 @@ func newCmdComAndroidInternalNetIOemNetd_RegisterOemUnsolicitedEventListener() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetd")
 			}
 			if err != nil {
 				return err
@@ -350,7 +352,7 @@ func newCmdComAndroidInternalNetIOemNetd_RegisterOemUnsolicitedEventListener() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdComAndroidInternalNetIOemNetdUnsolicitedEventListener_OnRegistered() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdComAndroidInternalNetIOemNetdUnsolicitedEventListener_OnRegistered() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetdUnsolicitedEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.net.IOemNetdUnsolicitedEventListener")
 			}
 			if err != nil {
 				return err
@@ -406,7 +408,7 @@ func newCmdComAndroidInternalNetIOemNetdUnsolicitedEventListener_OnRegistered() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

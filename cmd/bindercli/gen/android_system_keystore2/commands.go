@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/drm"
@@ -48,7 +50,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_UpdateAad() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_UpdateAad() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_UpdateAad() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Update() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Update() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Update() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -156,7 +158,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Finish() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -167,7 +169,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Finish() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
 			}
 			if err != nil {
 				return err
@@ -199,7 +201,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Finish() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Abort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Abort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreOperation")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidSystemKeystore2IKeystoreOperation_Abort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -280,7 +282,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_CreateOperation() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -291,7 +293,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_CreateOperation() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_CreateOperation() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -360,7 +362,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_GenerateKey() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -371,7 +373,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_GenerateKey() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_GenerateKey() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -469,7 +471,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportKey() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -480,7 +482,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportKey() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -546,7 +548,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportKey() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -578,7 +580,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportWrappedKey() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -589,7 +591,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportWrappedKey() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -660,7 +662,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ImportWrappedKey() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -692,7 +694,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ConvertStorageKeyToEphem
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -703,7 +705,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ConvertStorageKeyToEphem
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -730,7 +732,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_ConvertStorageKeyToEphem
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -752,7 +754,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_DeleteKey() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -763,7 +765,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_DeleteKey() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreSecurityLevel")
 			}
 			if err != nil {
 				return err
@@ -790,7 +792,7 @@ func newCmdAndroidSystemKeystore2IKeystoreSecurityLevel_DeleteKey() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -831,7 +833,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetSecurityLevel() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -842,7 +844,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetSecurityLevel() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -862,7 +864,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetSecurityLevel() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -882,7 +884,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetKeyEntry() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -893,7 +895,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetKeyEntry() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -920,7 +922,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetKeyEntry() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -942,7 +944,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_UpdateSubcomponent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -953,7 +955,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_UpdateSubcomponent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -998,7 +1000,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_UpdateSubcomponent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1024,7 +1026,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntries() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1035,7 +1037,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntries() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1060,7 +1062,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntries() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1082,7 +1084,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_DeleteKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1093,7 +1095,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_DeleteKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1120,7 +1122,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_DeleteKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1142,7 +1144,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Grant() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1153,7 +1155,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Grant() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1190,7 +1192,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Grant() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1216,7 +1218,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Ungrant() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1227,7 +1229,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Ungrant() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1259,7 +1261,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_Ungrant() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1283,7 +1285,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetNumberOfEntries() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1294,7 +1296,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetNumberOfEntries() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1319,7 +1321,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_GetNumberOfEntries() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1341,7 +1343,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntriesBatched() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1352,7 +1354,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntriesBatched() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.keystore2.IKeystoreService")
 			}
 			if err != nil {
 				return err
@@ -1382,7 +1384,7 @@ func newCmdAndroidSystemKeystore2IKeystoreService_ListEntriesBatched() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

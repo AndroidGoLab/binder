@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -47,7 +49,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetVer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetVer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetVer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetRea
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetRea
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_GetRea
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -144,7 +146,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_Regist
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -155,7 +157,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_Regist
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceIntelligenceService")
 			}
 			if err != nil {
 				return err
@@ -179,7 +181,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceIntelligenceService_Regist
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Re
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Re
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceTrustedInferenceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceTrustedInferenceService")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Re
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -266,7 +268,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Up
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -277,7 +279,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Up
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceTrustedInferenceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IOnDeviceTrustedInferenceService")
 			}
 			if err != nil {
 				return err
@@ -303,7 +305,7 @@ func newCmdAndroidServiceOndeviceintelligenceIOnDeviceTrustedInferenceService_Up
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -335,7 +337,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -346,7 +348,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IProcessingUpdateStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IProcessingUpdateStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -362,7 +364,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -380,7 +382,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnF
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -391,7 +393,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnF
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IProcessingUpdateStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IProcessingUpdateStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -415,7 +417,7 @@ func newCmdAndroidServiceOndeviceintelligenceIProcessingUpdateStatusCallback_OnF
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -448,7 +450,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteProcessingService_UpdateProc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -459,7 +461,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteProcessingService_UpdateProc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IRemoteProcessingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IRemoteProcessingService")
 			}
 			if err != nil {
 				return err
@@ -485,7 +487,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteProcessingService_UpdateProc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -516,7 +518,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteStorageService_GetReadOnlyFi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -527,7 +529,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteStorageService_GetReadOnlyFi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IRemoteStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ondeviceintelligence.IRemoteStorageService")
 			}
 			if err != nil {
 				return err
@@ -548,7 +550,7 @@ func newCmdAndroidServiceOndeviceintelligenceIRemoteStorageService_GetReadOnlyFi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

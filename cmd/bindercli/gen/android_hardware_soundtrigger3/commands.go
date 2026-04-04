@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/soundtrigger3"
@@ -54,7 +56,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetProperties() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -65,7 +67,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetProperties() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -79,7 +81,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetProperties() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_RegisterGlobalCallback() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_RegisterGlobalCallback() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_RegisterGlobalCallback() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadSoundModel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadSoundModel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -195,7 +197,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadSoundModel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -220,7 +222,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadPhraseSoundModel() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -231,7 +233,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadPhraseSoundModel() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -268,7 +270,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_LoadPhraseSoundModel() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_UnloadSoundModel() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_UnloadSoundModel() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -324,7 +326,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_UnloadSoundModel() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -344,7 +346,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_StopRecognition() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -355,7 +357,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_StopRecognition() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -374,7 +376,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_StopRecognition() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -394,7 +396,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_ForceRecognitionEvent() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -405,7 +407,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_ForceRecognitionEvent() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_ForceRecognitionEvent() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -444,7 +446,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_QueryParameter() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -455,7 +457,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_QueryParameter() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -480,7 +482,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_QueryParameter() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -502,7 +504,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetParameter() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -513,7 +515,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetParameter() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -538,7 +540,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_GetParameter() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -560,7 +562,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_SetParameter() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -571,7 +573,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_SetParameter() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHw")
 			}
 			if err != nil {
 				return err
@@ -601,7 +603,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHw_SetParameter() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -637,7 +639,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_ModelUnloaded() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_ModelUnloaded() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwCallback")
 			}
 			if err != nil {
 				return err
@@ -667,7 +669,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_ModelUnloaded() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -687,7 +689,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_PhraseRecognition
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -698,7 +700,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_PhraseRecognition
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwCallback")
 			}
 			if err != nil {
 				return err
@@ -771,7 +773,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwCallback_PhraseRecognition
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -827,7 +829,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwGlobalCallback_OnResources
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -838,7 +840,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwGlobalCallback_OnResources
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwGlobalCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger3.ISoundTriggerHwGlobalCallback")
 			}
 			if err != nil {
 				return err
@@ -852,7 +854,7 @@ func newCmdAndroidHardwareSoundtrigger3ISoundTriggerHwGlobalCallback_OnResources
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

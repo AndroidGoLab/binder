@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/confirmationui"
@@ -43,7 +45,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationResultCallback_Result() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationResultCallback_Result() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationResultCallback")
 			}
 			if err != nil {
 				return err
@@ -91,7 +93,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationResultCallback_Result() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -128,7 +130,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_Abort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -139,7 +141,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_Abort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
 			}
 			if err != nil {
 				return err
@@ -153,7 +155,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_Abort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_DeliverSecureInputEvent(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_DeliverSecureInputEvent(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
 			}
 			if err != nil {
 				return err
@@ -211,7 +213,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_DeliverSecureInputEvent(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_PromptUserConfirmation()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_PromptUserConfirmation()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.confirmationui.IConfirmationUI")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidHardwareConfirmationuiIConfirmationUI_PromptUserConfirmation()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

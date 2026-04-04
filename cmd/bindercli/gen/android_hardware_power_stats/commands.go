@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/power/stats"
@@ -46,7 +48,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetPowerEntityInfo() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetPowerEntityInfo() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetPowerEntityInfo() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -89,7 +91,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetStateResidency() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -100,7 +102,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetStateResidency() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -129,7 +131,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetStateResidency() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -149,7 +151,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumerInfo() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -160,7 +162,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumerInfo() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -174,7 +176,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumerInfo() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -192,7 +194,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -203,7 +205,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -232,7 +234,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyConsumed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -252,7 +254,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyMeterInfo() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -263,7 +265,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyMeterInfo() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -277,7 +279,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_GetEnergyMeterInfo() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -295,7 +297,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_ReadEnergyMeter() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -306,7 +308,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_ReadEnergyMeter() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.stats.IPowerStats")
 			}
 			if err != nil {
 				return err
@@ -335,7 +337,7 @@ func newCmdAndroidHardwarePowerStatsIPowerStats_ReadEnergyMeter() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

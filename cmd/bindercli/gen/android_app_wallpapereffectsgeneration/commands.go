@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/wallpapereffectsgeneration"
@@ -40,7 +42,7 @@ func newCmdAndroidAppWallpapereffectsgenerationICinematicEffectListener_OnCinema
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidAppWallpapereffectsgenerationICinematicEffectListener_OnCinema
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.ICinematicEffectListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.ICinematicEffectListener")
 			}
 			if err != nil {
 				return err
@@ -67,7 +69,7 @@ func newCmdAndroidAppWallpapereffectsgenerationICinematicEffectListener_OnCinema
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager")
 			}
 			if err != nil {
 				return err
@@ -134,7 +136,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -154,7 +156,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -165,7 +167,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager")
 			}
 			if err != nil {
 				return err
@@ -181,7 +183,7 @@ func newCmdAndroidAppWallpapereffectsgenerationIWallpaperEffectsGenerationManage
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

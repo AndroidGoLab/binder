@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -55,7 +57,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockAttempt() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -66,7 +68,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockAttempt() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockAttempt() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -105,7 +107,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserRequestedUnlock() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -116,7 +118,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserRequestedUnlock() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserRequestedUnlock() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -155,7 +157,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserMayRequestUnlock() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -166,7 +168,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserMayRequestUnlock() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -180,7 +182,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUserMayRequestUnlock() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -198,7 +200,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockLockout() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -209,7 +211,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockLockout() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnUnlockLockout() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -248,7 +250,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTrustTimeout() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -259,7 +261,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTrustTimeout() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -273,7 +275,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTrustTimeout() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -291,7 +293,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceLocked() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -302,7 +304,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceLocked() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -316,7 +318,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceLocked() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceUnlocked() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceUnlocked() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -359,7 +361,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnDeviceUnlocked() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -377,7 +379,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnConfigure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -388,7 +390,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnConfigure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -422,7 +424,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnConfigure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -444,7 +446,7 @@ func newCmdAndroidServiceTrustITrustAgentService_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -455,7 +457,7 @@ func newCmdAndroidServiceTrustITrustAgentService_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -479,7 +481,7 @@ func newCmdAndroidServiceTrustITrustAgentService_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -499,7 +501,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenAdded() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -510,7 +512,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenAdded() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -540,7 +542,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenAdded() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -562,7 +564,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTokenStateReceived() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -573,7 +575,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTokenStateReceived() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -597,7 +599,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnTokenStateReceived() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -619,7 +621,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenRemoved() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -630,7 +632,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenRemoved() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentService")
 			}
 			if err != nil {
 				return err
@@ -654,7 +656,7 @@ func newCmdAndroidServiceTrustITrustAgentService_OnEscrowTokenRemoved() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -696,7 +698,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_GrantTrust() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -707,7 +709,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_GrantTrust() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -738,7 +740,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_GrantTrust() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -762,7 +764,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RevokeTrust() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -773,7 +775,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RevokeTrust() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -787,7 +789,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RevokeTrust() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -805,7 +807,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_LockUser() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -816,7 +818,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_LockUser() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -830,7 +832,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_LockUser() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -848,7 +850,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_SetManagingTrust() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -859,7 +861,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_SetManagingTrust() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_SetManagingTrust() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -898,7 +900,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_OnConfigureCompleted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -909,7 +911,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_OnConfigureCompleted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -937,7 +939,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_OnConfigureCompleted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -959,7 +961,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_AddEscrowToken() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -970,7 +972,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_AddEscrowToken() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -993,7 +995,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_AddEscrowToken() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1013,7 +1015,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_IsEscrowTokenActive() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1024,7 +1026,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_IsEscrowTokenActive() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1043,7 +1045,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_IsEscrowTokenActive() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1063,7 +1065,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RemoveEscrowToken() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1074,7 +1076,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RemoveEscrowToken() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1093,7 +1095,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_RemoveEscrowToken() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1113,7 +1115,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_UnlockUserWithToken() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1124,7 +1126,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_UnlockUserWithToken() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1152,7 +1154,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_UnlockUserWithToken() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1174,7 +1176,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_ShowKeyguardErrorMessag
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1185,7 +1187,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_ShowKeyguardErrorMessag
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.trust.ITrustAgentServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1204,7 +1206,7 @@ func newCmdAndroidServiceTrustITrustAgentServiceCallback_ShowKeyguardErrorMessag
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

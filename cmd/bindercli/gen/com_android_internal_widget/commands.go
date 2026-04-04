@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -51,7 +53,7 @@ func newCmdComAndroidInternalWidgetICheckCredentialProgressCallback_OnCredential
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -62,7 +64,7 @@ func newCmdComAndroidInternalWidgetICheckCredentialProgressCallback_OnCredential
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ICheckCredentialProgressCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ICheckCredentialProgressCallback")
 			}
 			if err != nil {
 				return err
@@ -76,7 +78,7 @@ func newCmdComAndroidInternalWidgetICheckCredentialProgressCallback_OnCredential
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetBoolean() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetBoolean() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -196,7 +198,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetBoolean() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -218,7 +220,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLong() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -229,7 +231,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLong() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -253,7 +255,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLong() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -275,7 +277,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetString() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -286,7 +288,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetString() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -310,7 +312,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetString() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -332,7 +334,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetBoolean() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -343,7 +345,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetBoolean() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -367,7 +369,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetBoolean() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetLong() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetLong() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetLong() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -446,7 +448,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetString() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -457,7 +459,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetString() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -481,7 +483,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetString() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -503,7 +505,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLockCredential() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -514,7 +516,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLockCredential() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -532,7 +534,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetLockCredential() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ResetKeyStore() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ResetKeyStore() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -575,7 +577,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ResetKeyStore() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -593,7 +595,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CheckCredential() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -604,7 +606,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CheckCredential() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -630,7 +632,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CheckCredential() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -650,7 +652,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyCredential() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -661,7 +663,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyCredential() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -682,7 +684,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyCredential() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -702,7 +704,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyTiedProfileChallenge() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -713,7 +715,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyTiedProfileChallenge() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -734,7 +736,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyTiedProfileChallenge() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -754,7 +756,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyGatekeeperPasswordHandle(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -765,7 +767,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyGatekeeperPasswordHandle(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -789,7 +791,7 @@ func newCmdComAndroidInternalWidgetILockSettings_VerifyGatekeeperPasswordHandle(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -811,7 +813,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveGatekeeperPasswordHandle(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -822,7 +824,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveGatekeeperPasswordHandle(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -841,7 +843,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveGatekeeperPasswordHandle(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -861,7 +863,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetCredentialType() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -872,7 +874,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetCredentialType() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -886,7 +888,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetCredentialType() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -904,7 +906,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetPinLength() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -915,7 +917,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetPinLength() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -929,7 +931,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetPinLength() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -947,7 +949,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RefreshStoredPinLength() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -958,7 +960,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RefreshStoredPinLength() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -972,7 +974,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RefreshStoredPinLength() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -990,7 +992,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetHashFactor() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1001,7 +1003,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetHashFactor() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1017,7 +1019,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetHashFactor() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1035,7 +1037,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSeparateProfileChallengeEnab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1046,7 +1048,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSeparateProfileChallengeEnab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1067,7 +1069,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSeparateProfileChallengeEnab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1087,7 +1089,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetSeparateProfileChallengeEnab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1098,7 +1100,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetSeparateProfileChallengeEnab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1112,7 +1114,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetSeparateProfileChallengeEnab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1130,7 +1132,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterStrongAuthTracker() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1141,7 +1143,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterStrongAuthTracker() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1165,7 +1167,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterStrongAuthTracker() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1185,7 +1187,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterStrongAuthTracker() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1196,7 +1198,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterStrongAuthTracker() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1220,7 +1222,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterStrongAuthTracker() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1240,7 +1242,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RequireStrongAuth() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1251,7 +1253,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RequireStrongAuth() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1270,7 +1272,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RequireStrongAuth() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1290,7 +1292,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ReportSuccessfulBiometricUnlock
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1301,7 +1303,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ReportSuccessfulBiometricUnlock
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1320,7 +1322,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ReportSuccessfulBiometricUnlock
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1340,7 +1342,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ScheduleNonStrongBiometricIdleT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1351,7 +1353,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ScheduleNonStrongBiometricIdleT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1365,7 +1367,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ScheduleNonStrongBiometricIdleT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1383,7 +1385,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SystemReady() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1394,7 +1396,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SystemReady() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1408,7 +1410,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SystemReady() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1426,7 +1428,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UserPresent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1437,7 +1439,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UserPresent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1451,7 +1453,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UserPresent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1469,7 +1471,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetStrongAuthForUser() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1480,7 +1482,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetStrongAuthForUser() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1494,7 +1496,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetStrongAuthForUser() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1512,7 +1514,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasPendingEscrowToken() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1523,7 +1525,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasPendingEscrowToken() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1537,7 +1539,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasPendingEscrowToken() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1555,7 +1557,7 @@ func newCmdComAndroidInternalWidgetILockSettings_InitRecoveryServiceWithSigFile(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1566,7 +1568,7 @@ func newCmdComAndroidInternalWidgetILockSettings_InitRecoveryServiceWithSigFile(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1603,7 +1605,7 @@ func newCmdComAndroidInternalWidgetILockSettings_InitRecoveryServiceWithSigFile(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1627,7 +1629,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKeyChainSnapshot() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1638,7 +1640,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKeyChainSnapshot() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1652,7 +1654,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKeyChainSnapshot() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1670,7 +1672,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1681,7 +1683,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1700,7 +1702,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1720,7 +1722,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKeyWithMetadata() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1731,7 +1733,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKeyWithMetadata() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1759,7 +1761,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GenerateKeyWithMetadata() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1781,7 +1783,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1792,7 +1794,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1820,7 +1822,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1842,7 +1844,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKeyWithMetadata() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1853,7 +1855,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKeyWithMetadata() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1890,7 +1892,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ImportKeyWithMetadata() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1914,7 +1916,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1925,7 +1927,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1944,7 +1946,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1964,7 +1966,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1975,7 +1977,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -1994,7 +1996,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2014,7 +2016,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSnapshotCreatedPendingIntent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2025,7 +2027,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSnapshotCreatedPendingIntent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2041,7 +2043,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetSnapshotCreatedPendingIntent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2059,7 +2061,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetServerParams() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2070,7 +2072,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetServerParams() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2093,7 +2095,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetServerParams() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2113,7 +2115,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoveryStatus() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2124,7 +2126,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoveryStatus() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2148,7 +2150,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoveryStatus() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2170,7 +2172,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoveryStatus() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2181,7 +2183,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoveryStatus() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2195,7 +2197,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoveryStatus() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2213,7 +2215,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoverySecretTypes() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2224,7 +2226,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoverySecretTypes() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2253,7 +2255,7 @@ func newCmdComAndroidInternalWidgetILockSettings_SetRecoverySecretTypes() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2273,7 +2275,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoverySecretTypes() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2284,7 +2286,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoverySecretTypes() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2298,7 +2300,7 @@ func newCmdComAndroidInternalWidgetILockSettings_GetRecoverySecretTypes() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2316,7 +2318,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRecoverySessionWithCertPat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2327,7 +2329,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRecoverySessionWithCertPat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2382,7 +2384,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRecoverySessionWithCertPat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2410,7 +2412,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RecoverKeyChainSnapshot() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2421,7 +2423,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RecoverKeyChainSnapshot() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2460,7 +2462,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RecoverKeyChainSnapshot() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2484,7 +2486,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CloseSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2495,7 +2497,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CloseSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2514,7 +2516,7 @@ func newCmdComAndroidInternalWidgetILockSettings_CloseSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2534,7 +2536,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRemoteLockscreenValidation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2545,7 +2547,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRemoteLockscreenValidation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2559,7 +2561,7 @@ func newCmdComAndroidInternalWidgetILockSettings_StartRemoteLockscreenValidation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2577,7 +2579,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ValidateRemoteLockscreen() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2588,7 +2590,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ValidateRemoteLockscreen() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2611,7 +2613,7 @@ func newCmdComAndroidInternalWidgetILockSettings_ValidateRemoteLockscreen() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2631,7 +2633,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasSecureLockScreen() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2642,7 +2644,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasSecureLockScreen() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2656,7 +2658,7 @@ func newCmdComAndroidInternalWidgetILockSettings_HasSecureLockScreen() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2674,7 +2676,7 @@ func newCmdComAndroidInternalWidgetILockSettings_TryUnlockWithCachedUnifiedChall
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2685,7 +2687,7 @@ func newCmdComAndroidInternalWidgetILockSettings_TryUnlockWithCachedUnifiedChall
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2699,7 +2701,7 @@ func newCmdComAndroidInternalWidgetILockSettings_TryUnlockWithCachedUnifiedChall
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2717,7 +2719,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveCachedUnifiedChallenge() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2728,7 +2730,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveCachedUnifiedChallenge() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2742,7 +2744,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveCachedUnifiedChallenge() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2760,7 +2762,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterWeakEscrowTokenRemovedL
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2771,7 +2773,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterWeakEscrowTokenRemovedL
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2795,7 +2797,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RegisterWeakEscrowTokenRemovedL
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2815,7 +2817,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterWeakEscrowTokenRemove
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2826,7 +2828,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterWeakEscrowTokenRemove
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2850,7 +2852,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnregisterWeakEscrowTokenRemove
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2870,7 +2872,7 @@ func newCmdComAndroidInternalWidgetILockSettings_AddWeakEscrowToken() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2881,7 +2883,7 @@ func newCmdComAndroidInternalWidgetILockSettings_AddWeakEscrowToken() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2914,7 +2916,7 @@ func newCmdComAndroidInternalWidgetILockSettings_AddWeakEscrowToken() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2936,7 +2938,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveWeakEscrowToken() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2947,7 +2949,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveWeakEscrowToken() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -2966,7 +2968,7 @@ func newCmdComAndroidInternalWidgetILockSettings_RemoveWeakEscrowToken() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2986,7 +2988,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenActive() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2997,7 +2999,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenActive() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -3016,7 +3018,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenActive() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3036,7 +3038,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenValid() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3047,7 +3049,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenValid() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -3075,7 +3077,7 @@ func newCmdComAndroidInternalWidgetILockSettings_IsWeakEscrowTokenValid() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3097,7 +3099,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnlockUserKeyIfUnsecured() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3108,7 +3110,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnlockUserKeyIfUnsecured() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.ILockSettings")
 			}
 			if err != nil {
 				return err
@@ -3122,7 +3124,7 @@ func newCmdComAndroidInternalWidgetILockSettings_UnlockUserKeyIfUnsecured() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3161,7 +3163,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChanged() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3172,7 +3174,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChanged() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3186,7 +3188,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChanged() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3204,7 +3206,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChangedAsync() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3215,7 +3217,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChangedAsync() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3229,7 +3231,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDataSetChangedAsync() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3247,7 +3249,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDestroy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3258,7 +3260,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDestroy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3274,7 +3276,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_OnDestroy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3292,7 +3294,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetCount() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3303,7 +3305,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetCount() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3317,7 +3319,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetCount() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3335,7 +3337,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewAt() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3346,7 +3348,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewAt() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3365,7 +3367,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewAt() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3385,7 +3387,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetLoadingView() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3396,7 +3398,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetLoadingView() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3410,7 +3412,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetLoadingView() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3428,7 +3430,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewTypeCount() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3439,7 +3441,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewTypeCount() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3453,7 +3455,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetViewTypeCount() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3471,7 +3473,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetItemId() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3482,7 +3484,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetItemId() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3501,7 +3503,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetItemId() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3521,7 +3523,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_HasStableIds() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3532,7 +3534,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_HasStableIds() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3546,7 +3548,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_HasStableIds() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3564,7 +3566,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_IsCreated() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3575,7 +3577,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_IsCreated() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3589,7 +3591,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_IsCreated() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3607,7 +3609,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetRemoteCollectionItems(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3618,7 +3620,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetRemoteCollectionItems(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IRemoteViewsFactory")
 			}
 			if err != nil {
 				return err
@@ -3632,7 +3634,7 @@ func newCmdComAndroidInternalWidgetIRemoteViewsFactory_GetRemoteCollectionItems(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3661,7 +3663,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenActivatedListener_OnWeakEscro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3672,7 +3674,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenActivatedListener_OnWeakEscro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IWeakEscrowTokenActivatedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IWeakEscrowTokenActivatedListener")
 			}
 			if err != nil {
 				return err
@@ -3691,7 +3693,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenActivatedListener_OnWeakEscro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3722,7 +3724,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenRemovedListener_OnWeakEscrowT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3733,7 +3735,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenRemovedListener_OnWeakEscrowT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IWeakEscrowTokenRemovedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.widget.IWeakEscrowTokenRemovedListener")
 			}
 			if err != nil {
 				return err
@@ -3752,7 +3754,7 @@ func newCmdComAndroidInternalWidgetIWeakEscrowTokenRemovedListener_OnWeakEscrowT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

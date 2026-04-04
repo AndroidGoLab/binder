@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/res"
@@ -44,7 +46,7 @@ func newCmdAndroidOsStorageIObbActionListener_OnObbResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidOsStorageIObbActionListener_OnObbResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IObbActionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IObbActionListener")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdAndroidOsStorageIObbActionListener_OnObbResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -125,7 +127,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnUsbMassStorageConnectionChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -136,7 +138,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnUsbMassStorageConnectionChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnUsbMassStorageConnectionChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnStorageStateChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnStorageStateChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -215,7 +217,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnStorageStateChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -239,7 +241,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeStateChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -250,7 +252,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeStateChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeStateChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -298,7 +300,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeRecordChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -309,7 +311,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeRecordChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -325,7 +327,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeRecordChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -343,7 +345,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeForgotten() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -354,7 +356,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeForgotten() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -373,7 +375,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnVolumeForgotten() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -393,7 +395,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskScanned() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -404,7 +406,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskScanned() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -425,7 +427,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskScanned() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -445,7 +447,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskDestroyed() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -456,7 +458,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskDestroyed() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageEventListener")
 			}
 			if err != nil {
 				return err
@@ -472,7 +474,7 @@ func newCmdAndroidOsStorageIStorageEventListener_OnDiskDestroyed() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -558,7 +560,7 @@ func newCmdAndroidOsStorageIStorageManager_RegisterListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -569,7 +571,7 @@ func newCmdAndroidOsStorageIStorageManager_RegisterListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -593,7 +595,7 @@ func newCmdAndroidOsStorageIStorageManager_RegisterListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -613,7 +615,7 @@ func newCmdAndroidOsStorageIStorageManager_UnregisterListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -624,7 +626,7 @@ func newCmdAndroidOsStorageIStorageManager_UnregisterListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -648,7 +650,7 @@ func newCmdAndroidOsStorageIStorageManager_UnregisterListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -668,7 +670,7 @@ func newCmdAndroidOsStorageIStorageManager_Shutdown() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -679,7 +681,7 @@ func newCmdAndroidOsStorageIStorageManager_Shutdown() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -703,7 +705,7 @@ func newCmdAndroidOsStorageIStorageManager_Shutdown() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -723,7 +725,7 @@ func newCmdAndroidOsStorageIStorageManager_MountObb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -734,7 +736,7 @@ func newCmdAndroidOsStorageIStorageManager_MountObb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -775,7 +777,7 @@ func newCmdAndroidOsStorageIStorageManager_MountObb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -801,7 +803,7 @@ func newCmdAndroidOsStorageIStorageManager_UnmountObb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -812,7 +814,7 @@ func newCmdAndroidOsStorageIStorageManager_UnmountObb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -851,7 +853,7 @@ func newCmdAndroidOsStorageIStorageManager_UnmountObb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -877,7 +879,7 @@ func newCmdAndroidOsStorageIStorageManager_IsObbMounted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -888,7 +890,7 @@ func newCmdAndroidOsStorageIStorageManager_IsObbMounted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -907,7 +909,7 @@ func newCmdAndroidOsStorageIStorageManager_IsObbMounted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -927,7 +929,7 @@ func newCmdAndroidOsStorageIStorageManager_GetMountedObbPath() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -938,7 +940,7 @@ func newCmdAndroidOsStorageIStorageManager_GetMountedObbPath() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -957,7 +959,7 @@ func newCmdAndroidOsStorageIStorageManager_GetMountedObbPath() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -977,7 +979,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -988,7 +990,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1007,7 +1009,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1027,7 +1029,7 @@ func newCmdAndroidOsStorageIStorageManager_Mkdirs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1038,7 +1040,7 @@ func newCmdAndroidOsStorageIStorageManager_Mkdirs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1062,7 +1064,7 @@ func newCmdAndroidOsStorageIStorageManager_Mkdirs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1084,7 +1086,7 @@ func newCmdAndroidOsStorageIStorageManager_LastMaintenance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1095,7 +1097,7 @@ func newCmdAndroidOsStorageIStorageManager_LastMaintenance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1109,7 +1111,7 @@ func newCmdAndroidOsStorageIStorageManager_LastMaintenance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1127,7 +1129,7 @@ func newCmdAndroidOsStorageIStorageManager_RunMaintenance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1138,7 +1140,7 @@ func newCmdAndroidOsStorageIStorageManager_RunMaintenance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1152,7 +1154,7 @@ func newCmdAndroidOsStorageIStorageManager_RunMaintenance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1170,7 +1172,7 @@ func newCmdAndroidOsStorageIStorageManager_GetDisks() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1181,7 +1183,7 @@ func newCmdAndroidOsStorageIStorageManager_GetDisks() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1195,7 +1197,7 @@ func newCmdAndroidOsStorageIStorageManager_GetDisks() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1213,7 +1215,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1224,7 +1226,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1243,7 +1245,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1263,7 +1265,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeRecords() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1274,7 +1276,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeRecords() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1293,7 +1295,7 @@ func newCmdAndroidOsStorageIStorageManager_GetVolumeRecords() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1313,7 +1315,7 @@ func newCmdAndroidOsStorageIStorageManager_Mount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1324,7 +1326,7 @@ func newCmdAndroidOsStorageIStorageManager_Mount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1343,7 +1345,7 @@ func newCmdAndroidOsStorageIStorageManager_Mount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1363,7 +1365,7 @@ func newCmdAndroidOsStorageIStorageManager_Unmount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1374,7 +1376,7 @@ func newCmdAndroidOsStorageIStorageManager_Unmount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1393,7 +1395,7 @@ func newCmdAndroidOsStorageIStorageManager_Unmount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1413,7 +1415,7 @@ func newCmdAndroidOsStorageIStorageManager_Format() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1424,7 +1426,7 @@ func newCmdAndroidOsStorageIStorageManager_Format() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1443,7 +1445,7 @@ func newCmdAndroidOsStorageIStorageManager_Format() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1463,7 +1465,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPublic() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1474,7 +1476,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPublic() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1493,7 +1495,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPublic() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1513,7 +1515,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPrivate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1524,7 +1526,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPrivate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1543,7 +1545,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionPrivate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1563,7 +1565,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionMixed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1574,7 +1576,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionMixed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1598,7 +1600,7 @@ func newCmdAndroidOsStorageIStorageManager_PartitionMixed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1620,7 +1622,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeNickname() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1631,7 +1633,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeNickname() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1655,7 +1657,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeNickname() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1677,7 +1679,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeUserFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1688,7 +1690,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeUserFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1717,7 +1719,7 @@ func newCmdAndroidOsStorageIStorageManager_SetVolumeUserFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1741,7 +1743,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1752,7 +1754,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1771,7 +1773,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1791,7 +1793,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetAllVolumes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1802,7 +1804,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetAllVolumes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1816,7 +1818,7 @@ func newCmdAndroidOsStorageIStorageManager_ForgetAllVolumes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1834,7 +1836,7 @@ func newCmdAndroidOsStorageIStorageManager_GetPrimaryStorageUuid() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1845,7 +1847,7 @@ func newCmdAndroidOsStorageIStorageManager_GetPrimaryStorageUuid() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1859,7 +1861,7 @@ func newCmdAndroidOsStorageIStorageManager_GetPrimaryStorageUuid() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1877,7 +1879,7 @@ func newCmdAndroidOsStorageIStorageManager_SetDebugFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1888,7 +1890,7 @@ func newCmdAndroidOsStorageIStorageManager_SetDebugFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1912,7 +1914,7 @@ func newCmdAndroidOsStorageIStorageManager_SetDebugFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1934,7 +1936,7 @@ func newCmdAndroidOsStorageIStorageManager_CreateUserStorageKeys() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1945,7 +1947,7 @@ func newCmdAndroidOsStorageIStorageManager_CreateUserStorageKeys() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -1964,7 +1966,7 @@ func newCmdAndroidOsStorageIStorageManager_CreateUserStorageKeys() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1984,7 +1986,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorageKeys() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1995,7 +1997,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorageKeys() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2009,7 +2011,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorageKeys() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2027,7 +2029,7 @@ func newCmdAndroidOsStorageIStorageManager_UnlockCeStorage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2038,7 +2040,7 @@ func newCmdAndroidOsStorageIStorageManager_UnlockCeStorage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2061,7 +2063,7 @@ func newCmdAndroidOsStorageIStorageManager_UnlockCeStorage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2081,7 +2083,7 @@ func newCmdAndroidOsStorageIStorageManager_LockCeStorage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2092,7 +2094,7 @@ func newCmdAndroidOsStorageIStorageManager_LockCeStorage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2106,7 +2108,7 @@ func newCmdAndroidOsStorageIStorageManager_LockCeStorage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2124,7 +2126,7 @@ func newCmdAndroidOsStorageIStorageManager_IsCeStorageUnlocked() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2135,7 +2137,7 @@ func newCmdAndroidOsStorageIStorageManager_IsCeStorageUnlocked() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2149,7 +2151,7 @@ func newCmdAndroidOsStorageIStorageManager_IsCeStorageUnlocked() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2167,7 +2169,7 @@ func newCmdAndroidOsStorageIStorageManager_PrepareUserStorage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2178,7 +2180,7 @@ func newCmdAndroidOsStorageIStorageManager_PrepareUserStorage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2202,7 +2204,7 @@ func newCmdAndroidOsStorageIStorageManager_PrepareUserStorage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2224,7 +2226,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2235,7 +2237,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2259,7 +2261,7 @@ func newCmdAndroidOsStorageIStorageManager_DestroyUserStorage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2281,7 +2283,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCeStorageProtection() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2292,7 +2294,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCeStorageProtection() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2315,7 +2317,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCeStorageProtection() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2335,7 +2337,7 @@ func newCmdAndroidOsStorageIStorageManager_MountProxyFileDescriptorBridge() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2346,7 +2348,7 @@ func newCmdAndroidOsStorageIStorageManager_MountProxyFileDescriptorBridge() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2360,7 +2362,7 @@ func newCmdAndroidOsStorageIStorageManager_MountProxyFileDescriptorBridge() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2378,7 +2380,7 @@ func newCmdAndroidOsStorageIStorageManager_OpenProxyFileDescriptor() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2389,7 +2391,7 @@ func newCmdAndroidOsStorageIStorageManager_OpenProxyFileDescriptor() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2418,7 +2420,7 @@ func newCmdAndroidOsStorageIStorageManager_OpenProxyFileDescriptor() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2442,7 +2444,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheQuotaBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2453,7 +2455,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheQuotaBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2477,7 +2479,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheQuotaBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2499,7 +2501,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheSizeBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2510,7 +2512,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheSizeBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2534,7 +2536,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCacheSizeBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2556,7 +2558,7 @@ func newCmdAndroidOsStorageIStorageManager_GetAllocatableBytes() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2567,7 +2569,7 @@ func newCmdAndroidOsStorageIStorageManager_GetAllocatableBytes() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2591,7 +2593,7 @@ func newCmdAndroidOsStorageIStorageManager_GetAllocatableBytes() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2613,7 +2615,7 @@ func newCmdAndroidOsStorageIStorageManager_AllocateBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2624,7 +2626,7 @@ func newCmdAndroidOsStorageIStorageManager_AllocateBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2653,7 +2655,7 @@ func newCmdAndroidOsStorageIStorageManager_AllocateBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2677,7 +2679,7 @@ func newCmdAndroidOsStorageIStorageManager_RunIdleMaintenance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2688,7 +2690,7 @@ func newCmdAndroidOsStorageIStorageManager_RunIdleMaintenance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2702,7 +2704,7 @@ func newCmdAndroidOsStorageIStorageManager_RunIdleMaintenance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2720,7 +2722,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortIdleMaintenance() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2731,7 +2733,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortIdleMaintenance() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2745,7 +2747,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortIdleMaintenance() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2763,7 +2765,7 @@ func newCmdAndroidOsStorageIStorageManager_CommitChanges() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2774,7 +2776,7 @@ func newCmdAndroidOsStorageIStorageManager_CommitChanges() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2788,7 +2790,7 @@ func newCmdAndroidOsStorageIStorageManager_CommitChanges() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2806,7 +2808,7 @@ func newCmdAndroidOsStorageIStorageManager_SupportsCheckpoint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2817,7 +2819,7 @@ func newCmdAndroidOsStorageIStorageManager_SupportsCheckpoint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2831,7 +2833,7 @@ func newCmdAndroidOsStorageIStorageManager_SupportsCheckpoint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2849,7 +2851,7 @@ func newCmdAndroidOsStorageIStorageManager_StartCheckpoint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2860,7 +2862,7 @@ func newCmdAndroidOsStorageIStorageManager_StartCheckpoint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2879,7 +2881,7 @@ func newCmdAndroidOsStorageIStorageManager_StartCheckpoint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2899,7 +2901,7 @@ func newCmdAndroidOsStorageIStorageManager_NeedsCheckpoint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2910,7 +2912,7 @@ func newCmdAndroidOsStorageIStorageManager_NeedsCheckpoint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2924,7 +2926,7 @@ func newCmdAndroidOsStorageIStorageManager_NeedsCheckpoint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2942,7 +2944,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortChanges() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2953,7 +2955,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortChanges() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -2977,7 +2979,7 @@ func newCmdAndroidOsStorageIStorageManager_AbortChanges() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2999,7 +3001,7 @@ func newCmdAndroidOsStorageIStorageManager_FixupAppDir() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3010,7 +3012,7 @@ func newCmdAndroidOsStorageIStorageManager_FixupAppDir() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3029,7 +3031,7 @@ func newCmdAndroidOsStorageIStorageManager_FixupAppDir() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3049,7 +3051,7 @@ func newCmdAndroidOsStorageIStorageManager_DisableAppDataIsolation() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3060,7 +3062,7 @@ func newCmdAndroidOsStorageIStorageManager_DisableAppDataIsolation() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3084,7 +3086,7 @@ func newCmdAndroidOsStorageIStorageManager_DisableAppDataIsolation() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3106,7 +3108,7 @@ func newCmdAndroidOsStorageIStorageManager_GetManageSpaceActivityIntent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3117,7 +3119,7 @@ func newCmdAndroidOsStorageIStorageManager_GetManageSpaceActivityIntent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3141,7 +3143,7 @@ func newCmdAndroidOsStorageIStorageManager_GetManageSpaceActivityIntent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3163,7 +3165,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoBlocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3174,7 +3176,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoBlocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3208,7 +3210,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoBlocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3234,7 +3236,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoResumed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3245,7 +3247,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoResumed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3279,7 +3281,7 @@ func newCmdAndroidOsStorageIStorageManager_NotifyAppIoResumed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3305,7 +3307,7 @@ func newCmdAndroidOsStorageIStorageManager_GetExternalStorageMountMode() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3316,7 +3318,7 @@ func newCmdAndroidOsStorageIStorageManager_GetExternalStorageMountMode() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3340,7 +3342,7 @@ func newCmdAndroidOsStorageIStorageManager_GetExternalStorageMountMode() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3362,7 +3364,7 @@ func newCmdAndroidOsStorageIStorageManager_IsAppIoBlocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3373,7 +3375,7 @@ func newCmdAndroidOsStorageIStorageManager_IsAppIoBlocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3407,7 +3409,7 @@ func newCmdAndroidOsStorageIStorageManager_IsAppIoBlocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3433,7 +3435,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCloudMediaProvider() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3444,7 +3446,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCloudMediaProvider() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3463,7 +3465,7 @@ func newCmdAndroidOsStorageIStorageManager_SetCloudMediaProvider() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3483,7 +3485,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCloudMediaProvider() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3494,7 +3496,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCloudMediaProvider() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3508,7 +3510,7 @@ func newCmdAndroidOsStorageIStorageManager_GetCloudMediaProvider() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3526,7 +3528,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageBlockDeviceSize() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3537,7 +3539,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageBlockDeviceSize() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3551,7 +3553,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageBlockDeviceSize() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3569,7 +3571,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageRemainingLifetime()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3580,7 +3582,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageRemainingLifetime()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageManager")
 			}
 			if err != nil {
 				return err
@@ -3594,7 +3596,7 @@ func newCmdAndroidOsStorageIStorageManager_GetInternalStorageRemainingLifetime()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3623,7 +3625,7 @@ func newCmdAndroidOsStorageIStorageShutdownObserver_OnShutDownComplete() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3634,7 +3636,7 @@ func newCmdAndroidOsStorageIStorageShutdownObserver_OnShutDownComplete() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageShutdownObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.storage.IStorageShutdownObserver")
 			}
 			if err != nil {
 				return err
@@ -3653,7 +3655,7 @@ func newCmdAndroidOsStorageIStorageShutdownObserver_OnShutDownComplete() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

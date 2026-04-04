@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/printservice/recommendation"
@@ -42,7 +44,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationService_RegisterCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationService_RegisterCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationService")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationService_RegisterCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -108,7 +110,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationServiceCallbacks_OnRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -119,7 +121,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationServiceCallbacks_OnRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -144,7 +146,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationServiceCallbacks_OnRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationsChangeListener_OnRec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationsChangeListener_OnRec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationsChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.printservice.recommendation.IRecommendationsChangeListener")
 			}
 			if err != nil {
 				return err
@@ -200,7 +202,7 @@ func newCmdAndroidPrintserviceRecommendationIRecommendationsChangeListener_OnRec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

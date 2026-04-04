@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -110,7 +112,7 @@ func newCmdAndroidOsIAidlTest_IntMethod() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -121,7 +123,7 @@ func newCmdAndroidOsIAidlTest_IntMethod() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -140,7 +142,7 @@ func newCmdAndroidOsIAidlTest_IntMethod() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdAndroidOsIAidlTest_ParcelableIn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdAndroidOsIAidlTest_ParcelableIn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -187,7 +189,7 @@ func newCmdAndroidOsIAidlTest_ParcelableIn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdAndroidOsIAidlTest_ParcelableOut() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdAndroidOsIAidlTest_ParcelableOut() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -231,7 +233,7 @@ func newCmdAndroidOsIAidlTest_ParcelableOut() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -249,7 +251,7 @@ func newCmdAndroidOsIAidlTest_ParcelableInOut() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -260,7 +262,7 @@ func newCmdAndroidOsIAidlTest_ParcelableInOut() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidOsIAidlTest_ParcelableInOut() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableLonger() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableLonger() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -335,7 +337,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableLonger() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableShorter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableShorter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -398,7 +400,7 @@ func newCmdAndroidOsIAidlTest_ListParcelableShorter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -420,7 +422,7 @@ func newCmdAndroidOsIAidlTest_BooleanArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -431,7 +433,7 @@ func newCmdAndroidOsIAidlTest_BooleanArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -476,7 +478,7 @@ func newCmdAndroidOsIAidlTest_BooleanArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -498,7 +500,7 @@ func newCmdAndroidOsIAidlTest_CharArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -509,7 +511,7 @@ func newCmdAndroidOsIAidlTest_CharArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -546,7 +548,7 @@ func newCmdAndroidOsIAidlTest_CharArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -568,7 +570,7 @@ func newCmdAndroidOsIAidlTest_IntArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -579,7 +581,7 @@ func newCmdAndroidOsIAidlTest_IntArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -624,7 +626,7 @@ func newCmdAndroidOsIAidlTest_IntArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -646,7 +648,7 @@ func newCmdAndroidOsIAidlTest_LongArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -657,7 +659,7 @@ func newCmdAndroidOsIAidlTest_LongArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -702,7 +704,7 @@ func newCmdAndroidOsIAidlTest_LongArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -724,7 +726,7 @@ func newCmdAndroidOsIAidlTest_FloatArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -735,7 +737,7 @@ func newCmdAndroidOsIAidlTest_FloatArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -780,7 +782,7 @@ func newCmdAndroidOsIAidlTest_FloatArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -802,7 +804,7 @@ func newCmdAndroidOsIAidlTest_DoubleArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -813,7 +815,7 @@ func newCmdAndroidOsIAidlTest_DoubleArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -858,7 +860,7 @@ func newCmdAndroidOsIAidlTest_DoubleArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -880,7 +882,7 @@ func newCmdAndroidOsIAidlTest_StringArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -891,7 +893,7 @@ func newCmdAndroidOsIAidlTest_StringArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -924,7 +926,7 @@ func newCmdAndroidOsIAidlTest_StringArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -946,7 +948,7 @@ func newCmdAndroidOsIAidlTest_ParcelableArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -957,7 +959,7 @@ func newCmdAndroidOsIAidlTest_ParcelableArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -994,7 +996,7 @@ func newCmdAndroidOsIAidlTest_ParcelableArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1016,7 +1018,7 @@ func newCmdAndroidOsIAidlTest_VoidSecurityException() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1027,7 +1029,7 @@ func newCmdAndroidOsIAidlTest_VoidSecurityException() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -1041,7 +1043,7 @@ func newCmdAndroidOsIAidlTest_VoidSecurityException() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1059,7 +1061,7 @@ func newCmdAndroidOsIAidlTest_IntSecurityException() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1070,7 +1072,7 @@ func newCmdAndroidOsIAidlTest_IntSecurityException() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IAidlTest")
 			}
 			if err != nil {
 				return err
@@ -1084,7 +1086,7 @@ func newCmdAndroidOsIAidlTest_IntSecurityException() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1114,7 +1116,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_GetProperty() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1125,7 +1127,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_GetProperty() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBatteryPropertiesRegistrar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBatteryPropertiesRegistrar")
 			}
 			if err != nil {
 				return err
@@ -1145,7 +1147,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_GetProperty() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1165,7 +1167,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_ScheduleUpdate() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1176,7 +1178,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_ScheduleUpdate() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBatteryPropertiesRegistrar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBatteryPropertiesRegistrar")
 			}
 			if err != nil {
 				return err
@@ -1190,7 +1192,7 @@ func newCmdAndroidOsIBatteryPropertiesRegistrar_ScheduleUpdate() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1222,7 +1224,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadPriority() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1233,7 +1235,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadPriority() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
 			}
 			if err != nil {
 				return err
@@ -1247,7 +1249,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadPriority() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1265,7 +1267,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadSchedulerGroup() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1276,7 +1278,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadSchedulerGroup() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
 			}
 			if err != nil {
 				return err
@@ -1290,7 +1292,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_GetThreadSchedulerGroup() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1308,7 +1310,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_CallBack() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1319,7 +1321,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_CallBack() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
 			}
 			if err != nil {
 				return err
@@ -1343,7 +1345,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_CallBack() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1363,7 +1365,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_SetPriorityAndCallBack() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1374,7 +1376,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_SetPriorityAndCallBack() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderThreadPriorityService")
 			}
 			if err != nil {
 				return err
@@ -1403,7 +1405,7 @@ func newCmdAndroidOsIBinderThreadPriorityService_SetPriorityAndCallBack() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1437,7 +1439,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCallWithWorkSourceToSet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1448,7 +1450,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCallWithWorkSourceToSet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceNestedService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceNestedService")
 			}
 			if err != nil {
 				return err
@@ -1467,7 +1469,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCallWithWorkSourceToSet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1487,7 +1489,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1498,7 +1500,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceNestedService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceNestedService")
 			}
 			if err != nil {
 				return err
@@ -1512,7 +1514,7 @@ func newCmdAndroidOsIBinderWorkSourceNestedService_NestedCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1545,7 +1547,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetIncomingWorkSourceUid() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1556,7 +1558,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetIncomingWorkSourceUid() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
 			}
 			if err != nil {
 				return err
@@ -1570,7 +1572,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetIncomingWorkSourceUid() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1588,7 +1590,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetBinderCallingUid() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1599,7 +1601,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetBinderCallingUid() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
 			}
 			if err != nil {
 				return err
@@ -1613,7 +1615,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetBinderCallingUid() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1631,7 +1633,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetThreadLocalWorkSourceUid() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1642,7 +1644,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetThreadLocalWorkSourceUid() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
 			}
 			if err != nil {
 				return err
@@ -1656,7 +1658,7 @@ func newCmdAndroidOsIBinderWorkSourceService_GetThreadLocalWorkSourceUid() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1674,7 +1676,7 @@ func newCmdAndroidOsIBinderWorkSourceService_SetWorkSourceProvider() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1685,7 +1687,7 @@ func newCmdAndroidOsIBinderWorkSourceService_SetWorkSourceProvider() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
 			}
 			if err != nil {
 				return err
@@ -1704,7 +1706,7 @@ func newCmdAndroidOsIBinderWorkSourceService_SetWorkSourceProvider() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1724,7 +1726,7 @@ func newCmdAndroidOsIBinderWorkSourceService_ClearWorkSourceProvider() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1735,7 +1737,7 @@ func newCmdAndroidOsIBinderWorkSourceService_ClearWorkSourceProvider() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IBinderWorkSourceService")
 			}
 			if err != nil {
 				return err
@@ -1749,7 +1751,7 @@ func newCmdAndroidOsIBinderWorkSourceService_ClearWorkSourceProvider() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1778,7 +1780,7 @@ func newCmdAndroidOsICancellationSignal_Cancel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1789,7 +1791,7 @@ func newCmdAndroidOsICancellationSignal_Cancel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ICancellationSignal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ICancellationSignal")
 			}
 			if err != nil {
 				return err
@@ -1803,7 +1805,7 @@ func newCmdAndroidOsICancellationSignal_Cancel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1832,7 +1834,7 @@ func newCmdAndroidOsIClientCallback_OnClients() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1843,7 +1845,7 @@ func newCmdAndroidOsIClientCallback_OnClients() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1871,7 +1873,7 @@ func newCmdAndroidOsIClientCallback_OnClients() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1905,7 +1907,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerial() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1916,7 +1918,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerial() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdentifiersPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdentifiersPolicyService")
 			}
 			if err != nil {
 				return err
@@ -1930,7 +1932,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerial() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1948,7 +1950,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerialForPackage() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1959,7 +1961,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerialForPackage() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdentifiersPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdentifiersPolicyService")
 			}
 			if err != nil {
 				return err
@@ -1973,7 +1975,7 @@ func newCmdAndroidOsIDeviceIdentifiersPolicyService_GetSerialForPackage() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2023,7 +2025,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApp() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2034,7 +2036,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApp() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2053,7 +2055,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApp() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2073,7 +2075,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApps() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2084,7 +2086,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApps() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2107,7 +2109,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveWhitelistApps() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2127,7 +2129,7 @@ func newCmdAndroidOsIDeviceIdleController_RemovePowerSaveWhitelistApp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2138,7 +2140,7 @@ func newCmdAndroidOsIDeviceIdleController_RemovePowerSaveWhitelistApp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2157,7 +2159,7 @@ func newCmdAndroidOsIDeviceIdleController_RemovePowerSaveWhitelistApp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2177,7 +2179,7 @@ func newCmdAndroidOsIDeviceIdleController_RemoveSystemPowerWhitelistApp() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2188,7 +2190,7 @@ func newCmdAndroidOsIDeviceIdleController_RemoveSystemPowerWhitelistApp() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2207,7 +2209,7 @@ func newCmdAndroidOsIDeviceIdleController_RemoveSystemPowerWhitelistApp() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2227,7 +2229,7 @@ func newCmdAndroidOsIDeviceIdleController_RestoreSystemPowerWhitelistApp() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2238,7 +2240,7 @@ func newCmdAndroidOsIDeviceIdleController_RestoreSystemPowerWhitelistApp() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2257,7 +2259,7 @@ func newCmdAndroidOsIDeviceIdleController_RestoreSystemPowerWhitelistApp() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2277,7 +2279,7 @@ func newCmdAndroidOsIDeviceIdleController_GetRemovedSystemPowerWhitelistApps() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2288,7 +2290,7 @@ func newCmdAndroidOsIDeviceIdleController_GetRemovedSystemPowerWhitelistApps() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2302,7 +2304,7 @@ func newCmdAndroidOsIDeviceIdleController_GetRemovedSystemPowerWhitelistApps() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2320,7 +2322,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelistExceptIdle() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2331,7 +2333,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelistExceptIdle() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2345,7 +2347,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelistExceptIdle() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2363,7 +2365,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelist() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2374,7 +2376,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelist() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2388,7 +2390,7 @@ func newCmdAndroidOsIDeviceIdleController_GetSystemPowerWhitelist() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2406,7 +2408,7 @@ func newCmdAndroidOsIDeviceIdleController_GetUserPowerWhitelist() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2417,7 +2419,7 @@ func newCmdAndroidOsIDeviceIdleController_GetUserPowerWhitelist() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2431,7 +2433,7 @@ func newCmdAndroidOsIDeviceIdleController_GetUserPowerWhitelist() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2449,7 +2451,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelistExceptIdle() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2460,7 +2462,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelistExceptIdle() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2474,7 +2476,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelistExceptIdle() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2492,7 +2494,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelist() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2503,7 +2505,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelist() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2517,7 +2519,7 @@ func newCmdAndroidOsIDeviceIdleController_GetFullPowerWhitelist() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2535,7 +2537,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelistExceptIdle() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2546,7 +2548,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelistExceptIdle() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2560,7 +2562,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelistExceptIdle() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2578,7 +2580,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelist() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2589,7 +2591,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelist() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2603,7 +2605,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdWhitelist() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2621,7 +2623,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdUserWhitelist() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2632,7 +2634,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdUserWhitelist() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2646,7 +2648,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdUserWhitelist() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2664,7 +2666,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdTempWhitelist() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2675,7 +2677,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdTempWhitelist() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2689,7 +2691,7 @@ func newCmdAndroidOsIDeviceIdleController_GetAppIdTempWhitelist() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2707,7 +2709,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistExceptIdleApp() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2718,7 +2720,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistExceptIdleApp() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2737,7 +2739,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistExceptIdleApp() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2757,7 +2759,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistApp() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2768,7 +2770,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistApp() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2787,7 +2789,7 @@ func newCmdAndroidOsIDeviceIdleController_IsPowerSaveWhitelistApp() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2807,7 +2809,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistApp() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2818,7 +2820,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistApp() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2852,7 +2854,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistApp() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2878,7 +2880,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForMms() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2889,7 +2891,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForMms() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2918,7 +2920,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForMms() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2942,7 +2944,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForSms() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2953,7 +2955,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForSms() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -2982,7 +2984,7 @@ func newCmdAndroidOsIDeviceIdleController_AddPowerSaveTempWhitelistAppForSms() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3006,7 +3008,7 @@ func newCmdAndroidOsIDeviceIdleController_WhitelistAppTemporarily() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3017,7 +3019,7 @@ func newCmdAndroidOsIDeviceIdleController_WhitelistAppTemporarily() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -3046,7 +3048,7 @@ func newCmdAndroidOsIDeviceIdleController_WhitelistAppTemporarily() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3070,7 +3072,7 @@ func newCmdAndroidOsIDeviceIdleController_ExitIdle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3081,7 +3083,7 @@ func newCmdAndroidOsIDeviceIdleController_ExitIdle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDeviceIdleController")
 			}
 			if err != nil {
 				return err
@@ -3100,7 +3102,7 @@ func newCmdAndroidOsIDeviceIdleController_ExitIdle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3134,7 +3136,7 @@ func newCmdAndroidOsIDumpstate_PreDumpUiData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3145,7 +3147,7 @@ func newCmdAndroidOsIDumpstate_PreDumpUiData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
 			}
 			if err != nil {
 				return err
@@ -3159,7 +3161,7 @@ func newCmdAndroidOsIDumpstate_PreDumpUiData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3177,7 +3179,7 @@ func newCmdAndroidOsIDumpstate_StartBugreport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3188,7 +3190,7 @@ func newCmdAndroidOsIDumpstate_StartBugreport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
 			}
 			if err != nil {
 				return err
@@ -3237,7 +3239,7 @@ func newCmdAndroidOsIDumpstate_StartBugreport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3267,7 +3269,7 @@ func newCmdAndroidOsIDumpstate_CancelBugreport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3278,7 +3280,7 @@ func newCmdAndroidOsIDumpstate_CancelBugreport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
 			}
 			if err != nil {
 				return err
@@ -3292,7 +3294,7 @@ func newCmdAndroidOsIDumpstate_CancelBugreport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3310,7 +3312,7 @@ func newCmdAndroidOsIDumpstate_RetrieveBugreport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3321,7 +3323,7 @@ func newCmdAndroidOsIDumpstate_RetrieveBugreport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstate")
 			}
 			if err != nil {
 				return err
@@ -3360,7 +3362,7 @@ func newCmdAndroidOsIDumpstate_RetrieveBugreport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3401,7 +3403,7 @@ func newCmdAndroidOsIDumpstateListener_OnProgress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3412,7 +3414,7 @@ func newCmdAndroidOsIDumpstateListener_OnProgress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
 			}
 			if err != nil {
 				return err
@@ -3431,7 +3433,7 @@ func newCmdAndroidOsIDumpstateListener_OnProgress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3451,7 +3453,7 @@ func newCmdAndroidOsIDumpstateListener_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3462,7 +3464,7 @@ func newCmdAndroidOsIDumpstateListener_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
 			}
 			if err != nil {
 				return err
@@ -3481,7 +3483,7 @@ func newCmdAndroidOsIDumpstateListener_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3501,7 +3503,7 @@ func newCmdAndroidOsIDumpstateListener_OnFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3512,7 +3514,7 @@ func newCmdAndroidOsIDumpstateListener_OnFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
 			}
 			if err != nil {
 				return err
@@ -3531,7 +3533,7 @@ func newCmdAndroidOsIDumpstateListener_OnFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3551,7 +3553,7 @@ func newCmdAndroidOsIDumpstateListener_OnScreenshotTaken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3562,7 +3564,7 @@ func newCmdAndroidOsIDumpstateListener_OnScreenshotTaken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
 			}
 			if err != nil {
 				return err
@@ -3581,7 +3583,7 @@ func newCmdAndroidOsIDumpstateListener_OnScreenshotTaken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3601,7 +3603,7 @@ func newCmdAndroidOsIDumpstateListener_OnUiIntensiveBugreportDumpsFinished() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3612,7 +3614,7 @@ func newCmdAndroidOsIDumpstateListener_OnUiIntensiveBugreportDumpsFinished() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IDumpstateListener")
 			}
 			if err != nil {
 				return err
@@ -3626,7 +3628,7 @@ func newCmdAndroidOsIDumpstateListener_OnUiIntensiveBugreportDumpsFinished() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3656,7 +3658,7 @@ func newCmdAndroidOsIExternalVibrationController_Mute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3667,7 +3669,7 @@ func newCmdAndroidOsIExternalVibrationController_Mute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibrationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibrationController")
 			}
 			if err != nil {
 				return err
@@ -3681,7 +3683,7 @@ func newCmdAndroidOsIExternalVibrationController_Mute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3699,7 +3701,7 @@ func newCmdAndroidOsIExternalVibrationController_Unmute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3710,7 +3712,7 @@ func newCmdAndroidOsIExternalVibrationController_Unmute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibrationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibrationController")
 			}
 			if err != nil {
 				return err
@@ -3724,7 +3726,7 @@ func newCmdAndroidOsIExternalVibrationController_Unmute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3754,7 +3756,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStart() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3765,7 +3767,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStart() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibratorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibratorService")
 			}
 			if err != nil {
 				return err
@@ -3781,7 +3783,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStart() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3799,7 +3801,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStop() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3810,7 +3812,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStop() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibratorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IExternalVibratorService")
 			}
 			if err != nil {
 				return err
@@ -3826,7 +3828,7 @@ func newCmdAndroidOsIExternalVibratorService_OnExternalVibrationStop() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3857,7 +3859,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetDeviceTemperatures() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3868,7 +3870,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetDeviceTemperatures() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
 			}
 			if err != nil {
 				return err
@@ -3892,7 +3894,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetDeviceTemperatures() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3914,7 +3916,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetCpuUsages() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3925,7 +3927,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetCpuUsages() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
 			}
 			if err != nil {
 				return err
@@ -3939,7 +3941,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetCpuUsages() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3957,7 +3959,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetFanSpeeds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3968,7 +3970,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetFanSpeeds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHardwarePropertiesManager")
 			}
 			if err != nil {
 				return err
@@ -3982,7 +3984,7 @@ func newCmdAndroidOsIHardwarePropertiesManager_GetFanSpeeds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4014,7 +4016,7 @@ func newCmdAndroidOsIHintManager_CreateHintSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4025,7 +4027,7 @@ func newCmdAndroidOsIHintManager_CreateHintSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
 			}
 			if err != nil {
 				return err
@@ -4068,7 +4070,7 @@ func newCmdAndroidOsIHintManager_CreateHintSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4092,7 +4094,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionPreferredRate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4103,7 +4105,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionPreferredRate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
 			}
 			if err != nil {
 				return err
@@ -4117,7 +4119,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionPreferredRate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4135,7 +4137,7 @@ func newCmdAndroidOsIHintManager_SetHintSessionThreads() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4146,7 +4148,7 @@ func newCmdAndroidOsIHintManager_SetHintSessionThreads() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
 			}
 			if err != nil {
 				return err
@@ -4185,7 +4187,7 @@ func newCmdAndroidOsIHintManager_SetHintSessionThreads() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4207,7 +4209,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionThreadIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4218,7 +4220,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionThreadIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintManager")
 			}
 			if err != nil {
 				return err
@@ -4242,7 +4244,7 @@ func newCmdAndroidOsIHintManager_GetHintSessionThreadIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4278,7 +4280,7 @@ func newCmdAndroidOsIHintSession_UpdateTargetWorkDuration() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4289,7 +4291,7 @@ func newCmdAndroidOsIHintSession_UpdateTargetWorkDuration() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4308,7 +4310,7 @@ func newCmdAndroidOsIHintSession_UpdateTargetWorkDuration() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4328,7 +4330,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4339,7 +4341,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4383,7 +4385,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4405,7 +4407,7 @@ func newCmdAndroidOsIHintSession_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4416,7 +4418,7 @@ func newCmdAndroidOsIHintSession_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4430,7 +4432,7 @@ func newCmdAndroidOsIHintSession_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4448,7 +4450,7 @@ func newCmdAndroidOsIHintSession_SendHint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4459,7 +4461,7 @@ func newCmdAndroidOsIHintSession_SendHint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4478,7 +4480,7 @@ func newCmdAndroidOsIHintSession_SendHint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4498,7 +4500,7 @@ func newCmdAndroidOsIHintSession_SetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4509,7 +4511,7 @@ func newCmdAndroidOsIHintSession_SetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4533,7 +4535,7 @@ func newCmdAndroidOsIHintSession_SetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4555,7 +4557,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration2() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4566,7 +4568,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration2() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IHintSession")
 			}
 			if err != nil {
 				return err
@@ -4591,7 +4593,7 @@ func newCmdAndroidOsIHintSession_ReportActualWorkDuration2() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4631,7 +4633,7 @@ func newCmdAndroidOsIIdmap2_GetIdmapPath() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4642,7 +4644,7 @@ func newCmdAndroidOsIIdmap2_GetIdmapPath() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4661,7 +4663,7 @@ func newCmdAndroidOsIIdmap2_GetIdmapPath() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4681,7 +4683,7 @@ func newCmdAndroidOsIIdmap2_RemoveIdmap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4692,7 +4694,7 @@ func newCmdAndroidOsIIdmap2_RemoveIdmap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4711,7 +4713,7 @@ func newCmdAndroidOsIIdmap2_RemoveIdmap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4731,7 +4733,7 @@ func newCmdAndroidOsIIdmap2_VerifyIdmap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4742,7 +4744,7 @@ func newCmdAndroidOsIIdmap2_VerifyIdmap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4781,7 +4783,7 @@ func newCmdAndroidOsIIdmap2_VerifyIdmap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4809,7 +4811,7 @@ func newCmdAndroidOsIIdmap2_CreateIdmap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4820,7 +4822,7 @@ func newCmdAndroidOsIIdmap2_CreateIdmap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4859,7 +4861,7 @@ func newCmdAndroidOsIIdmap2_CreateIdmap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4887,7 +4889,7 @@ func newCmdAndroidOsIIdmap2_CreateFabricatedOverlay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4898,7 +4900,7 @@ func newCmdAndroidOsIIdmap2_CreateFabricatedOverlay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4923,7 +4925,7 @@ func newCmdAndroidOsIIdmap2_CreateFabricatedOverlay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4946,7 +4948,7 @@ func newCmdAndroidOsIIdmap2_DeleteFabricatedOverlay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4957,7 +4959,7 @@ func newCmdAndroidOsIIdmap2_DeleteFabricatedOverlay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -4976,7 +4978,7 @@ func newCmdAndroidOsIIdmap2_DeleteFabricatedOverlay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4996,7 +4998,7 @@ func newCmdAndroidOsIIdmap2_AcquireFabricatedOverlayIterator() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5007,7 +5009,7 @@ func newCmdAndroidOsIIdmap2_AcquireFabricatedOverlayIterator() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -5021,7 +5023,7 @@ func newCmdAndroidOsIIdmap2_AcquireFabricatedOverlayIterator() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5039,7 +5041,7 @@ func newCmdAndroidOsIIdmap2_ReleaseFabricatedOverlayIterator() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5050,7 +5052,7 @@ func newCmdAndroidOsIIdmap2_ReleaseFabricatedOverlayIterator() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -5069,7 +5071,7 @@ func newCmdAndroidOsIIdmap2_ReleaseFabricatedOverlayIterator() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5089,7 +5091,7 @@ func newCmdAndroidOsIIdmap2_NextFabricatedOverlayInfos() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5100,7 +5102,7 @@ func newCmdAndroidOsIIdmap2_NextFabricatedOverlayInfos() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -5119,7 +5121,7 @@ func newCmdAndroidOsIIdmap2_NextFabricatedOverlayInfos() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5139,7 +5141,7 @@ func newCmdAndroidOsIIdmap2_DumpIdmap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5150,7 +5152,7 @@ func newCmdAndroidOsIIdmap2_DumpIdmap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIdmap2")
 			}
 			if err != nil {
 				return err
@@ -5169,7 +5171,7 @@ func newCmdAndroidOsIIdmap2_DumpIdmap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5201,7 +5203,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportApproved() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5212,7 +5214,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportApproved() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentAuthListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentAuthListener")
 			}
 			if err != nil {
 				return err
@@ -5226,7 +5228,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportApproved() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5244,7 +5246,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportDenied() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5255,7 +5257,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportDenied() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentAuthListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentAuthListener")
 			}
 			if err != nil {
 				return err
@@ -5269,7 +5271,7 @@ func newCmdAndroidOsIIncidentAuthListener_OnReportDenied() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5307,7 +5309,7 @@ func newCmdAndroidOsIIncidentCompanion_AuthorizeReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5318,7 +5320,7 @@ func newCmdAndroidOsIIncidentCompanion_AuthorizeReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5357,7 +5359,7 @@ func newCmdAndroidOsIIncidentCompanion_AuthorizeReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5383,7 +5385,7 @@ func newCmdAndroidOsIIncidentCompanion_CancelAuthorization() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5394,7 +5396,7 @@ func newCmdAndroidOsIIncidentCompanion_CancelAuthorization() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5418,7 +5420,7 @@ func newCmdAndroidOsIIncidentCompanion_CancelAuthorization() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5438,7 +5440,7 @@ func newCmdAndroidOsIIncidentCompanion_SendReportReadyBroadcast() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5449,7 +5451,7 @@ func newCmdAndroidOsIIncidentCompanion_SendReportReadyBroadcast() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5473,7 +5475,7 @@ func newCmdAndroidOsIIncidentCompanion_SendReportReadyBroadcast() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5495,7 +5497,7 @@ func newCmdAndroidOsIIncidentCompanion_GetPendingReports() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5506,7 +5508,7 @@ func newCmdAndroidOsIIncidentCompanion_GetPendingReports() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5520,7 +5522,7 @@ func newCmdAndroidOsIIncidentCompanion_GetPendingReports() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5538,7 +5540,7 @@ func newCmdAndroidOsIIncidentCompanion_ApproveReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5549,7 +5551,7 @@ func newCmdAndroidOsIIncidentCompanion_ApproveReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5568,7 +5570,7 @@ func newCmdAndroidOsIIncidentCompanion_ApproveReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5588,7 +5590,7 @@ func newCmdAndroidOsIIncidentCompanion_DenyReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5599,7 +5601,7 @@ func newCmdAndroidOsIIncidentCompanion_DenyReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5618,7 +5620,7 @@ func newCmdAndroidOsIIncidentCompanion_DenyReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5638,7 +5640,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReportList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5649,7 +5651,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReportList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5673,7 +5675,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReportList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5695,7 +5697,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5706,7 +5708,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5735,7 +5737,7 @@ func newCmdAndroidOsIIncidentCompanion_GetIncidentReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5759,7 +5761,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteIncidentReports() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5770,7 +5772,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteIncidentReports() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5799,7 +5801,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteIncidentReports() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5823,7 +5825,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteAllIncidentReports() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5834,7 +5836,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteAllIncidentReports() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentCompanion")
 			}
 			if err != nil {
 				return err
@@ -5853,7 +5855,7 @@ func newCmdAndroidOsIIncidentCompanion_DeleteAllIncidentReports() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5884,7 +5886,7 @@ func newCmdAndroidOsIIncidentDumpCallback_OnDumpSection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5895,7 +5897,7 @@ func newCmdAndroidOsIIncidentDumpCallback_OnDumpSection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentDumpCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentDumpCallback")
 			}
 			if err != nil {
 				return err
@@ -5914,7 +5916,7 @@ func newCmdAndroidOsIIncidentDumpCallback_OnDumpSection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5954,7 +5956,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncident() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5965,7 +5967,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncident() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -5981,7 +5983,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncident() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5999,7 +6001,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6010,7 +6012,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6041,7 +6043,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6063,7 +6065,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToDumpstate() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6074,7 +6076,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToDumpstate() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6103,7 +6105,7 @@ func newCmdAndroidOsIIncidentManager_ReportIncidentToDumpstate() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6125,7 +6127,7 @@ func newCmdAndroidOsIIncidentManager_RegisterSection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6136,7 +6138,7 @@ func newCmdAndroidOsIIncidentManager_RegisterSection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6170,7 +6172,7 @@ func newCmdAndroidOsIIncidentManager_RegisterSection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6194,7 +6196,7 @@ func newCmdAndroidOsIIncidentManager_UnregisterSection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6205,7 +6207,7 @@ func newCmdAndroidOsIIncidentManager_UnregisterSection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6224,7 +6226,7 @@ func newCmdAndroidOsIIncidentManager_UnregisterSection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6244,7 +6246,7 @@ func newCmdAndroidOsIIncidentManager_SystemRunning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6255,7 +6257,7 @@ func newCmdAndroidOsIIncidentManager_SystemRunning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6269,7 +6271,7 @@ func newCmdAndroidOsIIncidentManager_SystemRunning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6287,7 +6289,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReportList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6298,7 +6300,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReportList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6322,7 +6324,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReportList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6344,7 +6346,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6355,7 +6357,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6384,7 +6386,7 @@ func newCmdAndroidOsIIncidentManager_GetIncidentReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6408,7 +6410,7 @@ func newCmdAndroidOsIIncidentManager_DeleteIncidentReports() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6419,7 +6421,7 @@ func newCmdAndroidOsIIncidentManager_DeleteIncidentReports() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6448,7 +6450,7 @@ func newCmdAndroidOsIIncidentManager_DeleteIncidentReports() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6472,7 +6474,7 @@ func newCmdAndroidOsIIncidentManager_DeleteAllIncidentReports() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6483,7 +6485,7 @@ func newCmdAndroidOsIIncidentManager_DeleteAllIncidentReports() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentManager")
 			}
 			if err != nil {
 				return err
@@ -6502,7 +6504,7 @@ func newCmdAndroidOsIIncidentManager_DeleteAllIncidentReports() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6536,7 +6538,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportStarted() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6547,7 +6549,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportStarted() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
 			}
 			if err != nil {
 				return err
@@ -6561,7 +6563,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportStarted() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6579,7 +6581,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportSectionStatus() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6590,7 +6592,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportSectionStatus() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
 			}
 			if err != nil {
 				return err
@@ -6614,7 +6616,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportSectionStatus() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6636,7 +6638,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFinished() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6647,7 +6649,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFinished() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
 			}
 			if err != nil {
 				return err
@@ -6661,7 +6663,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFinished() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6679,7 +6681,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFailed() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6690,7 +6692,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFailed() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IIncidentReportStatusListener")
 			}
 			if err != nil {
 				return err
@@ -6704,7 +6706,7 @@ func newCmdAndroidOsIIncidentReportStatusListener_OnReportFailed() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6735,7 +6737,7 @@ func newCmdAndroidOsIInputFlinger_CreateInputChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6746,7 +6748,7 @@ func newCmdAndroidOsIInputFlinger_CreateInputChannel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
 			}
 			if err != nil {
 				return err
@@ -6765,7 +6767,7 @@ func newCmdAndroidOsIInputFlinger_CreateInputChannel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6785,7 +6787,7 @@ func newCmdAndroidOsIInputFlinger_RemoveInputChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6796,7 +6798,7 @@ func newCmdAndroidOsIInputFlinger_RemoveInputChannel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
 			}
 			if err != nil {
 				return err
@@ -6819,7 +6821,7 @@ func newCmdAndroidOsIInputFlinger_RemoveInputChannel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6839,7 +6841,7 @@ func newCmdAndroidOsIInputFlinger_SetFocusedWindow() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6850,7 +6852,7 @@ func newCmdAndroidOsIInputFlinger_SetFocusedWindow() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInputFlinger")
 			}
 			if err != nil {
 				return err
@@ -6874,7 +6876,7 @@ func newCmdAndroidOsIInputFlinger_SetFocusedWindow() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6954,7 +6956,7 @@ func newCmdAndroidOsIInstalld_CreateUserData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6965,7 +6967,7 @@ func newCmdAndroidOsIInstalld_CreateUserData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -6994,7 +6996,7 @@ func newCmdAndroidOsIInstalld_CreateUserData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7018,7 +7020,7 @@ func newCmdAndroidOsIInstalld_DestroyUserData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7029,7 +7031,7 @@ func newCmdAndroidOsIInstalld_DestroyUserData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7053,7 +7055,7 @@ func newCmdAndroidOsIInstalld_DestroyUserData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7075,7 +7077,7 @@ func newCmdAndroidOsIInstalld_SetFirstBoot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7086,7 +7088,7 @@ func newCmdAndroidOsIInstalld_SetFirstBoot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7100,7 +7102,7 @@ func newCmdAndroidOsIInstalld_SetFirstBoot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7118,7 +7120,7 @@ func newCmdAndroidOsIInstalld_RestoreconAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7129,7 +7131,7 @@ func newCmdAndroidOsIInstalld_RestoreconAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7168,7 +7170,7 @@ func newCmdAndroidOsIInstalld_RestoreconAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7196,7 +7198,7 @@ func newCmdAndroidOsIInstalld_MigrateAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7207,7 +7209,7 @@ func newCmdAndroidOsIInstalld_MigrateAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7236,7 +7238,7 @@ func newCmdAndroidOsIInstalld_MigrateAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7260,7 +7262,7 @@ func newCmdAndroidOsIInstalld_ClearAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7271,7 +7273,7 @@ func newCmdAndroidOsIInstalld_ClearAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7305,7 +7307,7 @@ func newCmdAndroidOsIInstalld_ClearAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7331,7 +7333,7 @@ func newCmdAndroidOsIInstalld_DestroyAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7342,7 +7344,7 @@ func newCmdAndroidOsIInstalld_DestroyAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7376,7 +7378,7 @@ func newCmdAndroidOsIInstalld_DestroyAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7402,7 +7404,7 @@ func newCmdAndroidOsIInstalld_FixupAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7413,7 +7415,7 @@ func newCmdAndroidOsIInstalld_FixupAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7437,7 +7439,7 @@ func newCmdAndroidOsIInstalld_FixupAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7459,7 +7461,7 @@ func newCmdAndroidOsIInstalld_GetAppSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7470,7 +7472,7 @@ func newCmdAndroidOsIInstalld_GetAppSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7532,7 +7534,7 @@ func newCmdAndroidOsIInstalld_GetAppSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7562,7 +7564,7 @@ func newCmdAndroidOsIInstalld_GetUserSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7573,7 +7575,7 @@ func newCmdAndroidOsIInstalld_GetUserSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7612,7 +7614,7 @@ func newCmdAndroidOsIInstalld_GetUserSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7636,7 +7638,7 @@ func newCmdAndroidOsIInstalld_GetExternalSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7647,7 +7649,7 @@ func newCmdAndroidOsIInstalld_GetExternalSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7686,7 +7688,7 @@ func newCmdAndroidOsIInstalld_GetExternalSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7710,7 +7712,7 @@ func newCmdAndroidOsIInstalld_GetAppCrates() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7721,7 +7723,7 @@ func newCmdAndroidOsIInstalld_GetAppCrates() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7749,7 +7751,7 @@ func newCmdAndroidOsIInstalld_GetAppCrates() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7771,7 +7773,7 @@ func newCmdAndroidOsIInstalld_GetUserCrates() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7782,7 +7784,7 @@ func newCmdAndroidOsIInstalld_GetUserCrates() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7801,7 +7803,7 @@ func newCmdAndroidOsIInstalld_GetUserCrates() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7821,7 +7823,7 @@ func newCmdAndroidOsIInstalld_SetAppQuota() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7832,7 +7834,7 @@ func newCmdAndroidOsIInstalld_SetAppQuota() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7861,7 +7863,7 @@ func newCmdAndroidOsIInstalld_SetAppQuota() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7885,7 +7887,7 @@ func newCmdAndroidOsIInstalld_MoveCompleteApp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7896,7 +7898,7 @@ func newCmdAndroidOsIInstalld_MoveCompleteApp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -7945,7 +7947,7 @@ func newCmdAndroidOsIInstalld_MoveCompleteApp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7977,7 +7979,7 @@ func newCmdAndroidOsIInstalld_Dexopt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7988,7 +7990,7 @@ func newCmdAndroidOsIInstalld_Dexopt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8082,7 +8084,7 @@ func newCmdAndroidOsIInstalld_Dexopt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8132,7 +8134,7 @@ func newCmdAndroidOsIInstalld_ControlDexOptBlocking() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8143,7 +8145,7 @@ func newCmdAndroidOsIInstalld_ControlDexOptBlocking() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8162,7 +8164,7 @@ func newCmdAndroidOsIInstalld_ControlDexOptBlocking() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8182,7 +8184,7 @@ func newCmdAndroidOsIInstalld_Rmdex() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8193,7 +8195,7 @@ func newCmdAndroidOsIInstalld_Rmdex() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8217,7 +8219,7 @@ func newCmdAndroidOsIInstalld_Rmdex() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8239,7 +8241,7 @@ func newCmdAndroidOsIInstalld_MergeProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8250,7 +8252,7 @@ func newCmdAndroidOsIInstalld_MergeProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8279,7 +8281,7 @@ func newCmdAndroidOsIInstalld_MergeProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8303,7 +8305,7 @@ func newCmdAndroidOsIInstalld_DumpProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8314,7 +8316,7 @@ func newCmdAndroidOsIInstalld_DumpProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8353,7 +8355,7 @@ func newCmdAndroidOsIInstalld_DumpProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8381,7 +8383,7 @@ func newCmdAndroidOsIInstalld_CopySystemProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8392,7 +8394,7 @@ func newCmdAndroidOsIInstalld_CopySystemProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8426,7 +8428,7 @@ func newCmdAndroidOsIInstalld_CopySystemProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8452,7 +8454,7 @@ func newCmdAndroidOsIInstalld_ClearAppProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8463,7 +8465,7 @@ func newCmdAndroidOsIInstalld_ClearAppProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8487,7 +8489,7 @@ func newCmdAndroidOsIInstalld_ClearAppProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8509,7 +8511,7 @@ func newCmdAndroidOsIInstalld_DestroyAppProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8520,7 +8522,7 @@ func newCmdAndroidOsIInstalld_DestroyAppProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8539,7 +8541,7 @@ func newCmdAndroidOsIInstalld_DestroyAppProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8559,7 +8561,7 @@ func newCmdAndroidOsIInstalld_DeleteReferenceProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8570,7 +8572,7 @@ func newCmdAndroidOsIInstalld_DeleteReferenceProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8594,7 +8596,7 @@ func newCmdAndroidOsIInstalld_DeleteReferenceProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8616,7 +8618,7 @@ func newCmdAndroidOsIInstalld_CreateProfileSnapshot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8627,7 +8629,7 @@ func newCmdAndroidOsIInstalld_CreateProfileSnapshot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8661,7 +8663,7 @@ func newCmdAndroidOsIInstalld_CreateProfileSnapshot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8687,7 +8689,7 @@ func newCmdAndroidOsIInstalld_DestroyProfileSnapshot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8698,7 +8700,7 @@ func newCmdAndroidOsIInstalld_DestroyProfileSnapshot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8722,7 +8724,7 @@ func newCmdAndroidOsIInstalld_DestroyProfileSnapshot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8744,7 +8746,7 @@ func newCmdAndroidOsIInstalld_RmPackageDir() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8755,7 +8757,7 @@ func newCmdAndroidOsIInstalld_RmPackageDir() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8779,7 +8781,7 @@ func newCmdAndroidOsIInstalld_RmPackageDir() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8801,7 +8803,7 @@ func newCmdAndroidOsIInstalld_FreeCache() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8812,7 +8814,7 @@ func newCmdAndroidOsIInstalld_FreeCache() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8841,7 +8843,7 @@ func newCmdAndroidOsIInstalld_FreeCache() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8865,7 +8867,7 @@ func newCmdAndroidOsIInstalld_LinkNativeLibraryDirectory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8876,7 +8878,7 @@ func newCmdAndroidOsIInstalld_LinkNativeLibraryDirectory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8905,7 +8907,7 @@ func newCmdAndroidOsIInstalld_LinkNativeLibraryDirectory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8929,7 +8931,7 @@ func newCmdAndroidOsIInstalld_CreateOatDir() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8940,7 +8942,7 @@ func newCmdAndroidOsIInstalld_CreateOatDir() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -8969,7 +8971,7 @@ func newCmdAndroidOsIInstalld_CreateOatDir() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8993,7 +8995,7 @@ func newCmdAndroidOsIInstalld_LinkFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9004,7 +9006,7 @@ func newCmdAndroidOsIInstalld_LinkFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9038,7 +9040,7 @@ func newCmdAndroidOsIInstalld_LinkFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9064,7 +9066,7 @@ func newCmdAndroidOsIInstalld_MoveAb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9075,7 +9077,7 @@ func newCmdAndroidOsIInstalld_MoveAb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9109,7 +9111,7 @@ func newCmdAndroidOsIInstalld_MoveAb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9135,7 +9137,7 @@ func newCmdAndroidOsIInstalld_DeleteOdex() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9146,7 +9148,7 @@ func newCmdAndroidOsIInstalld_DeleteOdex() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9180,7 +9182,7 @@ func newCmdAndroidOsIInstalld_DeleteOdex() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9206,7 +9208,7 @@ func newCmdAndroidOsIInstalld_ReconcileSecondaryDexFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9217,7 +9219,7 @@ func newCmdAndroidOsIInstalld_ReconcileSecondaryDexFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9265,7 +9267,7 @@ func newCmdAndroidOsIInstalld_ReconcileSecondaryDexFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9295,7 +9297,7 @@ func newCmdAndroidOsIInstalld_HashSecondaryDexFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9306,7 +9308,7 @@ func newCmdAndroidOsIInstalld_HashSecondaryDexFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9345,7 +9347,7 @@ func newCmdAndroidOsIInstalld_HashSecondaryDexFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9373,7 +9375,7 @@ func newCmdAndroidOsIInstalld_InvalidateMounts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9384,7 +9386,7 @@ func newCmdAndroidOsIInstalld_InvalidateMounts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9398,7 +9400,7 @@ func newCmdAndroidOsIInstalld_InvalidateMounts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9416,7 +9418,7 @@ func newCmdAndroidOsIInstalld_IsQuotaSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9427,7 +9429,7 @@ func newCmdAndroidOsIInstalld_IsQuotaSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9446,7 +9448,7 @@ func newCmdAndroidOsIInstalld_IsQuotaSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9466,7 +9468,7 @@ func newCmdAndroidOsIInstalld_PrepareAppProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9477,7 +9479,7 @@ func newCmdAndroidOsIInstalld_PrepareAppProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9516,7 +9518,7 @@ func newCmdAndroidOsIInstalld_PrepareAppProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9544,7 +9546,7 @@ func newCmdAndroidOsIInstalld_SnapshotAppData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9555,7 +9557,7 @@ func newCmdAndroidOsIInstalld_SnapshotAppData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9589,7 +9591,7 @@ func newCmdAndroidOsIInstalld_SnapshotAppData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9615,7 +9617,7 @@ func newCmdAndroidOsIInstalld_RestoreAppDataSnapshot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9626,7 +9628,7 @@ func newCmdAndroidOsIInstalld_RestoreAppDataSnapshot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9675,7 +9677,7 @@ func newCmdAndroidOsIInstalld_RestoreAppDataSnapshot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9707,7 +9709,7 @@ func newCmdAndroidOsIInstalld_DestroyAppDataSnapshot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9718,7 +9720,7 @@ func newCmdAndroidOsIInstalld_DestroyAppDataSnapshot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9757,7 +9759,7 @@ func newCmdAndroidOsIInstalld_DestroyAppDataSnapshot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9785,7 +9787,7 @@ func newCmdAndroidOsIInstalld_DestroyCeSnapshotsNotSpecified() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9796,7 +9798,7 @@ func newCmdAndroidOsIInstalld_DestroyCeSnapshotsNotSpecified() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9830,7 +9832,7 @@ func newCmdAndroidOsIInstalld_DestroyCeSnapshotsNotSpecified() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9852,7 +9854,7 @@ func newCmdAndroidOsIInstalld_TryMountDataMirror() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9863,7 +9865,7 @@ func newCmdAndroidOsIInstalld_TryMountDataMirror() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9882,7 +9884,7 @@ func newCmdAndroidOsIInstalld_TryMountDataMirror() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9902,7 +9904,7 @@ func newCmdAndroidOsIInstalld_OnPrivateVolumeRemoved() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9913,7 +9915,7 @@ func newCmdAndroidOsIInstalld_OnPrivateVolumeRemoved() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9932,7 +9934,7 @@ func newCmdAndroidOsIInstalld_OnPrivateVolumeRemoved() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9952,7 +9954,7 @@ func newCmdAndroidOsIInstalld_MigrateLegacyObbData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9963,7 +9965,7 @@ func newCmdAndroidOsIInstalld_MigrateLegacyObbData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -9977,7 +9979,7 @@ func newCmdAndroidOsIInstalld_MigrateLegacyObbData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9995,7 +9997,7 @@ func newCmdAndroidOsIInstalld_CleanupInvalidPackageDirs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10006,7 +10008,7 @@ func newCmdAndroidOsIInstalld_CleanupInvalidPackageDirs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -10030,7 +10032,7 @@ func newCmdAndroidOsIInstalld_CleanupInvalidPackageDirs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10052,7 +10054,7 @@ func newCmdAndroidOsIInstalld_GetOdexVisibility() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10063,7 +10065,7 @@ func newCmdAndroidOsIInstalld_GetOdexVisibility() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -10097,7 +10099,7 @@ func newCmdAndroidOsIInstalld_GetOdexVisibility() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10123,7 +10125,7 @@ func newCmdAndroidOsIInstalld_CreateFsveritySetupAuthToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10134,7 +10136,7 @@ func newCmdAndroidOsIInstalld_CreateFsveritySetupAuthToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IInstalld")
 			}
 			if err != nil {
 				return err
@@ -10158,7 +10160,7 @@ func newCmdAndroidOsIInstalld_CreateFsveritySetupAuthToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10191,7 +10193,7 @@ func newCmdAndroidOsIMessenger_Send() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10202,7 +10204,7 @@ func newCmdAndroidOsIMessenger_Send() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IMessenger")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IMessenger")
 			}
 			if err != nil {
 				return err
@@ -10218,7 +10220,7 @@ func newCmdAndroidOsIMessenger_Send() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10286,7 +10288,7 @@ func newCmdAndroidOsINetworkManagementService_RegisterObserver() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10297,7 +10299,7 @@ func newCmdAndroidOsINetworkManagementService_RegisterObserver() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10321,7 +10323,7 @@ func newCmdAndroidOsINetworkManagementService_RegisterObserver() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10341,7 +10343,7 @@ func newCmdAndroidOsINetworkManagementService_UnregisterObserver() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10352,7 +10354,7 @@ func newCmdAndroidOsINetworkManagementService_UnregisterObserver() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10376,7 +10378,7 @@ func newCmdAndroidOsINetworkManagementService_UnregisterObserver() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10396,7 +10398,7 @@ func newCmdAndroidOsINetworkManagementService_ListInterfaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10407,7 +10409,7 @@ func newCmdAndroidOsINetworkManagementService_ListInterfaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10421,7 +10423,7 @@ func newCmdAndroidOsINetworkManagementService_ListInterfaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10439,7 +10441,7 @@ func newCmdAndroidOsINetworkManagementService_GetInterfaceConfig() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10450,7 +10452,7 @@ func newCmdAndroidOsINetworkManagementService_GetInterfaceConfig() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10469,7 +10471,7 @@ func newCmdAndroidOsINetworkManagementService_GetInterfaceConfig() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10489,7 +10491,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceConfig() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10500,7 +10502,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceConfig() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10521,7 +10523,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceConfig() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10541,7 +10543,7 @@ func newCmdAndroidOsINetworkManagementService_ClearInterfaceAddresses() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10552,7 +10554,7 @@ func newCmdAndroidOsINetworkManagementService_ClearInterfaceAddresses() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10571,7 +10573,7 @@ func newCmdAndroidOsINetworkManagementService_ClearInterfaceAddresses() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10591,7 +10593,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceDown() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10602,7 +10604,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceDown() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10621,7 +10623,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceDown() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10641,7 +10643,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceUp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10652,7 +10654,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceUp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10671,7 +10673,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceUp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10691,7 +10693,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceIpv6PrivacyExtensions(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10702,7 +10704,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceIpv6PrivacyExtensions(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10726,7 +10728,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceIpv6PrivacyExtensions(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10748,7 +10750,7 @@ func newCmdAndroidOsINetworkManagementService_DisableIpv6() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10759,7 +10761,7 @@ func newCmdAndroidOsINetworkManagementService_DisableIpv6() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10778,7 +10780,7 @@ func newCmdAndroidOsINetworkManagementService_DisableIpv6() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10798,7 +10800,7 @@ func newCmdAndroidOsINetworkManagementService_EnableIpv6() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10809,7 +10811,7 @@ func newCmdAndroidOsINetworkManagementService_EnableIpv6() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10828,7 +10830,7 @@ func newCmdAndroidOsINetworkManagementService_EnableIpv6() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10848,7 +10850,7 @@ func newCmdAndroidOsINetworkManagementService_SetIPv6AddrGenMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10859,7 +10861,7 @@ func newCmdAndroidOsINetworkManagementService_SetIPv6AddrGenMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10883,7 +10885,7 @@ func newCmdAndroidOsINetworkManagementService_SetIPv6AddrGenMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10905,7 +10907,7 @@ func newCmdAndroidOsINetworkManagementService_Shutdown() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10916,7 +10918,7 @@ func newCmdAndroidOsINetworkManagementService_Shutdown() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10930,7 +10932,7 @@ func newCmdAndroidOsINetworkManagementService_Shutdown() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10948,7 +10950,7 @@ func newCmdAndroidOsINetworkManagementService_GetIpForwardingEnabled() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10959,7 +10961,7 @@ func newCmdAndroidOsINetworkManagementService_GetIpForwardingEnabled() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -10973,7 +10975,7 @@ func newCmdAndroidOsINetworkManagementService_GetIpForwardingEnabled() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10991,7 +10993,7 @@ func newCmdAndroidOsINetworkManagementService_SetIpForwardingEnabled() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11002,7 +11004,7 @@ func newCmdAndroidOsINetworkManagementService_SetIpForwardingEnabled() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11021,7 +11023,7 @@ func newCmdAndroidOsINetworkManagementService_SetIpForwardingEnabled() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11041,7 +11043,7 @@ func newCmdAndroidOsINetworkManagementService_StartTethering() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11052,7 +11054,7 @@ func newCmdAndroidOsINetworkManagementService_StartTethering() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11075,7 +11077,7 @@ func newCmdAndroidOsINetworkManagementService_StartTethering() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11095,7 +11097,7 @@ func newCmdAndroidOsINetworkManagementService_StopTethering() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11106,7 +11108,7 @@ func newCmdAndroidOsINetworkManagementService_StopTethering() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11120,7 +11122,7 @@ func newCmdAndroidOsINetworkManagementService_StopTethering() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11138,7 +11140,7 @@ func newCmdAndroidOsINetworkManagementService_IsTetheringStarted() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11149,7 +11151,7 @@ func newCmdAndroidOsINetworkManagementService_IsTetheringStarted() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11163,7 +11165,7 @@ func newCmdAndroidOsINetworkManagementService_IsTetheringStarted() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11181,7 +11183,7 @@ func newCmdAndroidOsINetworkManagementService_TetherInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11192,7 +11194,7 @@ func newCmdAndroidOsINetworkManagementService_TetherInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11211,7 +11213,7 @@ func newCmdAndroidOsINetworkManagementService_TetherInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11231,7 +11233,7 @@ func newCmdAndroidOsINetworkManagementService_UntetherInterface() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11242,7 +11244,7 @@ func newCmdAndroidOsINetworkManagementService_UntetherInterface() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11261,7 +11263,7 @@ func newCmdAndroidOsINetworkManagementService_UntetherInterface() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11281,7 +11283,7 @@ func newCmdAndroidOsINetworkManagementService_ListTetheredInterfaces() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11292,7 +11294,7 @@ func newCmdAndroidOsINetworkManagementService_ListTetheredInterfaces() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11306,7 +11308,7 @@ func newCmdAndroidOsINetworkManagementService_ListTetheredInterfaces() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11324,7 +11326,7 @@ func newCmdAndroidOsINetworkManagementService_EnableNat() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11335,7 +11337,7 @@ func newCmdAndroidOsINetworkManagementService_EnableNat() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11359,7 +11361,7 @@ func newCmdAndroidOsINetworkManagementService_EnableNat() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11381,7 +11383,7 @@ func newCmdAndroidOsINetworkManagementService_DisableNat() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11392,7 +11394,7 @@ func newCmdAndroidOsINetworkManagementService_DisableNat() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11416,7 +11418,7 @@ func newCmdAndroidOsINetworkManagementService_DisableNat() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11438,7 +11440,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceQuota() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11449,7 +11451,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceQuota() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11473,7 +11475,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceQuota() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11495,7 +11497,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceQuota() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11506,7 +11508,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceQuota() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11525,7 +11527,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceQuota() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11545,7 +11547,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceAlert() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11556,7 +11558,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceAlert() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11580,7 +11582,7 @@ func newCmdAndroidOsINetworkManagementService_SetInterfaceAlert() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11602,7 +11604,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceAlert() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11613,7 +11615,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceAlert() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11632,7 +11634,7 @@ func newCmdAndroidOsINetworkManagementService_RemoveInterfaceAlert() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11652,7 +11654,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkDenylist() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11663,7 +11665,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkDenylist() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11687,7 +11689,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkDenylist() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11709,7 +11711,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkAllowlist() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11720,7 +11722,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkAllowlist() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11744,7 +11746,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidOnMeteredNetworkAllowlist() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11766,7 +11768,7 @@ func newCmdAndroidOsINetworkManagementService_SetDataSaverModeEnabled() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11777,7 +11779,7 @@ func newCmdAndroidOsINetworkManagementService_SetDataSaverModeEnabled() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11796,7 +11798,7 @@ func newCmdAndroidOsINetworkManagementService_SetDataSaverModeEnabled() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11816,7 +11818,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidCleartextNetworkPolicy() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11827,7 +11829,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidCleartextNetworkPolicy() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11851,7 +11853,7 @@ func newCmdAndroidOsINetworkManagementService_SetUidCleartextNetworkPolicy() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11873,7 +11875,7 @@ func newCmdAndroidOsINetworkManagementService_IsBandwidthControlEnabled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11884,7 +11886,7 @@ func newCmdAndroidOsINetworkManagementService_IsBandwidthControlEnabled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11898,7 +11900,7 @@ func newCmdAndroidOsINetworkManagementService_IsBandwidthControlEnabled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11916,7 +11918,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallEnabled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11927,7 +11929,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallEnabled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11946,7 +11948,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallEnabled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11966,7 +11968,7 @@ func newCmdAndroidOsINetworkManagementService_IsFirewallEnabled() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11977,7 +11979,7 @@ func newCmdAndroidOsINetworkManagementService_IsFirewallEnabled() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -11991,7 +11993,7 @@ func newCmdAndroidOsINetworkManagementService_IsFirewallEnabled() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12009,7 +12011,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRule() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12020,7 +12022,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRule() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12049,7 +12051,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRule() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12073,7 +12075,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRules() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12084,7 +12086,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRules() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12133,7 +12135,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallUidRules() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12157,7 +12159,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallChainEnabled() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12168,7 +12170,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallChainEnabled() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12192,7 +12194,7 @@ func newCmdAndroidOsINetworkManagementService_SetFirewallChainEnabled() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12214,7 +12216,7 @@ func newCmdAndroidOsINetworkManagementService_AllowProtect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12225,7 +12227,7 @@ func newCmdAndroidOsINetworkManagementService_AllowProtect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12244,7 +12246,7 @@ func newCmdAndroidOsINetworkManagementService_AllowProtect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12264,7 +12266,7 @@ func newCmdAndroidOsINetworkManagementService_DenyProtect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12275,7 +12277,7 @@ func newCmdAndroidOsINetworkManagementService_DenyProtect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12294,7 +12296,7 @@ func newCmdAndroidOsINetworkManagementService_DenyProtect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12314,7 +12316,7 @@ func newCmdAndroidOsINetworkManagementService_IsNetworkRestricted() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12325,7 +12327,7 @@ func newCmdAndroidOsINetworkManagementService_IsNetworkRestricted() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.INetworkManagementService")
 			}
 			if err != nil {
 				return err
@@ -12344,7 +12346,7 @@ func newCmdAndroidOsINetworkManagementService_IsNetworkRestricted() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12379,7 +12381,7 @@ func newCmdAndroidOsIPermissionController_CheckPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12390,7 +12392,7 @@ func newCmdAndroidOsIPermissionController_CheckPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -12419,7 +12421,7 @@ func newCmdAndroidOsIPermissionController_CheckPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12443,7 +12445,7 @@ func newCmdAndroidOsIPermissionController_NoteOp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12454,7 +12456,7 @@ func newCmdAndroidOsIPermissionController_NoteOp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -12483,7 +12485,7 @@ func newCmdAndroidOsIPermissionController_NoteOp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12507,7 +12509,7 @@ func newCmdAndroidOsIPermissionController_GetPackagesForUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12518,7 +12520,7 @@ func newCmdAndroidOsIPermissionController_GetPackagesForUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -12537,7 +12539,7 @@ func newCmdAndroidOsIPermissionController_GetPackagesForUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12557,7 +12559,7 @@ func newCmdAndroidOsIPermissionController_IsRuntimePermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12568,7 +12570,7 @@ func newCmdAndroidOsIPermissionController_IsRuntimePermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -12587,7 +12589,7 @@ func newCmdAndroidOsIPermissionController_IsRuntimePermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12607,7 +12609,7 @@ func newCmdAndroidOsIPermissionController_GetPackageUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12618,7 +12620,7 @@ func newCmdAndroidOsIPermissionController_GetPackageUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -12642,7 +12644,7 @@ func newCmdAndroidOsIPermissionController_GetPackageUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12739,7 +12741,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLock() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12750,7 +12752,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLock() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -12810,7 +12812,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLock() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12842,7 +12844,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockWithUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12853,7 +12855,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockWithUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -12911,7 +12913,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockWithUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12943,7 +12945,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLock() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12954,7 +12956,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLock() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -12982,7 +12984,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLock() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13004,7 +13006,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13015,7 +13017,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13053,7 +13055,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13075,7 +13077,7 @@ func newCmdAndroidOsIPowerManager_SetPowerBoost() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13086,7 +13088,7 @@ func newCmdAndroidOsIPowerManager_SetPowerBoost() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13110,7 +13112,7 @@ func newCmdAndroidOsIPowerManager_SetPowerBoost() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13132,7 +13134,7 @@ func newCmdAndroidOsIPowerManager_SetPowerMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13143,7 +13145,7 @@ func newCmdAndroidOsIPowerManager_SetPowerMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13167,7 +13169,7 @@ func newCmdAndroidOsIPowerManager_SetPowerMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13189,7 +13191,7 @@ func newCmdAndroidOsIPowerManager_SetPowerModeChecked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13200,7 +13202,7 @@ func newCmdAndroidOsIPowerManager_SetPowerModeChecked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13224,7 +13226,7 @@ func newCmdAndroidOsIPowerManager_SetPowerModeChecked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13246,7 +13248,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockWorkSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13257,7 +13259,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockWorkSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13287,7 +13289,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockWorkSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13309,7 +13311,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13320,7 +13322,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13353,7 +13355,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13375,7 +13377,7 @@ func newCmdAndroidOsIPowerManager_IsWakeLockLevelSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13386,7 +13388,7 @@ func newCmdAndroidOsIPowerManager_IsWakeLockLevelSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13405,7 +13407,7 @@ func newCmdAndroidOsIPowerManager_IsWakeLockLevelSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13425,7 +13427,7 @@ func newCmdAndroidOsIPowerManager_UserActivity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13436,7 +13438,7 @@ func newCmdAndroidOsIPowerManager_UserActivity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13470,7 +13472,7 @@ func newCmdAndroidOsIPowerManager_UserActivity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13496,7 +13498,7 @@ func newCmdAndroidOsIPowerManager_WakeUp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13507,7 +13509,7 @@ func newCmdAndroidOsIPowerManager_WakeUp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13536,7 +13538,7 @@ func newCmdAndroidOsIPowerManager_WakeUp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13560,7 +13562,7 @@ func newCmdAndroidOsIPowerManager_GoToSleep() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13571,7 +13573,7 @@ func newCmdAndroidOsIPowerManager_GoToSleep() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13600,7 +13602,7 @@ func newCmdAndroidOsIPowerManager_GoToSleep() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13624,7 +13626,7 @@ func newCmdAndroidOsIPowerManager_GoToSleepWithDisplayId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13635,7 +13637,7 @@ func newCmdAndroidOsIPowerManager_GoToSleepWithDisplayId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13669,7 +13671,7 @@ func newCmdAndroidOsIPowerManager_GoToSleepWithDisplayId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13695,7 +13697,7 @@ func newCmdAndroidOsIPowerManager_Nap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13706,7 +13708,7 @@ func newCmdAndroidOsIPowerManager_Nap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13725,7 +13727,7 @@ func newCmdAndroidOsIPowerManager_Nap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13745,7 +13747,7 @@ func newCmdAndroidOsIPowerManager_GetBrightnessConstraint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13756,7 +13758,7 @@ func newCmdAndroidOsIPowerManager_GetBrightnessConstraint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13775,7 +13777,7 @@ func newCmdAndroidOsIPowerManager_GetBrightnessConstraint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13795,7 +13797,7 @@ func newCmdAndroidOsIPowerManager_IsInteractive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13806,7 +13808,7 @@ func newCmdAndroidOsIPowerManager_IsInteractive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13820,7 +13822,7 @@ func newCmdAndroidOsIPowerManager_IsInteractive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13838,7 +13840,7 @@ func newCmdAndroidOsIPowerManager_IsDisplayInteractive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13849,7 +13851,7 @@ func newCmdAndroidOsIPowerManager_IsDisplayInteractive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13868,7 +13870,7 @@ func newCmdAndroidOsIPowerManager_IsDisplayInteractive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13888,7 +13890,7 @@ func newCmdAndroidOsIPowerManager_AreAutoPowerSaveModesEnabled() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13899,7 +13901,7 @@ func newCmdAndroidOsIPowerManager_AreAutoPowerSaveModesEnabled() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13913,7 +13915,7 @@ func newCmdAndroidOsIPowerManager_AreAutoPowerSaveModesEnabled() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13931,7 +13933,7 @@ func newCmdAndroidOsIPowerManager_IsPowerSaveMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13942,7 +13944,7 @@ func newCmdAndroidOsIPowerManager_IsPowerSaveMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -13956,7 +13958,7 @@ func newCmdAndroidOsIPowerManager_IsPowerSaveMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13974,7 +13976,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13985,7 +13987,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14004,7 +14006,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14024,7 +14026,7 @@ func newCmdAndroidOsIPowerManager_SetPowerSaveModeEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14035,7 +14037,7 @@ func newCmdAndroidOsIPowerManager_SetPowerSaveModeEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14054,7 +14056,7 @@ func newCmdAndroidOsIPowerManager_SetPowerSaveModeEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14074,7 +14076,7 @@ func newCmdAndroidOsIPowerManager_IsBatterySaverSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14085,7 +14087,7 @@ func newCmdAndroidOsIPowerManager_IsBatterySaverSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14099,7 +14101,7 @@ func newCmdAndroidOsIPowerManager_IsBatterySaverSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14117,7 +14119,7 @@ func newCmdAndroidOsIPowerManager_GetFullPowerSavePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14128,7 +14130,7 @@ func newCmdAndroidOsIPowerManager_GetFullPowerSavePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14142,7 +14144,7 @@ func newCmdAndroidOsIPowerManager_GetFullPowerSavePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14160,7 +14162,7 @@ func newCmdAndroidOsIPowerManager_SetFullPowerSavePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14171,7 +14173,7 @@ func newCmdAndroidOsIPowerManager_SetFullPowerSavePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14187,7 +14189,7 @@ func newCmdAndroidOsIPowerManager_SetFullPowerSavePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14205,7 +14207,7 @@ func newCmdAndroidOsIPowerManager_SetDynamicPowerSaveHint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14216,7 +14218,7 @@ func newCmdAndroidOsIPowerManager_SetDynamicPowerSaveHint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14240,7 +14242,7 @@ func newCmdAndroidOsIPowerManager_SetDynamicPowerSaveHint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14262,7 +14264,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSavePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14273,7 +14275,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSavePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14289,7 +14291,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSavePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14307,7 +14309,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSaveEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14318,7 +14320,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSaveEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14337,7 +14339,7 @@ func newCmdAndroidOsIPowerManager_SetAdaptivePowerSaveEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14357,7 +14359,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveModeTrigger() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14368,7 +14370,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveModeTrigger() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14382,7 +14384,7 @@ func newCmdAndroidOsIPowerManager_GetPowerSaveModeTrigger() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14400,7 +14402,7 @@ func newCmdAndroidOsIPowerManager_SetBatteryDischargePrediction() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14411,7 +14413,7 @@ func newCmdAndroidOsIPowerManager_SetBatteryDischargePrediction() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14432,7 +14434,7 @@ func newCmdAndroidOsIPowerManager_SetBatteryDischargePrediction() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14452,7 +14454,7 @@ func newCmdAndroidOsIPowerManager_GetBatteryDischargePrediction() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14463,7 +14465,7 @@ func newCmdAndroidOsIPowerManager_GetBatteryDischargePrediction() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14477,7 +14479,7 @@ func newCmdAndroidOsIPowerManager_GetBatteryDischargePrediction() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14495,7 +14497,7 @@ func newCmdAndroidOsIPowerManager_IsBatteryDischargePredictionPersonalized() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14506,7 +14508,7 @@ func newCmdAndroidOsIPowerManager_IsBatteryDischargePredictionPersonalized() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14520,7 +14522,7 @@ func newCmdAndroidOsIPowerManager_IsBatteryDischargePredictionPersonalized() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14538,7 +14540,7 @@ func newCmdAndroidOsIPowerManager_IsDeviceIdleMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14549,7 +14551,7 @@ func newCmdAndroidOsIPowerManager_IsDeviceIdleMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14563,7 +14565,7 @@ func newCmdAndroidOsIPowerManager_IsDeviceIdleMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14581,7 +14583,7 @@ func newCmdAndroidOsIPowerManager_IsLightDeviceIdleMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14592,7 +14594,7 @@ func newCmdAndroidOsIPowerManager_IsLightDeviceIdleMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14606,7 +14608,7 @@ func newCmdAndroidOsIPowerManager_IsLightDeviceIdleMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14624,7 +14626,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbySupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14635,7 +14637,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbySupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14649,7 +14651,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbySupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14667,7 +14669,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbyEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14678,7 +14680,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbyEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14692,7 +14694,7 @@ func newCmdAndroidOsIPowerManager_IsLowPowerStandbyEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14710,7 +14712,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14721,7 +14723,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14740,7 +14742,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14760,7 +14762,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyActiveDuringMaintenance() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14771,7 +14773,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyActiveDuringMaintenance() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14790,7 +14792,7 @@ func newCmdAndroidOsIPowerManager_SetLowPowerStandbyActiveDuringMaintenance() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14810,7 +14812,7 @@ func newCmdAndroidOsIPowerManager_ForceLowPowerStandbyActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14821,7 +14823,7 @@ func newCmdAndroidOsIPowerManager_ForceLowPowerStandbyActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14840,7 +14842,7 @@ func newCmdAndroidOsIPowerManager_ForceLowPowerStandbyActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14860,7 +14862,7 @@ func newCmdAndroidOsIPowerManager_GetLowPowerStandbyPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14871,7 +14873,7 @@ func newCmdAndroidOsIPowerManager_GetLowPowerStandbyPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14885,7 +14887,7 @@ func newCmdAndroidOsIPowerManager_GetLowPowerStandbyPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14903,7 +14905,7 @@ func newCmdAndroidOsIPowerManager_IsExemptFromLowPowerStandby() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14914,7 +14916,7 @@ func newCmdAndroidOsIPowerManager_IsExemptFromLowPowerStandby() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14928,7 +14930,7 @@ func newCmdAndroidOsIPowerManager_IsExemptFromLowPowerStandby() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14946,7 +14948,7 @@ func newCmdAndroidOsIPowerManager_IsReasonAllowedInLowPowerStandby() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14957,7 +14959,7 @@ func newCmdAndroidOsIPowerManager_IsReasonAllowedInLowPowerStandby() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -14976,7 +14978,7 @@ func newCmdAndroidOsIPowerManager_IsReasonAllowedInLowPowerStandby() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14996,7 +14998,7 @@ func newCmdAndroidOsIPowerManager_IsFeatureAllowedInLowPowerStandby() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15007,7 +15009,7 @@ func newCmdAndroidOsIPowerManager_IsFeatureAllowedInLowPowerStandby() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15026,7 +15028,7 @@ func newCmdAndroidOsIPowerManager_IsFeatureAllowedInLowPowerStandby() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15046,7 +15048,7 @@ func newCmdAndroidOsIPowerManager_ReleaseLowPowerStandbyPorts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15057,7 +15059,7 @@ func newCmdAndroidOsIPowerManager_ReleaseLowPowerStandbyPorts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15080,7 +15082,7 @@ func newCmdAndroidOsIPowerManager_ReleaseLowPowerStandbyPorts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15100,7 +15102,7 @@ func newCmdAndroidOsIPowerManager_GetActiveLowPowerStandbyPorts() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15111,7 +15113,7 @@ func newCmdAndroidOsIPowerManager_GetActiveLowPowerStandbyPorts() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15125,7 +15127,7 @@ func newCmdAndroidOsIPowerManager_GetActiveLowPowerStandbyPorts() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15143,7 +15145,7 @@ func newCmdAndroidOsIPowerManager_Reboot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15154,7 +15156,7 @@ func newCmdAndroidOsIPowerManager_Reboot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15183,7 +15185,7 @@ func newCmdAndroidOsIPowerManager_Reboot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15207,7 +15209,7 @@ func newCmdAndroidOsIPowerManager_RebootSafeMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15218,7 +15220,7 @@ func newCmdAndroidOsIPowerManager_RebootSafeMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15242,7 +15244,7 @@ func newCmdAndroidOsIPowerManager_RebootSafeMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15264,7 +15266,7 @@ func newCmdAndroidOsIPowerManager_Shutdown() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15275,7 +15277,7 @@ func newCmdAndroidOsIPowerManager_Shutdown() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15304,7 +15306,7 @@ func newCmdAndroidOsIPowerManager_Shutdown() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15328,7 +15330,7 @@ func newCmdAndroidOsIPowerManager_Crash() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15339,7 +15341,7 @@ func newCmdAndroidOsIPowerManager_Crash() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15358,7 +15360,7 @@ func newCmdAndroidOsIPowerManager_Crash() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15378,7 +15380,7 @@ func newCmdAndroidOsIPowerManager_GetLastShutdownReason() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15389,7 +15391,7 @@ func newCmdAndroidOsIPowerManager_GetLastShutdownReason() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15403,7 +15405,7 @@ func newCmdAndroidOsIPowerManager_GetLastShutdownReason() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15421,7 +15423,7 @@ func newCmdAndroidOsIPowerManager_GetLastSleepReason() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15432,7 +15434,7 @@ func newCmdAndroidOsIPowerManager_GetLastSleepReason() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15446,7 +15448,7 @@ func newCmdAndroidOsIPowerManager_GetLastSleepReason() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15464,7 +15466,7 @@ func newCmdAndroidOsIPowerManager_SetStayOnSetting() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15475,7 +15477,7 @@ func newCmdAndroidOsIPowerManager_SetStayOnSetting() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15494,7 +15496,7 @@ func newCmdAndroidOsIPowerManager_SetStayOnSetting() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15514,7 +15516,7 @@ func newCmdAndroidOsIPowerManager_BoostScreenBrightness() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15525,7 +15527,7 @@ func newCmdAndroidOsIPowerManager_BoostScreenBrightness() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15544,7 +15546,7 @@ func newCmdAndroidOsIPowerManager_BoostScreenBrightness() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15564,7 +15566,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockAsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15575,7 +15577,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockAsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15620,7 +15622,7 @@ func newCmdAndroidOsIPowerManager_AcquireWakeLockAsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15648,7 +15650,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLockAsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15659,7 +15661,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLockAsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15687,7 +15689,7 @@ func newCmdAndroidOsIPowerManager_ReleaseWakeLockAsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15709,7 +15711,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUidsAsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15720,7 +15722,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUidsAsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15758,7 +15760,7 @@ func newCmdAndroidOsIPowerManager_UpdateWakeLockUidsAsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15780,7 +15782,7 @@ func newCmdAndroidOsIPowerManager_IsScreenBrightnessBoosted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15791,7 +15793,7 @@ func newCmdAndroidOsIPowerManager_IsScreenBrightnessBoosted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15805,7 +15807,7 @@ func newCmdAndroidOsIPowerManager_IsScreenBrightnessBoosted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15823,7 +15825,7 @@ func newCmdAndroidOsIPowerManager_SetAttentionLight() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15834,7 +15836,7 @@ func newCmdAndroidOsIPowerManager_SetAttentionLight() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15858,7 +15860,7 @@ func newCmdAndroidOsIPowerManager_SetAttentionLight() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15880,7 +15882,7 @@ func newCmdAndroidOsIPowerManager_SetDozeAfterScreenOff() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15891,7 +15893,7 @@ func newCmdAndroidOsIPowerManager_SetDozeAfterScreenOff() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15910,7 +15912,7 @@ func newCmdAndroidOsIPowerManager_SetDozeAfterScreenOff() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15930,7 +15932,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplayAvailable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15941,7 +15943,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplayAvailable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -15955,7 +15957,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplayAvailable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15973,7 +15975,7 @@ func newCmdAndroidOsIPowerManager_SuppressAmbientDisplay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15984,7 +15986,7 @@ func newCmdAndroidOsIPowerManager_SuppressAmbientDisplay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -16008,7 +16010,7 @@ func newCmdAndroidOsIPowerManager_SuppressAmbientDisplay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16030,7 +16032,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForToken() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16041,7 +16043,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForToken() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -16060,7 +16062,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForToken() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16080,7 +16082,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16091,7 +16093,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -16105,7 +16107,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16123,7 +16125,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForTokenByApp() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16134,7 +16136,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForTokenByApp() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -16153,7 +16155,7 @@ func newCmdAndroidOsIPowerManager_IsAmbientDisplaySuppressedForTokenByApp() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16173,7 +16175,7 @@ func newCmdAndroidOsIPowerManager_ForceSuspend() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16184,7 +16186,7 @@ func newCmdAndroidOsIPowerManager_ForceSuspend() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerManager")
 			}
 			if err != nil {
 				return err
@@ -16198,7 +16200,7 @@ func newCmdAndroidOsIPowerManager_ForceSuspend() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16228,7 +16230,7 @@ func newCmdAndroidOsIPowerStatsService_GetSupportedPowerMonitors() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16239,7 +16241,7 @@ func newCmdAndroidOsIPowerStatsService_GetSupportedPowerMonitors() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerStatsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerStatsService")
 			}
 			if err != nil {
 				return err
@@ -16255,7 +16257,7 @@ func newCmdAndroidOsIPowerStatsService_GetSupportedPowerMonitors() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16273,7 +16275,7 @@ func newCmdAndroidOsIPowerStatsService_GetPowerMonitorReadings() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16284,7 +16286,7 @@ func newCmdAndroidOsIPowerStatsService_GetPowerMonitorReadings() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IPowerStatsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IPowerStatsService")
 			}
 			if err != nil {
 				return err
@@ -16315,7 +16317,7 @@ func newCmdAndroidOsIPowerStatsService_GetPowerMonitorReadings() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16347,7 +16349,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesFromPids() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16358,7 +16360,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesFromPids() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IProcessInfoService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IProcessInfoService")
 			}
 			if err != nil {
 				return err
@@ -16388,7 +16390,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesFromPids() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16408,7 +16410,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesAndOomScoresFromPids() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16419,7 +16421,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesAndOomScoresFromPids() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IProcessInfoService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IProcessInfoService")
 			}
 			if err != nil {
 				return err
@@ -16450,7 +16452,7 @@ func newCmdAndroidOsIProcessInfoService_GetProcessStatesAndOomScoresFromPids() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16483,7 +16485,7 @@ func newCmdAndroidOsIProgressListener_OnStarted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16494,7 +16496,7 @@ func newCmdAndroidOsIProgressListener_OnStarted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
 			}
 			if err != nil {
 				return err
@@ -16515,7 +16517,7 @@ func newCmdAndroidOsIProgressListener_OnStarted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16535,7 +16537,7 @@ func newCmdAndroidOsIProgressListener_OnProgress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16546,7 +16548,7 @@ func newCmdAndroidOsIProgressListener_OnProgress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
 			}
 			if err != nil {
 				return err
@@ -16572,7 +16574,7 @@ func newCmdAndroidOsIProgressListener_OnProgress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16594,7 +16596,7 @@ func newCmdAndroidOsIProgressListener_OnFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16605,7 +16607,7 @@ func newCmdAndroidOsIProgressListener_OnFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IProgressListener")
 			}
 			if err != nil {
 				return err
@@ -16626,7 +16628,7 @@ func newCmdAndroidOsIProgressListener_OnFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16665,7 +16667,7 @@ func newCmdAndroidOsIRecoverySystem_AllocateSpaceForUpdate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16676,7 +16678,7 @@ func newCmdAndroidOsIRecoverySystem_AllocateSpaceForUpdate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16695,7 +16697,7 @@ func newCmdAndroidOsIRecoverySystem_AllocateSpaceForUpdate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16715,7 +16717,7 @@ func newCmdAndroidOsIRecoverySystem_Uncrypt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16726,7 +16728,7 @@ func newCmdAndroidOsIRecoverySystem_Uncrypt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16755,7 +16757,7 @@ func newCmdAndroidOsIRecoverySystem_Uncrypt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16777,7 +16779,7 @@ func newCmdAndroidOsIRecoverySystem_SetupBcb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16788,7 +16790,7 @@ func newCmdAndroidOsIRecoverySystem_SetupBcb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16807,7 +16809,7 @@ func newCmdAndroidOsIRecoverySystem_SetupBcb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16827,7 +16829,7 @@ func newCmdAndroidOsIRecoverySystem_ClearBcb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16838,7 +16840,7 @@ func newCmdAndroidOsIRecoverySystem_ClearBcb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16852,7 +16854,7 @@ func newCmdAndroidOsIRecoverySystem_ClearBcb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16870,7 +16872,7 @@ func newCmdAndroidOsIRecoverySystem_RebootRecoveryWithCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16881,7 +16883,7 @@ func newCmdAndroidOsIRecoverySystem_RebootRecoveryWithCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16900,7 +16902,7 @@ func newCmdAndroidOsIRecoverySystem_RebootRecoveryWithCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16920,7 +16922,7 @@ func newCmdAndroidOsIRecoverySystem_ClearLskf() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16931,7 +16933,7 @@ func newCmdAndroidOsIRecoverySystem_ClearLskf() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -16950,7 +16952,7 @@ func newCmdAndroidOsIRecoverySystem_ClearLskf() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16970,7 +16972,7 @@ func newCmdAndroidOsIRecoverySystem_IsLskfCaptured() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16981,7 +16983,7 @@ func newCmdAndroidOsIRecoverySystem_IsLskfCaptured() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -17000,7 +17002,7 @@ func newCmdAndroidOsIRecoverySystem_IsLskfCaptured() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17020,7 +17022,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskfAssumeSlotSwitch() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17031,7 +17033,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskfAssumeSlotSwitch() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -17055,7 +17057,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskfAssumeSlotSwitch() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17077,7 +17079,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskf() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17088,7 +17090,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskf() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystem")
 			}
 			if err != nil {
 				return err
@@ -17117,7 +17119,7 @@ func newCmdAndroidOsIRecoverySystem_RebootWithLskf() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17152,7 +17154,7 @@ func newCmdAndroidOsIRecoverySystemProgressListener_OnProgress() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17163,7 +17165,7 @@ func newCmdAndroidOsIRecoverySystemProgressListener_OnProgress() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystemProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRecoverySystemProgressListener")
 			}
 			if err != nil {
 				return err
@@ -17182,7 +17184,7 @@ func newCmdAndroidOsIRecoverySystemProgressListener_OnProgress() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17213,7 +17215,7 @@ func newCmdAndroidOsIRemoteCallback_SendResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17224,7 +17226,7 @@ func newCmdAndroidOsIRemoteCallback_SendResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IRemoteCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IRemoteCallback")
 			}
 			if err != nil {
 				return err
@@ -17240,7 +17242,7 @@ func newCmdAndroidOsIRemoteCallback_SendResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17270,7 +17272,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestPriority() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17281,7 +17283,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestPriority() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISchedulingPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISchedulingPolicyService")
 			}
 			if err != nil {
 				return err
@@ -17315,7 +17317,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestPriority() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17341,7 +17343,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestCpusetBoost() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17352,7 +17354,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestCpusetBoost() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISchedulingPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISchedulingPolicyService")
 			}
 			if err != nil {
 				return err
@@ -17380,7 +17382,7 @@ func newCmdAndroidOsISchedulingPolicyService_RequestCpusetBoost() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17413,7 +17415,7 @@ func newCmdAndroidOsISecurityStateManager_GetGlobalSecurityState() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17424,7 +17426,7 @@ func newCmdAndroidOsISecurityStateManager_GetGlobalSecurityState() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISecurityStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISecurityStateManager")
 			}
 			if err != nil {
 				return err
@@ -17438,7 +17440,7 @@ func newCmdAndroidOsISecurityStateManager_GetGlobalSecurityState() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17467,7 +17469,7 @@ func newCmdAndroidOsIServiceCallback_OnRegistration() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17478,7 +17480,7 @@ func newCmdAndroidOsIServiceCallback_OnRegistration() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -17506,7 +17508,7 @@ func newCmdAndroidOsIServiceCallback_OnRegistration() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17552,7 +17554,7 @@ func newCmdAndroidOsIServiceManager_GetService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17563,7 +17565,7 @@ func newCmdAndroidOsIServiceManager_GetService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17582,7 +17584,7 @@ func newCmdAndroidOsIServiceManager_GetService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17602,7 +17604,7 @@ func newCmdAndroidOsIServiceManager_CheckService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17613,7 +17615,7 @@ func newCmdAndroidOsIServiceManager_CheckService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17632,7 +17634,7 @@ func newCmdAndroidOsIServiceManager_CheckService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17652,7 +17654,7 @@ func newCmdAndroidOsIServiceManager_AddService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17663,7 +17665,7 @@ func newCmdAndroidOsIServiceManager_AddService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17701,7 +17703,7 @@ func newCmdAndroidOsIServiceManager_AddService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17727,7 +17729,7 @@ func newCmdAndroidOsIServiceManager_ListServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17738,7 +17740,7 @@ func newCmdAndroidOsIServiceManager_ListServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17757,7 +17759,7 @@ func newCmdAndroidOsIServiceManager_ListServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17777,7 +17779,7 @@ func newCmdAndroidOsIServiceManager_RegisterForNotifications() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17788,7 +17790,7 @@ func newCmdAndroidOsIServiceManager_RegisterForNotifications() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17817,7 +17819,7 @@ func newCmdAndroidOsIServiceManager_RegisterForNotifications() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17839,7 +17841,7 @@ func newCmdAndroidOsIServiceManager_UnregisterForNotifications() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17850,7 +17852,7 @@ func newCmdAndroidOsIServiceManager_UnregisterForNotifications() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17879,7 +17881,7 @@ func newCmdAndroidOsIServiceManager_UnregisterForNotifications() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17901,7 +17903,7 @@ func newCmdAndroidOsIServiceManager_IsDeclared() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17912,7 +17914,7 @@ func newCmdAndroidOsIServiceManager_IsDeclared() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17931,7 +17933,7 @@ func newCmdAndroidOsIServiceManager_IsDeclared() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17951,7 +17953,7 @@ func newCmdAndroidOsIServiceManager_GetDeclaredInstances() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17962,7 +17964,7 @@ func newCmdAndroidOsIServiceManager_GetDeclaredInstances() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -17981,7 +17983,7 @@ func newCmdAndroidOsIServiceManager_GetDeclaredInstances() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18001,7 +18003,7 @@ func newCmdAndroidOsIServiceManager_UpdatableViaApex() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18012,7 +18014,7 @@ func newCmdAndroidOsIServiceManager_UpdatableViaApex() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18031,7 +18033,7 @@ func newCmdAndroidOsIServiceManager_UpdatableViaApex() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18051,7 +18053,7 @@ func newCmdAndroidOsIServiceManager_GetUpdatableNames() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18062,7 +18064,7 @@ func newCmdAndroidOsIServiceManager_GetUpdatableNames() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18081,7 +18083,7 @@ func newCmdAndroidOsIServiceManager_GetUpdatableNames() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18101,7 +18103,7 @@ func newCmdAndroidOsIServiceManager_GetConnectionInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18112,7 +18114,7 @@ func newCmdAndroidOsIServiceManager_GetConnectionInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18131,7 +18133,7 @@ func newCmdAndroidOsIServiceManager_GetConnectionInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18151,7 +18153,7 @@ func newCmdAndroidOsIServiceManager_RegisterClientCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18162,7 +18164,7 @@ func newCmdAndroidOsIServiceManager_RegisterClientCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18200,7 +18202,7 @@ func newCmdAndroidOsIServiceManager_RegisterClientCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18224,7 +18226,7 @@ func newCmdAndroidOsIServiceManager_TryUnregisterService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18235,7 +18237,7 @@ func newCmdAndroidOsIServiceManager_TryUnregisterService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18263,7 +18265,7 @@ func newCmdAndroidOsIServiceManager_TryUnregisterService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18285,7 +18287,7 @@ func newCmdAndroidOsIServiceManager_GetServiceDebugInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18296,7 +18298,7 @@ func newCmdAndroidOsIServiceManager_GetServiceDebugInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IServiceManager")
 			}
 			if err != nil {
 				return err
@@ -18310,7 +18312,7 @@ func newCmdAndroidOsIServiceManager_GetServiceDebugInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18339,7 +18341,7 @@ func newCmdAndroidOsISomeService_ReadDisk() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18350,7 +18352,7 @@ func newCmdAndroidOsISomeService_ReadDisk() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISomeService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISomeService")
 			}
 			if err != nil {
 				return err
@@ -18369,7 +18371,7 @@ func newCmdAndroidOsISomeService_ReadDisk() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18400,7 +18402,7 @@ func newCmdAndroidOsIStatsBootstrapAtomService_ReportBootstrapAtom() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18411,7 +18413,7 @@ func newCmdAndroidOsIStatsBootstrapAtomService_ReportBootstrapAtom() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IStatsBootstrapAtomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IStatsBootstrapAtomService")
 			}
 			if err != nil {
 				return err
@@ -18433,7 +18435,7 @@ func newCmdAndroidOsIStatsBootstrapAtomService_ReportBootstrapAtom() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18472,7 +18474,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierApps() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18483,7 +18485,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierApps() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18497,7 +18499,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierApps() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18515,7 +18517,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18526,7 +18528,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18540,7 +18542,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18558,7 +18560,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18569,7 +18571,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18583,7 +18585,7 @@ func newCmdAndroidOsISystemConfig_GetDisabledUntilUsedPreinstalledCarrierAssocia
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18601,7 +18603,7 @@ func newCmdAndroidOsISystemConfig_GetSystemPermissionUids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18612,7 +18614,7 @@ func newCmdAndroidOsISystemConfig_GetSystemPermissionUids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18631,7 +18633,7 @@ func newCmdAndroidOsISystemConfig_GetSystemPermissionUids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18651,7 +18653,7 @@ func newCmdAndroidOsISystemConfig_GetEnabledComponentOverrides() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18662,7 +18664,7 @@ func newCmdAndroidOsISystemConfig_GetEnabledComponentOverrides() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18681,7 +18683,7 @@ func newCmdAndroidOsISystemConfig_GetEnabledComponentOverrides() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18701,7 +18703,7 @@ func newCmdAndroidOsISystemConfig_GetDefaultVrComponents() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18712,7 +18714,7 @@ func newCmdAndroidOsISystemConfig_GetDefaultVrComponents() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18726,7 +18728,7 @@ func newCmdAndroidOsISystemConfig_GetDefaultVrComponents() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18744,7 +18746,7 @@ func newCmdAndroidOsISystemConfig_GetPreventUserDisablePackages() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18755,7 +18757,7 @@ func newCmdAndroidOsISystemConfig_GetPreventUserDisablePackages() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18769,7 +18771,7 @@ func newCmdAndroidOsISystemConfig_GetPreventUserDisablePackages() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18787,7 +18789,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedPackages() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18798,7 +18800,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedPackages() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18812,7 +18814,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedPackages() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18830,7 +18832,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedInstallers() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18841,7 +18843,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedInstallers() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemConfig")
 			}
 			if err != nil {
 				return err
@@ -18855,7 +18857,7 @@ func newCmdAndroidOsISystemConfig_GetEnhancedConfirmationTrustedInstallers() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18885,7 +18887,7 @@ func newCmdAndroidOsISystemUpdateManager_RetrieveSystemUpdateInfo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18896,7 +18898,7 @@ func newCmdAndroidOsISystemUpdateManager_RetrieveSystemUpdateInfo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemUpdateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemUpdateManager")
 			}
 			if err != nil {
 				return err
@@ -18910,7 +18912,7 @@ func newCmdAndroidOsISystemUpdateManager_RetrieveSystemUpdateInfo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18928,7 +18930,7 @@ func newCmdAndroidOsISystemUpdateManager_UpdateSystemUpdateInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18939,7 +18941,7 @@ func newCmdAndroidOsISystemUpdateManager_UpdateSystemUpdateInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.ISystemUpdateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.ISystemUpdateManager")
 			}
 			if err != nil {
 				return err
@@ -18955,7 +18957,7 @@ func newCmdAndroidOsISystemUpdateManager_UpdateSystemUpdateInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18984,7 +18986,7 @@ func newCmdAndroidOsIThermalEventListener_NotifyThrottling() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18995,7 +18997,7 @@ func newCmdAndroidOsIThermalEventListener_NotifyThrottling() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalEventListener")
 			}
 			if err != nil {
 				return err
@@ -19011,7 +19013,7 @@ func newCmdAndroidOsIThermalEventListener_NotifyThrottling() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19051,7 +19053,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListener() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19062,7 +19064,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListener() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19086,7 +19088,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListener() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19106,7 +19108,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListenerWithType() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19117,7 +19119,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListenerWithType() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19146,7 +19148,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalEventListenerWithType() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19168,7 +19170,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalEventListener() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19179,7 +19181,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalEventListener() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19203,7 +19205,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalEventListener() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19223,7 +19225,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperatures() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19234,7 +19236,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperatures() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19248,7 +19250,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperatures() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19266,7 +19268,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperaturesWithType() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19277,7 +19279,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperaturesWithType() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19296,7 +19298,7 @@ func newCmdAndroidOsIThermalService_GetCurrentTemperaturesWithType() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19316,7 +19318,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalStatusListener() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19327,7 +19329,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalStatusListener() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19351,7 +19353,7 @@ func newCmdAndroidOsIThermalService_RegisterThermalStatusListener() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19371,7 +19373,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalStatusListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19382,7 +19384,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalStatusListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19406,7 +19408,7 @@ func newCmdAndroidOsIThermalService_UnregisterThermalStatusListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19426,7 +19428,7 @@ func newCmdAndroidOsIThermalService_GetCurrentThermalStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19437,7 +19439,7 @@ func newCmdAndroidOsIThermalService_GetCurrentThermalStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19451,7 +19453,7 @@ func newCmdAndroidOsIThermalService_GetCurrentThermalStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19469,7 +19471,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19480,7 +19482,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19494,7 +19496,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19512,7 +19514,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevicesWithType() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19523,7 +19525,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevicesWithType() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19542,7 +19544,7 @@ func newCmdAndroidOsIThermalService_GetCurrentCoolingDevicesWithType() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19562,7 +19564,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroom() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19573,7 +19575,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroom() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19592,7 +19594,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroom() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19612,7 +19614,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroomThresholds() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19623,7 +19625,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroomThresholds() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalService")
 			}
 			if err != nil {
 				return err
@@ -19637,7 +19639,7 @@ func newCmdAndroidOsIThermalService_GetThermalHeadroomThresholds() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19666,7 +19668,7 @@ func newCmdAndroidOsIThermalStatusListener_OnStatusChange() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19677,7 +19679,7 @@ func newCmdAndroidOsIThermalStatusListener_OnStatusChange() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IThermalStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IThermalStatusListener")
 			}
 			if err != nil {
 				return err
@@ -19696,7 +19698,7 @@ func newCmdAndroidOsIThermalStatusListener_OnStatusChange() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19728,7 +19730,7 @@ func newCmdAndroidOsIUpdateLock_AcquireUpdateLock() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19739,7 +19741,7 @@ func newCmdAndroidOsIUpdateLock_AcquireUpdateLock() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUpdateLock")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUpdateLock")
 			}
 			if err != nil {
 				return err
@@ -19767,7 +19769,7 @@ func newCmdAndroidOsIUpdateLock_AcquireUpdateLock() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19789,7 +19791,7 @@ func newCmdAndroidOsIUpdateLock_ReleaseUpdateLock() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19800,7 +19802,7 @@ func newCmdAndroidOsIUpdateLock_ReleaseUpdateLock() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUpdateLock")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUpdateLock")
 			}
 			if err != nil {
 				return err
@@ -19823,7 +19825,7 @@ func newCmdAndroidOsIUpdateLock_ReleaseUpdateLock() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19954,7 +19956,7 @@ func newCmdAndroidOsIUserManager_GetCredentialOwnerProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19965,7 +19967,7 @@ func newCmdAndroidOsIUserManager_GetCredentialOwnerProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -19979,7 +19981,7 @@ func newCmdAndroidOsIUserManager_GetCredentialOwnerProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19997,7 +19999,7 @@ func newCmdAndroidOsIUserManager_GetProfileParentId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20008,7 +20010,7 @@ func newCmdAndroidOsIUserManager_GetProfileParentId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20022,7 +20024,7 @@ func newCmdAndroidOsIUserManager_GetProfileParentId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20040,7 +20042,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithThrow() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20051,7 +20053,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithThrow() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20080,7 +20082,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithThrow() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20104,7 +20106,7 @@ func newCmdAndroidOsIUserManager_PreCreateUserWithThrow() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20115,7 +20117,7 @@ func newCmdAndroidOsIUserManager_PreCreateUserWithThrow() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20134,7 +20136,7 @@ func newCmdAndroidOsIUserManager_PreCreateUserWithThrow() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20154,7 +20156,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserWithThrow() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20165,7 +20167,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserWithThrow() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20203,7 +20205,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserWithThrow() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20229,7 +20231,7 @@ func newCmdAndroidOsIUserManager_CreateRestrictedProfileWithThrow() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20240,7 +20242,7 @@ func newCmdAndroidOsIUserManager_CreateRestrictedProfileWithThrow() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20264,7 +20266,7 @@ func newCmdAndroidOsIUserManager_CreateRestrictedProfileWithThrow() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20286,7 +20288,7 @@ func newCmdAndroidOsIUserManager_GetPreInstallableSystemPackages() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20297,7 +20299,7 @@ func newCmdAndroidOsIUserManager_GetPreInstallableSystemPackages() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20316,7 +20318,7 @@ func newCmdAndroidOsIUserManager_GetPreInstallableSystemPackages() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20336,7 +20338,7 @@ func newCmdAndroidOsIUserManager_SetUserEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20347,7 +20349,7 @@ func newCmdAndroidOsIUserManager_SetUserEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20361,7 +20363,7 @@ func newCmdAndroidOsIUserManager_SetUserEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20379,7 +20381,7 @@ func newCmdAndroidOsIUserManager_SetUserAdmin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20390,7 +20392,7 @@ func newCmdAndroidOsIUserManager_SetUserAdmin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20404,7 +20406,7 @@ func newCmdAndroidOsIUserManager_SetUserAdmin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20422,7 +20424,7 @@ func newCmdAndroidOsIUserManager_RevokeUserAdmin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20433,7 +20435,7 @@ func newCmdAndroidOsIUserManager_RevokeUserAdmin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20447,7 +20449,7 @@ func newCmdAndroidOsIUserManager_RevokeUserAdmin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20465,7 +20467,7 @@ func newCmdAndroidOsIUserManager_EvictCredentialEncryptionKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20476,7 +20478,7 @@ func newCmdAndroidOsIUserManager_EvictCredentialEncryptionKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20490,7 +20492,7 @@ func newCmdAndroidOsIUserManager_EvictCredentialEncryptionKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20508,7 +20510,7 @@ func newCmdAndroidOsIUserManager_RemoveUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20519,7 +20521,7 @@ func newCmdAndroidOsIUserManager_RemoveUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20533,7 +20535,7 @@ func newCmdAndroidOsIUserManager_RemoveUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20551,7 +20553,7 @@ func newCmdAndroidOsIUserManager_RemoveUserEvenWhenDisallowed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20562,7 +20564,7 @@ func newCmdAndroidOsIUserManager_RemoveUserEvenWhenDisallowed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20576,7 +20578,7 @@ func newCmdAndroidOsIUserManager_RemoveUserEvenWhenDisallowed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20594,7 +20596,7 @@ func newCmdAndroidOsIUserManager_SetUserName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20605,7 +20607,7 @@ func newCmdAndroidOsIUserManager_SetUserName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20624,7 +20626,7 @@ func newCmdAndroidOsIUserManager_SetUserName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20644,7 +20646,7 @@ func newCmdAndroidOsIUserManager_SetUserIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20655,7 +20657,7 @@ func newCmdAndroidOsIUserManager_SetUserIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20671,7 +20673,7 @@ func newCmdAndroidOsIUserManager_SetUserIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20689,7 +20691,7 @@ func newCmdAndroidOsIUserManager_GetUserIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20700,7 +20702,7 @@ func newCmdAndroidOsIUserManager_GetUserIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20714,7 +20716,7 @@ func newCmdAndroidOsIUserManager_GetUserIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20732,7 +20734,7 @@ func newCmdAndroidOsIUserManager_GetPrimaryUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20743,7 +20745,7 @@ func newCmdAndroidOsIUserManager_GetPrimaryUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20757,7 +20759,7 @@ func newCmdAndroidOsIUserManager_GetPrimaryUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20775,7 +20777,7 @@ func newCmdAndroidOsIUserManager_GetMainUserId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20786,7 +20788,7 @@ func newCmdAndroidOsIUserManager_GetMainUserId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20800,7 +20802,7 @@ func newCmdAndroidOsIUserManager_GetMainUserId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20818,7 +20820,7 @@ func newCmdAndroidOsIUserManager_GetCommunalProfileId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20829,7 +20831,7 @@ func newCmdAndroidOsIUserManager_GetCommunalProfileId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20843,7 +20845,7 @@ func newCmdAndroidOsIUserManager_GetCommunalProfileId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20861,7 +20863,7 @@ func newCmdAndroidOsIUserManager_GetPreviousFullUserToEnterForeground() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20872,7 +20874,7 @@ func newCmdAndroidOsIUserManager_GetPreviousFullUserToEnterForeground() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20886,7 +20888,7 @@ func newCmdAndroidOsIUserManager_GetPreviousFullUserToEnterForeground() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20904,7 +20906,7 @@ func newCmdAndroidOsIUserManager_GetUsers() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20915,7 +20917,7 @@ func newCmdAndroidOsIUserManager_GetUsers() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20944,7 +20946,7 @@ func newCmdAndroidOsIUserManager_GetUsers() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20968,7 +20970,7 @@ func newCmdAndroidOsIUserManager_GetProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20979,7 +20981,7 @@ func newCmdAndroidOsIUserManager_GetProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -20998,7 +21000,7 @@ func newCmdAndroidOsIUserManager_GetProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21018,7 +21020,7 @@ func newCmdAndroidOsIUserManager_GetProfileIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21029,7 +21031,7 @@ func newCmdAndroidOsIUserManager_GetProfileIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21048,7 +21050,7 @@ func newCmdAndroidOsIUserManager_GetProfileIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21068,7 +21070,7 @@ func newCmdAndroidOsIUserManager_IsUserTypeEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21079,7 +21081,7 @@ func newCmdAndroidOsIUserManager_IsUserTypeEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21098,7 +21100,7 @@ func newCmdAndroidOsIUserManager_IsUserTypeEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21118,7 +21120,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreUsersOfType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21129,7 +21131,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreUsersOfType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21148,7 +21150,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreUsersOfType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21168,7 +21170,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableUserCount() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21179,7 +21181,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableUserCount() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21198,7 +21200,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableUserCount() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21218,7 +21220,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableProfileCount() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21229,7 +21231,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableProfileCount() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21248,7 +21250,7 @@ func newCmdAndroidOsIUserManager_GetRemainingCreatableProfileCount() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21268,7 +21270,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreProfilesToUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21279,7 +21281,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreProfilesToUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21303,7 +21305,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreProfilesToUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21325,7 +21327,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreManagedProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21336,7 +21338,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreManagedProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21355,7 +21357,7 @@ func newCmdAndroidOsIUserManager_CanAddMoreManagedProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21375,7 +21377,7 @@ func newCmdAndroidOsIUserManager_GetProfileParent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21386,7 +21388,7 @@ func newCmdAndroidOsIUserManager_GetProfileParent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21400,7 +21402,7 @@ func newCmdAndroidOsIUserManager_GetProfileParent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21418,7 +21420,7 @@ func newCmdAndroidOsIUserManager_IsSameProfileGroup() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21429,7 +21431,7 @@ func newCmdAndroidOsIUserManager_IsSameProfileGroup() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21448,7 +21450,7 @@ func newCmdAndroidOsIUserManager_IsSameProfileGroup() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21468,7 +21470,7 @@ func newCmdAndroidOsIUserManager_IsHeadlessSystemUserMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21479,7 +21481,7 @@ func newCmdAndroidOsIUserManager_IsHeadlessSystemUserMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21493,7 +21495,7 @@ func newCmdAndroidOsIUserManager_IsHeadlessSystemUserMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21511,7 +21513,7 @@ func newCmdAndroidOsIUserManager_IsUserOfType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21522,7 +21524,7 @@ func newCmdAndroidOsIUserManager_IsUserOfType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21541,7 +21543,7 @@ func newCmdAndroidOsIUserManager_IsUserOfType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21561,7 +21563,7 @@ func newCmdAndroidOsIUserManager_GetUserInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21572,7 +21574,7 @@ func newCmdAndroidOsIUserManager_GetUserInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21586,7 +21588,7 @@ func newCmdAndroidOsIUserManager_GetUserInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21604,7 +21606,7 @@ func newCmdAndroidOsIUserManager_GetUserPropertiesCopy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21615,7 +21617,7 @@ func newCmdAndroidOsIUserManager_GetUserPropertiesCopy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21629,7 +21631,7 @@ func newCmdAndroidOsIUserManager_GetUserPropertiesCopy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21647,7 +21649,7 @@ func newCmdAndroidOsIUserManager_GetUserAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21658,7 +21660,7 @@ func newCmdAndroidOsIUserManager_GetUserAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21672,7 +21674,7 @@ func newCmdAndroidOsIUserManager_GetUserAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21690,7 +21692,7 @@ func newCmdAndroidOsIUserManager_SetUserAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21701,7 +21703,7 @@ func newCmdAndroidOsIUserManager_SetUserAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21720,7 +21722,7 @@ func newCmdAndroidOsIUserManager_SetUserAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21740,7 +21742,7 @@ func newCmdAndroidOsIUserManager_GetUserCreationTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21751,7 +21753,7 @@ func newCmdAndroidOsIUserManager_GetUserCreationTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21765,7 +21767,7 @@ func newCmdAndroidOsIUserManager_GetUserCreationTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21783,7 +21785,7 @@ func newCmdAndroidOsIUserManager_GetUserSwitchability() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21794,7 +21796,7 @@ func newCmdAndroidOsIUserManager_GetUserSwitchability() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21808,7 +21810,7 @@ func newCmdAndroidOsIUserManager_GetUserSwitchability() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21826,7 +21828,7 @@ func newCmdAndroidOsIUserManager_IsUserSwitcherEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21837,7 +21839,7 @@ func newCmdAndroidOsIUserManager_IsUserSwitcherEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21861,7 +21863,7 @@ func newCmdAndroidOsIUserManager_IsUserSwitcherEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21883,7 +21885,7 @@ func newCmdAndroidOsIUserManager_IsRestricted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21894,7 +21896,7 @@ func newCmdAndroidOsIUserManager_IsRestricted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21908,7 +21910,7 @@ func newCmdAndroidOsIUserManager_IsRestricted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21926,7 +21928,7 @@ func newCmdAndroidOsIUserManager_CanHaveRestrictedProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21937,7 +21939,7 @@ func newCmdAndroidOsIUserManager_CanHaveRestrictedProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21951,7 +21953,7 @@ func newCmdAndroidOsIUserManager_CanHaveRestrictedProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21969,7 +21971,7 @@ func newCmdAndroidOsIUserManager_GetUserSerialNumber() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21980,7 +21982,7 @@ func newCmdAndroidOsIUserManager_GetUserSerialNumber() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -21994,7 +21996,7 @@ func newCmdAndroidOsIUserManager_GetUserSerialNumber() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22012,7 +22014,7 @@ func newCmdAndroidOsIUserManager_GetUserHandle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22023,7 +22025,7 @@ func newCmdAndroidOsIUserManager_GetUserHandle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22042,7 +22044,7 @@ func newCmdAndroidOsIUserManager_GetUserHandle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22062,7 +22064,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22073,7 +22075,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22092,7 +22094,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22112,7 +22114,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSources() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22123,7 +22125,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSources() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22142,7 +22144,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictionSources() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22162,7 +22164,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22173,7 +22175,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22187,7 +22189,7 @@ func newCmdAndroidOsIUserManager_GetUserRestrictions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22205,7 +22207,7 @@ func newCmdAndroidOsIUserManager_HasBaseUserRestriction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22216,7 +22218,7 @@ func newCmdAndroidOsIUserManager_HasBaseUserRestriction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22235,7 +22237,7 @@ func newCmdAndroidOsIUserManager_HasBaseUserRestriction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22255,7 +22257,7 @@ func newCmdAndroidOsIUserManager_HasUserRestriction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22266,7 +22268,7 @@ func newCmdAndroidOsIUserManager_HasUserRestriction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22285,7 +22287,7 @@ func newCmdAndroidOsIUserManager_HasUserRestriction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22305,7 +22307,7 @@ func newCmdAndroidOsIUserManager_HasUserRestrictionOnAnyUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22316,7 +22318,7 @@ func newCmdAndroidOsIUserManager_HasUserRestrictionOnAnyUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22335,7 +22337,7 @@ func newCmdAndroidOsIUserManager_HasUserRestrictionOnAnyUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22355,7 +22357,7 @@ func newCmdAndroidOsIUserManager_IsSettingRestrictedForUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22366,7 +22368,7 @@ func newCmdAndroidOsIUserManager_IsSettingRestrictedForUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22390,7 +22392,7 @@ func newCmdAndroidOsIUserManager_IsSettingRestrictedForUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22412,7 +22414,7 @@ func newCmdAndroidOsIUserManager_AddUserRestrictionsListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22423,7 +22425,7 @@ func newCmdAndroidOsIUserManager_AddUserRestrictionsListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22447,7 +22449,7 @@ func newCmdAndroidOsIUserManager_AddUserRestrictionsListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22467,7 +22469,7 @@ func newCmdAndroidOsIUserManager_SetUserRestriction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22478,7 +22480,7 @@ func newCmdAndroidOsIUserManager_SetUserRestriction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22502,7 +22504,7 @@ func newCmdAndroidOsIUserManager_SetUserRestriction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22524,7 +22526,7 @@ func newCmdAndroidOsIUserManager_SetApplicationRestrictions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22535,7 +22537,7 @@ func newCmdAndroidOsIUserManager_SetApplicationRestrictions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22556,7 +22558,7 @@ func newCmdAndroidOsIUserManager_SetApplicationRestrictions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22576,7 +22578,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22587,7 +22589,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22606,7 +22608,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22626,7 +22628,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictionsForUser() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22637,7 +22639,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictionsForUser() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22656,7 +22658,7 @@ func newCmdAndroidOsIUserManager_GetApplicationRestrictionsForUser() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22676,7 +22678,7 @@ func newCmdAndroidOsIUserManager_SetDefaultGuestRestrictions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22687,7 +22689,7 @@ func newCmdAndroidOsIUserManager_SetDefaultGuestRestrictions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22703,7 +22705,7 @@ func newCmdAndroidOsIUserManager_SetDefaultGuestRestrictions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22721,7 +22723,7 @@ func newCmdAndroidOsIUserManager_GetDefaultGuestRestrictions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22732,7 +22734,7 @@ func newCmdAndroidOsIUserManager_GetDefaultGuestRestrictions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22746,7 +22748,7 @@ func newCmdAndroidOsIUserManager_GetDefaultGuestRestrictions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22764,7 +22766,7 @@ func newCmdAndroidOsIUserManager_RemoveUserWhenPossible() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22775,7 +22777,7 @@ func newCmdAndroidOsIUserManager_RemoveUserWhenPossible() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22794,7 +22796,7 @@ func newCmdAndroidOsIUserManager_RemoveUserWhenPossible() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22814,7 +22816,7 @@ func newCmdAndroidOsIUserManager_MarkGuestForDeletion() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22825,7 +22827,7 @@ func newCmdAndroidOsIUserManager_MarkGuestForDeletion() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22839,7 +22841,7 @@ func newCmdAndroidOsIUserManager_MarkGuestForDeletion() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22857,7 +22859,7 @@ func newCmdAndroidOsIUserManager_GetGuestUsers() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22868,7 +22870,7 @@ func newCmdAndroidOsIUserManager_GetGuestUsers() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22882,7 +22884,7 @@ func newCmdAndroidOsIUserManager_GetGuestUsers() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22900,7 +22902,7 @@ func newCmdAndroidOsIUserManager_IsQuietModeEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22911,7 +22913,7 @@ func newCmdAndroidOsIUserManager_IsQuietModeEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22925,7 +22927,7 @@ func newCmdAndroidOsIUserManager_IsQuietModeEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22943,7 +22945,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithAttributes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22954,7 +22956,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithAttributes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -22997,7 +22999,7 @@ func newCmdAndroidOsIUserManager_CreateUserWithAttributes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23025,7 +23027,7 @@ func newCmdAndroidOsIUserManager_SetSeedAccountData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23036,7 +23038,7 @@ func newCmdAndroidOsIUserManager_SetSeedAccountData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23067,7 +23069,7 @@ func newCmdAndroidOsIUserManager_SetSeedAccountData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23091,7 +23093,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23102,7 +23104,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23116,7 +23118,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23134,7 +23136,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23145,7 +23147,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23159,7 +23161,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23177,7 +23179,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountOptions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23188,7 +23190,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountOptions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23202,7 +23204,7 @@ func newCmdAndroidOsIUserManager_GetSeedAccountOptions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23220,7 +23222,7 @@ func newCmdAndroidOsIUserManager_ClearSeedAccountData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23231,7 +23233,7 @@ func newCmdAndroidOsIUserManager_ClearSeedAccountData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23245,7 +23247,7 @@ func newCmdAndroidOsIUserManager_ClearSeedAccountData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23263,7 +23265,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasSeedAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23274,7 +23276,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasSeedAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23298,7 +23300,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasSeedAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23320,7 +23322,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasAccount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23331,7 +23333,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasAccount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23355,7 +23357,7 @@ func newCmdAndroidOsIUserManager_SomeUserHasAccount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23377,7 +23379,7 @@ func newCmdAndroidOsIUserManager_GetProfileType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23388,7 +23390,7 @@ func newCmdAndroidOsIUserManager_GetProfileType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23402,7 +23404,7 @@ func newCmdAndroidOsIUserManager_GetProfileType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23420,7 +23422,7 @@ func newCmdAndroidOsIUserManager_IsDemoUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23431,7 +23433,7 @@ func newCmdAndroidOsIUserManager_IsDemoUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23445,7 +23447,7 @@ func newCmdAndroidOsIUserManager_IsDemoUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23463,7 +23465,7 @@ func newCmdAndroidOsIUserManager_IsAdminUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23474,7 +23476,7 @@ func newCmdAndroidOsIUserManager_IsAdminUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23488,7 +23490,7 @@ func newCmdAndroidOsIUserManager_IsAdminUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23506,7 +23508,7 @@ func newCmdAndroidOsIUserManager_IsPreCreated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23517,7 +23519,7 @@ func newCmdAndroidOsIUserManager_IsPreCreated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23531,7 +23533,7 @@ func newCmdAndroidOsIUserManager_IsPreCreated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23549,7 +23551,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserEvenWhenDisallowedWithThrow
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23560,7 +23562,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserEvenWhenDisallowedWithThrow
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23598,7 +23600,7 @@ func newCmdAndroidOsIUserManager_CreateProfileForUserEvenWhenDisallowedWithThrow
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23624,7 +23626,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlockingOrUnlocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23635,7 +23637,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlockingOrUnlocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23649,7 +23651,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlockingOrUnlocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23667,7 +23669,7 @@ func newCmdAndroidOsIUserManager_GetUserIconBadgeResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23678,7 +23680,7 @@ func newCmdAndroidOsIUserManager_GetUserIconBadgeResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23692,7 +23694,7 @@ func newCmdAndroidOsIUserManager_GetUserIconBadgeResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23710,7 +23712,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23721,7 +23723,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23735,7 +23737,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23753,7 +23755,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeNoBackgroundResId() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23764,7 +23766,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeNoBackgroundResId() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23778,7 +23780,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeNoBackgroundResId() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23796,7 +23798,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeLabelResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23807,7 +23809,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeLabelResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23821,7 +23823,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeLabelResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23839,7 +23841,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeColorResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23850,7 +23852,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeColorResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23864,7 +23866,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeColorResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23882,7 +23884,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeDarkColorResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23893,7 +23895,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeDarkColorResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23907,7 +23909,7 @@ func newCmdAndroidOsIUserManager_GetUserBadgeDarkColorResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23925,7 +23927,7 @@ func newCmdAndroidOsIUserManager_GetUserStatusBarIconResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23936,7 +23938,7 @@ func newCmdAndroidOsIUserManager_GetUserStatusBarIconResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23950,7 +23952,7 @@ func newCmdAndroidOsIUserManager_GetUserStatusBarIconResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23968,7 +23970,7 @@ func newCmdAndroidOsIUserManager_HasBadge() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23979,7 +23981,7 @@ func newCmdAndroidOsIUserManager_HasBadge() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -23993,7 +23995,7 @@ func newCmdAndroidOsIUserManager_HasBadge() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24011,7 +24013,7 @@ func newCmdAndroidOsIUserManager_GetProfileLabelResId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24022,7 +24024,7 @@ func newCmdAndroidOsIUserManager_GetProfileLabelResId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24036,7 +24038,7 @@ func newCmdAndroidOsIUserManager_GetProfileLabelResId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24054,7 +24056,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlocked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24065,7 +24067,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlocked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24079,7 +24081,7 @@ func newCmdAndroidOsIUserManager_IsUserUnlocked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24097,7 +24099,7 @@ func newCmdAndroidOsIUserManager_IsUserRunning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24108,7 +24110,7 @@ func newCmdAndroidOsIUserManager_IsUserRunning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24122,7 +24124,7 @@ func newCmdAndroidOsIUserManager_IsUserRunning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24140,7 +24142,7 @@ func newCmdAndroidOsIUserManager_IsUserForeground() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24151,7 +24153,7 @@ func newCmdAndroidOsIUserManager_IsUserForeground() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24165,7 +24167,7 @@ func newCmdAndroidOsIUserManager_IsUserForeground() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24183,7 +24185,7 @@ func newCmdAndroidOsIUserManager_IsUserVisible() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24194,7 +24196,7 @@ func newCmdAndroidOsIUserManager_IsUserVisible() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24208,7 +24210,7 @@ func newCmdAndroidOsIUserManager_IsUserVisible() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24226,7 +24228,7 @@ func newCmdAndroidOsIUserManager_GetVisibleUsers() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24237,7 +24239,7 @@ func newCmdAndroidOsIUserManager_GetVisibleUsers() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24251,7 +24253,7 @@ func newCmdAndroidOsIUserManager_GetVisibleUsers() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24269,7 +24271,7 @@ func newCmdAndroidOsIUserManager_GetMainDisplayIdAssignedToUser() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24280,7 +24282,7 @@ func newCmdAndroidOsIUserManager_GetMainDisplayIdAssignedToUser() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24294,7 +24296,7 @@ func newCmdAndroidOsIUserManager_GetMainDisplayIdAssignedToUser() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24312,7 +24314,7 @@ func newCmdAndroidOsIUserManager_IsForegroundUserAdmin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24323,7 +24325,7 @@ func newCmdAndroidOsIUserManager_IsForegroundUserAdmin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24337,7 +24339,7 @@ func newCmdAndroidOsIUserManager_IsForegroundUserAdmin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24355,7 +24357,7 @@ func newCmdAndroidOsIUserManager_IsUserNameSet() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24366,7 +24368,7 @@ func newCmdAndroidOsIUserManager_IsUserNameSet() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24380,7 +24382,7 @@ func newCmdAndroidOsIUserManager_IsUserNameSet() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24398,7 +24400,7 @@ func newCmdAndroidOsIUserManager_HasRestrictedProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24409,7 +24411,7 @@ func newCmdAndroidOsIUserManager_HasRestrictedProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24423,7 +24425,7 @@ func newCmdAndroidOsIUserManager_HasRestrictedProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24441,7 +24443,7 @@ func newCmdAndroidOsIUserManager_GetUserName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24452,7 +24454,7 @@ func newCmdAndroidOsIUserManager_GetUserName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24466,7 +24468,7 @@ func newCmdAndroidOsIUserManager_GetUserName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24484,7 +24486,7 @@ func newCmdAndroidOsIUserManager_GetUserStartRealtime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24495,7 +24497,7 @@ func newCmdAndroidOsIUserManager_GetUserStartRealtime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24509,7 +24511,7 @@ func newCmdAndroidOsIUserManager_GetUserStartRealtime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24527,7 +24529,7 @@ func newCmdAndroidOsIUserManager_GetUserUnlockRealtime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24538,7 +24540,7 @@ func newCmdAndroidOsIUserManager_GetUserUnlockRealtime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24552,7 +24554,7 @@ func newCmdAndroidOsIUserManager_GetUserUnlockRealtime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24570,7 +24572,7 @@ func newCmdAndroidOsIUserManager_SetUserEphemeral() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24581,7 +24583,7 @@ func newCmdAndroidOsIUserManager_SetUserEphemeral() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24600,7 +24602,7 @@ func newCmdAndroidOsIUserManager_SetUserEphemeral() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24620,7 +24622,7 @@ func newCmdAndroidOsIUserManager_SetBootUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24631,7 +24633,7 @@ func newCmdAndroidOsIUserManager_SetBootUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24645,7 +24647,7 @@ func newCmdAndroidOsIUserManager_SetBootUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24663,7 +24665,7 @@ func newCmdAndroidOsIUserManager_GetBootUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24674,7 +24676,7 @@ func newCmdAndroidOsIUserManager_GetBootUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24688,7 +24690,7 @@ func newCmdAndroidOsIUserManager_GetBootUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24706,7 +24708,7 @@ func newCmdAndroidOsIUserManager_GetProfileIdsExcludingHidden() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24717,7 +24719,7 @@ func newCmdAndroidOsIUserManager_GetProfileIdsExcludingHidden() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserManager")
 			}
 			if err != nil {
 				return err
@@ -24736,7 +24738,7 @@ func newCmdAndroidOsIUserManager_GetProfileIdsExcludingHidden() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24767,7 +24769,7 @@ func newCmdAndroidOsIUserRestrictionsListener_OnUserRestrictionsChanged() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24778,7 +24780,7 @@ func newCmdAndroidOsIUserRestrictionsListener_OnUserRestrictionsChanged() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IUserRestrictionsListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IUserRestrictionsListener")
 			}
 			if err != nil {
 				return err
@@ -24796,7 +24798,7 @@ func newCmdAndroidOsIUserRestrictionsListener_OnUserRestrictionsChanged() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24833,7 +24835,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24844,7 +24846,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -24858,7 +24860,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24876,7 +24878,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24887,7 +24889,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -24906,7 +24908,7 @@ func newCmdAndroidOsIVibratorManagerService_GetVibratorInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24926,7 +24928,7 @@ func newCmdAndroidOsIVibratorManagerService_IsVibrating() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24937,7 +24939,7 @@ func newCmdAndroidOsIVibratorManagerService_IsVibrating() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -24956,7 +24958,7 @@ func newCmdAndroidOsIVibratorManagerService_IsVibrating() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24976,7 +24978,7 @@ func newCmdAndroidOsIVibratorManagerService_RegisterVibratorStateListener() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24987,7 +24989,7 @@ func newCmdAndroidOsIVibratorManagerService_RegisterVibratorStateListener() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25016,7 +25018,7 @@ func newCmdAndroidOsIVibratorManagerService_RegisterVibratorStateListener() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25038,7 +25040,7 @@ func newCmdAndroidOsIVibratorManagerService_UnregisterVibratorStateListener() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25049,7 +25051,7 @@ func newCmdAndroidOsIVibratorManagerService_UnregisterVibratorStateListener() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25078,7 +25080,7 @@ func newCmdAndroidOsIVibratorManagerService_UnregisterVibratorStateListener() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25100,7 +25102,7 @@ func newCmdAndroidOsIVibratorManagerService_SetAlwaysOnEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25111,7 +25113,7 @@ func newCmdAndroidOsIVibratorManagerService_SetAlwaysOnEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25144,7 +25146,7 @@ func newCmdAndroidOsIVibratorManagerService_SetAlwaysOnEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25168,7 +25170,7 @@ func newCmdAndroidOsIVibratorManagerService_Vibrate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25179,7 +25181,7 @@ func newCmdAndroidOsIVibratorManagerService_Vibrate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25226,7 +25228,7 @@ func newCmdAndroidOsIVibratorManagerService_Vibrate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25254,7 +25256,7 @@ func newCmdAndroidOsIVibratorManagerService_CancelVibrate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25265,7 +25267,7 @@ func newCmdAndroidOsIVibratorManagerService_CancelVibrate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25293,7 +25295,7 @@ func newCmdAndroidOsIVibratorManagerService_CancelVibrate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25315,7 +25317,7 @@ func newCmdAndroidOsIVibratorManagerService_PerformHapticFeedback() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25326,7 +25328,7 @@ func newCmdAndroidOsIVibratorManagerService_PerformHapticFeedback() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorManagerService")
 			}
 			if err != nil {
 				return err
@@ -25375,7 +25377,7 @@ func newCmdAndroidOsIVibratorManagerService_PerformHapticFeedback() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25418,7 +25420,7 @@ func newCmdAndroidOsIVibratorStateListener_OnVibrating() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25429,7 +25431,7 @@ func newCmdAndroidOsIVibratorStateListener_OnVibrating() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorStateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IVibratorStateListener")
 			}
 			if err != nil {
 				return err
@@ -25448,7 +25450,7 @@ func newCmdAndroidOsIVibratorStateListener_OnVibrating() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25479,7 +25481,7 @@ func newCmdAndroidOsIWakeLockCallback_OnStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25490,7 +25492,7 @@ func newCmdAndroidOsIWakeLockCallback_OnStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.IWakeLockCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.IWakeLockCallback")
 			}
 			if err != nil {
 				return err
@@ -25509,7 +25511,7 @@ func newCmdAndroidOsIWakeLockCallback_OnStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

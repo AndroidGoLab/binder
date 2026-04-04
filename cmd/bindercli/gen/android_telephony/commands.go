@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/telephony"
@@ -47,7 +49,7 @@ func newCmdAndroidTelephonyIBooleanConsumer_Accept() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidTelephonyIBooleanConsumer_Accept() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.IBooleanConsumer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.IBooleanConsumer")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidTelephonyIBooleanConsumer_Accept() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -109,7 +111,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnKeysAvailable() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -120,7 +122,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnKeysAvailable() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.IBootstrapAuthenticationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.IBootstrapAuthenticationCallback")
 			}
 			if err != nil {
 				return err
@@ -153,7 +155,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnKeysAvailable() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -177,7 +179,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnAuthenticationFail
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -188,7 +190,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnAuthenticationFail
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.IBootstrapAuthenticationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.IBootstrapAuthenticationCallback")
 			}
 			if err != nil {
 				return err
@@ -212,7 +214,7 @@ func newCmdAndroidTelephonyIBootstrapAuthenticationCallback_OnAuthenticationFail
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -247,7 +249,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleGsmCellBroadcastSms() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -258,7 +260,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleGsmCellBroadcastSms() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleGsmCellBroadcastSms() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -308,7 +310,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleCdmaCellBroadcastSms() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -319,7 +321,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleCdmaCellBroadcastSms() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
 			}
 			if err != nil {
 				return err
@@ -352,7 +354,7 @@ func newCmdAndroidTelephonyICellBroadcastService_HandleCdmaCellBroadcastSms() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -376,7 +378,7 @@ func newCmdAndroidTelephonyICellBroadcastService_GetCellBroadcastAreaInfo() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -387,7 +389,7 @@ func newCmdAndroidTelephonyICellBroadcastService_GetCellBroadcastAreaInfo() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellBroadcastService")
 			}
 			if err != nil {
 				return err
@@ -406,7 +408,7 @@ func newCmdAndroidTelephonyICellBroadcastService_GetCellBroadcastAreaInfo() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -438,7 +440,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnCellInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -449,7 +451,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnCellInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellInfoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellInfoCallback")
 			}
 			if err != nil {
 				return err
@@ -474,7 +476,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnCellInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -494,7 +496,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -505,7 +507,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellInfoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.ICellInfoCallback")
 			}
 			if err != nil {
 				return err
@@ -534,7 +536,7 @@ func newCmdAndroidTelephonyICellInfoCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -569,7 +571,7 @@ func newCmdAndroidTelephonyIIntegerConsumer_Accept() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -580,7 +582,7 @@ func newCmdAndroidTelephonyIIntegerConsumer_Accept() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.IIntegerConsumer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.IIntegerConsumer")
 			}
 			if err != nil {
 				return err
@@ -599,7 +601,7 @@ func newCmdAndroidTelephonyIIntegerConsumer_Accept() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -634,7 +636,7 @@ func newCmdAndroidTelephonyINetworkService_CreateNetworkServiceProvider() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -645,7 +647,7 @@ func newCmdAndroidTelephonyINetworkService_CreateNetworkServiceProvider() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
 			}
 			if err != nil {
 				return err
@@ -664,7 +666,7 @@ func newCmdAndroidTelephonyINetworkService_CreateNetworkServiceProvider() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -684,7 +686,7 @@ func newCmdAndroidTelephonyINetworkService_RemoveNetworkServiceProvider() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -695,7 +697,7 @@ func newCmdAndroidTelephonyINetworkService_RemoveNetworkServiceProvider() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
 			}
 			if err != nil {
 				return err
@@ -714,7 +716,7 @@ func newCmdAndroidTelephonyINetworkService_RemoveNetworkServiceProvider() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -734,7 +736,7 @@ func newCmdAndroidTelephonyINetworkService_RequestNetworkRegistrationInfo() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -745,7 +747,7 @@ func newCmdAndroidTelephonyINetworkService_RequestNetworkRegistrationInfo() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
 			}
 			if err != nil {
 				return err
@@ -779,7 +781,7 @@ func newCmdAndroidTelephonyINetworkService_RequestNetworkRegistrationInfo() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -803,7 +805,7 @@ func newCmdAndroidTelephonyINetworkService_RegisterForNetworkRegistrationInfoCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -814,7 +816,7 @@ func newCmdAndroidTelephonyINetworkService_RegisterForNetworkRegistrationInfoCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
 			}
 			if err != nil {
 				return err
@@ -843,7 +845,7 @@ func newCmdAndroidTelephonyINetworkService_RegisterForNetworkRegistrationInfoCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -865,7 +867,7 @@ func newCmdAndroidTelephonyINetworkService_UnregisterForNetworkRegistrationInfoC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -876,7 +878,7 @@ func newCmdAndroidTelephonyINetworkService_UnregisterForNetworkRegistrationInfoC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkService")
 			}
 			if err != nil {
 				return err
@@ -905,7 +907,7 @@ func newCmdAndroidTelephonyINetworkService_UnregisterForNetworkRegistrationInfoC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -939,7 +941,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnRequestNetworkRegistrationI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -950,7 +952,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnRequestNetworkRegistrationI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -971,7 +973,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnRequestNetworkRegistrationI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -991,7 +993,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnNetworkStateChanged() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1002,7 +1004,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnNetworkStateChanged() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.INetworkServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1016,7 +1018,7 @@ func newCmdAndroidTelephonyINetworkServiceCallback_OnNetworkStateChanged() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

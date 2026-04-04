@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	binder2 "github.com/AndroidGoLab/binder/com/android/test/binder"
@@ -40,7 +42,7 @@ func newCmdComAndroidTestBinderIFooProvider_CreateFoo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdComAndroidTestBinderIFooProvider_CreateFoo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
 			}
 			if err != nil {
 				return err
@@ -65,7 +67,7 @@ func newCmdComAndroidTestBinderIFooProvider_CreateFoo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -83,7 +85,7 @@ func newCmdComAndroidTestBinderIFooProvider_IsFooGarbageCollected() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -94,7 +96,7 @@ func newCmdComAndroidTestBinderIFooProvider_IsFooGarbageCollected() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
 			}
 			if err != nil {
 				return err
@@ -108,7 +110,7 @@ func newCmdComAndroidTestBinderIFooProvider_IsFooGarbageCollected() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -126,7 +128,7 @@ func newCmdComAndroidTestBinderIFooProvider_KillProcess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -137,7 +139,7 @@ func newCmdComAndroidTestBinderIFooProvider_KillProcess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.binder.IFooProvider")
 			}
 			if err != nil {
 				return err
@@ -151,7 +153,7 @@ func newCmdComAndroidTestBinderIFooProvider_KillProcess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

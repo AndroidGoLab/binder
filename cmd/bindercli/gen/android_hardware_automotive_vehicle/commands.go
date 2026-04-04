@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/automotive/vehicle"
@@ -49,7 +51,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetAllPropConfigs() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetAllPropConfigs() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetAllPropConfigs() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetPropConfigs() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetPropConfigs() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetPropConfigs() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetValues() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetValues() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -195,7 +197,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_GetValues() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -217,7 +219,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_SetValues() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -228,7 +230,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_SetValues() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -260,7 +262,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_SetValues() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Subscribe() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -293,7 +295,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Subscribe() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Subscribe() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Unsubscribe() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Unsubscribe() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -407,7 +409,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_Unsubscribe() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_ReturnSharedMemory() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_ReturnSharedMemory() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicle")
 			}
 			if err != nil {
 				return err
@@ -469,7 +471,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicle_ReturnSharedMemory() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -505,7 +507,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnGetValues() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -516,7 +518,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnGetValues() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
 			}
 			if err != nil {
 				return err
@@ -538,7 +540,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnGetValues() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -558,7 +560,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnSetValues() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -569,7 +571,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnSetValues() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
 			}
 			if err != nil {
 				return err
@@ -591,7 +593,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnSetValues() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -611,7 +613,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertyEvent() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -622,7 +624,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertyEvent() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
 			}
 			if err != nil {
 				return err
@@ -650,7 +652,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertyEvent() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -673,7 +675,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertySetError()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -684,7 +686,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertySetError()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.vehicle.IVehicleCallback")
 			}
 			if err != nil {
 				return err
@@ -706,7 +708,7 @@ func newCmdAndroidHardwareAutomotiveVehicleIVehicleCallback_OnPropertySetError()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

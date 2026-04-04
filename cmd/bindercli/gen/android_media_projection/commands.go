@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/media/projection"
@@ -53,7 +55,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -88,7 +90,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -108,7 +110,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -119,7 +121,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -133,7 +135,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -151,7 +153,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectAudio() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -162,7 +164,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectAudio() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -176,7 +178,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectAudio() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -194,7 +196,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectVideo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -205,7 +207,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectVideo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -219,7 +221,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectVideo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -237,7 +239,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectSecureVideo() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -248,7 +250,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectSecureVideo() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_CanProjectSecureVideo() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -280,7 +282,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_ApplyVirtualDisplayFlags() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -291,7 +293,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_ApplyVirtualDisplayFlags() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -310,7 +312,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_ApplyVirtualDisplayFlags() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -330,7 +332,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_RegisterCallback() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -341,7 +343,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_RegisterCallback() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -365,7 +367,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_RegisterCallback() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -385,7 +387,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_UnregisterCallback() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -396,7 +398,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_UnregisterCallback() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -420,7 +422,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_UnregisterCallback() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -440,7 +442,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_GetLaunchCookie() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -451,7 +453,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_GetLaunchCookie() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -465,7 +467,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_GetLaunchCookie() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -483,7 +485,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_IsValid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -494,7 +496,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_IsValid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -508,7 +510,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_IsValid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -526,7 +528,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_NotifyVirtualDisplayCreated() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -537,7 +539,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_NotifyVirtualDisplayCreated() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjection")
 			}
 			if err != nil {
 				return err
@@ -556,7 +558,7 @@ func newCmdAndroidMediaProjectionIMediaProjection_NotifyVirtualDisplayCreated() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -589,7 +591,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnStop() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -600,7 +602,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnStop() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
 			}
 			if err != nil {
 				return err
@@ -614,7 +616,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnStop() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -632,7 +634,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentResiz
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -643,7 +645,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentResiz
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
 			}
 			if err != nil {
 				return err
@@ -667,7 +669,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentResiz
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -689,7 +691,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentVisib
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -700,7 +702,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentVisib
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionCallback")
 			}
 			if err != nil {
 				return err
@@ -719,7 +721,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionCallback_OnCapturedContentVisib
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -767,7 +769,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_HasProjectionPermission
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -778,7 +780,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_HasProjectionPermission
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -802,7 +804,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_HasProjectionPermission
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -824,7 +826,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_CreateProjection() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -835,7 +837,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_CreateProjection() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -869,7 +871,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_CreateProjection() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -895,7 +897,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetProjection() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -906,7 +908,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetProjection() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetProjection() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -952,7 +954,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_IsCurrentProjection() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -963,7 +965,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_IsCurrentProjection() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -987,7 +989,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_IsCurrentProjection() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1007,7 +1009,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RequestConsentForInvali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1018,7 +1020,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RequestConsentForInvali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1042,7 +1044,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RequestConsentForInvali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1062,7 +1064,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetActiveProjectionInfo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1073,7 +1075,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetActiveProjectionInfo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1087,7 +1089,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_GetActiveProjectionInfo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1105,7 +1107,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_StopActiveProjection() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1116,7 +1118,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_StopActiveProjection() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1130,7 +1132,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_StopActiveProjection() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1148,7 +1150,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1159,7 +1161,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1183,7 +1185,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1205,7 +1207,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1216,7 +1218,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1235,7 +1237,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyActiveProjectionC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1255,7 +1257,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_AddCallback() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1266,7 +1268,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_AddCallback() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1290,7 +1292,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_AddCallback() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1310,7 +1312,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RemoveCallback() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1321,7 +1323,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RemoveCallback() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1345,7 +1347,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_RemoveCallback() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1365,7 +1367,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetContentRecordingSess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1376,7 +1378,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetContentRecordingSess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1402,7 +1404,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetContentRecordingSess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1422,7 +1424,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetUserReviewGrantedCon
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1433,7 +1435,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetUserReviewGrantedCon
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1463,7 +1465,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_SetUserReviewGrantedCon
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1485,7 +1487,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1496,7 +1498,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1520,7 +1522,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1542,7 +1544,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1553,7 +1555,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1572,7 +1574,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1592,7 +1594,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1603,7 +1605,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1622,7 +1624,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyPermissionRequest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1642,7 +1644,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyAppSelectorDispla
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1653,7 +1655,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyAppSelectorDispla
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1672,7 +1674,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyAppSelectorDispla
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1692,7 +1694,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyWindowingModeChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1703,7 +1705,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyWindowingModeChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionManager")
 			}
 			if err != nil {
 				return err
@@ -1732,7 +1734,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionManager_NotifyWindowingModeChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1769,7 +1771,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStart() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1780,7 +1782,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStart() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
 			}
 			if err != nil {
 				return err
@@ -1796,7 +1798,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStart() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1814,7 +1816,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStop() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1825,7 +1827,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStop() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
 			}
 			if err != nil {
 				return err
@@ -1841,7 +1843,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnStop() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1859,7 +1861,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnRecordingSess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1870,7 +1872,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnRecordingSess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.projection.IMediaProjectionWatcherCallback")
 			}
 			if err != nil {
 				return err
@@ -1889,7 +1891,7 @@ func newCmdAndroidMediaProjectionIMediaProjectionWatcherCallback_OnRecordingSess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

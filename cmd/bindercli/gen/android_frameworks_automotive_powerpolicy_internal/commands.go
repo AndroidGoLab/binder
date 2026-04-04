@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	internal_ "github.com/AndroidGoLab/binder/android/frameworks/automotive/powerpolicy/internal_"
@@ -42,7 +44,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
 			}
 			if err != nil {
 				return err
@@ -67,7 +69,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -85,7 +87,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -96,7 +98,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
 			}
 			if err != nil {
 				return err
@@ -120,7 +122,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -142,7 +144,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -153,7 +155,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification")
 			}
 			if err != nil {
 				return err
@@ -190,7 +192,7 @@ func newCmdAndroidFrameworksAutomotivePowerpolicyInternalICarPowerPolicySystemNo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

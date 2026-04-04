@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/net"
@@ -41,7 +43,7 @@ func newCmdComAndroidNetIProxyCallback_GetProxyPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdComAndroidNetIProxyCallback_GetProxyPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyCallback")
 			}
 			if err != nil {
 				return err
@@ -75,7 +77,7 @@ func newCmdComAndroidNetIProxyCallback_GetProxyPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdComAndroidNetIProxyPortListener_SetProxyPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdComAndroidNetIProxyPortListener_SetProxyPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyPortListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyPortListener")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdComAndroidNetIProxyPortListener_SetProxyPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -168,7 +170,7 @@ func newCmdComAndroidNetIProxyService_ResolvePacFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -179,7 +181,7 @@ func newCmdComAndroidNetIProxyService_ResolvePacFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyService")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdComAndroidNetIProxyService_ResolvePacFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -225,7 +227,7 @@ func newCmdComAndroidNetIProxyService_SetPacFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -236,7 +238,7 @@ func newCmdComAndroidNetIProxyService_SetPacFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.net.IProxyService")
 			}
 			if err != nil {
 				return err
@@ -255,7 +257,7 @@ func newCmdComAndroidNetIProxyService_SetPacFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

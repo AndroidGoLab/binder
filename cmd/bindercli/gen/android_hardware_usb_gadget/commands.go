@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/usb/gadget"
@@ -43,7 +45,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_SetCurrentUsbFunctions() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_SetCurrentUsbFunctions() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
 			}
 			if err != nil {
 				return err
@@ -93,7 +95,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_SetCurrentUsbFunctions() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -119,7 +121,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetCurrentUsbFunctions() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetCurrentUsbFunctions() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
 			}
 			if err != nil {
 				return err
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetCurrentUsbFunctions() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -181,7 +183,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetUsbSpeed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -192,7 +194,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetUsbSpeed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
 			}
 			if err != nil {
 				return err
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_GetUsbSpeed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -243,7 +245,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_Reset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -254,7 +256,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_Reset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadget")
 			}
 			if err != nil {
 				return err
@@ -283,7 +285,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadget_Reset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_SetCurrentUsbFunctionsCb()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -330,7 +332,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_SetCurrentUsbFunctionsCb()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
 			}
 			if err != nil {
 				return err
@@ -360,7 +362,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_SetCurrentUsbFunctionsCb()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -384,7 +386,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetCurrentUsbFunctionsCb()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -395,7 +397,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetCurrentUsbFunctionsCb()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
 			}
 			if err != nil {
 				return err
@@ -425,7 +427,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetCurrentUsbFunctionsCb()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -449,7 +451,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetUsbSpeedCb() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -460,7 +462,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetUsbSpeedCb() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
 			}
 			if err != nil {
 				return err
@@ -485,7 +487,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_GetUsbSpeedCb() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_ResetCb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -518,7 +520,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_ResetCb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.usb.gadget.IUsbGadgetCallback")
 			}
 			if err != nil {
 				return err
@@ -543,7 +545,7 @@ func newCmdAndroidHardwareUsbGadgetIUsbGadgetCallback_ResetCb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

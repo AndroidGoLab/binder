@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/telephony/mbms"
@@ -46,7 +48,7 @@ func newCmdAndroidTelephonyMbmsIDownloadProgressListener_OnProgressUpdated() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidTelephonyMbmsIDownloadProgressListener_OnProgressUpdated() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IDownloadProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IDownloadProgressListener")
 			}
 			if err != nil {
 				return err
@@ -95,7 +97,7 @@ func newCmdAndroidTelephonyMbmsIDownloadProgressListener_OnProgressUpdated() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -132,7 +134,7 @@ func newCmdAndroidTelephonyMbmsIDownloadStatusListener_OnStatusUpdated() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -143,7 +145,7 @@ func newCmdAndroidTelephonyMbmsIDownloadStatusListener_OnStatusUpdated() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IDownloadStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IDownloadStatusListener")
 			}
 			if err != nil {
 				return err
@@ -166,7 +168,7 @@ func newCmdAndroidTelephonyMbmsIDownloadStatusListener_OnStatusUpdated() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -199,7 +201,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -210,7 +212,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
 			}
 			if err != nil {
 				return err
@@ -234,7 +236,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -256,7 +258,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnGroupCallStateChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -267,7 +269,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnGroupCallStateChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
 			}
 			if err != nil {
 				return err
@@ -291,7 +293,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnGroupCallStateChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnBroadcastSignalStrengthUpdat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnBroadcastSignalStrengthUpdat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IGroupCallCallback")
 			}
 			if err != nil {
 				return err
@@ -343,7 +345,7 @@ func newCmdAndroidTelephonyMbmsIGroupCallCallback_OnBroadcastSignalStrengthUpdat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -376,7 +378,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnError() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -387,7 +389,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnError() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnError() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -433,7 +435,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnFileServicesUpdate
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -444,7 +446,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnFileServicesUpdate
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -469,7 +471,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnFileServicesUpdate
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -489,7 +491,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnMiddlewareReady() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -500,7 +502,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnMiddlewareReady() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsDownloadSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -514,7 +516,7 @@ func newCmdAndroidTelephonyMbmsIMbmsDownloadSessionCallback_OnMiddlewareReady() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -546,7 +548,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnError() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -557,7 +559,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnError() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -581,7 +583,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnError() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -603,7 +605,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnAvailableSaisUpda
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -614,7 +616,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnAvailableSaisUpda
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -650,7 +652,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnAvailableSaisUpda
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -672,7 +674,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnServiceInterfaceA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -683,7 +685,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnServiceInterfaceA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -707,7 +709,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnServiceInterfaceA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -729,7 +731,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnMiddlewareReady()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -740,7 +742,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnMiddlewareReady()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsGroupCallSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -754,7 +756,7 @@ func newCmdAndroidTelephonyMbmsIMbmsGroupCallSessionCallback_OnMiddlewareReady()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -785,7 +787,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnError() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -796,7 +798,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnError() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -820,7 +822,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnError() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -842,7 +844,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnStreamingServices
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -853,7 +855,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnStreamingServices
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnStreamingServices
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -898,7 +900,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnMiddlewareReady()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -909,7 +911,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnMiddlewareReady()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IMbmsStreamingSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -923,7 +925,7 @@ func newCmdAndroidTelephonyMbmsIMbmsStreamingSessionCallback_OnMiddlewareReady()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -956,7 +958,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnError() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -967,7 +969,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnError() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -991,7 +993,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnError() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1013,7 +1015,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamStateUpdated() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1024,7 +1026,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamStateUpdated() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1048,7 +1050,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamStateUpdated() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1070,7 +1072,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnMediaDescriptionUpdat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1081,7 +1083,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnMediaDescriptionUpdat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1095,7 +1097,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnMediaDescriptionUpdat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1113,7 +1115,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnBroadcastSignalStreng
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1124,7 +1126,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnBroadcastSignalStreng
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1143,7 +1145,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnBroadcastSignalStreng
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1163,7 +1165,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamMethodUpdated()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1174,7 +1176,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamMethodUpdated()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.mbms.IStreamingServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -1193,7 +1195,7 @@ func newCmdAndroidTelephonyMbmsIStreamingServiceCallback_OnStreamMethodUpdated()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

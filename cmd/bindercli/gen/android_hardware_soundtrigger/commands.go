@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/soundtrigger"
@@ -46,7 +48,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnKeyphraseDete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnKeyphraseDete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnKeyphraseDete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnGenericSoundT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnGenericSoundT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -118,7 +120,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnGenericSoundT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -136,7 +138,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionPa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -147,7 +149,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionPa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -161,7 +163,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionPa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -179,7 +181,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -190,7 +192,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -204,7 +206,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnRecognitionRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -222,7 +224,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPreempted() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -233,7 +235,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPreempted() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -247,7 +249,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPreempted() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -265,7 +267,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnModuleDied() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -276,7 +278,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnModuleDied() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -290,7 +292,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnModuleDied() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -308,7 +310,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnResumeFailed(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnResumeFailed(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -338,7 +340,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnResumeFailed(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPauseFailed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPauseFailed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.soundtrigger.IRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdAndroidHardwareSoundtriggerIRecognitionStatusCallback_OnPauseFailed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

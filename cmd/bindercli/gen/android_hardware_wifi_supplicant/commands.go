@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/wifi/common"
@@ -52,7 +54,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_GetBlob() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_GetBlob() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.INonStandardCertCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.INonStandardCertCallback")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_GetBlob() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_ListAliases() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_ListAliases() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.INonStandardCertCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.INonStandardCertCallback")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdAndroidHardwareWifiSupplicantINonStandardCertCallback_ListAliases() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddP2pInterface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddP2pInterface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -205,7 +207,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddP2pInterface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -225,7 +227,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddStaInterface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -236,7 +238,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddStaInterface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_AddStaInterface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -275,7 +277,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetDebugLevel() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -286,7 +288,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetDebugLevel() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -300,7 +302,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetDebugLevel() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -318,7 +320,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetP2pInterface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -329,7 +331,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetP2pInterface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -348,7 +350,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetP2pInterface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -368,7 +370,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetStaInterface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -379,7 +381,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetStaInterface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -398,7 +400,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_GetStaInterface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -418,7 +420,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowKeysEnabled() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -429,7 +431,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowKeysEnabled() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -443,7 +445,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowKeysEnabled() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -461,7 +463,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowTimestampEnabled(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -472,7 +474,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowTimestampEnabled(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -486,7 +488,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_IsDebugShowTimestampEnabled(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -504,7 +506,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_ListInterfaces() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -515,7 +517,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_ListInterfaces() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -529,7 +531,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_ListInterfaces() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -547,7 +549,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RemoveInterface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -558,7 +560,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RemoveInterface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -577,7 +579,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RemoveInterface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -597,7 +599,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetConcurrencyPriority() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetConcurrencyPriority() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -628,7 +630,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetConcurrencyPriority() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetDebugParams() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -659,7 +661,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetDebugParams() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -689,7 +691,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_SetDebugParams() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -713,7 +715,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_Terminate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -724,7 +726,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_Terminate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -738,7 +740,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_Terminate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RegisterNonStandardCertCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -767,7 +769,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RegisterNonStandardCertCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicant")
 			}
 			if err != nil {
 				return err
@@ -791,7 +793,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicant_RegisterNonStandardCertCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -823,7 +825,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceCreated()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -834,7 +836,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceCreated()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantCallback")
 			}
 			if err != nil {
 				return err
@@ -853,7 +855,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceCreated()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -873,7 +875,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceRemoved()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -884,7 +886,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceRemoved()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantCallback")
 			}
 			if err != nil {
 				return err
@@ -903,7 +905,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantCallback_OnInterfaceRemoved()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1000,7 +1002,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddBonjourService() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1011,7 +1013,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddBonjourService() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1043,7 +1045,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddBonjourService() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1065,7 +1067,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroup() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1076,7 +1078,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroup() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1100,7 +1102,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroup() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1122,7 +1124,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfig()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1133,7 +1135,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfig()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1185,7 +1187,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfig()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1215,7 +1217,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddNetwork() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1226,7 +1228,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddNetwork() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1240,7 +1242,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddNetwork() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1258,7 +1260,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddUpnpService() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1269,7 +1271,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddUpnpService() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1293,7 +1295,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddUpnpService() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1315,7 +1317,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelConnect() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1326,7 +1328,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelConnect() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1340,7 +1342,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelConnect() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1358,7 +1360,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelServiceDiscove
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1369,7 +1371,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelServiceDiscove
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1388,7 +1390,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelServiceDiscove
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1408,7 +1410,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelWps() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1419,7 +1421,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelWps() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1438,7 +1440,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CancelWps() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1458,7 +1460,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListen()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1469,7 +1471,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListen()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1493,7 +1495,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListen()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1515,7 +1517,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Connect() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1526,7 +1528,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Connect() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1575,7 +1577,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Connect() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1605,7 +1607,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverReq
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1616,7 +1618,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverReq
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1630,7 +1632,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverReq
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1648,7 +1650,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverSel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1659,7 +1661,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverSel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1673,7 +1675,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateNfcHandoverSel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1691,7 +1693,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_EnableWfd() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1702,7 +1704,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_EnableWfd() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1721,7 +1723,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_EnableWfd() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1741,7 +1743,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Find() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1752,7 +1754,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Find() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1771,7 +1773,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Find() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1791,7 +1793,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Flush() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1802,7 +1804,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Flush() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1816,7 +1818,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Flush() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1834,7 +1836,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FlushServices() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1845,7 +1847,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FlushServices() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1859,7 +1861,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FlushServices() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1877,7 +1879,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetDeviceAddress() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1888,7 +1890,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetDeviceAddress() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1902,7 +1904,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetDeviceAddress() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1920,7 +1922,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetEdmg() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1931,7 +1933,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetEdmg() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1945,7 +1947,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetEdmg() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1963,7 +1965,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetGroupCapability()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1974,7 +1976,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetGroupCapability()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -1997,7 +1999,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetGroupCapability()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2017,7 +2019,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetName() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2028,7 +2030,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetName() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2042,7 +2044,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetName() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2060,7 +2062,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetNetwork() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2071,7 +2073,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetNetwork() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2090,7 +2092,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetNetwork() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2110,7 +2112,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetSsid() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2121,7 +2123,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetSsid() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2144,7 +2146,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetSsid() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2164,7 +2166,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetType() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2175,7 +2177,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetType() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2189,7 +2191,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_GetType() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2207,7 +2209,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Invite() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2218,7 +2220,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Invite() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2255,7 +2257,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Invite() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2279,7 +2281,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ListNetworks() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2290,7 +2292,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ListNetworks() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2304,7 +2306,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ListNetworks() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2322,7 +2324,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ProvisionDiscovery()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2333,7 +2335,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ProvisionDiscovery()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2362,7 +2364,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ProvisionDiscovery()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2384,7 +2386,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reinvoke() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2395,7 +2397,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reinvoke() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2423,7 +2425,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reinvoke() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2445,7 +2447,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reject() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2456,7 +2458,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reject() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2479,7 +2481,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_Reject() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2499,7 +2501,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveBonjourService
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2510,7 +2512,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveBonjourService
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2533,7 +2535,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveBonjourService
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2553,7 +2555,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveGroup() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2564,7 +2566,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveGroup() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2583,7 +2585,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveGroup() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2603,7 +2605,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveNetwork() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2614,7 +2616,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveNetwork() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2633,7 +2635,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveNetwork() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2653,7 +2655,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveUpnpService() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2664,7 +2666,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveUpnpService() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2688,7 +2690,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveUpnpService() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2710,7 +2712,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverIni
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2721,7 +2723,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverIni
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2744,7 +2746,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverIni
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2764,7 +2766,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverRes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2775,7 +2777,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverRes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2798,7 +2800,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ReportNfcHandoverRes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2818,7 +2820,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RequestServiceDiscov
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2829,7 +2831,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RequestServiceDiscov
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2861,7 +2863,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RequestServiceDiscov
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2883,7 +2885,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SaveConfig() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2894,7 +2896,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SaveConfig() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2908,7 +2910,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SaveConfig() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2926,7 +2928,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetDisallowedFrequen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2937,7 +2939,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetDisallowedFrequen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -2962,7 +2964,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetDisallowedFrequen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2982,7 +2984,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetEdmg() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2993,7 +2995,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetEdmg() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3012,7 +3014,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetEdmg() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3032,7 +3034,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetGroupIdle() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3043,7 +3045,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetGroupIdle() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3067,7 +3069,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetGroupIdle() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3089,7 +3091,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetListenChannel() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3100,7 +3102,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetListenChannel() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3124,7 +3126,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetListenChannel() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3146,7 +3148,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMacRandomization(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3157,7 +3159,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMacRandomization(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3176,7 +3178,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMacRandomization(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3196,7 +3198,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMiracastMode() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3207,7 +3209,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMiracastMode() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3227,7 +3229,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetMiracastMode() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3247,7 +3249,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetPowerSave() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3258,7 +3260,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetPowerSave() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3282,7 +3284,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetPowerSave() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3304,7 +3306,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetSsidPostfix() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3315,7 +3317,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetSsidPostfix() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3338,7 +3340,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetSsidPostfix() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3358,7 +3360,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdDeviceInfo() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3369,7 +3371,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdDeviceInfo() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3392,7 +3394,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdDeviceInfo() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3412,7 +3414,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdR2DeviceInfo()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3423,7 +3425,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdR2DeviceInfo()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3446,7 +3448,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWfdR2DeviceInfo()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3466,7 +3468,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveClient() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3477,7 +3479,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveClient() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3505,7 +3507,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_RemoveClient() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3527,7 +3529,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsConfigMethods(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3538,7 +3540,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsConfigMethods(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3558,7 +3560,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsConfigMethods(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3578,7 +3580,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceName() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3589,7 +3591,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceName() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3608,7 +3610,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceName() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3628,7 +3630,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceType() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3639,7 +3641,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceType() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3662,7 +3664,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsDeviceType() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3682,7 +3684,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsManufacturer()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3693,7 +3695,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsManufacturer()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3712,7 +3714,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsManufacturer()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3732,7 +3734,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelName() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3743,7 +3745,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelName() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3762,7 +3764,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelName() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3782,7 +3784,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelNumber() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3793,7 +3795,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelNumber() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3812,7 +3814,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsModelNumber() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3832,7 +3834,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsSerialNumber()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3843,7 +3845,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsSerialNumber()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3862,7 +3864,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetWpsSerialNumber()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3882,7 +3884,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPbc() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3893,7 +3895,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPbc() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3921,7 +3923,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPbc() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3943,7 +3945,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinDisplay()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3954,7 +3956,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinDisplay()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -3982,7 +3984,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinDisplay()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4004,7 +4006,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinKeypad() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4015,7 +4017,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinKeypad() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4039,7 +4041,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StartWpsPinKeypad() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4061,7 +4063,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StopFind() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4072,7 +4074,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StopFind() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4086,7 +4088,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_StopFind() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4104,7 +4106,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSocialChannels
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4115,7 +4117,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSocialChannels
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4134,7 +4136,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSocialChannels
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4154,7 +4156,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSpecificFreque
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4165,7 +4167,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSpecificFreque
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4189,7 +4191,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindOnSpecificFreque
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4211,7 +4213,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetVendorElements() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4222,7 +4224,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetVendorElements() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4251,7 +4253,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_SetVendorElements() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4273,7 +4275,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureEapolIpAddr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4284,7 +4286,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureEapolIpAddr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4318,7 +4320,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureEapolIpAddr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4344,7 +4346,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConnectWithParams() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4355,7 +4357,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConnectWithParams() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4389,7 +4391,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConnectWithParams() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4414,7 +4416,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindWithParams() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4425,7 +4427,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindWithParams() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4450,7 +4452,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_FindWithParams() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4472,7 +4474,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListenWi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4483,7 +4485,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListenWi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4506,7 +4508,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_ConfigureExtListenWi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4527,7 +4529,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfigur
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4538,7 +4540,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfigur
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4578,7 +4580,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_AddGroupWithConfigur
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4604,7 +4606,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateGroupOwner() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4615,7 +4617,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateGroupOwner() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIface")
 			}
 			if err != nil {
 				return err
@@ -4638,7 +4640,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIface_CreateGroupOwner() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4694,7 +4696,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4705,7 +4707,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -4777,7 +4779,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4811,7 +4813,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceLost
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4822,7 +4824,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceLost
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -4845,7 +4847,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceLost
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4865,7 +4867,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnFindStoppe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4876,7 +4878,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnFindStoppe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -4890,7 +4892,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnFindStoppe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4908,7 +4910,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4919,7 +4921,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -4939,7 +4941,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4959,7 +4961,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4970,7 +4972,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -4999,7 +5001,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5021,7 +5023,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5032,7 +5034,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5051,7 +5053,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5071,7 +5073,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5082,7 +5084,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5096,7 +5098,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupForma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5114,7 +5116,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupRemov
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5125,7 +5127,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupRemov
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5149,7 +5151,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupRemov
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5171,7 +5173,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5182,7 +5184,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5248,7 +5250,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5282,7 +5284,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5293,7 +5295,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5344,7 +5346,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5372,7 +5374,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5383,7 +5385,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5412,7 +5414,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5434,7 +5436,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5445,7 +5447,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5490,7 +5492,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5518,7 +5520,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnR2DeviceFo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5529,7 +5531,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnR2DeviceFo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5610,7 +5612,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnR2DeviceFo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5646,7 +5648,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnServiceDis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5657,7 +5659,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnServiceDis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5694,7 +5696,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnServiceDis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5718,7 +5720,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaAuthori
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5729,7 +5731,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaAuthori
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5761,7 +5763,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaAuthori
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5783,7 +5785,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaDeautho
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5794,7 +5796,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaDeautho
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5826,7 +5828,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnStaDeautho
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5848,7 +5850,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupFrequ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5859,7 +5861,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupFrequ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -5883,7 +5885,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupFrequ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5905,7 +5907,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5916,7 +5918,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6006,7 +6008,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6044,7 +6046,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6055,7 +6057,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6113,7 +6115,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGroupStart
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6145,7 +6147,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6156,7 +6158,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6193,7 +6195,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6216,7 +6218,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6227,7 +6229,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6263,7 +6265,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnPeerClient
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6285,7 +6287,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6296,7 +6298,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6330,7 +6332,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnProvisionD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6355,7 +6357,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6366,7 +6368,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6433,7 +6435,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnDeviceFoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6462,7 +6464,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6473,7 +6475,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6503,7 +6505,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnGoNegotiat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6524,7 +6526,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6535,7 +6537,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -6579,7 +6581,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pIfaceCallback_OnInvitation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6623,7 +6625,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetBssid() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6634,7 +6636,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetBssid() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6648,7 +6650,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetBssid() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6666,7 +6668,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetClientList() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6677,7 +6679,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetClientList() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6691,7 +6693,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetClientList() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6709,7 +6711,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetId() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6720,7 +6722,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetId() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6734,7 +6736,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetId() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6752,7 +6754,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetInterfaceName()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6763,7 +6765,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetInterfaceName()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6777,7 +6779,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetInterfaceName()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6795,7 +6797,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetSsid() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6806,7 +6808,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetSsid() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6820,7 +6822,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetSsid() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6838,7 +6840,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetType() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6849,7 +6851,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetType() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6863,7 +6865,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_GetType() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6881,7 +6883,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsCurrent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6892,7 +6894,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsCurrent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6906,7 +6908,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsCurrent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6924,7 +6926,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsGroupOwner() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6935,7 +6937,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsGroupOwner() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6949,7 +6951,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsGroupOwner() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6967,7 +6969,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsPersistent() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6978,7 +6980,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsPersistent() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -6992,7 +6994,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_IsPersistent() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7010,7 +7012,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_SetClientList() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7021,7 +7023,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_SetClientList() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantP2pNetwork")
 			}
 			if err != nil {
 				return err
@@ -7046,7 +7048,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantP2pNetwork_SetClientList() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7141,7 +7143,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddDppPeerUri() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7152,7 +7154,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddDppPeerUri() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7171,7 +7173,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddDppPeerUri() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7191,7 +7193,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddExtRadioWork() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7202,7 +7204,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddExtRadioWork() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7231,7 +7233,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddExtRadioWork() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7255,7 +7257,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddNetwork() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7266,7 +7268,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddNetwork() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7280,7 +7282,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddNetwork() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7298,7 +7300,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddRxFilter() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7309,7 +7311,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddRxFilter() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7329,7 +7331,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddRxFilter() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7349,7 +7351,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_CancelWps() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7360,7 +7362,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_CancelWps() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7374,7 +7376,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_CancelWps() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7392,7 +7394,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Disconnect() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7403,7 +7405,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Disconnect() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7417,7 +7419,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Disconnect() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7435,7 +7437,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_EnableAutoReconnect(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7446,7 +7448,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_EnableAutoReconnect(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7465,7 +7467,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_EnableAutoReconnect(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7485,7 +7487,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpAddRequest() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7496,7 +7498,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpAddRequest() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7528,7 +7530,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpAddRequest() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7550,7 +7552,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpFlushRequest(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7561,7 +7563,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpFlushRequest(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7575,7 +7577,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_FilsHlpFlushRequest(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7593,7 +7595,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateDppBootstrap
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7604,7 +7606,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateDppBootstrap
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7638,7 +7640,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateDppBootstrap
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7662,7 +7664,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateSelfDppConfi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7673,7 +7675,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateSelfDppConfi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7701,7 +7703,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GenerateSelfDppConfi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7723,7 +7725,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionCapabil
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7734,7 +7736,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionCapabil
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7748,7 +7750,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionCapabil
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7766,7 +7768,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionMloLink
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7777,7 +7779,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionMloLink
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7791,7 +7793,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetConnectionMloLink
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7809,7 +7811,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetKeyMgmtCapabiliti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7820,7 +7822,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetKeyMgmtCapabiliti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7834,7 +7836,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetKeyMgmtCapabiliti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7852,7 +7854,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetMacAddress() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7863,7 +7865,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetMacAddress() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7877,7 +7879,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetMacAddress() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7895,7 +7897,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetName() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7906,7 +7908,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetName() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7920,7 +7922,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetName() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7938,7 +7940,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetNetwork() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7949,7 +7951,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetNetwork() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -7968,7 +7970,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetNetwork() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7988,7 +7990,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetType() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7999,7 +8001,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetType() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8013,7 +8015,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetType() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8031,7 +8033,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetWpaDriverCapabili
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8042,7 +8044,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetWpaDriverCapabili
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8056,7 +8058,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetWpaDriverCapabili
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8074,7 +8076,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateAnqpQuery() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8085,7 +8087,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateAnqpQuery() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8130,7 +8132,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateAnqpQuery() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8154,7 +8156,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateHs20IconQuer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8165,7 +8167,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateHs20IconQuer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8193,7 +8195,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateHs20IconQuer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8215,7 +8217,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsDiscover
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8226,7 +8228,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsDiscover
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8249,7 +8251,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsDiscover
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8269,7 +8271,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsSetup() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8280,7 +8282,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsSetup() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8303,7 +8305,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsSetup() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8323,7 +8325,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsTeardown
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8334,7 +8336,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsTeardown
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8357,7 +8359,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateTdlsTeardown
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8377,7 +8379,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateVenueUrlAnqp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8388,7 +8390,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateVenueUrlAnqp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8411,7 +8413,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_InitiateVenueUrlAnqp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8431,7 +8433,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ListNetworks() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8442,7 +8444,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ListNetworks() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8456,7 +8458,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ListNetworks() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8474,7 +8476,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reassociate() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8485,7 +8487,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reassociate() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8499,7 +8501,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reassociate() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8517,7 +8519,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reconnect() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8528,7 +8530,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reconnect() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8542,7 +8544,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_Reconnect() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8560,7 +8562,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetQosPolicyFeatureE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8571,7 +8573,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetQosPolicyFeatureE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8590,7 +8592,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetQosPolicyFeatureE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8610,7 +8612,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SendQosPolicyRespons
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8621,7 +8623,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SendQosPolicyRespons
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8656,7 +8658,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SendQosPolicyRespons
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8680,7 +8682,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveAllQosPolicies
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8691,7 +8693,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveAllQosPolicies
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8705,7 +8707,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveAllQosPolicies
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8723,7 +8725,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveDppUri() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8734,7 +8736,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveDppUri() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8753,7 +8755,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveDppUri() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8773,7 +8775,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveExtRadioWork()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8784,7 +8786,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveExtRadioWork()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8803,7 +8805,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveExtRadioWork()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8823,7 +8825,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveNetwork() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8834,7 +8836,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveNetwork() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8853,7 +8855,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveNetwork() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8873,7 +8875,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveRxFilter() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8884,7 +8886,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveRxFilter() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8904,7 +8906,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveRxFilter() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8924,7 +8926,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceMode
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8935,7 +8937,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceMode
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -8955,7 +8957,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceMode
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8975,7 +8977,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceScan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8986,7 +8988,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceScan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9005,7 +9007,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetBtCoexistenceScan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9025,7 +9027,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetCountryCode() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9036,7 +9038,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetCountryCode() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9059,7 +9061,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetCountryCode() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9079,7 +9081,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetExternalSim() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9090,7 +9092,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetExternalSim() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9109,7 +9111,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetExternalSim() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9129,7 +9131,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetMboCellularDataSt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9140,7 +9142,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetMboCellularDataSt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9159,7 +9161,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetMboCellularDataSt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9179,7 +9181,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetPowerSave() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9190,7 +9192,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetPowerSave() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9209,7 +9211,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetPowerSave() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9229,7 +9231,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetSuspendModeEnable
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9240,7 +9242,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetSuspendModeEnable
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9259,7 +9261,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetSuspendModeEnable
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9279,7 +9281,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsConfigMethods(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9290,7 +9292,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsConfigMethods(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9310,7 +9312,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsConfigMethods(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9330,7 +9332,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceName() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9341,7 +9343,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceName() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9360,7 +9362,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceName() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9380,7 +9382,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceType() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9391,7 +9393,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceType() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9414,7 +9416,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsDeviceType() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9434,7 +9436,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsManufacturer()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9445,7 +9447,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsManufacturer()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9464,7 +9466,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsManufacturer()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9484,7 +9486,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelName() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9495,7 +9497,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelName() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9514,7 +9516,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelName() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9534,7 +9536,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelNumber() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9545,7 +9547,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelNumber() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9564,7 +9566,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsModelNumber() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9584,7 +9586,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsSerialNumber()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9595,7 +9597,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsSerialNumber()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9614,7 +9616,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_SetWpsSerialNumber()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9634,7 +9636,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppConfigurator
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9645,7 +9647,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppConfigurator
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9705,7 +9707,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppConfigurator
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9739,7 +9741,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeInit
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9750,7 +9752,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeInit
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9774,7 +9776,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeInit
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9796,7 +9798,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeResp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9807,7 +9809,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeResp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9826,7 +9828,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartDppEnrolleeResp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9846,7 +9848,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartRxFilter() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9857,7 +9859,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartRxFilter() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9871,7 +9873,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartRxFilter() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9889,7 +9891,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPbc() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9900,7 +9902,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPbc() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9923,7 +9925,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPbc() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9943,7 +9945,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinDisplay()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9954,7 +9956,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinDisplay()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -9977,7 +9979,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinDisplay()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9997,7 +9999,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinKeypad() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10008,7 +10010,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinKeypad() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10027,7 +10029,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsPinKeypad() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10047,7 +10049,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsRegistrar() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10058,7 +10060,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsRegistrar() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10086,7 +10088,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StartWpsRegistrar() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10108,7 +10110,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppInitiator() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10119,7 +10121,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppInitiator() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10133,7 +10135,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppInitiator() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10151,7 +10153,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppResponder() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10162,7 +10164,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppResponder() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10181,7 +10183,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopDppResponder() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10201,7 +10203,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopRxFilter() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10212,7 +10214,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopRxFilter() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10226,7 +10228,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_StopRxFilter() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10244,7 +10246,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetSignalPollResults
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10255,7 +10257,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetSignalPollResults
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10269,7 +10271,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_GetSignalPollResults
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10287,7 +10289,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddQosPolicyRequestF
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10298,7 +10300,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddQosPolicyRequestF
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10323,7 +10325,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_AddQosPolicyRequestF
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10343,7 +10345,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveQosPolicyForSc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10354,7 +10356,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveQosPolicyForSc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10377,7 +10379,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_RemoveQosPolicyForSc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10397,7 +10399,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ConfigureMscs() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10408,7 +10410,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ConfigureMscs() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10428,7 +10430,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_ConfigureMscs() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10450,7 +10452,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_DisableMscs() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10461,7 +10463,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_DisableMscs() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIface")
 			}
 			if err != nil {
 				return err
@@ -10475,7 +10477,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIface_DisableMscs() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10538,7 +10540,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAnqpQueryD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10549,7 +10551,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAnqpQueryD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10653,7 +10655,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAnqpQueryD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10684,7 +10686,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAssociatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10695,7 +10697,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAssociatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10734,7 +10736,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAssociatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10761,7 +10763,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuthentica
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10772,7 +10774,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuthentica
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10795,7 +10797,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuthentica
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10815,7 +10817,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuxiliaryS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10826,7 +10828,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuxiliaryS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10860,7 +10862,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnAuxiliaryS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10884,7 +10886,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssTmHandl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10895,7 +10897,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssTmHandl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10920,7 +10922,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssTmHandl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10943,7 +10945,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssidChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10954,7 +10956,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssidChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -10983,7 +10985,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssidChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11005,7 +11007,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDisconnect
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11016,7 +11018,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDisconnect
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11050,7 +11052,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDisconnect
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11074,7 +11076,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppFailure
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11085,7 +11087,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppFailure
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11126,7 +11128,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppFailure
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11152,7 +11154,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppProgres
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11163,7 +11165,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppProgres
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11183,7 +11185,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppProgres
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11203,7 +11205,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11214,7 +11216,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11234,7 +11236,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11254,7 +11256,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11265,7 +11267,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11331,7 +11333,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11360,7 +11362,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11371,7 +11373,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11385,7 +11387,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppSuccess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11403,7 +11405,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnEapFailure
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11414,7 +11416,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnEapFailure
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11442,7 +11444,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnEapFailure
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11464,7 +11466,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11475,7 +11477,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11494,7 +11496,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11514,7 +11516,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11525,7 +11527,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11544,7 +11546,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnExtRadioWo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11564,7 +11566,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Deauth
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11575,7 +11577,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Deauth
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11613,7 +11615,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Deauth
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11639,7 +11641,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20IconQu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11650,7 +11652,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20IconQu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11687,7 +11689,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20IconQu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11711,7 +11713,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Subscr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11722,7 +11724,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Subscr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11756,7 +11758,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20Subscr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11780,7 +11782,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20TermsA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11791,7 +11793,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20TermsA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11819,7 +11821,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnHs20TermsA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11841,7 +11843,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkAdd
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11852,7 +11854,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkAdd
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11871,7 +11873,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkAdd
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11891,7 +11893,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkNot
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11902,7 +11904,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkNot
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11925,7 +11927,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkNot
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11945,7 +11947,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkRem
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11956,7 +11958,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkRem
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -11975,7 +11977,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnNetworkRem
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11995,7 +11997,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkCacheAd
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12006,7 +12008,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkCacheAd
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12034,7 +12036,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkCacheAd
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12056,7 +12058,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnStateChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12067,7 +12069,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnStateChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12115,7 +12117,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnStateChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12143,7 +12145,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventFa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12154,7 +12156,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventFa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12189,7 +12191,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventFa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12213,7 +12215,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventPb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12224,7 +12226,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventPb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12238,7 +12240,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventPb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12256,7 +12258,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventSu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12267,7 +12269,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventSu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12281,7 +12283,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnWpsEventSu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12299,7 +12301,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12310,7 +12312,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12324,7 +12326,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12342,7 +12344,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12353,7 +12355,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12383,7 +12385,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12405,7 +12407,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConfigR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12416,7 +12418,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConfigR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12471,7 +12473,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConfigR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12497,7 +12499,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConnect
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12508,7 +12510,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConnect
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12528,7 +12530,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnDppConnect
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12548,7 +12550,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssFrequen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12559,7 +12561,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssFrequen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12578,7 +12580,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnBssFrequen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12598,7 +12600,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnSupplicant
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12609,7 +12611,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnSupplicant
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12646,7 +12648,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnSupplicant
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12671,7 +12673,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12682,7 +12684,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12707,7 +12709,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnQosPolicyR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12727,7 +12729,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkSaCache
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12738,7 +12740,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkSaCache
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback")
 			}
 			if err != nil {
 				return err
@@ -12769,7 +12771,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaIfaceCallback_OnPmkSaCache
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12897,7 +12899,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Disable() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12908,7 +12910,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Disable() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -12922,7 +12924,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Disable() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12940,7 +12942,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Enable() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12951,7 +12953,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Enable() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -12970,7 +12972,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Enable() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12990,7 +12992,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSaePkOnlyMod
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13001,7 +13003,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSaePkOnlyMod
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13020,7 +13022,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSaePkOnlyMod
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13040,7 +13042,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSuiteBEapOpe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13051,7 +13053,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSuiteBEapOpe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13065,7 +13067,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableSuiteBEapOpe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13083,7 +13085,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableTlsSuiteBEap
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13094,7 +13096,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableTlsSuiteBEap
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13113,7 +13115,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_EnableTlsSuiteBEap
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13133,7 +13135,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetAuthAlg() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13144,7 +13146,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetAuthAlg() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13158,7 +13160,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetAuthAlg() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13176,7 +13178,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetBssid() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13187,7 +13189,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetBssid() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13201,7 +13203,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetBssid() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13219,7 +13221,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAltSubjectMa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13230,7 +13232,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAltSubjectMa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13244,7 +13246,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAltSubjectMa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13262,7 +13264,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAnonymousIde
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13273,7 +13275,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAnonymousIde
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13287,7 +13289,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapAnonymousIde
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13305,7 +13307,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCACert() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13316,7 +13318,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCACert() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13330,7 +13332,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCACert() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13348,7 +13350,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCAPath() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13359,7 +13361,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCAPath() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13373,7 +13375,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapCAPath() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13391,7 +13393,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapClientCert()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13402,7 +13404,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapClientCert()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13416,7 +13418,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapClientCert()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13434,7 +13436,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapDomainSuffix
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13445,7 +13447,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapDomainSuffix
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13459,7 +13461,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapDomainSuffix
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13477,7 +13479,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngine() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13488,7 +13490,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngine() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13502,7 +13504,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngine() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13520,7 +13522,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngineId() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13531,7 +13533,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngineId() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13545,7 +13547,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapEngineId() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13563,7 +13565,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapIdentity() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13574,7 +13576,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapIdentity() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13588,7 +13590,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapIdentity() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13606,7 +13608,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapMethod() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13617,7 +13619,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapMethod() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13631,7 +13633,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapMethod() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13649,7 +13651,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPassword() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13660,7 +13662,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPassword() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13674,7 +13676,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPassword() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13692,7 +13694,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPhase2Method
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13703,7 +13705,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPhase2Method
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13717,7 +13719,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPhase2Method
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13735,7 +13737,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPrivateKeyId
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13746,7 +13748,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPrivateKeyId
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13760,7 +13762,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapPrivateKeyId
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13778,7 +13780,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapSubjectMatch
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13789,7 +13791,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapSubjectMatch
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13803,7 +13805,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEapSubjectMatch
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13821,7 +13823,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEdmg() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13832,7 +13834,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEdmg() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13846,7 +13848,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetEdmg() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13864,7 +13866,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupCipher() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13875,7 +13877,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupCipher() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13889,7 +13891,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupCipher() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13907,7 +13909,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupMgmtCipher
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13918,7 +13920,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupMgmtCipher
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13932,7 +13934,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetGroupMgmtCipher
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13950,7 +13952,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetId() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13961,7 +13963,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetId() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -13975,7 +13977,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetId() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13993,7 +13995,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetIdStr() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14004,7 +14006,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetIdStr() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14018,7 +14020,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetIdStr() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14036,7 +14038,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetInterfaceName()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14047,7 +14049,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetInterfaceName()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14061,7 +14063,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetInterfaceName()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14079,7 +14081,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetKeyMgmt() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14090,7 +14092,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetKeyMgmt() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14104,7 +14106,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetKeyMgmt() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14122,7 +14124,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetOcsp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14133,7 +14135,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetOcsp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14147,7 +14149,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetOcsp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14165,7 +14167,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPairwiseCipher(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14176,7 +14178,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPairwiseCipher(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14190,7 +14192,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPairwiseCipher(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14208,7 +14210,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetProto() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14219,7 +14221,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetProto() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14233,7 +14235,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetProto() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14251,7 +14253,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPsk() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14262,7 +14264,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPsk() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14276,7 +14278,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPsk() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14294,7 +14296,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPskPassphrase()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14305,7 +14307,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPskPassphrase()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14319,7 +14321,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetPskPassphrase()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14337,7 +14339,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetRequirePmf() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14348,7 +14350,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetRequirePmf() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14362,7 +14364,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetRequirePmf() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14380,7 +14382,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePassword() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14391,7 +14393,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePassword() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14405,7 +14407,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePassword() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14423,7 +14425,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePasswordId()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14434,7 +14436,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePasswordId()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14448,7 +14450,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSaePasswordId()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14466,7 +14468,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetScanSsid() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14477,7 +14479,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetScanSsid() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14491,7 +14493,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetScanSsid() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14509,7 +14511,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSsid() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14520,7 +14522,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSsid() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14534,7 +14536,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetSsid() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14552,7 +14554,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetType() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14563,7 +14565,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetType() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14577,7 +14579,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetType() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14595,7 +14597,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWapiCertSuite()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14606,7 +14608,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWapiCertSuite()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14620,7 +14622,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWapiCertSuite()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14638,7 +14640,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepKey() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14649,7 +14651,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepKey() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14668,7 +14670,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepKey() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14688,7 +14690,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepTxKeyIdx() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14699,7 +14701,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepTxKeyIdx() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14713,7 +14715,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWepTxKeyIdx() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14731,7 +14733,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWpsNfcConfigura
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14742,7 +14744,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWpsNfcConfigura
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14756,7 +14758,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_GetWpsNfcConfigura
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14774,7 +14776,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_RegisterCallback()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14785,7 +14787,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_RegisterCallback()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14809,7 +14811,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_RegisterCallback()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14829,7 +14831,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Select() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14840,7 +14842,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Select() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14854,7 +14856,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_Select() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14872,7 +14874,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapIden
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14883,7 +14885,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapIden
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14915,7 +14917,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapIden
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14937,7 +14939,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14948,7 +14950,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -14962,7 +14964,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14980,7 +14982,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14991,7 +14993,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15016,7 +15018,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimG
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15036,7 +15038,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15047,7 +15049,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15061,7 +15063,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15079,7 +15081,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15090,7 +15092,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15127,7 +15129,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15148,7 +15150,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15159,7 +15161,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15182,7 +15184,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SendNetworkEapSimU
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15202,7 +15204,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetAuthAlg() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15213,7 +15215,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetAuthAlg() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15233,7 +15235,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetAuthAlg() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15253,7 +15255,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetBssid() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15264,7 +15266,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetBssid() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15287,7 +15289,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetBssid() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15307,7 +15309,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetDppKeys() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15318,7 +15320,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetDppKeys() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15355,7 +15357,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetDppKeys() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15376,7 +15378,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAltSubjectMa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15387,7 +15389,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAltSubjectMa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15406,7 +15408,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAltSubjectMa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15426,7 +15428,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAnonymousIde
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15437,7 +15439,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAnonymousIde
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15460,7 +15462,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapAnonymousIde
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15480,7 +15482,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCACert() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15491,7 +15493,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCACert() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15510,7 +15512,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCACert() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15530,7 +15532,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCAPath() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15541,7 +15543,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCAPath() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15560,7 +15562,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapCAPath() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15580,7 +15582,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapClientCert()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15591,7 +15593,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapClientCert()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15610,7 +15612,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapClientCert()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15630,7 +15632,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapDomainSuffix
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15641,7 +15643,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapDomainSuffix
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15660,7 +15662,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapDomainSuffix
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15680,7 +15682,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEncryptedIms
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15691,7 +15693,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEncryptedIms
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15714,7 +15716,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEncryptedIms
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15734,7 +15736,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngine() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15745,7 +15747,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngine() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15764,7 +15766,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngine() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15784,7 +15786,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngineID() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15795,7 +15797,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngineID() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15814,7 +15816,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapEngineID() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15834,7 +15836,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapErp() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15845,7 +15847,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapErp() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15864,7 +15866,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapErp() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15884,7 +15886,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapIdentity() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15895,7 +15897,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapIdentity() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15918,7 +15920,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapIdentity() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15938,7 +15940,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapMethod() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15949,7 +15951,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapMethod() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -15969,7 +15971,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapMethod() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15989,7 +15991,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPassword() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16000,7 +16002,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPassword() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16023,7 +16025,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPassword() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16043,7 +16045,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPhase2Method
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16054,7 +16056,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPhase2Method
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16074,7 +16076,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPhase2Method
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16094,7 +16096,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPrivateKeyId
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16105,7 +16107,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPrivateKeyId
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16124,7 +16126,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapPrivateKeyId
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16144,7 +16146,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapSubjectMatch
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16155,7 +16157,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapSubjectMatch
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16174,7 +16176,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEapSubjectMatch
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16194,7 +16196,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEdmg() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16205,7 +16207,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEdmg() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16224,7 +16226,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetEdmg() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16244,7 +16246,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupCipher() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16255,7 +16257,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupCipher() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16275,7 +16277,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupCipher() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16295,7 +16297,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupMgmtCipher
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16306,7 +16308,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupMgmtCipher
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16326,7 +16328,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetGroupMgmtCipher
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16346,7 +16348,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetIdStr() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16357,7 +16359,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetIdStr() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16376,7 +16378,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetIdStr() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16396,7 +16398,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetKeyMgmt() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16407,7 +16409,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetKeyMgmt() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16427,7 +16429,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetKeyMgmt() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16447,7 +16449,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetOcsp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16458,7 +16460,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetOcsp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16478,7 +16480,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetOcsp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16498,7 +16500,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPairwiseCipher(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16509,7 +16511,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPairwiseCipher(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16529,7 +16531,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPairwiseCipher(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16549,7 +16551,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPmkCache() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16560,7 +16562,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPmkCache() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16583,7 +16585,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPmkCache() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16603,7 +16605,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProactiveKeyCac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16614,7 +16616,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProactiveKeyCac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16633,7 +16635,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProactiveKeyCac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16653,7 +16655,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProto() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16664,7 +16666,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProto() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16684,7 +16686,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetProto() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16704,7 +16706,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPsk() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16715,7 +16717,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPsk() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16738,7 +16740,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPsk() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16758,7 +16760,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPskPassphrase()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16769,7 +16771,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPskPassphrase()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16788,7 +16790,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetPskPassphrase()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16808,7 +16810,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRequirePmf() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16819,7 +16821,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRequirePmf() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16838,7 +16840,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRequirePmf() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16858,7 +16860,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaeH2eMode() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16869,7 +16871,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaeH2eMode() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16889,7 +16891,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaeH2eMode() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16909,7 +16911,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePassword() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16920,7 +16922,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePassword() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16939,7 +16941,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePassword() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16959,7 +16961,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePasswordId()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16970,7 +16972,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePasswordId()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -16989,7 +16991,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSaePasswordId()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17009,7 +17011,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetScanSsid() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17020,7 +17022,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetScanSsid() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17039,7 +17041,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetScanSsid() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17059,7 +17061,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSsid() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17070,7 +17072,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSsid() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17093,7 +17095,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetSsid() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17113,7 +17115,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetUpdateIdentifie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17124,7 +17126,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetUpdateIdentifie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17143,7 +17145,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetUpdateIdentifie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17163,7 +17165,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWapiCertSuite()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17174,7 +17176,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWapiCertSuite()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17193,7 +17195,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWapiCertSuite()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17213,7 +17215,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepKey() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17224,7 +17226,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepKey() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17252,7 +17254,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepKey() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17274,7 +17276,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepTxKeyIdx() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17285,7 +17287,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepTxKeyIdx() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17304,7 +17306,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetWepTxKeyIdx() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17324,7 +17326,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRoamingConsorti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17335,7 +17337,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRoamingConsorti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17358,7 +17360,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetRoamingConsorti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17378,7 +17380,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetMinimumTlsVersi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17389,7 +17391,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetMinimumTlsVersi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17409,7 +17411,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetMinimumTlsVersi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17429,7 +17431,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetStrictConservat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17440,7 +17442,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetStrictConservat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17459,7 +17461,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetStrictConservat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17479,7 +17481,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_DisableEht() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17490,7 +17492,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_DisableEht() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17504,7 +17506,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_DisableEht() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17522,7 +17524,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetVendorData() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17533,7 +17535,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetVendorData() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetwork")
 			}
 			if err != nil {
 				return err
@@ -17558,7 +17560,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetwork_SetVendorData() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17594,7 +17596,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17605,7 +17607,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17619,7 +17621,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17637,7 +17639,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17648,7 +17650,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17669,7 +17671,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17688,7 +17690,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17699,7 +17701,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17729,7 +17731,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnNetworkE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17749,7 +17751,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnTransiti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17760,7 +17762,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnTransiti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17780,7 +17782,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnTransiti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17800,7 +17802,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnServerCe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17811,7 +17813,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnServerCe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17857,7 +17859,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnServerCe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17883,7 +17885,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnPermanen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17894,7 +17896,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnPermanen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback")
 			}
 			if err != nil {
 				return err
@@ -17908,7 +17910,7 @@ func newCmdAndroidHardwareWifiSupplicantISupplicantStaNetworkCallback_OnPermanen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

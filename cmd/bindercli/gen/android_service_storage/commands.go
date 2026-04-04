@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -43,7 +45,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_StartSession() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_StartSession() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
 			}
 			if err != nil {
 				return err
@@ -95,7 +97,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_StartSession() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_EndSession() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_EndSession() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_EndSession() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_FreeCache() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_FreeCache() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_FreeCache() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -241,7 +243,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_NotifyAnrDelayStarted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -252,7 +254,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_NotifyAnrDelayStarted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.storage.IExternalStorageService")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdAndroidServiceStorageIExternalStorageService_NotifyAnrDelayStarted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

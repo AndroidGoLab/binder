@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/prediction"
@@ -42,7 +44,7 @@ func newCmdAndroidAppPredictionIPredictionCallback_OnResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidAppPredictionIPredictionCallback_OnResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionCallback")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdAndroidAppPredictionIPredictionCallback_OnResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidAppPredictionIPredictionManager_CreatePredictionSession() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidAppPredictionIPredictionManager_CreatePredictionSession() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -144,7 +146,7 @@ func newCmdAndroidAppPredictionIPredictionManager_CreatePredictionSession() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -164,7 +166,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyAppTargetEvent() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -175,7 +177,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyAppTargetEvent() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -193,7 +195,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyAppTargetEvent() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyLaunchLocationShown() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyLaunchLocationShown() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdAndroidAppPredictionIPredictionManager_NotifyLaunchLocationShown() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -265,7 +267,7 @@ func newCmdAndroidAppPredictionIPredictionManager_SortAppTargets() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -276,7 +278,7 @@ func newCmdAndroidAppPredictionIPredictionManager_SortAppTargets() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidAppPredictionIPredictionManager_SortAppTargets() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -324,7 +326,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RegisterPredictionUpdates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -335,7 +337,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RegisterPredictionUpdates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -361,7 +363,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RegisterPredictionUpdates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdAndroidAppPredictionIPredictionManager_UnregisterPredictionUpdates() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdAndroidAppPredictionIPredictionManager_UnregisterPredictionUpdates() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -418,7 +420,7 @@ func newCmdAndroidAppPredictionIPredictionManager_UnregisterPredictionUpdates() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -438,7 +440,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestPredictionUpdate() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -449,7 +451,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestPredictionUpdate() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -465,7 +467,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestPredictionUpdate() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -483,7 +485,7 @@ func newCmdAndroidAppPredictionIPredictionManager_OnDestroyPredictionSession() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -494,7 +496,7 @@ func newCmdAndroidAppPredictionIPredictionManager_OnDestroyPredictionSession() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -510,7 +512,7 @@ func newCmdAndroidAppPredictionIPredictionManager_OnDestroyPredictionSession() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestServiceFeatures() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestServiceFeatures() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.prediction.IPredictionManager")
 			}
 			if err != nil {
 				return err
@@ -565,7 +567,7 @@ func newCmdAndroidAppPredictionIPredictionManager_RequestServiceFeatures() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

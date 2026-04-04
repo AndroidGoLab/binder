@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/assist"
@@ -58,7 +60,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionStorageService_OpenFile() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -69,7 +71,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionStorageService_OpenFile() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionStorageService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionStorageService")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionStorageService_OpenFile() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -126,7 +128,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -137,7 +139,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -153,7 +155,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnAtt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -251,7 +253,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -271,7 +273,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnRes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -282,7 +284,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnRes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -298,7 +300,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnRes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -316,7 +318,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -327,7 +329,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -341,7 +343,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -359,7 +361,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -370,7 +372,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDetectorSessionVisualQueryDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -384,7 +386,7 @@ func newCmdAndroidServiceVoiceIDetectorSessionVisualQueryDetectionCallback_OnQue
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -414,7 +416,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnDetected() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -425,7 +427,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnDetected() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDspHotwordDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDspHotwordDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -441,7 +443,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnDetected() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -459,7 +461,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnRejected() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -470,7 +472,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnRejected() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDspHotwordDetectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IDspHotwordDetectionCallback")
 			}
 			if err != nil {
 				return err
@@ -486,7 +488,7 @@ func newCmdAndroidServiceVoiceIDspHotwordDetectionCallback_OnRejected() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -517,7 +519,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -528,7 +530,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -551,7 +553,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -571,7 +573,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -582,7 +584,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -598,7 +600,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -616,7 +618,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -627,7 +629,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -643,7 +645,7 @@ func newCmdAndroidServiceVoiceIMicrophoneHotwordDetectionVoiceInteractionCallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -681,7 +683,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromDspSource() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -692,7 +694,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromDspSource() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -725,7 +727,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromDspSource() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -747,7 +749,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromMicrophoneSou
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -758,7 +760,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromMicrophoneSou
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -796,7 +798,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectFromMicrophoneSou
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -820,7 +822,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectWithVisualSignals
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -831,7 +833,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectWithVisualSignals
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -855,7 +857,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_DetectWithVisualSignals
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -875,7 +877,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateState() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -886,7 +888,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateState() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -914,7 +916,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateState() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -934,7 +936,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateAudioFlinger() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -945,7 +947,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateAudioFlinger() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -968,7 +970,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateAudioFlinger() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -988,7 +990,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateContentCaptureMan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -999,7 +1001,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateContentCaptureMan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -1025,7 +1027,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateContentCaptureMan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1045,7 +1047,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateRecognitionServic
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1056,7 +1058,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateRecognitionServic
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -1080,7 +1082,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_UpdateRecognitionServic
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1100,7 +1102,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_Ping() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1111,7 +1113,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_Ping() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -1135,7 +1137,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_Ping() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1155,7 +1157,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_StopDetection() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1166,7 +1168,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_StopDetection() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -1180,7 +1182,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_StopDetection() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1198,7 +1200,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_RegisterRemoteStorageSe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1209,7 +1211,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_RegisterRemoteStorageSe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.ISandboxedDetectionService")
 			}
 			if err != nil {
 				return err
@@ -1233,7 +1235,7 @@ func newCmdAndroidServiceVoiceISandboxedDetectionService_RegisterRemoteStorageSe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1268,7 +1270,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1279,7 +1281,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -1298,7 +1300,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1318,7 +1320,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1329,7 +1331,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -1345,7 +1347,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1363,7 +1365,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1374,7 +1376,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -1388,7 +1390,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1406,7 +1408,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1417,7 +1419,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -1431,7 +1433,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnQu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1449,7 +1451,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnVi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1460,7 +1462,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnVi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVisualQueryDetectionVoiceInteractionCallback")
 			}
 			if err != nil {
 				return err
@@ -1476,7 +1478,7 @@ func newCmdAndroidServiceVoiceIVisualQueryDetectionVoiceInteractionCallback_OnVi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1512,7 +1514,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Ready() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1523,7 +1525,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Ready() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1537,7 +1539,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Ready() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1555,7 +1557,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_SoundModelsChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1566,7 +1568,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_SoundModelsChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1580,7 +1582,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_SoundModelsChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1598,7 +1600,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Shutdown() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1609,7 +1611,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Shutdown() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1623,7 +1625,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_Shutdown() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1641,7 +1643,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_LaunchVoiceAssistFromKeyg
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1652,7 +1654,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_LaunchVoiceAssistFromKeyg
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1666,7 +1668,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_LaunchVoiceAssistFromKeyg
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1684,7 +1686,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_GetActiveServiceSupported
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1695,7 +1697,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_GetActiveServiceSupported
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1728,7 +1730,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_GetActiveServiceSupported
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1750,7 +1752,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_PrepareToShowSession() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1761,7 +1763,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_PrepareToShowSession() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1782,7 +1784,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_PrepareToShowSession() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1802,7 +1804,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_ShowSessionFailed() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1813,7 +1815,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_ShowSessionFailed() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1829,7 +1831,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_ShowSessionFailed() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1847,7 +1849,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_DetectorRemoteExceptionOc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1858,7 +1860,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_DetectorRemoteExceptionOc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionService")
 			}
 			if err != nil {
 				return err
@@ -1886,7 +1888,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionService_DetectorRemoteExceptionOc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1926,7 +1928,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Show() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1937,7 +1939,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Show() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -1968,7 +1970,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Show() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1990,7 +1992,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Hide() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2001,7 +2003,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Hide() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2015,7 +2017,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Hide() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2033,7 +2035,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleAssist() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2044,7 +2046,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleAssist() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2088,7 +2090,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleAssist() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2114,7 +2116,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleScreenshot() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2125,7 +2127,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleScreenshot() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2141,7 +2143,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_HandleScreenshot() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2159,7 +2161,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_CloseSystemDialogs() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2170,7 +2172,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_CloseSystemDialogs() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2184,7 +2186,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_CloseSystemDialogs() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2202,7 +2204,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_OnLockscreenShown() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2213,7 +2215,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_OnLockscreenShown() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2227,7 +2229,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_OnLockscreenShown() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2245,7 +2247,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Destroy() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2256,7 +2258,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Destroy() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2270,7 +2272,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_Destroy() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2288,7 +2290,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_NotifyVisibleActivityInfo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2299,7 +2301,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_NotifyVisibleActivityInfo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSession")
 			}
 			if err != nil {
 				return err
@@ -2320,7 +2322,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSession_NotifyVisibleActivityInfo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2351,7 +2353,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSessionService_NewSession() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2362,7 +2364,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSessionService_NewSession() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSessionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.voice.IVoiceInteractionSessionService")
 			}
 			if err != nil {
 				return err
@@ -2392,7 +2394,7 @@ func newCmdAndroidServiceVoiceIVoiceInteractionSessionService_NewSession() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

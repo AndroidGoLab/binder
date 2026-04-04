@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/rollback"
@@ -47,7 +49,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetAvailableRollbacks() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetAvailableRollbacks() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -72,7 +74,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetAvailableRollbacks() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -90,7 +92,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetRecentlyCommittedRollbacks(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -101,7 +103,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetRecentlyCommittedRollbacks(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -115,7 +117,7 @@ func newCmdAndroidContentRollbackIRollbackManager_GetRecentlyCommittedRollbacks(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -133,7 +135,7 @@ func newCmdAndroidContentRollbackIRollbackManager_SnapshotAndRestoreUserData() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -144,7 +146,7 @@ func newCmdAndroidContentRollbackIRollbackManager_SnapshotAndRestoreUserData() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -198,7 +200,7 @@ func newCmdAndroidContentRollbackIRollbackManager_SnapshotAndRestoreUserData() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -228,7 +230,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ReloadPersistedData() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -239,7 +241,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ReloadPersistedData() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -253,7 +255,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ReloadPersistedData() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -271,7 +273,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ExpireRollbackForPackage() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -282,7 +284,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ExpireRollbackForPackage() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -301,7 +303,7 @@ func newCmdAndroidContentRollbackIRollbackManager_ExpireRollbackForPackage() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -321,7 +323,7 @@ func newCmdAndroidContentRollbackIRollbackManager_NotifyStagedSession() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -332,7 +334,7 @@ func newCmdAndroidContentRollbackIRollbackManager_NotifyStagedSession() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -351,7 +353,7 @@ func newCmdAndroidContentRollbackIRollbackManager_NotifyStagedSession() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -371,7 +373,7 @@ func newCmdAndroidContentRollbackIRollbackManager_BlockRollbackManager() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -382,7 +384,7 @@ func newCmdAndroidContentRollbackIRollbackManager_BlockRollbackManager() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.rollback.IRollbackManager")
 			}
 			if err != nil {
 				return err
@@ -401,7 +403,7 @@ func newCmdAndroidContentRollbackIRollbackManager_BlockRollbackManager() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

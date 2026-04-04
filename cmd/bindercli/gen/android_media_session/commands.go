@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -54,7 +56,7 @@ func newCmdAndroidMediaSessionIActiveSessionsListener_OnActiveSessionsChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -65,7 +67,7 @@ func newCmdAndroidMediaSessionIActiveSessionsListener_OnActiveSessionsChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.IActiveSessionsListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.IActiveSessionsListener")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidMediaSessionIActiveSessionsListener_OnActiveSessionsChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -121,7 +123,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventDispatchedListener_OnMediaKeyEvent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -132,7 +134,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventDispatchedListener_OnMediaKeyEvent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyEventDispatchedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyEventDispatchedListener")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventDispatchedListener_OnMediaKeyEvent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -186,7 +188,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventSessionChangedListener_OnMediaKeyE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -197,7 +199,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventSessionChangedListener_OnMediaKeyE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyEventSessionChangedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyEventSessionChangedListener")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyEventSessionChangedListener_OnMediaKeyE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -249,7 +251,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyListener_OnMediaKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -260,7 +262,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyListener_OnMediaKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnMediaKeyListener")
 			}
 			if err != nil {
 				return err
@@ -278,7 +280,7 @@ func newCmdAndroidMediaSessionIOnMediaKeyListener_OnMediaKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidMediaSessionIOnVolumeKeyLongPressListener_OnVolumeKeyLongPress
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidMediaSessionIOnVolumeKeyLongPressListener_OnVolumeKeyLongPress
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnVolumeKeyLongPressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.IOnVolumeKeyLongPressListener")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdAndroidMediaSessionIOnVolumeKeyLongPressListener_OnVolumeKeyLongPress
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -376,7 +378,7 @@ func newCmdAndroidMediaSessionISession_SendEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -387,7 +389,7 @@ func newCmdAndroidMediaSessionISession_SendEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -408,7 +410,7 @@ func newCmdAndroidMediaSessionISession_SendEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -428,7 +430,7 @@ func newCmdAndroidMediaSessionISession_GetController() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -439,7 +441,7 @@ func newCmdAndroidMediaSessionISession_GetController() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -453,7 +455,7 @@ func newCmdAndroidMediaSessionISession_GetController() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -471,7 +473,7 @@ func newCmdAndroidMediaSessionISession_SetFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -482,7 +484,7 @@ func newCmdAndroidMediaSessionISession_SetFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -501,7 +503,7 @@ func newCmdAndroidMediaSessionISession_SetFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -521,7 +523,7 @@ func newCmdAndroidMediaSessionISession_SetActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -532,7 +534,7 @@ func newCmdAndroidMediaSessionISession_SetActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -551,7 +553,7 @@ func newCmdAndroidMediaSessionISession_SetActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -571,7 +573,7 @@ func newCmdAndroidMediaSessionISession_SetMediaButtonBroadcastReceiver() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -582,7 +584,7 @@ func newCmdAndroidMediaSessionISession_SetMediaButtonBroadcastReceiver() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -598,7 +600,7 @@ func newCmdAndroidMediaSessionISession_SetMediaButtonBroadcastReceiver() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -616,7 +618,7 @@ func newCmdAndroidMediaSessionISession_DestroySession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -627,7 +629,7 @@ func newCmdAndroidMediaSessionISession_DestroySession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -641,7 +643,7 @@ func newCmdAndroidMediaSessionISession_DestroySession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -659,7 +661,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -670,7 +672,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -686,7 +688,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -704,7 +706,7 @@ func newCmdAndroidMediaSessionISession_ResetQueue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -715,7 +717,7 @@ func newCmdAndroidMediaSessionISession_ResetQueue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -729,7 +731,7 @@ func newCmdAndroidMediaSessionISession_ResetQueue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -747,7 +749,7 @@ func newCmdAndroidMediaSessionISession_GetBinderForSetQueue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -758,7 +760,7 @@ func newCmdAndroidMediaSessionISession_GetBinderForSetQueue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -772,7 +774,7 @@ func newCmdAndroidMediaSessionISession_GetBinderForSetQueue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -790,7 +792,7 @@ func newCmdAndroidMediaSessionISession_SetQueueTitle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -801,7 +803,7 @@ func newCmdAndroidMediaSessionISession_SetQueueTitle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -820,7 +822,7 @@ func newCmdAndroidMediaSessionISession_SetQueueTitle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -840,7 +842,7 @@ func newCmdAndroidMediaSessionISession_SetExtras() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -851,7 +853,7 @@ func newCmdAndroidMediaSessionISession_SetExtras() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -867,7 +869,7 @@ func newCmdAndroidMediaSessionISession_SetExtras() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -885,7 +887,7 @@ func newCmdAndroidMediaSessionISession_SetRatingType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -896,7 +898,7 @@ func newCmdAndroidMediaSessionISession_SetRatingType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -915,7 +917,7 @@ func newCmdAndroidMediaSessionISession_SetRatingType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -935,7 +937,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackToRemote() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -946,7 +948,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackToRemote() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -975,7 +977,7 @@ func newCmdAndroidMediaSessionISession_SetPlaybackToRemote() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -999,7 +1001,7 @@ func newCmdAndroidMediaSessionISession_SetCurrentVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1010,7 +1012,7 @@ func newCmdAndroidMediaSessionISession_SetCurrentVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISession")
 			}
 			if err != nil {
 				return err
@@ -1029,7 +1031,7 @@ func newCmdAndroidMediaSessionISession_SetCurrentVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1083,7 +1085,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1094,7 +1096,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1132,7 +1134,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1158,7 +1160,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButton() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1169,7 +1171,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButton() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1207,7 +1209,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButton() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1233,7 +1235,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButtonFromController() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1244,7 +1246,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButtonFromController() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1275,7 +1277,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnMediaButtonFromController() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1299,7 +1301,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepare() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1310,7 +1312,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepare() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1339,7 +1341,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepare() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1363,7 +1365,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromMediaId() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1374,7 +1376,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromMediaId() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1410,7 +1412,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromMediaId() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1436,7 +1438,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromSearch() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1447,7 +1449,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromSearch() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1483,7 +1485,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromSearch() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1509,7 +1511,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromUri() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1520,7 +1522,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromUri() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1553,7 +1555,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrepareFromUri() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1577,7 +1579,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlay() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1588,7 +1590,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlay() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1617,7 +1619,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlay() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1641,7 +1643,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromMediaId() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1652,7 +1654,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromMediaId() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1688,7 +1690,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromMediaId() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1714,7 +1716,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromSearch() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1725,7 +1727,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromSearch() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1761,7 +1763,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromSearch() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1787,7 +1789,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromUri() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1798,7 +1800,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromUri() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1831,7 +1833,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPlayFromUri() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1855,7 +1857,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSkipToTrack() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1866,7 +1868,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSkipToTrack() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1900,7 +1902,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSkipToTrack() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1926,7 +1928,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPause() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1937,7 +1939,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPause() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1966,7 +1968,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPause() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1990,7 +1992,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2001,7 +2003,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2030,7 +2032,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2054,7 +2056,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnNext() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2065,7 +2067,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnNext() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2094,7 +2096,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnNext() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2118,7 +2120,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrevious() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2129,7 +2131,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrevious() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2158,7 +2160,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnPrevious() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2182,7 +2184,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnFastForward() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2193,7 +2195,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnFastForward() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2222,7 +2224,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnFastForward() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2246,7 +2248,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRewind() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2257,7 +2259,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRewind() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2286,7 +2288,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRewind() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2310,7 +2312,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSeekTo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2321,7 +2323,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSeekTo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2355,7 +2357,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSeekTo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2381,7 +2383,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2392,7 +2394,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2423,7 +2425,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnRate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2447,7 +2449,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetPlaybackSpeed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2458,7 +2460,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetPlaybackSpeed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2492,7 +2494,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetPlaybackSpeed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2518,7 +2520,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCustomAction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2529,7 +2531,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCustomAction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2565,7 +2567,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnCustomAction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2591,7 +2593,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnAdjustVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2602,7 +2604,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnAdjustVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2636,7 +2638,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnAdjustVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2662,7 +2664,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetVolumeTo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2673,7 +2675,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetVolumeTo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2707,7 +2709,7 @@ func newCmdAndroidMediaSessionISessionCallback_OnSetVolumeTo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2779,7 +2781,7 @@ func newCmdAndroidMediaSessionISessionController_SendCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2790,7 +2792,7 @@ func newCmdAndroidMediaSessionISessionController_SendCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -2818,7 +2820,7 @@ func newCmdAndroidMediaSessionISessionController_SendCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2840,7 +2842,7 @@ func newCmdAndroidMediaSessionISessionController_SendMediaButton() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2851,7 +2853,7 @@ func newCmdAndroidMediaSessionISessionController_SendMediaButton() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -2872,7 +2874,7 @@ func newCmdAndroidMediaSessionISessionController_SendMediaButton() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2892,7 +2894,7 @@ func newCmdAndroidMediaSessionISessionController_RegisterCallback() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2903,7 +2905,7 @@ func newCmdAndroidMediaSessionISessionController_RegisterCallback() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -2932,7 +2934,7 @@ func newCmdAndroidMediaSessionISessionController_RegisterCallback() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2954,7 +2956,7 @@ func newCmdAndroidMediaSessionISessionController_UnregisterCallback() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2965,7 +2967,7 @@ func newCmdAndroidMediaSessionISessionController_UnregisterCallback() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -2989,7 +2991,7 @@ func newCmdAndroidMediaSessionISessionController_UnregisterCallback() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3009,7 +3011,7 @@ func newCmdAndroidMediaSessionISessionController_GetPackageName() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3020,7 +3022,7 @@ func newCmdAndroidMediaSessionISessionController_GetPackageName() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3034,7 +3036,7 @@ func newCmdAndroidMediaSessionISessionController_GetPackageName() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3052,7 +3054,7 @@ func newCmdAndroidMediaSessionISessionController_GetTag() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3063,7 +3065,7 @@ func newCmdAndroidMediaSessionISessionController_GetTag() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3077,7 +3079,7 @@ func newCmdAndroidMediaSessionISessionController_GetTag() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3095,7 +3097,7 @@ func newCmdAndroidMediaSessionISessionController_GetSessionInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3106,7 +3108,7 @@ func newCmdAndroidMediaSessionISessionController_GetSessionInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3120,7 +3122,7 @@ func newCmdAndroidMediaSessionISessionController_GetSessionInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3138,7 +3140,7 @@ func newCmdAndroidMediaSessionISessionController_GetLaunchPendingIntent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3149,7 +3151,7 @@ func newCmdAndroidMediaSessionISessionController_GetLaunchPendingIntent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3163,7 +3165,7 @@ func newCmdAndroidMediaSessionISessionController_GetLaunchPendingIntent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3181,7 +3183,7 @@ func newCmdAndroidMediaSessionISessionController_GetFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3192,7 +3194,7 @@ func newCmdAndroidMediaSessionISessionController_GetFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3206,7 +3208,7 @@ func newCmdAndroidMediaSessionISessionController_GetFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3224,7 +3226,7 @@ func newCmdAndroidMediaSessionISessionController_GetVolumeAttributes() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3235,7 +3237,7 @@ func newCmdAndroidMediaSessionISessionController_GetVolumeAttributes() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3249,7 +3251,7 @@ func newCmdAndroidMediaSessionISessionController_GetVolumeAttributes() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3267,7 +3269,7 @@ func newCmdAndroidMediaSessionISessionController_AdjustVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3278,7 +3280,7 @@ func newCmdAndroidMediaSessionISessionController_AdjustVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3307,7 +3309,7 @@ func newCmdAndroidMediaSessionISessionController_AdjustVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3331,7 +3333,7 @@ func newCmdAndroidMediaSessionISessionController_SetVolumeTo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3342,7 +3344,7 @@ func newCmdAndroidMediaSessionISessionController_SetVolumeTo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3371,7 +3373,7 @@ func newCmdAndroidMediaSessionISessionController_SetVolumeTo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3395,7 +3397,7 @@ func newCmdAndroidMediaSessionISessionController_Prepare() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3406,7 +3408,7 @@ func newCmdAndroidMediaSessionISessionController_Prepare() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3425,7 +3427,7 @@ func newCmdAndroidMediaSessionISessionController_Prepare() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3445,7 +3447,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromMediaId() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3456,7 +3458,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromMediaId() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3482,7 +3484,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromMediaId() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3504,7 +3506,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromSearch() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3515,7 +3517,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromSearch() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3541,7 +3543,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromSearch() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3563,7 +3565,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromUri() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3574,7 +3576,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromUri() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3597,7 +3599,7 @@ func newCmdAndroidMediaSessionISessionController_PrepareFromUri() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3617,7 +3619,7 @@ func newCmdAndroidMediaSessionISessionController_Play() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3628,7 +3630,7 @@ func newCmdAndroidMediaSessionISessionController_Play() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3647,7 +3649,7 @@ func newCmdAndroidMediaSessionISessionController_Play() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3667,7 +3669,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromMediaId() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3678,7 +3680,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromMediaId() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3704,7 +3706,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromMediaId() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3726,7 +3728,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromSearch() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3737,7 +3739,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromSearch() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3763,7 +3765,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromSearch() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3785,7 +3787,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromUri() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3796,7 +3798,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromUri() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3819,7 +3821,7 @@ func newCmdAndroidMediaSessionISessionController_PlayFromUri() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3839,7 +3841,7 @@ func newCmdAndroidMediaSessionISessionController_SkipToQueueItem() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3850,7 +3852,7 @@ func newCmdAndroidMediaSessionISessionController_SkipToQueueItem() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3874,7 +3876,7 @@ func newCmdAndroidMediaSessionISessionController_SkipToQueueItem() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3896,7 +3898,7 @@ func newCmdAndroidMediaSessionISessionController_Pause() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3907,7 +3909,7 @@ func newCmdAndroidMediaSessionISessionController_Pause() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3926,7 +3928,7 @@ func newCmdAndroidMediaSessionISessionController_Pause() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3946,7 +3948,7 @@ func newCmdAndroidMediaSessionISessionController_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3957,7 +3959,7 @@ func newCmdAndroidMediaSessionISessionController_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -3976,7 +3978,7 @@ func newCmdAndroidMediaSessionISessionController_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3996,7 +3998,7 @@ func newCmdAndroidMediaSessionISessionController_Next() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4007,7 +4009,7 @@ func newCmdAndroidMediaSessionISessionController_Next() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4026,7 +4028,7 @@ func newCmdAndroidMediaSessionISessionController_Next() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4046,7 +4048,7 @@ func newCmdAndroidMediaSessionISessionController_Previous() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4057,7 +4059,7 @@ func newCmdAndroidMediaSessionISessionController_Previous() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4076,7 +4078,7 @@ func newCmdAndroidMediaSessionISessionController_Previous() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4096,7 +4098,7 @@ func newCmdAndroidMediaSessionISessionController_FastForward() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4107,7 +4109,7 @@ func newCmdAndroidMediaSessionISessionController_FastForward() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4126,7 +4128,7 @@ func newCmdAndroidMediaSessionISessionController_FastForward() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4146,7 +4148,7 @@ func newCmdAndroidMediaSessionISessionController_Rewind() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4157,7 +4159,7 @@ func newCmdAndroidMediaSessionISessionController_Rewind() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4176,7 +4178,7 @@ func newCmdAndroidMediaSessionISessionController_Rewind() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4196,7 +4198,7 @@ func newCmdAndroidMediaSessionISessionController_SeekTo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4207,7 +4209,7 @@ func newCmdAndroidMediaSessionISessionController_SeekTo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4231,7 +4233,7 @@ func newCmdAndroidMediaSessionISessionController_SeekTo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4253,7 +4255,7 @@ func newCmdAndroidMediaSessionISessionController_SetPlaybackSpeed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4264,7 +4266,7 @@ func newCmdAndroidMediaSessionISessionController_SetPlaybackSpeed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4288,7 +4290,7 @@ func newCmdAndroidMediaSessionISessionController_SetPlaybackSpeed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4310,7 +4312,7 @@ func newCmdAndroidMediaSessionISessionController_SendCustomAction() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4321,7 +4323,7 @@ func newCmdAndroidMediaSessionISessionController_SendCustomAction() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4347,7 +4349,7 @@ func newCmdAndroidMediaSessionISessionController_SendCustomAction() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4369,7 +4371,7 @@ func newCmdAndroidMediaSessionISessionController_GetMetadata() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4380,7 +4382,7 @@ func newCmdAndroidMediaSessionISessionController_GetMetadata() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4394,7 +4396,7 @@ func newCmdAndroidMediaSessionISessionController_GetMetadata() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4412,7 +4414,7 @@ func newCmdAndroidMediaSessionISessionController_GetPlaybackState() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4423,7 +4425,7 @@ func newCmdAndroidMediaSessionISessionController_GetPlaybackState() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4437,7 +4439,7 @@ func newCmdAndroidMediaSessionISessionController_GetPlaybackState() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4455,7 +4457,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4466,7 +4468,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4480,7 +4482,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4498,7 +4500,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueueTitle() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4509,7 +4511,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueueTitle() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4523,7 +4525,7 @@ func newCmdAndroidMediaSessionISessionController_GetQueueTitle() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4541,7 +4543,7 @@ func newCmdAndroidMediaSessionISessionController_GetExtras() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4552,7 +4554,7 @@ func newCmdAndroidMediaSessionISessionController_GetExtras() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4566,7 +4568,7 @@ func newCmdAndroidMediaSessionISessionController_GetExtras() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4584,7 +4586,7 @@ func newCmdAndroidMediaSessionISessionController_GetRatingType() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4595,7 +4597,7 @@ func newCmdAndroidMediaSessionISessionController_GetRatingType() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionController")
 			}
 			if err != nil {
 				return err
@@ -4609,7 +4611,7 @@ func newCmdAndroidMediaSessionISessionController_GetRatingType() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4644,7 +4646,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnEvent() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4655,7 +4657,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnEvent() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4676,7 +4678,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnEvent() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4696,7 +4698,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnSessionDestroyed() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4707,7 +4709,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnSessionDestroyed() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4721,7 +4723,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnSessionDestroyed() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4739,7 +4741,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnPlaybackStateChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4750,7 +4752,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnPlaybackStateChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4766,7 +4768,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnPlaybackStateChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4784,7 +4786,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnMetadataChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4795,7 +4797,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnMetadataChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4811,7 +4813,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnMetadataChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4829,7 +4831,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnQueueTitleChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4840,7 +4842,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnQueueTitleChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4859,7 +4861,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnQueueTitleChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4879,7 +4881,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnExtrasChanged() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4890,7 +4892,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnExtrasChanged() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4906,7 +4908,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnExtrasChanged() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4924,7 +4926,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnVolumeInfoChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4935,7 +4937,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnVolumeInfoChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionControllerCallback")
 			}
 			if err != nil {
 				return err
@@ -4951,7 +4953,7 @@ func newCmdAndroidMediaSessionISessionControllerCallback_OnVolumeInfoChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5006,7 +5008,7 @@ func newCmdAndroidMediaSessionISessionManager_CreateSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5017,7 +5019,7 @@ func newCmdAndroidMediaSessionISessionManager_CreateSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5053,7 +5055,7 @@ func newCmdAndroidMediaSessionISessionManager_CreateSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5077,7 +5079,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5088,7 +5090,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5104,7 +5106,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5122,7 +5124,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSession() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5133,7 +5135,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSession() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5152,7 +5154,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSession() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5172,7 +5174,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSessionPackageName
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5183,7 +5185,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSessionPackageName
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5202,7 +5204,7 @@ func newCmdAndroidMediaSessionISessionManager_GetMediaKeyEventSessionPackageName
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5222,7 +5224,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEvent() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5233,7 +5235,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEvent() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5264,7 +5266,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEvent() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5288,7 +5290,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEventToSessionAsSy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5299,7 +5301,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEventToSessionAsSy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5322,7 +5324,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchMediaKeyEventToSessionAsSy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5342,7 +5344,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEvent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5353,7 +5355,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEvent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5389,7 +5391,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEvent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5415,7 +5417,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEventToSessionAsS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5426,7 +5428,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEventToSessionAsS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5449,7 +5451,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchVolumeKeyEventToSessionAsS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5469,7 +5471,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchAdjustVolume() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5480,7 +5482,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchAdjustVolume() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5514,7 +5516,7 @@ func newCmdAndroidMediaSessionISessionManager_DispatchAdjustVolume() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5540,7 +5542,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSessionsListener() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5551,7 +5553,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSessionsListener() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5577,7 +5579,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSessionsListener() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5597,7 +5599,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSessionsListener() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5608,7 +5610,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSessionsListener() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5632,7 +5634,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSessionsListener() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5652,7 +5654,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSession2TokensListener() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5663,7 +5665,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSession2TokensListener() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5687,7 +5689,7 @@ func newCmdAndroidMediaSessionISessionManager_AddSession2TokensListener() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5707,7 +5709,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSession2TokensListener() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5718,7 +5720,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSession2TokensListener() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5742,7 +5744,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveSession2TokensListener() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5762,7 +5764,7 @@ func newCmdAndroidMediaSessionISessionManager_IsGlobalPriorityActive() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5773,7 +5775,7 @@ func newCmdAndroidMediaSessionISessionManager_IsGlobalPriorityActive() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5787,7 +5789,7 @@ func newCmdAndroidMediaSessionISessionManager_IsGlobalPriorityActive() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5805,7 +5807,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventDispatchedListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5816,7 +5818,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventDispatchedListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5840,7 +5842,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventDispatchedListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5860,7 +5862,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventDispatchedLis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5871,7 +5873,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventDispatchedLis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5895,7 +5897,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventDispatchedLis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5915,7 +5917,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventSessionChangedLi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5926,7 +5928,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventSessionChangedLi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -5955,7 +5957,7 @@ func newCmdAndroidMediaSessionISessionManager_AddOnMediaKeyEventSessionChangedLi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5977,7 +5979,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventSessionChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5988,7 +5990,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventSessionChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6012,7 +6014,7 @@ func newCmdAndroidMediaSessionISessionManager_RemoveOnMediaKeyEventSessionChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6032,7 +6034,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnVolumeKeyLongPressListener() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6043,7 +6045,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnVolumeKeyLongPressListener() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6067,7 +6069,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnVolumeKeyLongPressListener() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6087,7 +6089,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnMediaKeyListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6098,7 +6100,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnMediaKeyListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6122,7 +6124,7 @@ func newCmdAndroidMediaSessionISessionManager_SetOnMediaKeyListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6142,7 +6144,7 @@ func newCmdAndroidMediaSessionISessionManager_IsTrusted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6153,7 +6155,7 @@ func newCmdAndroidMediaSessionISessionManager_IsTrusted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6182,7 +6184,7 @@ func newCmdAndroidMediaSessionISessionManager_IsTrusted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6206,7 +6208,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaKeyDispatcher() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6217,7 +6219,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaKeyDispatcher() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6236,7 +6238,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaKeyDispatcher() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6256,7 +6258,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaSessionPolicyProvide
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6267,7 +6269,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaSessionPolicyProvide
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6286,7 +6288,7 @@ func newCmdAndroidMediaSessionISessionManager_SetCustomMediaSessionPolicyProvide
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6306,7 +6308,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaKeyDispatcher() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6317,7 +6319,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaKeyDispatcher() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6336,7 +6338,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaKeyDispatcher() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6356,7 +6358,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaSessionPolicyProvide
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6367,7 +6369,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaSessionPolicyProvide
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6386,7 +6388,7 @@ func newCmdAndroidMediaSessionISessionManager_HasCustomMediaSessionPolicyProvide
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6406,7 +6408,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessionPolicies() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6417,7 +6419,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessionPolicies() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6433,7 +6435,7 @@ func newCmdAndroidMediaSessionISessionManager_GetSessionPolicies() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6451,7 +6453,7 @@ func newCmdAndroidMediaSessionISessionManager_SetSessionPolicies() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6462,7 +6464,7 @@ func newCmdAndroidMediaSessionISessionManager_SetSessionPolicies() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.session.ISessionManager")
 			}
 			if err != nil {
 				return err
@@ -6483,7 +6485,7 @@ func newCmdAndroidMediaSessionISessionManager_SetSessionPolicies() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

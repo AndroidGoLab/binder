@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/media/bufferpool2"
@@ -42,7 +44,7 @@ func newCmdAndroidHardwareMediaBufferpool2IAccessor_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareMediaBufferpool2IAccessor_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IAccessor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IAccessor")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidHardwareMediaBufferpool2IAccessor_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -109,7 +111,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterSender() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -120,7 +122,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterSender() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IClientManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IClientManager")
 			}
 			if err != nil {
 				return err
@@ -144,7 +146,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterSender() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -164,7 +166,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterPassiveSender()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterPassiveSender()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IClientManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IClientManager")
 			}
 			if err != nil {
 				return err
@@ -199,7 +201,7 @@ func newCmdAndroidHardwareMediaBufferpool2IClientManager_RegisterPassiveSender()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -230,7 +232,7 @@ func newCmdAndroidHardwareMediaBufferpool2IConnection_Sync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -241,7 +243,7 @@ func newCmdAndroidHardwareMediaBufferpool2IConnection_Sync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IConnection")
 			}
 			if err != nil {
 				return err
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareMediaBufferpool2IConnection_Sync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -284,7 +286,7 @@ func newCmdAndroidHardwareMediaBufferpool2IObserver_OnMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -295,7 +297,7 @@ func newCmdAndroidHardwareMediaBufferpool2IObserver_OnMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.bufferpool2.IObserver")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareMediaBufferpool2IObserver_OnMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

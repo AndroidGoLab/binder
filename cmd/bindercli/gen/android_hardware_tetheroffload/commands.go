@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/tetheroffload"
@@ -48,7 +50,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_InitOffload() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_InitOffload() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -93,7 +95,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_InitOffload() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -117,7 +119,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_StopOffload() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_StopOffload() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_StopOffload() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetLocalPrefixes() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetLocalPrefixes() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetLocalPrefixes() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -214,7 +216,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_GetForwardedStats() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -225,7 +227,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_GetForwardedStats() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -244,7 +246,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_GetForwardedStats() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetDataWarningAndLimit() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetDataWarningAndLimit() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetDataWarningAndLimit() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -328,7 +330,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetUpstreamParameters() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -339,7 +341,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetUpstreamParameters() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -377,7 +379,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_SetUpstreamParameters() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -403,7 +405,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_AddDownstream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -414,7 +416,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_AddDownstream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -438,7 +440,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_AddDownstream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -460,7 +462,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_RemoveDownstream() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -471,7 +473,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_RemoveDownstream() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.IOffload")
 			}
 			if err != nil {
 				return err
@@ -495,7 +497,7 @@ func newCmdAndroidHardwareTetheroffloadIOffload_RemoveDownstream() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -529,7 +531,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_OnEvent() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -540,7 +542,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_OnEvent() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.ITetheringOffloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.ITetheringOffloadCallback")
 			}
 			if err != nil {
 				return err
@@ -560,7 +562,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_OnEvent() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -580,7 +582,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_UpdateTimeout()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -591,7 +593,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_UpdateTimeout()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.ITetheringOffloadCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tetheroffload.ITetheringOffloadCallback")
 			}
 			if err != nil {
 				return err
@@ -613,7 +615,7 @@ func newCmdAndroidHardwareTetheroffloadITetheringOffloadCallback_UpdateTimeout()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

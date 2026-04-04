@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/security/rkp"
@@ -45,7 +47,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetKeyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetKeyCallback")
 			}
 			if err != nil {
 				return err
@@ -86,7 +88,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnCancel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnCancel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetKeyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetKeyCallback")
 			}
 			if err != nil {
 				return err
@@ -131,7 +133,7 @@ func newCmdAndroidSecurityRkpIGetKeyCallback_OnCancel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnSuccess() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnSuccess() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetRegistrationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetRegistrationCallback")
 			}
 			if err != nil {
 				return err
@@ -196,7 +198,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnSuccess() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -216,7 +218,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnCancel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -227,7 +229,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnCancel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetRegistrationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IGetRegistrationCallback")
 			}
 			if err != nil {
 				return err
@@ -241,7 +243,7 @@ func newCmdAndroidSecurityRkpIGetRegistrationCallback_OnCancel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -272,7 +274,7 @@ func newCmdAndroidSecurityRkpIRegistration_GetKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -283,7 +285,7 @@ func newCmdAndroidSecurityRkpIRegistration_GetKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdAndroidSecurityRkpIRegistration_GetKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdAndroidSecurityRkpIRegistration_CancelGetKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdAndroidSecurityRkpIRegistration_CancelGetKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidSecurityRkpIRegistration_CancelGetKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdAndroidSecurityRkpIRegistration_StoreUpgradedKeyAsync() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdAndroidSecurityRkpIRegistration_StoreUpgradedKeyAsync() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRegistration")
 			}
 			if err != nil {
 				return err
@@ -442,7 +444,7 @@ func newCmdAndroidSecurityRkpIRegistration_StoreUpgradedKeyAsync() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdAndroidSecurityRkpIRemoteProvisioning_GetRegistration() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdAndroidSecurityRkpIRemoteProvisioning_GetRegistration() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRemoteProvisioning")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IRemoteProvisioning")
 			}
 			if err != nil {
 				return err
@@ -517,7 +519,7 @@ func newCmdAndroidSecurityRkpIRemoteProvisioning_GetRegistration() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdAndroidSecurityRkpIStoreUpgradedKeyCallback_OnSuccess() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdAndroidSecurityRkpIStoreUpgradedKeyCallback_OnSuccess() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IStoreUpgradedKeyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.rkp.IStoreUpgradedKeyCallback")
 			}
 			if err != nil {
 				return err
@@ -575,7 +577,7 @@ func newCmdAndroidSecurityRkpIStoreUpgradedKeyCallback_OnSuccess() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

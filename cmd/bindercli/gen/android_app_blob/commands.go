@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/blob"
@@ -43,7 +45,7 @@ func newCmdAndroidAppBlobIBlobCommitCallback_OnResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidAppBlobIBlobCommitCallback_OnResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobCommitCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobCommitCallback")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidAppBlobIBlobCommitCallback_OnResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -116,7 +118,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_CreateSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -127,7 +129,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_CreateSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -148,7 +150,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_CreateSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -168,7 +170,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -179,7 +181,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -225,7 +227,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenBlob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -236,7 +238,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenBlob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -257,7 +259,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_OpenBlob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -277,7 +279,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AbandonSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -288,7 +290,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AbandonSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AbandonSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AcquireLease() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AcquireLease() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_AcquireLease() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseLease() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseLease() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -439,7 +441,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseLease() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -459,7 +461,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseAllLeases() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -470,7 +472,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseAllLeases() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -489,7 +491,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_ReleaseAllLeases() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -509,7 +511,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetRemainingLeaseQuotaBytes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -520,7 +522,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetRemainingLeaseQuotaBytes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -539,7 +541,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetRemainingLeaseQuotaBytes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -559,7 +561,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_WaitForIdle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -570,7 +572,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_WaitForIdle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -586,7 +588,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_WaitForIdle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -604,7 +606,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_QueryBlobsForUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -615,7 +617,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_QueryBlobsForUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -629,7 +631,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_QueryBlobsForUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -647,7 +649,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_DeleteBlob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -658,7 +660,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_DeleteBlob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -677,7 +679,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_DeleteBlob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -697,7 +699,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeasedBlobs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -708,7 +710,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeasedBlobs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -727,7 +729,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeasedBlobs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -747,7 +749,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeaseInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -758,7 +760,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeaseInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreManager")
 			}
 			if err != nil {
 				return err
@@ -779,7 +781,7 @@ func newCmdAndroidAppBlobIBlobStoreManager_GetLeaseInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -821,7 +823,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenWrite() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -832,7 +834,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenWrite() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -856,7 +858,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenWrite() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -878,7 +880,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenRead() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -889,7 +891,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenRead() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -903,7 +905,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_OpenRead() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -921,7 +923,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPackageAccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -932,7 +934,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPackageAccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -960,7 +962,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPackageAccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -982,7 +984,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowSameSignatureAccess() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -993,7 +995,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowSameSignatureAccess() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1007,7 +1009,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowSameSignatureAccess() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1025,7 +1027,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPublicAccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1036,7 +1038,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPublicAccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1050,7 +1052,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_AllowPublicAccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1068,7 +1070,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPackageAccessAllowed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1079,7 +1081,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPackageAccessAllowed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1107,7 +1109,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPackageAccessAllowed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1129,7 +1131,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsSameSignatureAccessAllowed() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1140,7 +1142,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsSameSignatureAccessAllowed() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1154,7 +1156,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsSameSignatureAccessAllowed() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1172,7 +1174,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPublicAccessAllowed() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1183,7 +1185,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPublicAccessAllowed() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1197,7 +1199,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_IsPublicAccessAllowed() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1215,7 +1217,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_GetSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1226,7 +1228,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_GetSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1240,7 +1242,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_GetSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1258,7 +1260,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1269,7 +1271,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1283,7 +1285,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1301,7 +1303,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Abandon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1312,7 +1314,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Abandon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1326,7 +1328,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Abandon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Commit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Commit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.blob.IBlobStoreSession")
 			}
 			if err != nil {
 				return err
@@ -1379,7 +1381,7 @@ func newCmdAndroidAppBlobIBlobStoreSession_Commit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

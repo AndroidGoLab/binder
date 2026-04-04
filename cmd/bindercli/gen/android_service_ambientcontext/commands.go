@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -43,7 +45,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_StopDetec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_StopDetec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ambientcontext.IAmbientContextDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ambientcontext.IAmbientContextDetectionService")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_StopDetec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -93,7 +95,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_QueryServ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -104,7 +106,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_QueryServ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.ambientcontext.IAmbientContextDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.ambientcontext.IAmbientContextDetectionService")
 			}
 			if err != nil {
 				return err
@@ -140,7 +142,7 @@ func newCmdAndroidServiceAmbientcontextIAmbientContextDetectionService_QueryServ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

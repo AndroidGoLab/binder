@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/apphibernation"
@@ -46,7 +48,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingForUser() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingForUser() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -76,7 +78,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingForUser() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -96,7 +98,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingForUser() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -107,7 +109,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingForUser() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -131,7 +133,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingForUser() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -153,7 +155,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingGlobally() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -164,7 +166,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingGlobally() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -183,7 +185,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsHibernatingGlobally() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -203,7 +205,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingGlobally() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -214,7 +216,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingGlobally() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -238,7 +240,7 @@ func newCmdAndroidApphibernationIAppHibernationService_SetHibernatingGlobally() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -260,7 +262,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernatingPackagesFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -271,7 +273,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernatingPackagesFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -285,7 +287,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernatingPackagesFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -303,7 +305,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernationStatsForUse
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -314,7 +316,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernationStatsForUse
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -337,7 +339,7 @@ func newCmdAndroidApphibernationIAppHibernationService_GetHibernationStatsForUse
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsOatArtifactDeletionEnab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsOatArtifactDeletionEnab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.apphibernation.IAppHibernationService")
 			}
 			if err != nil {
 				return err
@@ -382,7 +384,7 @@ func newCmdAndroidApphibernationIAppHibernationService_IsOatArtifactDeletionEnab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

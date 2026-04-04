@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/bluetooth"
@@ -46,7 +48,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -89,7 +91,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Initialize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Initialize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_Initialize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -144,7 +146,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendAclData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -155,7 +157,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendAclData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -178,7 +180,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendAclData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -198,7 +200,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendHciCommand() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -209,7 +211,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendHciCommand() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendHciCommand() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -252,7 +254,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendIsoData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -263,7 +265,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendIsoData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendIsoData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -306,7 +308,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendScoData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -317,7 +319,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendScoData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHci")
 			}
 			if err != nil {
 				return err
@@ -340,7 +342,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHci_SendScoData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -375,7 +377,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_AclDataReceived() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -386,7 +388,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_AclDataReceived() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
 			}
 			if err != nil {
 				return err
@@ -409,7 +411,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_AclDataReceived() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_HciEventReceived() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_HciEventReceived() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
 			}
 			if err != nil {
 				return err
@@ -463,7 +465,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_HciEventReceived() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -483,7 +485,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_InitializationComplete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -494,7 +496,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_InitializationComplete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
 			}
 			if err != nil {
 				return err
@@ -514,7 +516,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_InitializationComplete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -534,7 +536,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_IsoDataReceived() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -545,7 +547,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_IsoDataReceived() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
 			}
 			if err != nil {
 				return err
@@ -568,7 +570,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_IsoDataReceived() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -588,7 +590,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_ScoDataReceived() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -599,7 +601,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_ScoDataReceived() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.IBluetoothHciCallbacks")
 			}
 			if err != nil {
 				return err
@@ -622,7 +624,7 @@ func newCmdAndroidHardwareBluetoothIBluetoothHciCallbacks_ScoDataReceived() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -1,6 +1,6 @@
 //go:build linux
 
-package cliutil
+package conn
 
 import (
 	"context"
@@ -23,13 +23,13 @@ type Conn struct {
 	SM        *servicemanager.ServiceManager
 }
 
-// OpenConn opens a binder driver connection and creates a service manager client.
-func OpenConn(
+// Open opens a binder driver connection and creates a service manager client.
+func Open(
 	ctx context.Context,
 	cmd *cobra.Command,
 ) (_conn *Conn, _err error) {
-	logger.Tracef(ctx, "OpenConn")
-	defer func() { logger.Tracef(ctx, "/OpenConn: %v", _err) }()
+	logger.Tracef(ctx, "Open")
+	defer func() { logger.Tracef(ctx, "/Open: %v", _err) }()
 
 	mapSize, err := cmd.Root().PersistentFlags().GetInt("map-size")
 	if err != nil {

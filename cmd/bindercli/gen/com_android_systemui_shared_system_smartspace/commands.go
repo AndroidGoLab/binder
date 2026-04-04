@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -46,7 +48,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -105,7 +107,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -116,7 +118,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -140,7 +142,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -162,7 +164,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -173,7 +175,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -226,7 +228,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -237,7 +239,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -256,7 +258,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -276,7 +278,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -287,7 +289,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -306,7 +308,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -326,7 +328,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -337,7 +339,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -351,7 +353,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceILauncherUnlockAnimationContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ISysuiUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ISysuiUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -421,7 +423,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -443,7 +445,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -454,7 +456,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ISysuiUnlockAnimationController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.system.smartspace.ISysuiUnlockAnimationController")
 			}
 			if err != nil {
 				return err
@@ -470,7 +472,7 @@ func newCmdComAndroidSystemuiSharedSystemSmartspaceISysuiUnlockAnimationControll
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -52,7 +54,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnConnected() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnConnected() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
 			}
 			if err != nil {
 				return err
@@ -96,7 +98,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnConnected() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -120,7 +122,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnDisconnected() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -131,7 +133,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnDisconnected() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
 			}
 			if err != nil {
 				return err
@@ -145,7 +147,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnDisconnected() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -163,7 +165,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnSessionFinished(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -174,7 +176,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnSessionFinished(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
 			}
 			if err != nil {
 				return err
@@ -193,7 +195,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnSessionFinished(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -213,7 +215,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivitySnapshot
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -224,7 +226,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivitySnapshot
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivitySnapshot
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -265,7 +267,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivityEvent() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -276,7 +278,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivityEvent() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureService")
 			}
 			if err != nil {
 				return err
@@ -292,7 +294,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureService_OnActivityEvent() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -323,7 +325,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_SetContent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -334,7 +336,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_SetContent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -368,7 +370,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_SetContent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -390,7 +392,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_DisableSel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -401,7 +403,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_DisableSel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -415,7 +417,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_DisableSel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -433,7 +435,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_WriteSessi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -444,7 +446,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_WriteSessi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentCaptureServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -474,7 +476,7 @@ func newCmdAndroidServiceContentcaptureIContentCaptureServiceCallback_WriteSessi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -507,7 +509,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionAllowlistCallback_SetAl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -518,7 +520,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionAllowlistCallback_SetAl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionAllowlistCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionAllowlistCallback")
 			}
 			if err != nil {
 				return err
@@ -541,7 +543,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionAllowlistCallback_SetAl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -573,7 +575,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnLoginDetected
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -584,7 +586,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnLoginDetected
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionService")
 			}
 			if err != nil {
 				return err
@@ -600,7 +602,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnLoginDetected
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -618,7 +620,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnUpdateAllowli
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -629,7 +631,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnUpdateAllowli
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IContentProtectionService")
 			}
 			if err != nil {
 				return err
@@ -652,7 +654,7 @@ func newCmdAndroidServiceContentcaptureIContentProtectionService_OnUpdateAllowli
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -684,7 +686,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Accept() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -695,7 +697,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Accept() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareCallback")
 			}
 			if err != nil {
 				return err
@@ -719,7 +721,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Accept() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -739,7 +741,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Reject() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -750,7 +752,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Reject() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareCallback")
 			}
 			if err != nil {
 				return err
@@ -764,7 +766,7 @@ func newCmdAndroidServiceContentcaptureIDataShareCallback_Reject() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -795,7 +797,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Start() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -806,7 +808,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Start() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
 			}
 			if err != nil {
 				return err
@@ -825,7 +827,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Start() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -845,7 +847,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Error() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -856,7 +858,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Error() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
 			}
 			if err != nil {
 				return err
@@ -875,7 +877,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Error() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -895,7 +897,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Finish() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -906,7 +908,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Finish() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.contentcapture.IDataShareReadAdapter")
 			}
 			if err != nil {
 				return err
@@ -920,7 +922,7 @@ func newCmdAndroidServiceContentcaptureIDataShareReadAdapter_Finish() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

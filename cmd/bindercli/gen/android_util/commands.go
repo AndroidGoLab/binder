@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/util"
@@ -47,7 +49,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_PeekInstance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_PeekInstance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -72,7 +74,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_PeekInstance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -90,7 +92,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Create() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -101,7 +103,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Create() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -120,7 +122,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Create() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -140,7 +142,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsWritable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -151,7 +153,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsWritable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -165,7 +167,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsWritable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Get() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Get() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -213,7 +215,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Get() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -233,7 +235,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Set() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -244,7 +246,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Set() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -268,7 +270,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Set() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -290,7 +292,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Size() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -301,7 +303,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Size() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -315,7 +317,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Size() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -333,7 +335,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -344,7 +346,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -358,7 +360,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -376,7 +378,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsClosed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -387,7 +389,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsClosed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -401,7 +403,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_IsClosed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -419,7 +421,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_AccessLastElementInRemoteProcess() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -430,7 +432,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_AccessLastElementInRemoteProcess() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.util.IRemoteMemoryIntArray")
 			}
 			if err != nil {
 				return err
@@ -446,7 +448,7 @@ func newCmdAndroidUtilIRemoteMemoryIntArray_AccessLastElementInRemoteProcess() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

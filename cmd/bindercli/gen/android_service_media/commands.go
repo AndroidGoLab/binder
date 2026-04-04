@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/pm"
@@ -48,7 +50,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -112,7 +114,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -123,7 +125,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -147,7 +149,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -167,7 +169,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscriptionDeprecated() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -178,7 +180,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscriptionDeprecated() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -207,7 +209,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscriptionDeprecated() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -229,7 +231,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscriptionDeprecated(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -240,7 +242,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscriptionDeprecated(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -269,7 +271,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscriptionDeprecated(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -291,7 +293,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_GetMediaItem() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -302,7 +304,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_GetMediaItem() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_GetMediaItem() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -355,7 +357,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscription() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -366,7 +368,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscription() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -406,7 +408,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_AddSubscription() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -430,7 +432,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscription() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -441,7 +443,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscription() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserService")
 			}
 			if err != nil {
 				return err
@@ -479,7 +481,7 @@ func newCmdAndroidServiceMediaIMediaBrowserService_RemoveSubscription() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -516,7 +518,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnConnectFailed() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -527,7 +529,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnConnectFailed() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -541,7 +543,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnConnectFailed() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -559,7 +561,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnLoadChildren() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -570,7 +572,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnLoadChildren() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -593,7 +595,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnLoadChildren() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -613,7 +615,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnDisconnect() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -624,7 +626,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnDisconnect() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.media.IMediaBrowserServiceCallbacks")
 			}
 			if err != nil {
 				return err
@@ -638,7 +640,7 @@ func newCmdAndroidServiceMediaIMediaBrowserServiceCallbacks_OnDisconnect() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

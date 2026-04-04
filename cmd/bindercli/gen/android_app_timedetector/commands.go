@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/timedetector"
@@ -43,7 +45,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetCapabilitiesAndConfig()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetCapabilitiesAndConfig()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -68,7 +70,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetCapabilitiesAndConfig()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -86,7 +88,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetTimeState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -97,7 +99,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetTimeState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -111,7 +113,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_GetTimeState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -129,7 +131,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SetManualTime() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -140,7 +142,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SetManualTime() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -156,7 +158,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SetManualTime() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -174,7 +176,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestManualTime() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -185,7 +187,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestManualTime() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestManualTime() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -219,7 +221,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestTelephonyTime() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -230,7 +232,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestTelephonyTime() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_SuggestTelephonyTime() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_LatestNetworkTime() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_LatestNetworkTime() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.timedetector.ITimeDetectorService")
 			}
 			if err != nil {
 				return err
@@ -289,7 +291,7 @@ func newCmdAndroidAppTimedetectorITimeDetectorService_LatestNetworkTime() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

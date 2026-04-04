@@ -7,7 +7,7 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
 	aaudio "github.com/AndroidGoLab/binder/cmd/bindercli/gen/aaudio"
 	android "github.com/AndroidGoLab/binder/cmd/bindercli/gen/android"
 	android_accessibilityservice "github.com/AndroidGoLab/binder/cmd/bindercli/gen/android_accessibilityservice"
@@ -334,7 +334,7 @@ import (
 )
 
 func init() {
-	cliutil.KnownServiceNames = map[string]string{
+	discovery.KnownServiceNames = map[string]string{
 		"IAlarmManager":                                                                   "alarm",
 		"IGrammaticalInflectionManager":                                                   "grammatical_inflection",
 		"ILocaleManager":                                                                  "locale",

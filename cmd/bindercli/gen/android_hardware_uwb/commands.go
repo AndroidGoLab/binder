@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/uwb"
@@ -43,7 +45,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChips() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChips() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwb")
 			}
 			if err != nil {
 				return err
@@ -68,7 +70,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChips() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -86,7 +88,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChip() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -97,7 +99,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChip() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwb")
 			}
 			if err != nil {
 				return err
@@ -116,7 +118,7 @@ func newCmdAndroidHardwareUwbIUwb_GetChip() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -153,7 +155,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -164,7 +166,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -178,7 +180,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -196,7 +198,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Open() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -207,7 +209,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Open() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -231,7 +233,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Open() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -262,7 +264,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidHardwareUwbIUwbChip_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidHardwareUwbIUwbChip_CoreInit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareUwbIUwbChip_CoreInit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareUwbIUwbChip_CoreInit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -337,7 +339,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SessionInit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -348,7 +350,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SessionInit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -367,7 +369,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SessionInit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -387,7 +389,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetSupportedAndroidUciVersion() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -398,7 +400,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetSupportedAndroidUciVersion() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -412,7 +414,7 @@ func newCmdAndroidHardwareUwbIUwbChip_GetSupportedAndroidUciVersion() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -430,7 +432,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SendUciMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -441,7 +443,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SendUciMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbChip")
 			}
 			if err != nil {
 				return err
@@ -464,7 +466,7 @@ func newCmdAndroidHardwareUwbIUwbChip_SendUciMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -496,7 +498,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnUciMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnUciMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbClientCallback")
 			}
 			if err != nil {
 				return err
@@ -530,7 +532,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnUciMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnHalEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnHalEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.uwb.IUwbClientCallback")
 			}
 			if err != nil {
 				return err
@@ -587,7 +589,7 @@ func newCmdAndroidHardwareUwbIUwbClientCallback_OnHalEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

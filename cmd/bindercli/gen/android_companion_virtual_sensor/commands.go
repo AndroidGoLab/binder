@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/companion/virtual/sensor"
@@ -43,7 +45,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnConfigurationCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnConfigurationCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnConfigurationCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -109,7 +111,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -120,7 +122,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
 			}
 			if err != nil {
 				return err
@@ -141,7 +143,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
 			}
 			if err != nil {
 				return err
@@ -191,7 +193,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.sensor.IVirtualSensorCallback")
 			}
 			if err != nil {
 				return err
@@ -253,7 +255,7 @@ func newCmdAndroidCompanionVirtualSensorIVirtualSensorCallback_OnDirectChannelCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

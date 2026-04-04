@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/integrity"
@@ -41,7 +43,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetVersion(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetVersion(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
 			}
 			if err != nil {
 				return err
@@ -66,7 +68,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetVersion(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -84,7 +86,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetProvider
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -95,7 +97,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetProvider
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
 			}
 			if err != nil {
 				return err
@@ -109,7 +111,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRuleSetProvider
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -127,7 +129,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRules() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -138,7 +140,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRules() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
 			}
 			if err != nil {
 				return err
@@ -152,7 +154,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetCurrentRules() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -170,7 +172,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetWhitelistedRuleProvide
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -181,7 +183,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetWhitelistedRuleProvide
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.integrity.IAppIntegrityManager")
 			}
 			if err != nil {
 				return err
@@ -195,7 +197,7 @@ func newCmdAndroidContentIntegrityIAppIntegrityManager_GetWhitelistedRuleProvide
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

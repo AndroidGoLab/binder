@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/location/provider"
@@ -47,7 +49,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeCallback")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnResults() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnResults() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeCallback")
 			}
 			if err != nil {
 				return err
@@ -133,7 +135,7 @@ func newCmdAndroidLocationProviderIGeocodeCallback_OnResults() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -165,7 +167,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ForwardGeocode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -176,7 +178,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ForwardGeocode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeProvider")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ForwardGeocode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -222,7 +224,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ReverseGeocode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -233,7 +235,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ReverseGeocode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.IGeocodeProvider")
 			}
 			if err != nil {
 				return err
@@ -259,7 +261,7 @@ func newCmdAndroidLocationProviderIGeocodeProvider_ReverseGeocode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -293,7 +295,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetLocationProviderManager()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -304,7 +306,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetLocationProviderManager()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
 			}
 			if err != nil {
 				return err
@@ -328,7 +330,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetLocationProviderManager()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -348,7 +350,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetRequest() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -359,7 +361,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetRequest() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
 			}
 			if err != nil {
 				return err
@@ -375,7 +377,7 @@ func newCmdAndroidLocationProviderILocationProvider_SetRequest() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -393,7 +395,7 @@ func newCmdAndroidLocationProviderILocationProvider_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -404,7 +406,7 @@ func newCmdAndroidLocationProviderILocationProvider_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
 			}
 			if err != nil {
 				return err
@@ -418,7 +420,7 @@ func newCmdAndroidLocationProviderILocationProvider_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -436,7 +438,7 @@ func newCmdAndroidLocationProviderILocationProvider_SendExtraCommand() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -447,7 +449,7 @@ func newCmdAndroidLocationProviderILocationProvider_SendExtraCommand() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProvider")
 			}
 			if err != nil {
 				return err
@@ -468,7 +470,7 @@ func newCmdAndroidLocationProviderILocationProvider_SendExtraCommand() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -504,7 +506,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnInitialize() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -515,7 +517,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnInitialize() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -536,7 +538,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnInitialize() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -556,7 +558,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetAllowed() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -567,7 +569,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetAllowed() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -586,7 +588,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetAllowed() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -606,7 +608,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetProperties() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -617,7 +619,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetProperties() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -633,7 +635,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnSetProperties() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -651,7 +653,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocation() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -662,7 +664,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocation() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -678,7 +680,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocation() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -696,7 +698,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocations() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -707,7 +709,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocations() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -732,7 +734,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnReportLocations() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -752,7 +754,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnFlushComplete() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -763,7 +765,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnFlushComplete() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.ILocationProviderManager")
 			}
 			if err != nil {
 				return err
@@ -777,7 +779,7 @@ func newCmdAndroidLocationProviderILocationProviderManager_OnFlushComplete() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -806,7 +808,7 @@ func newCmdAndroidLocationProviderIProviderRequestListener_OnProviderRequestChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -817,7 +819,7 @@ func newCmdAndroidLocationProviderIProviderRequestListener_OnProviderRequestChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.location.provider.IProviderRequestListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.location.provider.IProviderRequestListener")
 			}
 			if err != nil {
 				return err
@@ -838,7 +840,7 @@ func newCmdAndroidLocationProviderIProviderRequestListener_OnProviderRequestChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

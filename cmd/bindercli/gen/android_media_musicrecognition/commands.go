@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/media/musicrecognition"
@@ -43,7 +45,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionAttributionTagCallback_O
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionAttributionTagCallback_O
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionAttributionTagCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionAttributionTagCallback")
 			}
 			if err != nil {
 				return err
@@ -68,7 +70,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionAttributionTagCallback_O
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManager_BeginRecognition
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManager_BeginRecognition
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManager")
 			}
 			if err != nil {
 				return err
@@ -133,7 +135,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManager_BeginRecognition
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -165,7 +167,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnRecogn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -176,7 +178,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnRecogn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -195,7 +197,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnRecogn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -215,7 +217,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnAudioS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -226,7 +228,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnAudioS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -240,7 +242,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionManagerCallback_OnAudioS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -269,7 +271,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionService_GetAttributionTa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -280,7 +282,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionService_GetAttributionTa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionService")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionService_GetAttributionTa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -335,7 +337,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionServiceCallback_OnRecogn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -346,7 +348,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionServiceCallback_OnRecogn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.musicrecognition.IMusicRecognitionServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -365,7 +367,7 @@ func newCmdAndroidMediaMusicrecognitionIMusicRecognitionServiceCallback_OnRecogn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

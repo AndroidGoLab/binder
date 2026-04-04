@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/automotive/evs"
@@ -67,7 +69,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_DoneWithFrame() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -78,7 +80,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_DoneWithFrame() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -103,7 +105,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_DoneWithFrame() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ForcePrimaryClient() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ForcePrimaryClient() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -158,7 +160,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ForcePrimaryClient() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetCameraInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetCameraInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetCameraInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetExtendedInfo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetExtendedInfo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetExtendedInfo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -271,7 +273,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameter() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameter() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -302,7 +304,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameter() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -322,7 +324,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameterRange() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -333,7 +335,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameterRange() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -353,7 +355,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetIntParameterRange() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -373,7 +375,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetParameterList() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -384,7 +386,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetParameterList() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -398,7 +400,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetParameterList() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -416,7 +418,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetPhysicalCameraInfo() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -427,7 +429,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetPhysicalCameraInfo() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_GetPhysicalCameraInfo() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -466,7 +468,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ImportExternalBuffers() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ImportExternalBuffers() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -502,7 +504,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ImportExternalBuffers() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -522,7 +524,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_PauseVideoStream() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -533,7 +535,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_PauseVideoStream() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -547,7 +549,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_PauseVideoStream() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -565,7 +567,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ResumeVideoStream() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -576,7 +578,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ResumeVideoStream() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -590,7 +592,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_ResumeVideoStream() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetExtendedInfo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -619,7 +621,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetExtendedInfo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -647,7 +649,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetExtendedInfo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -669,7 +671,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetIntParameter() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -680,7 +682,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetIntParameter() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -705,7 +707,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetIntParameter() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -727,7 +729,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetPrimaryClient() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -738,7 +740,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetPrimaryClient() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -752,7 +754,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetPrimaryClient() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -770,7 +772,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetMaxFramesInFlight() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -781,7 +783,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetMaxFramesInFlight() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -800,7 +802,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_SetMaxFramesInFlight() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -820,7 +822,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StartVideoStream() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -831,7 +833,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StartVideoStream() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -855,7 +857,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StartVideoStream() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -875,7 +877,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StopVideoStream() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -886,7 +888,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StopVideoStream() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -900,7 +902,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_StopVideoStream() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -918,7 +920,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_UnsetPrimaryClient() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -929,7 +931,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_UnsetPrimaryClient() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCamera")
 			}
 			if err != nil {
 				return err
@@ -943,7 +945,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCamera_UnsetPrimaryClient() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -973,7 +975,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_DeliverFrame() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -984,7 +986,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_DeliverFrame() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCameraStream")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCameraStream")
 			}
 			if err != nil {
 				return err
@@ -1009,7 +1011,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_DeliverFrame() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1029,7 +1031,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_Notify() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1040,7 +1042,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_Notify() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCameraStream")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsCameraStream")
 			}
 			if err != nil {
 				return err
@@ -1068,7 +1070,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsCameraStream_Notify() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1104,7 +1106,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayInfo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1115,7 +1117,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayInfo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
 			}
 			if err != nil {
 				return err
@@ -1129,7 +1131,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayInfo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1147,7 +1149,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1158,7 +1160,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
 			}
 			if err != nil {
 				return err
@@ -1172,7 +1174,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetDisplayState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1190,7 +1192,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetTargetBuffer() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1201,7 +1203,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetTargetBuffer() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
 			}
 			if err != nil {
 				return err
@@ -1215,7 +1217,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_GetTargetBuffer() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1233,7 +1235,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_ReturnTargetBufferForDisplay(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1244,7 +1246,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_ReturnTargetBufferForDisplay(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
 			}
 			if err != nil {
 				return err
@@ -1316,7 +1318,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_ReturnTargetBufferForDisplay(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1354,7 +1356,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_SetDisplayState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1365,7 +1367,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_SetDisplayState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsDisplay")
 			}
 			if err != nil {
 				return err
@@ -1385,7 +1387,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsDisplay_SetDisplayState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1429,7 +1431,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseCamera() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1440,7 +1442,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseCamera() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1464,7 +1466,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseCamera() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1484,7 +1486,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseDisplay() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1495,7 +1497,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseDisplay() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1519,7 +1521,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseDisplay() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1539,7 +1541,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseUltrasonicsArray() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1550,7 +1552,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseUltrasonicsArray() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1574,7 +1576,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_CloseUltrasonicsArray() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1594,7 +1596,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetCameraList() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1605,7 +1607,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetCameraList() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1619,7 +1621,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetCameraList() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1637,7 +1639,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayIdList() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1648,7 +1650,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayIdList() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1662,7 +1664,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayIdList() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1680,7 +1682,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayState() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1691,7 +1693,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayState() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1705,7 +1707,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayState() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1723,7 +1725,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetStreamList() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1734,7 +1736,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetStreamList() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1759,7 +1761,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetStreamList() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1780,7 +1782,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetUltrasonicsArrayList() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1791,7 +1793,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetUltrasonicsArrayList() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1805,7 +1807,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetUltrasonicsArrayList() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1823,7 +1825,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_IsHardware() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1834,7 +1836,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_IsHardware() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1848,7 +1850,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_IsHardware() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1866,7 +1868,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenCamera() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1877,7 +1879,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenCamera() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1910,7 +1912,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenCamera() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1938,7 +1940,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenDisplay() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1949,7 +1951,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenDisplay() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -1968,7 +1970,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenDisplay() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1988,7 +1990,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenUltrasonicsArray() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1999,7 +2001,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenUltrasonicsArray() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -2018,7 +2020,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_OpenUltrasonicsArray() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2038,7 +2040,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_RegisterStatusCallback() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2049,7 +2051,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_RegisterStatusCallback() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -2073,7 +2075,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_RegisterStatusCallback() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2093,7 +2095,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayStateById() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2104,7 +2106,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayStateById() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumerator")
 			}
 			if err != nil {
 				return err
@@ -2123,7 +2125,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumerator_GetDisplayStateById() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2154,7 +2156,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumeratorStatusCallback_DeviceStatus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2165,7 +2167,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumeratorStatusCallback_DeviceStatus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumeratorStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsEnumeratorStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -2190,7 +2192,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsEnumeratorStatusCallback_DeviceStatus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2225,7 +2227,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_DoneWithDataFrame() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2236,7 +2238,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_DoneWithDataFrame() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
 			}
 			if err != nil {
 				return err
@@ -2279,7 +2281,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_DoneWithDataFrame() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2304,7 +2306,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_GetUltrasonicArrayIn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2315,7 +2317,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_GetUltrasonicArrayIn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
 			}
 			if err != nil {
 				return err
@@ -2329,7 +2331,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_GetUltrasonicArrayIn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2347,7 +2349,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_SetMaxFramesInFlight
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2358,7 +2360,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_SetMaxFramesInFlight
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
 			}
 			if err != nil {
 				return err
@@ -2377,7 +2379,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_SetMaxFramesInFlight
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2397,7 +2399,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StartStream() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2408,7 +2410,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StartStream() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
 			}
 			if err != nil {
 				return err
@@ -2432,7 +2434,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StartStream() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2452,7 +2454,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StopStream() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2463,7 +2465,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StopStream() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArray")
 			}
 			if err != nil {
 				return err
@@ -2477,7 +2479,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArray_StopStream() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2507,7 +2509,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_DeliverDataFra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2518,7 +2520,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_DeliverDataFra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArrayStream")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArrayStream")
 			}
 			if err != nil {
 				return err
@@ -2561,7 +2563,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_DeliverDataFra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2586,7 +2588,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_Notify() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2597,7 +2599,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_Notify() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArrayStream")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.evs.IEvsUltrasonicsArrayStream")
 			}
 			if err != nil {
 				return err
@@ -2625,7 +2627,7 @@ func newCmdAndroidHardwareAutomotiveEvsIEvsUltrasonicsArrayStream_Notify() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

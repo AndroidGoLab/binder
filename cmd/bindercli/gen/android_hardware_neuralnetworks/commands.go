@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/graphics/common"
@@ -51,7 +53,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyFrom() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -62,7 +64,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyFrom() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBuffer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBuffer")
 			}
 			if err != nil {
 				return err
@@ -125,7 +127,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyFrom() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyTo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyTo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBuffer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBuffer")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdAndroidHardwareNeuralnetworksIBuffer_CopyTo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -263,7 +265,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronously() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -274,7 +276,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronously() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
 			}
 			if err != nil {
 				return err
@@ -335,7 +337,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronously() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -364,7 +366,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ReleaseMemoryResource() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -375,7 +377,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ReleaseMemoryResource() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
 			}
 			if err != nil {
 				return err
@@ -394,7 +396,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ReleaseMemoryResource() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -414,7 +416,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronouslyWithConfig() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -425,7 +427,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronouslyWithConfig() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IBurst")
 			}
 			if err != nil {
 				return err
@@ -490,7 +492,7 @@ func newCmdAndroidHardwareNeuralnetworksIBurst_ExecuteSynchronouslyWithConfig() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_Allocate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -550,7 +552,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_Allocate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_Allocate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -633,7 +635,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetCapabilities() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -644,7 +646,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetCapabilities() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -658,7 +660,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetCapabilities() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -676,7 +678,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetNumberOfCacheFilesNeeded() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -687,7 +689,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetNumberOfCacheFilesNeeded() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -701,7 +703,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetNumberOfCacheFilesNeeded() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -719,7 +721,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedExtensions() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -730,7 +732,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedExtensions() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -744,7 +746,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedExtensions() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -762,7 +764,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedOperations() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -773,7 +775,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedOperations() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -840,7 +842,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetSupportedOperations() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -867,7 +869,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -878,7 +880,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -892,7 +894,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -910,7 +912,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetVersionString() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -921,7 +923,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetVersionString() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -935,7 +937,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_GetVersionString() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -953,7 +955,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -964,7 +966,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -1097,7 +1099,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1138,7 +1140,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelFromCache() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1149,7 +1151,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelFromCache() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -1217,7 +1219,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelFromCache() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1245,7 +1247,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelWithConfig() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1256,7 +1258,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelWithConfig() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IDevice")
 			}
 			if err != nil {
 				return err
@@ -1375,7 +1377,7 @@ func newCmdAndroidHardwareNeuralnetworksIDevice_PrepareModelWithConfig() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1424,7 +1426,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteSynchronously() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1435,7 +1437,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteSynchronously() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IExecution")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IExecution")
 			}
 			if err != nil {
 				return err
@@ -1454,7 +1456,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteSynchronously() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1474,7 +1476,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteFenced() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1485,7 +1487,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteFenced() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IExecution")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IExecution")
 			}
 			if err != nil {
 				return err
@@ -1524,7 +1526,7 @@ func newCmdAndroidHardwareNeuralnetworksIExecution_ExecuteFenced() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1559,7 +1561,7 @@ func newCmdAndroidHardwareNeuralnetworksIFencedExecutionCallback_GetExecutionInf
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1570,7 +1572,7 @@ func newCmdAndroidHardwareNeuralnetworksIFencedExecutionCallback_GetExecutionInf
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IFencedExecutionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IFencedExecutionCallback")
 			}
 			if err != nil {
 				return err
@@ -1586,7 +1588,7 @@ func newCmdAndroidHardwareNeuralnetworksIFencedExecutionCallback_GetExecutionInf
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1620,7 +1622,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronously() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1631,7 +1633,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronously() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -1677,7 +1679,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronously() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1704,7 +1706,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFenced() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1715,7 +1717,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFenced() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -1781,7 +1783,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFenced() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1812,7 +1814,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ConfigureExecutionBurst()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1823,7 +1825,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ConfigureExecutionBurst()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -1837,7 +1839,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ConfigureExecutionBurst()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1855,7 +1857,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_CreateReusableExecution()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1866,7 +1868,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_CreateReusableExecution()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -1911,7 +1913,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_CreateReusableExecution()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1936,7 +1938,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronouslyWithC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1947,7 +1949,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronouslyWithC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -1997,7 +1999,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteSynchronouslyWithC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2024,7 +2026,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFencedWithConfig()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2035,7 +2037,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFencedWithConfig()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModel")
 			}
 			if err != nil {
 				return err
@@ -2105,7 +2107,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModel_ExecuteFencedWithConfig()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2147,7 +2149,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModelCallback_Notify() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2158,7 +2160,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModelCallback_Notify() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModelCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.neuralnetworks.IPreparedModelCallback")
 			}
 			if err != nil {
 				return err
@@ -2188,7 +2190,7 @@ func newCmdAndroidHardwareNeuralnetworksIPreparedModelCallback_Notify() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/pm"
@@ -42,7 +44,7 @@ func newCmdComAndroidInternalCompatIOverrideValidator_GetOverrideAllowedState() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdComAndroidInternalCompatIOverrideValidator_GetOverrideAllowedState() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IOverrideValidator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IOverrideValidator")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdComAndroidInternalCompatIOverrideValidator_GetOverrideAllowedState() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -131,7 +133,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChange() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -142,7 +144,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChange() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChange() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByPackageName() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByPackageName() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByPackageName() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -240,7 +242,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByUid() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -251,7 +253,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByUid() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -275,7 +277,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ReportChangeByUid() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -297,7 +299,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabled() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -308,7 +310,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabled() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -329,7 +331,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabled() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -349,7 +351,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByPackageName(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -360,7 +362,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByPackageName(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -384,7 +386,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByPackageName(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -406,7 +408,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByUid() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -417,7 +419,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByUid() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -441,7 +443,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_IsChangeEnabledByUid() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -463,7 +465,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverrides() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -474,7 +476,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverrides() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -495,7 +497,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverrides() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -515,7 +517,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutAllOverridesOnReleaseBuild
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -526,7 +528,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutAllOverridesOnReleaseBuild
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -542,7 +544,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutAllOverridesOnReleaseBuild
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -560,7 +562,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutOverridesOnReleaseBuilds()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -571,7 +573,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutOverridesOnReleaseBuilds()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -592,7 +594,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_PutOverridesOnReleaseBuilds()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -612,7 +614,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverridesForTest() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -623,7 +625,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverridesForTest() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -644,7 +646,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_SetOverridesForTest() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -664,7 +666,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverride() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -675,7 +677,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverride() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -699,7 +701,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverride() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -721,7 +723,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrideForTest() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -732,7 +734,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrideForTest() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -756,7 +758,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrideForTest() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -778,7 +780,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveAllOverridesOnReleaseBu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -789,7 +791,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveAllOverridesOnReleaseBu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -805,7 +807,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveAllOverridesOnReleaseBu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -823,7 +825,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveOverridesOnReleaseBuild
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -834,7 +836,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveOverridesOnReleaseBuild
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -855,7 +857,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_RemoveOverridesOnReleaseBuild
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -875,7 +877,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_EnableTargetSdkChanges() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -886,7 +888,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_EnableTargetSdkChanges() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -910,7 +912,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_EnableTargetSdkChanges() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -932,7 +934,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_DisableTargetSdkChanges() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -943,7 +945,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_DisableTargetSdkChanges() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -967,7 +969,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_DisableTargetSdkChanges() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -989,7 +991,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrides() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1000,7 +1002,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrides() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1019,7 +1021,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverrides() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1039,7 +1041,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverridesForTest() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1050,7 +1052,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverridesForTest() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1069,7 +1071,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ClearOverridesForTest() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1089,7 +1091,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetAppConfig() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1100,7 +1102,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetAppConfig() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1116,7 +1118,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetAppConfig() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1134,7 +1136,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListAllChanges() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1145,7 +1147,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListAllChanges() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1159,7 +1161,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListAllChanges() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1177,7 +1179,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListUIChanges() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1188,7 +1190,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListUIChanges() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1202,7 +1204,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_ListUIChanges() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1220,7 +1222,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetOverrideValidator() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1231,7 +1233,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetOverrideValidator() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompat")
 			}
 			if err != nil {
 				return err
@@ -1245,7 +1247,7 @@ func newCmdComAndroidInternalCompatIPlatformCompat_GetOverrideValidator() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1277,7 +1279,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByPackageNa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1288,7 +1290,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByPackageNa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
 			}
 			if err != nil {
 				return err
@@ -1312,7 +1314,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByPackageNa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1334,7 +1336,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByUid() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1345,7 +1347,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByUid() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
 			}
 			if err != nil {
 				return err
@@ -1369,7 +1371,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_ReportChangeByUid() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1391,7 +1393,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByPackag
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1402,7 +1404,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByPackag
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
 			}
 			if err != nil {
 				return err
@@ -1426,7 +1428,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByPackag
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1448,7 +1450,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByUid() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1459,7 +1461,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByUid() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.compat.IPlatformCompatNative")
 			}
 			if err != nil {
 				return err
@@ -1483,7 +1485,7 @@ func newCmdComAndroidInternalCompatIPlatformCompatNative_IsChangeEnabledByUid() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

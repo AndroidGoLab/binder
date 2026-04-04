@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -48,7 +50,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnSuccess() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnSuccess() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IClearCredentialStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IClearCredentialStateCallback")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnSuccess() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnError() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnError() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IClearCredentialStateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IClearCredentialStateCallback")
 			}
 			if err != nil {
 				return err
@@ -126,7 +128,7 @@ func newCmdAndroidCredentialsIClearCredentialStateCallback_OnError() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnResponse() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnResponse() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICreateCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICreateCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -187,7 +189,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnResponse() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnError() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnError() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICreateCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICreateCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -240,7 +242,7 @@ func newCmdAndroidCredentialsICreateCredentialCallback_OnError() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -284,7 +286,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteGetCredential() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -295,7 +297,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteGetCredential() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -321,7 +323,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteGetCredential() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -341,7 +343,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecutePrepareGetCredential() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -352,7 +354,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecutePrepareGetCredential() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecutePrepareGetCredential() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -410,7 +412,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteCreateCredential() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -421,7 +423,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteCreateCredential() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -447,7 +449,7 @@ func newCmdAndroidCredentialsICredentialManager_ExecuteCreateCredential() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -467,7 +469,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCandidateCredentials() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -478,7 +480,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCandidateCredentials() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -513,7 +515,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCandidateCredentials() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -535,7 +537,7 @@ func newCmdAndroidCredentialsICredentialManager_ClearCredentialState() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -546,7 +548,7 @@ func newCmdAndroidCredentialsICredentialManager_ClearCredentialState() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -572,7 +574,7 @@ func newCmdAndroidCredentialsICredentialManager_ClearCredentialState() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -592,7 +594,7 @@ func newCmdAndroidCredentialsICredentialManager_SetEnabledProviders() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -603,7 +605,7 @@ func newCmdAndroidCredentialsICredentialManager_SetEnabledProviders() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -645,7 +647,7 @@ func newCmdAndroidCredentialsICredentialManager_SetEnabledProviders() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -669,7 +671,7 @@ func newCmdAndroidCredentialsICredentialManager_RegisterCredentialDescription() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -680,7 +682,7 @@ func newCmdAndroidCredentialsICredentialManager_RegisterCredentialDescription() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -696,7 +698,7 @@ func newCmdAndroidCredentialsICredentialManager_RegisterCredentialDescription() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -714,7 +716,7 @@ func newCmdAndroidCredentialsICredentialManager_UnregisterCredentialDescription(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -725,7 +727,7 @@ func newCmdAndroidCredentialsICredentialManager_UnregisterCredentialDescription(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -741,7 +743,7 @@ func newCmdAndroidCredentialsICredentialManager_UnregisterCredentialDescription(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -759,7 +761,7 @@ func newCmdAndroidCredentialsICredentialManager_IsEnabledCredentialProviderServi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -770,7 +772,7 @@ func newCmdAndroidCredentialsICredentialManager_IsEnabledCredentialProviderServi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -786,7 +788,7 @@ func newCmdAndroidCredentialsICredentialManager_IsEnabledCredentialProviderServi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -804,7 +806,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServices() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -815,7 +817,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServices() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -834,7 +836,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServices() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -854,7 +856,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServicesFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -865,7 +867,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServicesFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -884,7 +886,7 @@ func newCmdAndroidCredentialsICredentialManager_GetCredentialProviderServicesFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -904,7 +906,7 @@ func newCmdAndroidCredentialsICredentialManager_IsServiceEnabled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -915,7 +917,7 @@ func newCmdAndroidCredentialsICredentialManager_IsServiceEnabled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ICredentialManager")
 			}
 			if err != nil {
 				return err
@@ -929,7 +931,7 @@ func newCmdAndroidCredentialsICredentialManager_IsServiceEnabled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -959,7 +961,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnResponse() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -970,7 +972,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnResponse() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCandidateCredentialsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCandidateCredentialsCallback")
 			}
 			if err != nil {
 				return err
@@ -986,7 +988,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnResponse() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1004,7 +1006,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnError() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1015,7 +1017,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnError() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCandidateCredentialsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCandidateCredentialsCallback")
 			}
 			if err != nil {
 				return err
@@ -1039,7 +1041,7 @@ func newCmdAndroidCredentialsIGetCandidateCredentialsCallback_OnError() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1073,7 +1075,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnResponse() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1084,7 +1086,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnResponse() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -1100,7 +1102,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnResponse() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1118,7 +1120,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1129,7 +1131,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IGetCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -1153,7 +1155,7 @@ func newCmdAndroidCredentialsIGetCredentialCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1187,7 +1189,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnResponse() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1198,7 +1200,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnResponse() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IPrepareGetCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IPrepareGetCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -1214,7 +1216,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnResponse() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1232,7 +1234,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnError() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1243,7 +1245,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnError() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.IPrepareGetCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.IPrepareGetCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -1267,7 +1269,7 @@ func newCmdAndroidCredentialsIPrepareGetCredentialCallback_OnError() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1301,7 +1303,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnResponse() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1312,7 +1314,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnResponse() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ISetEnabledProvidersCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ISetEnabledProvidersCallback")
 			}
 			if err != nil {
 				return err
@@ -1326,7 +1328,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnResponse() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnError() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnError() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.credentials.ISetEnabledProvidersCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.credentials.ISetEnabledProvidersCallback")
 			}
 			if err != nil {
 				return err
@@ -1379,7 +1381,7 @@ func newCmdAndroidCredentialsISetEnabledProvidersCallback_OnError() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

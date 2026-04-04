@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/debug"
@@ -41,7 +43,7 @@ func newCmdAndroidDebugIAdbCallback_OnDebuggingChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdAndroidDebugIAdbCallback_OnDebuggingChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbCallback")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidDebugIAdbCallback_OnDebuggingChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -124,7 +126,7 @@ func newCmdAndroidDebugIAdbManager_AllowDebugging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -135,7 +137,7 @@ func newCmdAndroidDebugIAdbManager_AllowDebugging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -159,7 +161,7 @@ func newCmdAndroidDebugIAdbManager_AllowDebugging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -181,7 +183,7 @@ func newCmdAndroidDebugIAdbManager_DenyDebugging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -192,7 +194,7 @@ func newCmdAndroidDebugIAdbManager_DenyDebugging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -206,7 +208,7 @@ func newCmdAndroidDebugIAdbManager_DenyDebugging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -224,7 +226,7 @@ func newCmdAndroidDebugIAdbManager_ClearDebuggingKeys() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -235,7 +237,7 @@ func newCmdAndroidDebugIAdbManager_ClearDebuggingKeys() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -249,7 +251,7 @@ func newCmdAndroidDebugIAdbManager_ClearDebuggingKeys() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -267,7 +269,7 @@ func newCmdAndroidDebugIAdbManager_AllowWirelessDebugging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -278,7 +280,7 @@ func newCmdAndroidDebugIAdbManager_AllowWirelessDebugging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -302,7 +304,7 @@ func newCmdAndroidDebugIAdbManager_AllowWirelessDebugging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -324,7 +326,7 @@ func newCmdAndroidDebugIAdbManager_DenyWirelessDebugging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -335,7 +337,7 @@ func newCmdAndroidDebugIAdbManager_DenyWirelessDebugging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -349,7 +351,7 @@ func newCmdAndroidDebugIAdbManager_DenyWirelessDebugging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -367,7 +369,7 @@ func newCmdAndroidDebugIAdbManager_GetPairedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -378,7 +380,7 @@ func newCmdAndroidDebugIAdbManager_GetPairedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -392,7 +394,7 @@ func newCmdAndroidDebugIAdbManager_GetPairedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -410,7 +412,7 @@ func newCmdAndroidDebugIAdbManager_UnpairDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -421,7 +423,7 @@ func newCmdAndroidDebugIAdbManager_UnpairDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -440,7 +442,7 @@ func newCmdAndroidDebugIAdbManager_UnpairDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -460,7 +462,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByPairingCode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -471,7 +473,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByPairingCode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -485,7 +487,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByPairingCode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -503,7 +505,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByQrCode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -514,7 +516,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByQrCode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -538,7 +540,7 @@ func newCmdAndroidDebugIAdbManager_EnablePairingByQrCode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -560,7 +562,7 @@ func newCmdAndroidDebugIAdbManager_GetAdbWirelessPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -571,7 +573,7 @@ func newCmdAndroidDebugIAdbManager_GetAdbWirelessPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -585,7 +587,7 @@ func newCmdAndroidDebugIAdbManager_GetAdbWirelessPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -603,7 +605,7 @@ func newCmdAndroidDebugIAdbManager_DisablePairing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -614,7 +616,7 @@ func newCmdAndroidDebugIAdbManager_DisablePairing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -628,7 +630,7 @@ func newCmdAndroidDebugIAdbManager_DisablePairing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -646,7 +648,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -657,7 +659,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -671,7 +673,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -689,7 +691,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiQrSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -700,7 +702,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiQrSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -714,7 +716,7 @@ func newCmdAndroidDebugIAdbManager_IsAdbWifiQrSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -732,7 +734,7 @@ func newCmdAndroidDebugIAdbManager_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -743,7 +745,7 @@ func newCmdAndroidDebugIAdbManager_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -767,7 +769,7 @@ func newCmdAndroidDebugIAdbManager_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -787,7 +789,7 @@ func newCmdAndroidDebugIAdbManager_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -798,7 +800,7 @@ func newCmdAndroidDebugIAdbManager_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbManager")
 			}
 			if err != nil {
 				return err
@@ -822,7 +824,7 @@ func newCmdAndroidDebugIAdbManager_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -853,7 +855,7 @@ func newCmdAndroidDebugIAdbTransport_OnAdbEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -864,7 +866,7 @@ func newCmdAndroidDebugIAdbTransport_OnAdbEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.debug.IAdbTransport")
 			}
 			if err != nil {
 				return err
@@ -889,7 +891,7 @@ func newCmdAndroidDebugIAdbTransport_OnAdbEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

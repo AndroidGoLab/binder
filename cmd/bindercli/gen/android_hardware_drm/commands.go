@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/drm"
@@ -51,7 +53,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_Decrypt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -62,7 +64,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_Decrypt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_Decrypt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -201,7 +203,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_GetLogMessages() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -212,7 +214,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_GetLogMessages() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -226,7 +228,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_GetLogMessages() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -244,7 +246,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_NotifyResolution() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_NotifyResolution() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -279,7 +281,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_NotifyResolution() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -301,7 +303,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_RequiresSecureDecoderComponent() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -312,7 +314,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_RequiresSecureDecoderComponent() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -331,7 +333,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_RequiresSecureDecoderComponent() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -351,7 +353,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetMediaDrmSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -362,7 +364,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetMediaDrmSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetMediaDrmSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -405,7 +407,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetSharedBufferBase() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -416,7 +418,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetSharedBufferBase() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.ICryptoPlugin")
 			}
 			if err != nil {
 				return err
@@ -453,7 +455,7 @@ func newCmdAndroidHardwareDrmICryptoPlugin_SetSharedBufferBase() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -489,7 +491,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateDrmPlugin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -500,7 +502,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateDrmPlugin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
 			}
 			if err != nil {
 				return err
@@ -528,7 +530,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateDrmPlugin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -549,7 +551,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateCryptoPlugin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -560,7 +562,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateCryptoPlugin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
 			}
 			if err != nil {
 				return err
@@ -592,7 +594,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_CreateCryptoPlugin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -613,7 +615,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_GetSupportedCryptoSchemes() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -624,7 +626,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_GetSupportedCryptoSchemes() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmFactory")
 			}
 			if err != nil {
 				return err
@@ -638,7 +640,7 @@ func newCmdAndroidHardwareDrmIDrmFactory_GetSupportedCryptoSchemes() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -705,7 +707,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_CloseSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -716,7 +718,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_CloseSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -739,7 +741,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_CloseSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -759,7 +761,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Decrypt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -770,7 +772,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Decrypt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -820,7 +822,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Decrypt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -846,7 +848,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Encrypt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -857,7 +859,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Encrypt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -907,7 +909,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Encrypt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -933,7 +935,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetHdcpLevels() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -944,7 +946,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetHdcpLevels() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -958,7 +960,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetHdcpLevels() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -976,7 +978,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetKeyRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -987,7 +989,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetKeyRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1041,7 +1043,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetKeyRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1069,7 +1071,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetLogMessages() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1080,7 +1082,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetLogMessages() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1094,7 +1096,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetLogMessages() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1112,7 +1114,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetMetrics() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1123,7 +1125,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetMetrics() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1137,7 +1139,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetMetrics() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1155,7 +1157,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetNumberOfSessions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1166,7 +1168,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetNumberOfSessions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1180,7 +1182,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetNumberOfSessions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1198,7 +1200,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseKeySetIds() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1209,7 +1211,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseKeySetIds() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1223,7 +1225,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseKeySetIds() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1241,7 +1243,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseState() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1252,7 +1254,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseState() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1275,7 +1277,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetOfflineLicenseState() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1294,7 +1296,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyByteArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1305,7 +1307,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyByteArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1324,7 +1326,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyByteArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyString() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyString() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1374,7 +1376,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetPropertyString() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1394,7 +1396,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetProvisionRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1405,7 +1407,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetProvisionRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1429,7 +1431,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetProvisionRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1451,7 +1453,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1462,7 +1464,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1485,7 +1487,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1504,7 +1506,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStopIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1515,7 +1517,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStopIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1529,7 +1531,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStopIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1547,7 +1549,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStops() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1558,7 +1560,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStops() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1572,7 +1574,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecureStops() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1590,7 +1592,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecurityLevel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1601,7 +1603,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecurityLevel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1624,7 +1626,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_GetSecurityLevel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1644,7 +1646,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_OpenSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1655,7 +1657,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_OpenSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1675,7 +1677,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_OpenSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1695,7 +1697,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideKeyResponse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1706,7 +1708,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideKeyResponse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1738,7 +1740,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideKeyResponse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1760,7 +1762,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideProvisionResponse() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1771,7 +1773,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideProvisionResponse() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1794,7 +1796,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ProvideProvisionResponse() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1814,7 +1816,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_QueryKeyStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1825,7 +1827,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_QueryKeyStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1848,7 +1850,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_QueryKeyStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1868,7 +1870,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseAllSecureStops() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1879,7 +1881,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseAllSecureStops() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1893,7 +1895,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseAllSecureStops() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1911,7 +1913,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1922,7 +1924,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1945,7 +1947,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1964,7 +1966,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStops() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1975,7 +1977,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStops() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -1998,7 +2000,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_ReleaseSecureStops() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2017,7 +2019,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveAllSecureStops() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2028,7 +2030,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveAllSecureStops() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2042,7 +2044,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveAllSecureStops() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2060,7 +2062,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveKeys() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2071,7 +2073,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveKeys() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2094,7 +2096,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveKeys() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2114,7 +2116,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveOfflineLicense() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2125,7 +2127,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveOfflineLicense() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2148,7 +2150,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveOfflineLicense() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2167,7 +2169,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveSecureStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2178,7 +2180,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveSecureStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2201,7 +2203,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RemoveSecureStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2220,7 +2222,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RequiresSecureDecoder() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2231,7 +2233,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RequiresSecureDecoder() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2256,7 +2258,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RequiresSecureDecoder() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2278,7 +2280,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RestoreKeys() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2289,7 +2291,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RestoreKeys() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2321,7 +2323,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_RestoreKeys() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2342,7 +2344,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetCipherAlgorithm() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2353,7 +2355,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetCipherAlgorithm() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2381,7 +2383,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetCipherAlgorithm() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2403,7 +2405,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2414,7 +2416,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2438,7 +2440,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2458,7 +2460,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetMacAlgorithm() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2469,7 +2471,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetMacAlgorithm() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2497,7 +2499,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetMacAlgorithm() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2519,7 +2521,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPlaybackId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2530,7 +2532,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPlaybackId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2558,7 +2560,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPlaybackId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2580,7 +2582,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyByteArray() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2591,7 +2593,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyByteArray() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2619,7 +2621,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyByteArray() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2641,7 +2643,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyString() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2652,7 +2654,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyString() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2676,7 +2678,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SetPropertyString() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2698,7 +2700,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Sign() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2709,7 +2711,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Sign() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2750,7 +2752,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Sign() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2774,7 +2776,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SignRSA() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2785,7 +2787,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SignRSA() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2831,7 +2833,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_SignRSA() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2857,7 +2859,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Verify() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2868,7 +2870,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Verify() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPlugin")
 			}
 			if err != nil {
 				return err
@@ -2918,7 +2920,7 @@ func newCmdAndroidHardwareDrmIDrmPlugin_Verify() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2958,7 +2960,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2969,7 +2971,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
 			}
 			if err != nil {
 				return err
@@ -3007,7 +3009,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3031,7 +3033,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnExpirationUpdate() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3042,7 +3044,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnExpirationUpdate() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
 			}
 			if err != nil {
 				return err
@@ -3070,7 +3072,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnExpirationUpdate() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3092,7 +3094,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnKeysChange() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3103,7 +3105,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnKeysChange() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
 			}
 			if err != nil {
 				return err
@@ -3142,7 +3144,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnKeysChange() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3166,7 +3168,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnSessionLostState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3177,7 +3179,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnSessionLostState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.drm.IDrmPluginListener")
 			}
 			if err != nil {
 				return err
@@ -3200,7 +3202,7 @@ func newCmdAndroidHardwareDrmIDrmPluginListener_OnSessionLostState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

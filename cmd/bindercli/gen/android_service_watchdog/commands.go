@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -44,7 +46,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_SetCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_SetCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
 			}
 			if err != nil {
 				return err
@@ -72,7 +74,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_SetCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -90,7 +92,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Request() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -101,7 +103,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Request() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
 			}
 			if err != nil {
 				return err
@@ -120,7 +122,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Request() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -140,7 +142,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Cancel() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -151,7 +153,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Cancel() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
 			}
 			if err != nil {
 				return err
@@ -170,7 +172,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_Cancel() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -190,7 +192,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetSupportedPackage
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -201,7 +203,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetSupportedPackage
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetSupportedPackage
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetRequestedPackage
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetRequestedPackage
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.watchdog.IExplicitHealthCheckService")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidServiceWatchdogIExplicitHealthCheckService_GetRequestedPackage
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

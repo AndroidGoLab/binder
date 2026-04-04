@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/os/image"
@@ -53,7 +55,7 @@ func newCmdAndroidOsImageIDynamicSystemService_StartInstallation() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidOsImageIDynamicSystemService_StartInstallation() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidOsImageIDynamicSystemService_StartInstallation() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidOsImageIDynamicSystemService_CreatePartition() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidOsImageIDynamicSystemService_CreatePartition() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -143,7 +145,7 @@ func newCmdAndroidOsImageIDynamicSystemService_CreatePartition() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -167,7 +169,7 @@ func newCmdAndroidOsImageIDynamicSystemService_ClosePartition() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -178,7 +180,7 @@ func newCmdAndroidOsImageIDynamicSystemService_ClosePartition() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -192,7 +194,7 @@ func newCmdAndroidOsImageIDynamicSystemService_ClosePartition() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -210,7 +212,7 @@ func newCmdAndroidOsImageIDynamicSystemService_FinishInstallation() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -221,7 +223,7 @@ func newCmdAndroidOsImageIDynamicSystemService_FinishInstallation() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -235,7 +237,7 @@ func newCmdAndroidOsImageIDynamicSystemService_FinishInstallation() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -253,7 +255,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetInstallationProgress() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -264,7 +266,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetInstallationProgress() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -278,7 +280,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetInstallationProgress() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -296,7 +298,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Abort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -307,7 +309,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Abort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -321,7 +323,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Abort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -339,7 +341,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInUse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -350,7 +352,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInUse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -364,7 +366,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInUse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -382,7 +384,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInstalled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -393,7 +395,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInstalled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -407,7 +409,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsInstalled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -425,7 +427,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -436,7 +438,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -450,7 +452,7 @@ func newCmdAndroidOsImageIDynamicSystemService_IsEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -468,7 +470,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Remove() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -479,7 +481,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Remove() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -493,7 +495,7 @@ func newCmdAndroidOsImageIDynamicSystemService_Remove() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -511,7 +513,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetEnable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -522,7 +524,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetEnable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -546,7 +548,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetEnable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -568,7 +570,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetAshmem() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -579,7 +581,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetAshmem() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -603,7 +605,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SetAshmem() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -625,7 +627,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SubmitFromAshmem() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -636,7 +638,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SubmitFromAshmem() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -655,7 +657,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SubmitFromAshmem() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -675,7 +677,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SuggestScratchSize() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -686,7 +688,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SuggestScratchSize() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -700,7 +702,7 @@ func newCmdAndroidOsImageIDynamicSystemService_SuggestScratchSize() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -718,7 +720,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetActiveDsuSlot() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -729,7 +731,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetActiveDsuSlot() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.image.IDynamicSystemService")
 			}
 			if err != nil {
 				return err
@@ -743,7 +745,7 @@ func newCmdAndroidOsImageIDynamicSystemService_GetActiveDsuSlot() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/job"
@@ -50,7 +52,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredDownloadBytesMessa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -61,7 +63,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredDownloadBytesMessa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredDownloadBytesMessa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -114,7 +116,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredUploadBytesMessage
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -125,7 +127,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredUploadBytesMessage
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -154,7 +156,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeGetTransferredUploadBytesMessage
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStartMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStartMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -213,7 +215,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStartMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStopMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStopMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -270,7 +272,7 @@ func newCmdAndroidAppJobIJobCallback_AcknowledgeStopMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -292,7 +294,7 @@ func newCmdAndroidAppJobIJobCallback_DequeueWork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -303,7 +305,7 @@ func newCmdAndroidAppJobIJobCallback_DequeueWork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -322,7 +324,7 @@ func newCmdAndroidAppJobIJobCallback_DequeueWork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -342,7 +344,7 @@ func newCmdAndroidAppJobIJobCallback_CompleteWork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -353,7 +355,7 @@ func newCmdAndroidAppJobIJobCallback_CompleteWork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -377,7 +379,7 @@ func newCmdAndroidAppJobIJobCallback_CompleteWork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -399,7 +401,7 @@ func newCmdAndroidAppJobIJobCallback_JobFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -410,7 +412,7 @@ func newCmdAndroidAppJobIJobCallback_JobFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -434,7 +436,7 @@ func newCmdAndroidAppJobIJobCallback_JobFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -456,7 +458,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateEstimatedNetworkBytes() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -467,7 +469,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateEstimatedNetworkBytes() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -498,7 +500,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateEstimatedNetworkBytes() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -522,7 +524,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateTransferredNetworkBytes() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -533,7 +535,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateTransferredNetworkBytes() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobCallback")
 			}
 			if err != nil {
 				return err
@@ -564,7 +566,7 @@ func newCmdAndroidAppJobIJobCallback_UpdateTransferredNetworkBytes() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -615,7 +617,7 @@ func newCmdAndroidAppJobIJobScheduler_Schedule() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -626,7 +628,7 @@ func newCmdAndroidAppJobIJobScheduler_Schedule() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -647,7 +649,7 @@ func newCmdAndroidAppJobIJobScheduler_Schedule() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -667,7 +669,7 @@ func newCmdAndroidAppJobIJobScheduler_Enqueue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -678,7 +680,7 @@ func newCmdAndroidAppJobIJobScheduler_Enqueue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -701,7 +703,7 @@ func newCmdAndroidAppJobIJobScheduler_Enqueue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -721,7 +723,7 @@ func newCmdAndroidAppJobIJobScheduler_ScheduleAsPackage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -732,7 +734,7 @@ func newCmdAndroidAppJobIJobScheduler_ScheduleAsPackage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -763,7 +765,7 @@ func newCmdAndroidAppJobIJobScheduler_ScheduleAsPackage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -787,7 +789,7 @@ func newCmdAndroidAppJobIJobScheduler_Cancel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -798,7 +800,7 @@ func newCmdAndroidAppJobIJobScheduler_Cancel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -822,7 +824,7 @@ func newCmdAndroidAppJobIJobScheduler_Cancel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -844,7 +846,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAll() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -855,7 +857,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAll() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -869,7 +871,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAll() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -887,7 +889,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAllInNamespace() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -898,7 +900,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAllInNamespace() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -917,7 +919,7 @@ func newCmdAndroidAppJobIJobScheduler_CancelAllInNamespace() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -937,7 +939,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -948,7 +950,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -962,7 +964,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -980,7 +982,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobsInNamespace() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -991,7 +993,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobsInNamespace() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1010,7 +1012,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllPendingJobsInNamespace() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1030,7 +1032,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1041,7 +1043,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1065,7 +1067,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1087,7 +1089,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJobReason() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1098,7 +1100,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJobReason() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1122,7 +1124,7 @@ func newCmdAndroidAppJobIJobScheduler_GetPendingJobReason() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1144,7 +1146,7 @@ func newCmdAndroidAppJobIJobScheduler_CanRunUserInitiatedJobs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1155,7 +1157,7 @@ func newCmdAndroidAppJobIJobScheduler_CanRunUserInitiatedJobs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1174,7 +1176,7 @@ func newCmdAndroidAppJobIJobScheduler_CanRunUserInitiatedJobs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1194,7 +1196,7 @@ func newCmdAndroidAppJobIJobScheduler_HasRunUserInitiatedJobsPermission() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1205,7 +1207,7 @@ func newCmdAndroidAppJobIJobScheduler_HasRunUserInitiatedJobsPermission() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1224,7 +1226,7 @@ func newCmdAndroidAppJobIJobScheduler_HasRunUserInitiatedJobsPermission() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1244,7 +1246,7 @@ func newCmdAndroidAppJobIJobScheduler_GetStartedJobs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1255,7 +1257,7 @@ func newCmdAndroidAppJobIJobScheduler_GetStartedJobs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1269,7 +1271,7 @@ func newCmdAndroidAppJobIJobScheduler_GetStartedJobs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1287,7 +1289,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllJobSnapshots() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1298,7 +1300,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllJobSnapshots() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1312,7 +1314,7 @@ func newCmdAndroidAppJobIJobScheduler_GetAllJobSnapshots() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1330,7 +1332,7 @@ func newCmdAndroidAppJobIJobScheduler_RegisterUserVisibleJobObserver() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1341,7 +1343,7 @@ func newCmdAndroidAppJobIJobScheduler_RegisterUserVisibleJobObserver() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1365,7 +1367,7 @@ func newCmdAndroidAppJobIJobScheduler_RegisterUserVisibleJobObserver() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1385,7 +1387,7 @@ func newCmdAndroidAppJobIJobScheduler_UnregisterUserVisibleJobObserver() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1396,7 +1398,7 @@ func newCmdAndroidAppJobIJobScheduler_UnregisterUserVisibleJobObserver() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1420,7 +1422,7 @@ func newCmdAndroidAppJobIJobScheduler_UnregisterUserVisibleJobObserver() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1440,7 +1442,7 @@ func newCmdAndroidAppJobIJobScheduler_NotePendingUserRequestedAppStop() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1451,7 +1453,7 @@ func newCmdAndroidAppJobIJobScheduler_NotePendingUserRequestedAppStop() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobScheduler")
 			}
 			if err != nil {
 				return err
@@ -1475,7 +1477,7 @@ func newCmdAndroidAppJobIJobScheduler_NotePendingUserRequestedAppStop() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1512,7 +1514,7 @@ func newCmdAndroidAppJobIJobService_StartJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1523,7 +1525,7 @@ func newCmdAndroidAppJobIJobService_StartJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
 			}
 			if err != nil {
 				return err
@@ -1539,7 +1541,7 @@ func newCmdAndroidAppJobIJobService_StartJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1557,7 +1559,7 @@ func newCmdAndroidAppJobIJobService_StopJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1568,7 +1570,7 @@ func newCmdAndroidAppJobIJobService_StopJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
 			}
 			if err != nil {
 				return err
@@ -1584,7 +1586,7 @@ func newCmdAndroidAppJobIJobService_StopJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1602,7 +1604,7 @@ func newCmdAndroidAppJobIJobService_OnNetworkChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1613,7 +1615,7 @@ func newCmdAndroidAppJobIJobService_OnNetworkChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
 			}
 			if err != nil {
 				return err
@@ -1629,7 +1631,7 @@ func newCmdAndroidAppJobIJobService_OnNetworkChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1647,7 +1649,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredDownloadBytes() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1658,7 +1660,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredDownloadBytes() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
 			}
 			if err != nil {
 				return err
@@ -1676,7 +1678,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredDownloadBytes() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1694,7 +1696,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredUploadBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1705,7 +1707,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredUploadBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IJobService")
 			}
 			if err != nil {
 				return err
@@ -1723,7 +1725,7 @@ func newCmdAndroidAppJobIJobService_GetTransferredUploadBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1752,7 +1754,7 @@ func newCmdAndroidAppJobIUserVisibleJobObserver_OnUserVisibleJobStateChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1763,7 +1765,7 @@ func newCmdAndroidAppJobIUserVisibleJobObserver_OnUserVisibleJobStateChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.job.IUserVisibleJobObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.job.IUserVisibleJobObserver")
 			}
 			if err != nil {
 				return err
@@ -1784,7 +1786,7 @@ func newCmdAndroidAppJobIUserVisibleJobObserver_OnUserVisibleJobStateChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

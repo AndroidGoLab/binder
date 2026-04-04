@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/automotive/remoteaccess"
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetVehicleId() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -64,7 +66,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetVehicleId() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetVehicleId() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -96,7 +98,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetWakeupServiceNa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -107,7 +109,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetWakeupServiceNa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -121,7 +123,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetWakeupServiceNa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -139,7 +141,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetProcessorId() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -150,7 +152,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetProcessorId() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -164,7 +166,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetProcessorId() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -182,7 +184,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_SetRemoteTaskCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -193,7 +195,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_SetRemoteTaskCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_SetRemoteTaskCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -237,7 +239,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ClearRemoteTaskCal
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -248,7 +250,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ClearRemoteTaskCal
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ClearRemoteTaskCal
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -280,7 +282,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_NotifyApStateChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -291,7 +293,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_NotifyApStateChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -309,7 +311,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_NotifyApStateChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -329,7 +331,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduleSupp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -340,7 +342,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduleSupp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -354,7 +356,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduleSupp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -372,7 +374,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetSupportedTaskTy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -383,7 +385,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetSupportedTaskTy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -397,7 +399,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetSupportedTaskTy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -415,7 +417,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ScheduleTask() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -426,7 +428,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ScheduleTask() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -456,7 +458,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_ScheduleTask() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -481,7 +483,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleTask() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -492,7 +494,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleTask() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -516,7 +518,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleTask() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -538,7 +540,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleAllTasks
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -549,7 +551,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleAllTasks
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -568,7 +570,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_UnscheduleAllTasks
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -588,7 +590,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduled() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -599,7 +601,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduled() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -623,7 +625,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_IsTaskScheduled() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -645,7 +647,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetAllPendingSched
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -656,7 +658,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetAllPendingSched
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteAccess")
 			}
 			if err != nil {
 				return err
@@ -675,7 +677,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteAccess_GetAllPendingSched
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -706,7 +708,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteTaskCallback_OnRemoteTask
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -717,7 +719,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteTaskCallback_OnRemoteTask
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteTaskCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.remoteaccess.IRemoteTaskCallback")
 			}
 			if err != nil {
 				return err
@@ -745,7 +747,7 @@ func newCmdAndroidHardwareAutomotiveRemoteaccessIRemoteTaskCallback_OnRemoteTask
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

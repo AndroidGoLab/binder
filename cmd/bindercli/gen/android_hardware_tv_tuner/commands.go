@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/common"
@@ -64,7 +66,7 @@ func newCmdAndroidHardwareTvTunerIDemux_SetFrontendDataSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -75,7 +77,7 @@ func newCmdAndroidHardwareTvTunerIDemux_SetFrontendDataSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -94,7 +96,7 @@ func newCmdAndroidHardwareTvTunerIDemux_SetFrontendDataSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -114,7 +116,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenFilter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -125,7 +127,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenFilter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -168,7 +170,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenFilter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -196,7 +198,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenTimeFilter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -207,7 +209,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenTimeFilter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenTimeFilter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -239,7 +241,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncHwId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -250,7 +252,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncHwId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -274,7 +276,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncHwId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -324,7 +326,7 @@ func newCmdAndroidHardwareTvTunerIDemux_GetAvSyncTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -344,7 +346,7 @@ func newCmdAndroidHardwareTvTunerIDemux_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -355,7 +357,7 @@ func newCmdAndroidHardwareTvTunerIDemux_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareTvTunerIDemux_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -387,7 +389,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenDvr() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -398,7 +400,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenDvr() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -433,7 +435,7 @@ func newCmdAndroidHardwareTvTunerIDemux_OpenDvr() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareTvTunerIDemux_ConnectCiCam() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -468,7 +470,7 @@ func newCmdAndroidHardwareTvTunerIDemux_ConnectCiCam() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -487,7 +489,7 @@ func newCmdAndroidHardwareTvTunerIDemux_ConnectCiCam() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareTvTunerIDemux_DisconnectCiCam() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -518,7 +520,7 @@ func newCmdAndroidHardwareTvTunerIDemux_DisconnectCiCam() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDemux")
 			}
 			if err != nil {
 				return err
@@ -532,7 +534,7 @@ func newCmdAndroidHardwareTvTunerIDemux_DisconnectCiCam() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -565,7 +567,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetDemuxSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -576,7 +578,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetDemuxSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetDemuxSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -615,7 +617,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetKeyToken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -626,7 +628,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetKeyToken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -649,7 +651,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_SetKeyToken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -669,7 +671,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_AddPid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -680,7 +682,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_AddPid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -708,7 +710,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_AddPid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -730,7 +732,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_RemovePid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -741,7 +743,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_RemovePid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -769,7 +771,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_RemovePid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -791,7 +793,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -802,7 +804,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -816,7 +818,7 @@ func newCmdAndroidHardwareTvTunerIDescrambler_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -852,7 +854,7 @@ func newCmdAndroidHardwareTvTunerIDvr_GetQueueDesc() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -863,7 +865,7 @@ func newCmdAndroidHardwareTvTunerIDvr_GetQueueDesc() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidHardwareTvTunerIDvr_GetQueueDesc() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -896,7 +898,7 @@ func newCmdAndroidHardwareTvTunerIDvr_AttachFilter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -907,7 +909,7 @@ func newCmdAndroidHardwareTvTunerIDvr_AttachFilter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -931,7 +933,7 @@ func newCmdAndroidHardwareTvTunerIDvr_AttachFilter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -951,7 +953,7 @@ func newCmdAndroidHardwareTvTunerIDvr_DetachFilter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -962,7 +964,7 @@ func newCmdAndroidHardwareTvTunerIDvr_DetachFilter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -986,7 +988,7 @@ func newCmdAndroidHardwareTvTunerIDvr_DetachFilter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1006,7 +1008,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1017,7 +1019,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -1031,7 +1033,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1049,7 +1051,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1060,7 +1062,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -1074,7 +1076,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1092,7 +1094,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1103,7 +1105,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -1117,7 +1119,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1135,7 +1137,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1146,7 +1148,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -1160,7 +1162,7 @@ func newCmdAndroidHardwareTvTunerIDvr_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1178,7 +1180,7 @@ func newCmdAndroidHardwareTvTunerIDvr_SetStatusCheckIntervalHint() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1189,7 +1191,7 @@ func newCmdAndroidHardwareTvTunerIDvr_SetStatusCheckIntervalHint() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvr")
 			}
 			if err != nil {
 				return err
@@ -1208,7 +1210,7 @@ func newCmdAndroidHardwareTvTunerIDvr_SetStatusCheckIntervalHint() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1240,7 +1242,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnPlaybackStatus() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1251,7 +1253,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnPlaybackStatus() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvrCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvrCallback")
 			}
 			if err != nil {
 				return err
@@ -1271,7 +1273,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnPlaybackStatus() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1291,7 +1293,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnRecordStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1302,7 +1304,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnRecordStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvrCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IDvrCallback")
 			}
 			if err != nil {
 				return err
@@ -1322,7 +1324,7 @@ func newCmdAndroidHardwareTvTunerIDvrCallback_OnRecordStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1367,7 +1369,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetQueueDesc() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1378,7 +1380,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetQueueDesc() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1393,7 +1395,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetQueueDesc() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1411,7 +1413,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1422,7 +1424,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1436,7 +1438,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1454,7 +1456,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Configure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1465,7 +1467,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Configure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1596,7 +1598,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Configure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1674,7 +1676,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureAvStreamType() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1685,7 +1687,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureAvStreamType() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1705,7 +1707,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureAvStreamType() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1725,7 +1727,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureIpCid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1736,7 +1738,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureIpCid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1755,7 +1757,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureIpCid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1775,7 +1777,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureMonitorEvent() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1786,7 +1788,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureMonitorEvent() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1805,7 +1807,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ConfigureMonitorEvent() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1825,7 +1827,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1836,7 +1838,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1850,7 +1852,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1868,7 +1870,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1879,7 +1881,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1893,7 +1895,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1911,7 +1913,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1922,7 +1924,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1936,7 +1938,7 @@ func newCmdAndroidHardwareTvTunerIFilter_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1954,7 +1956,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetAvSharedHandle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1965,7 +1967,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetAvSharedHandle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -1980,7 +1982,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetAvSharedHandle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1998,7 +2000,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2009,7 +2011,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -2023,7 +2025,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2041,7 +2043,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId64Bit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2052,7 +2054,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId64Bit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -2066,7 +2068,7 @@ func newCmdAndroidHardwareTvTunerIFilter_GetId64Bit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2084,7 +2086,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ReleaseAvHandle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2095,7 +2097,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ReleaseAvHandle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -2134,7 +2136,7 @@ func newCmdAndroidHardwareTvTunerIFilter_ReleaseAvHandle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2156,7 +2158,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDataSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2167,7 +2169,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDataSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -2191,7 +2193,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDataSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2211,7 +2213,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDelayHint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2222,7 +2224,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDelayHint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilter")
 			}
 			if err != nil {
 				return err
@@ -2241,7 +2243,7 @@ func newCmdAndroidHardwareTvTunerIFilter_SetDelayHint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2273,7 +2275,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterEvent() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2284,7 +2286,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterEvent() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilterCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilterCallback")
 			}
 			if err != nil {
 				return err
@@ -2309,7 +2311,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterEvent() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2329,7 +2331,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterStatus() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2340,7 +2342,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterStatus() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilterCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFilterCallback")
 			}
 			if err != nil {
 				return err
@@ -2360,7 +2362,7 @@ func newCmdAndroidHardwareTvTunerIFilterCallback_OnFilterStatus() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2402,7 +2404,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Tune() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2413,7 +2415,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Tune() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -2623,7 +2625,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Tune() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2746,7 +2748,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopTune() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2757,7 +2759,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopTune() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -2771,7 +2773,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopTune() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2789,7 +2791,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2800,7 +2802,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -2814,7 +2816,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2832,7 +2834,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Scan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2843,7 +2845,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Scan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3059,7 +3061,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_Scan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3184,7 +3186,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3195,7 +3197,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3209,7 +3211,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_StopScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3227,7 +3229,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3238,7 +3240,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3263,7 +3265,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3283,7 +3285,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_SetLnb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3294,7 +3296,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_SetLnb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3313,7 +3315,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_SetLnb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3333,7 +3335,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_LinkCiCam() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3344,7 +3346,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_LinkCiCam() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3363,7 +3365,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_LinkCiCam() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3383,7 +3385,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_UnlinkCiCam() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3394,7 +3396,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_UnlinkCiCam() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3413,7 +3415,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_UnlinkCiCam() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3433,7 +3435,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetHardwareInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3444,7 +3446,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetHardwareInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3458,7 +3460,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetHardwareInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3476,7 +3478,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_RemoveOutputPid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3487,7 +3489,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_RemoveOutputPid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3506,7 +3508,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_RemoveOutputPid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3526,7 +3528,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetFrontendStatusReadiness() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3537,7 +3539,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetFrontendStatusReadiness() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontend")
 			}
 			if err != nil {
 				return err
@@ -3562,7 +3564,7 @@ func newCmdAndroidHardwareTvTunerIFrontend_GetFrontendStatusReadiness() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3593,7 +3595,7 @@ func newCmdAndroidHardwareTvTunerIFrontendCallback_OnScanMessage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3604,7 +3606,7 @@ func newCmdAndroidHardwareTvTunerIFrontendCallback_OnScanMessage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontendCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.IFrontendCallback")
 			}
 			if err != nil {
 				return err
@@ -3719,7 +3721,7 @@ func newCmdAndroidHardwareTvTunerIFrontendCallback_OnScanMessage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3781,7 +3783,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3792,7 +3794,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -3816,7 +3818,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3836,7 +3838,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetVoltage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3847,7 +3849,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetVoltage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -3867,7 +3869,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetVoltage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3887,7 +3889,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetTone() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3898,7 +3900,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetTone() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -3918,7 +3920,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetTone() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3938,7 +3940,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetSatellitePosition() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3949,7 +3951,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetSatellitePosition() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -3969,7 +3971,7 @@ func newCmdAndroidHardwareTvTunerILnb_SetSatellitePosition() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3989,7 +3991,7 @@ func newCmdAndroidHardwareTvTunerILnb_SendDiseqcMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4000,7 +4002,7 @@ func newCmdAndroidHardwareTvTunerILnb_SendDiseqcMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -4023,7 +4025,7 @@ func newCmdAndroidHardwareTvTunerILnb_SendDiseqcMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4043,7 +4045,7 @@ func newCmdAndroidHardwareTvTunerILnb_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4054,7 +4056,7 @@ func newCmdAndroidHardwareTvTunerILnb_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnb")
 			}
 			if err != nil {
 				return err
@@ -4068,7 +4070,7 @@ func newCmdAndroidHardwareTvTunerILnb_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4098,7 +4100,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnDiseqcMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4109,7 +4111,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnDiseqcMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnbCallback")
 			}
 			if err != nil {
 				return err
@@ -4132,7 +4134,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnDiseqcMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4152,7 +4154,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4163,7 +4165,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnbCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ILnbCallback")
 			}
 			if err != nil {
 				return err
@@ -4183,7 +4185,7 @@ func newCmdAndroidHardwareTvTunerILnbCallback_OnEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4218,7 +4220,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_SetTimeStamp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4229,7 +4231,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_SetTimeStamp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
 			}
 			if err != nil {
 				return err
@@ -4248,7 +4250,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_SetTimeStamp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4268,7 +4270,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_ClearTimeStamp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4279,7 +4281,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_ClearTimeStamp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
 			}
 			if err != nil {
 				return err
@@ -4293,7 +4295,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_ClearTimeStamp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4311,7 +4313,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetTimeStamp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4322,7 +4324,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetTimeStamp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
 			}
 			if err != nil {
 				return err
@@ -4336,7 +4338,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetTimeStamp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4354,7 +4356,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetSourceTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4365,7 +4367,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetSourceTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
 			}
 			if err != nil {
 				return err
@@ -4379,7 +4381,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_GetSourceTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4397,7 +4399,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4408,7 +4410,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITimeFilter")
 			}
 			if err != nil {
 				return err
@@ -4422,7 +4424,7 @@ func newCmdAndroidHardwareTvTunerITimeFilter_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4466,7 +4468,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4477,7 +4479,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4491,7 +4493,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4509,7 +4511,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenFrontendById() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4520,7 +4522,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenFrontendById() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4539,7 +4541,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenFrontendById() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4559,7 +4561,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemux() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4570,7 +4572,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemux() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4585,7 +4587,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemux() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4603,7 +4605,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxCaps() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4614,7 +4616,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxCaps() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4628,7 +4630,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxCaps() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4646,7 +4648,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDescrambler() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4657,7 +4659,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDescrambler() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4671,7 +4673,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDescrambler() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4689,7 +4691,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4700,7 +4702,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4719,7 +4721,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetFrontendInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4739,7 +4741,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetLnbIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4750,7 +4752,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetLnbIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4764,7 +4766,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetLnbIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4782,7 +4784,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbById() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4793,7 +4795,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbById() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4812,7 +4814,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbById() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4832,7 +4834,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbByName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4843,7 +4845,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbByName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4863,7 +4865,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenLnbByName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4883,7 +4885,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetLna() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4894,7 +4896,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetLna() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4913,7 +4915,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetLna() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4933,7 +4935,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetMaxNumberOfFrontends() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4944,7 +4946,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetMaxNumberOfFrontends() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -4969,7 +4971,7 @@ func newCmdAndroidHardwareTvTunerITuner_SetMaxNumberOfFrontends() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4991,7 +4993,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetMaxNumberOfFrontends() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5002,7 +5004,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetMaxNumberOfFrontends() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -5022,7 +5024,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetMaxNumberOfFrontends() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5042,7 +5044,7 @@ func newCmdAndroidHardwareTvTunerITuner_IsLnaSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5053,7 +5055,7 @@ func newCmdAndroidHardwareTvTunerITuner_IsLnaSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -5067,7 +5069,7 @@ func newCmdAndroidHardwareTvTunerITuner_IsLnaSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5085,7 +5087,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5096,7 +5098,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -5110,7 +5112,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5128,7 +5130,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemuxById() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5139,7 +5141,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemuxById() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -5158,7 +5160,7 @@ func newCmdAndroidHardwareTvTunerITuner_OpenDemuxById() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5178,7 +5180,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5189,7 +5191,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.tuner.ITuner")
 			}
 			if err != nil {
 				return err
@@ -5208,7 +5210,7 @@ func newCmdAndroidHardwareTvTunerITuner_GetDemuxInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

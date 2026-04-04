@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/telephony"
@@ -68,7 +70,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteListener() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -79,7 +81,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteListener() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -103,7 +105,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteListener() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteListeningEnab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteListeningEnab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -168,7 +170,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteListeningEnab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -192,7 +194,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_EnableCellularModemWhileSatel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -203,7 +205,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_EnableCellularModemWhileSatel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -232,7 +234,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_EnableCellularModemWhileSatel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -254,7 +256,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteEnabled() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -265,7 +267,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteEnabled() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteEnabled() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -330,7 +332,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -341,7 +343,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -375,7 +377,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -397,7 +399,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteSupported()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -408,7 +410,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteSupported()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -442,7 +444,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteSupported()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -464,7 +466,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteCapabilities(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -475,7 +477,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteCapabilities(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -509,7 +511,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteCapabilities(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -531,7 +533,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingSatellitePointing
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -542,7 +544,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingSatellitePointing
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -566,7 +568,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingSatellitePointing
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -586,7 +588,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingSatellitePointingI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -597,7 +599,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingSatellitePointingI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -621,7 +623,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingSatellitePointingI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -641,7 +643,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_ProvisionSatelliteService() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -652,7 +654,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_ProvisionSatelliteService() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -690,7 +692,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_ProvisionSatelliteService() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -714,7 +716,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_DeprovisionSatelliteService()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -725,7 +727,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_DeprovisionSatelliteService()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -754,7 +756,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_DeprovisionSatelliteService()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -776,7 +778,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteProvisioned
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -787,7 +789,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteProvisioned
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -821,7 +823,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteProvisioned
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -843,7 +845,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_PollPendingSatelliteDatagrams
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -854,7 +856,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_PollPendingSatelliteDatagrams
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_PollPendingSatelliteDatagrams
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -898,7 +900,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SendSatelliteDatagram() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -909,7 +911,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SendSatelliteDatagram() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -947,7 +949,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SendSatelliteDatagram() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -970,7 +972,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteModemState() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -981,7 +983,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteModemState() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1015,7 +1017,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSatelliteModemState() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1037,7 +1039,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestTimeForNextSatelliteVi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1048,7 +1050,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestTimeForNextSatelliteVi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1082,7 +1084,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestTimeForNextSatelliteVi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1104,7 +1106,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatellitePlmn() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1115,7 +1117,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatellitePlmn() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1162,7 +1164,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatellitePlmn() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1188,7 +1190,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteEnabledForCarrier
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1199,7 +1201,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteEnabledForCarrier
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1233,7 +1235,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_SetSatelliteEnabledForCarrier
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1257,7 +1259,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabledForC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1268,7 +1270,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabledForC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1307,7 +1309,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestIsSatelliteEnabledForC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1331,7 +1333,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSignalStrength() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1342,7 +1344,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSignalStrength() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1376,7 +1378,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_RequestSignalStrength() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1398,7 +1400,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingNtnSignalStrength
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1409,7 +1411,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingNtnSignalStrength
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1433,7 +1435,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StartSendingNtnSignalStrength
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1453,7 +1455,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingNtnSignalStrength(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1464,7 +1466,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingNtnSignalStrength(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1488,7 +1490,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_StopSendingNtnSignalStrength(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1508,7 +1510,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_AbortSendingSatelliteDatagram
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1519,7 +1521,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_AbortSendingSatelliteDatagram
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatellite")
 			}
 			if err != nil {
 				return err
@@ -1543,7 +1545,7 @@ func newCmdAndroidTelephonySatelliteStubISatellite_AbortSendingSatelliteDatagram
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1574,7 +1576,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteCapabilitiesConsumer_Accept() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1585,7 +1587,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteCapabilitiesConsumer_Accept() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteCapabilitiesConsumer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteCapabilitiesConsumer")
 			}
 			if err != nil {
 				return err
@@ -1622,7 +1624,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteCapabilitiesConsumer_Accept() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1663,7 +1665,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteProvisionS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1674,7 +1676,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteProvisionS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1693,7 +1695,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteProvisionS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1713,7 +1715,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteDatagramRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1724,7 +1726,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteDatagramRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1752,7 +1754,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteDatagramRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1773,7 +1775,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnPendingDatagrams() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1784,7 +1786,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnPendingDatagrams() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1798,7 +1800,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnPendingDatagrams() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1816,7 +1818,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatellitePositionCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1827,7 +1829,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatellitePositionCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1845,7 +1847,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatellitePositionCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1865,7 +1867,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteModemState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1876,7 +1878,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteModemState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1896,7 +1898,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteModemState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1916,7 +1918,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnNtnSignalStrengthCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1927,7 +1929,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnNtnSignalStrengthCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -1945,7 +1947,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnNtnSignalStrengthCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1964,7 +1966,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteCapabiliti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1975,7 +1977,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteCapabiliti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -2012,7 +2014,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteCapabiliti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2035,7 +2037,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteSupportedS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2046,7 +2048,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteSupportedS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.telephony.satellite.stub.ISatelliteListener")
 			}
 			if err != nil {
 				return err
@@ -2065,7 +2067,7 @@ func newCmdAndroidTelephonySatelliteStubISatelliteListener_OnSatelliteSupportedS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

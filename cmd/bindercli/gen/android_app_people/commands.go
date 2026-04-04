@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/people"
@@ -40,7 +42,7 @@ func newCmdAndroidAppPeopleIConversationListener_OnConversationUpdate() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidAppPeopleIConversationListener_OnConversationUpdate() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IConversationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IConversationListener")
 			}
 			if err != nil {
 				return err
@@ -67,7 +69,7 @@ func newCmdAndroidAppPeopleIConversationListener_OnConversationUpdate() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -107,7 +109,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetConversation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -118,7 +120,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetConversation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetConversation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -164,7 +166,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetRecentConversations() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -175,7 +177,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetRecentConversations() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -189,7 +191,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetRecentConversations() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -207,7 +209,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveRecentConversation() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -218,7 +220,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveRecentConversation() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -242,7 +244,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveRecentConversation() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveAllRecentConversations() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveAllRecentConversations() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -289,7 +291,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RemoveAllRecentConversations() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidAppPeopleIPeopleManager_IsConversation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidAppPeopleIPeopleManager_IsConversation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -342,7 +344,7 @@ func newCmdAndroidAppPeopleIPeopleManager_IsConversation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -364,7 +366,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetLastInteraction() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -375,7 +377,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetLastInteraction() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -399,7 +401,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetLastInteraction() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -421,7 +423,7 @@ func newCmdAndroidAppPeopleIPeopleManager_AddOrUpdateStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -432,7 +434,7 @@ func newCmdAndroidAppPeopleIPeopleManager_AddOrUpdateStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -458,7 +460,7 @@ func newCmdAndroidAppPeopleIPeopleManager_AddOrUpdateStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -480,7 +482,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -491,7 +493,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -520,7 +522,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -544,7 +546,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatuses() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -555,7 +557,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatuses() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -579,7 +581,7 @@ func newCmdAndroidAppPeopleIPeopleManager_ClearStatuses() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -601,7 +603,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetStatuses() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -612,7 +614,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetStatuses() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -636,7 +638,7 @@ func newCmdAndroidAppPeopleIPeopleManager_GetStatuses() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -658,7 +660,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RegisterConversationListener() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -669,7 +671,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RegisterConversationListener() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -703,7 +705,7 @@ func newCmdAndroidAppPeopleIPeopleManager_RegisterConversationListener() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -727,7 +729,7 @@ func newCmdAndroidAppPeopleIPeopleManager_UnregisterConversationListener() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -738,7 +740,7 @@ func newCmdAndroidAppPeopleIPeopleManager_UnregisterConversationListener() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.people.IPeopleManager")
 			}
 			if err != nil {
 				return err
@@ -762,7 +764,7 @@ func newCmdAndroidAppPeopleIPeopleManager_UnregisterConversationListener() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

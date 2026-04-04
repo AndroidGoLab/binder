@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net"
@@ -47,7 +49,7 @@ func newCmdAndroidServiceCarrierIApnSourceService_GetApns() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidServiceCarrierIApnSourceService_GetApns() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.IApnSourceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.IApnSourceService")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidServiceCarrierIApnSourceService_GetApns() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -112,7 +114,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnFilterComplete() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -123,7 +125,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnFilterComplete() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnFilterComplete() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -162,7 +164,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendSmsComplete() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -173,7 +175,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendSmsComplete() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
 			}
 			if err != nil {
 				return err
@@ -197,7 +199,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendSmsComplete() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -219,7 +221,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMultipartSmsComp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -230,7 +232,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMultipartSmsComp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
 			}
 			if err != nil {
 				return err
@@ -264,7 +266,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMultipartSmsComp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -286,7 +288,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMmsComplete() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -297,7 +299,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMmsComplete() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
 			}
 			if err != nil {
 				return err
@@ -325,7 +327,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnSendMmsComplete() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -347,7 +349,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnDownloadMmsComplete(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -358,7 +360,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnDownloadMmsComplete(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingCallback")
 			}
 			if err != nil {
 				return err
@@ -377,7 +379,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingCallback_OnDownloadMmsComplete(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -413,7 +415,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_FilterSms() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -424,7 +426,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_FilterSms() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -465,7 +467,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_FilterSms() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -491,7 +493,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendTextSms() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -502,7 +504,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendTextSms() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -546,7 +548,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendTextSms() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -574,7 +576,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendDataSms() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -585,7 +587,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendDataSms() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -638,7 +640,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendDataSms() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -668,7 +670,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMultipartTextSms() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -679,7 +681,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMultipartTextSms() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -727,7 +729,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMultipartTextSms() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -755,7 +757,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMms() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -766,7 +768,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMms() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -799,7 +801,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_SendMms() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -821,7 +823,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_DownloadMms() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -832,7 +834,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_DownloadMms() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierMessagingService")
 			}
 			if err != nil {
 				return err
@@ -865,7 +867,7 @@ func newCmdAndroidServiceCarrierICarrierMessagingService_DownloadMms() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -898,7 +900,7 @@ func newCmdAndroidServiceCarrierICarrierService_GetCarrierConfig() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -909,7 +911,7 @@ func newCmdAndroidServiceCarrierICarrierService_GetCarrierConfig() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.carrier.ICarrierService")
 			}
 			if err != nil {
 				return err
@@ -932,7 +934,7 @@ func newCmdAndroidServiceCarrierICarrierService_GetCarrierConfig() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

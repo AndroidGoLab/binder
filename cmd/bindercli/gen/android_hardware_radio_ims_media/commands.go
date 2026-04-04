@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/radio"
@@ -47,7 +49,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_OpenSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_OpenSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMedia")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMedia")
 			}
 			if err != nil {
 				return err
@@ -125,7 +127,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_OpenSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_CloseSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_CloseSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMedia")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMedia")
 			}
 			if err != nil {
 				return err
@@ -205,7 +207,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMedia_CloseSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -238,7 +240,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionSuccess() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -249,7 +251,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionSuccess() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
 			}
 			if err != nil {
 				return err
@@ -278,7 +280,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionSuccess() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -300,7 +302,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionFailure() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -311,7 +313,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionFailure() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnOpenSessionFailure() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnSessionClosed() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnSessionClosed() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaListener")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaListener_OnSessionClosed() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -427,7 +429,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -438,7 +440,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -462,7 +464,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -482,7 +484,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_ModifySession() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -493,7 +495,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_ModifySession() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -550,7 +552,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_ModifySession() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendDtmf() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendDtmf() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -630,7 +632,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendDtmf() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -652,7 +654,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StartDtmf() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -663,7 +665,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StartDtmf() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -682,7 +684,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StartDtmf() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StopDtmf() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -713,7 +715,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StopDtmf() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -727,7 +729,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_StopDtmf() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -745,7 +747,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendHeaderExtension() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendHeaderExtension() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -781,7 +783,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SendHeaderExtension() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -801,7 +803,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetMediaQualityThreshold
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -812,7 +814,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetMediaQualityThreshold
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -859,7 +861,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_SetMediaQualityThreshold
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -884,7 +886,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_RequestRtpReceptionStats
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -895,7 +897,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_RequestRtpReceptionStats
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -914,7 +916,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_RequestRtpReceptionStats
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -934,7 +936,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_AdjustDelay() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -945,7 +947,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_AdjustDelay() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSession")
 			}
 			if err != nil {
 				return err
@@ -964,7 +966,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSession_AdjustDelay() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1002,7 +1004,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnModifySessionR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1013,7 +1015,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnModifySessionR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1076,7 +1078,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnModifySessionR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1123,7 +1125,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnFirstMediaPack
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1134,7 +1136,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnFirstMediaPack
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1191,7 +1193,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnFirstMediaPack
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1236,7 +1238,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnHeaderExtensio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1247,7 +1249,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnHeaderExtensio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1272,7 +1274,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnHeaderExtensio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1292,7 +1294,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyMediaQuali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1303,7 +1305,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyMediaQuali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1323,7 +1325,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyMediaQuali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1345,7 +1347,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_TriggerAnbrQuery
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1356,7 +1358,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_TriggerAnbrQuery
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1413,7 +1415,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_TriggerAnbrQuery
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1458,7 +1460,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnDtmfReceived()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1469,7 +1471,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnDtmfReceived()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1493,7 +1495,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnDtmfReceived()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1515,7 +1517,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnCallQualityCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1526,7 +1528,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnCallQualityCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1563,7 +1565,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_OnCallQualityCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1602,7 +1604,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyRtpRecepti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1613,7 +1615,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyRtpRecepti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.ims.media.IImsMediaSessionListener")
 			}
 			if err != nil {
 				return err
@@ -1634,7 +1636,7 @@ func newCmdAndroidHardwareRadioImsMediaIImsMediaSessionListener_NotifyRtpRecepti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

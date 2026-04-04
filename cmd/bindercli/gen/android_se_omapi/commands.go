@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/se/omapi"
@@ -49,7 +51,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsClosed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsClosed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -117,7 +119,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsClosed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -135,7 +137,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsBasicChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -146,7 +148,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsBasicChannel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -160,7 +162,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_IsBasicChannel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_GetSelectResponse() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_GetSelectResponse() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_GetSelectResponse() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Transmit() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Transmit() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -255,7 +257,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_Transmit() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -275,7 +277,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_SelectNext() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -286,7 +288,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_SelectNext() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementChannel")
 			}
 			if err != nil {
 				return err
@@ -300,7 +302,7 @@ func newCmdAndroidSeOmapiISecureElementChannel_SelectNext() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -332,7 +334,7 @@ func newCmdAndroidSeOmapiISecureElementReader_IsSecureElementPresent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -343,7 +345,7 @@ func newCmdAndroidSeOmapiISecureElementReader_IsSecureElementPresent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
 			}
 			if err != nil {
 				return err
@@ -357,7 +359,7 @@ func newCmdAndroidSeOmapiISecureElementReader_IsSecureElementPresent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -375,7 +377,7 @@ func newCmdAndroidSeOmapiISecureElementReader_OpenSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -386,7 +388,7 @@ func newCmdAndroidSeOmapiISecureElementReader_OpenSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
 			}
 			if err != nil {
 				return err
@@ -400,7 +402,7 @@ func newCmdAndroidSeOmapiISecureElementReader_OpenSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -418,7 +420,7 @@ func newCmdAndroidSeOmapiISecureElementReader_CloseSessions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -429,7 +431,7 @@ func newCmdAndroidSeOmapiISecureElementReader_CloseSessions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
 			}
 			if err != nil {
 				return err
@@ -443,7 +445,7 @@ func newCmdAndroidSeOmapiISecureElementReader_CloseSessions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -461,7 +463,7 @@ func newCmdAndroidSeOmapiISecureElementReader_Reset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -472,7 +474,7 @@ func newCmdAndroidSeOmapiISecureElementReader_Reset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementReader")
 			}
 			if err != nil {
 				return err
@@ -486,7 +488,7 @@ func newCmdAndroidSeOmapiISecureElementReader_Reset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -517,7 +519,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReaders() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -528,7 +530,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReaders() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
 			}
 			if err != nil {
 				return err
@@ -542,7 +544,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReaders() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -560,7 +562,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReader() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -571,7 +573,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReader() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
 			}
 			if err != nil {
 				return err
@@ -590,7 +592,7 @@ func newCmdAndroidSeOmapiISecureElementService_GetReader() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -610,7 +612,7 @@ func newCmdAndroidSeOmapiISecureElementService_IsNfcEventAllowed() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -621,7 +623,7 @@ func newCmdAndroidSeOmapiISecureElementService_IsNfcEventAllowed() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementService")
 			}
 			if err != nil {
 				return err
@@ -658,7 +660,7 @@ func newCmdAndroidSeOmapiISecureElementService_IsNfcEventAllowed() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -698,7 +700,7 @@ func newCmdAndroidSeOmapiISecureElementSession_GetAtr() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -709,7 +711,7 @@ func newCmdAndroidSeOmapiISecureElementSession_GetAtr() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -723,7 +725,7 @@ func newCmdAndroidSeOmapiISecureElementSession_GetAtr() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -741,7 +743,7 @@ func newCmdAndroidSeOmapiISecureElementSession_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -752,7 +754,7 @@ func newCmdAndroidSeOmapiISecureElementSession_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -766,7 +768,7 @@ func newCmdAndroidSeOmapiISecureElementSession_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -784,7 +786,7 @@ func newCmdAndroidSeOmapiISecureElementSession_CloseChannels() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -795,7 +797,7 @@ func newCmdAndroidSeOmapiISecureElementSession_CloseChannels() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -809,7 +811,7 @@ func newCmdAndroidSeOmapiISecureElementSession_CloseChannels() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -827,7 +829,7 @@ func newCmdAndroidSeOmapiISecureElementSession_IsClosed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -838,7 +840,7 @@ func newCmdAndroidSeOmapiISecureElementSession_IsClosed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -852,7 +854,7 @@ func newCmdAndroidSeOmapiISecureElementSession_IsClosed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -870,7 +872,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenBasicChannel() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -881,7 +883,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenBasicChannel() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -919,7 +921,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenBasicChannel() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -943,7 +945,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenLogicalChannel() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -954,7 +956,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenLogicalChannel() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.se.omapi.ISecureElementSession")
 			}
 			if err != nil {
 				return err
@@ -992,7 +994,7 @@ func newCmdAndroidSeOmapiISecureElementSession_OpenLogicalChannel() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

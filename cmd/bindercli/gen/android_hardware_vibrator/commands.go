@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/vibrator"
@@ -67,7 +69,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCapabilities() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -78,7 +80,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCapabilities() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -92,7 +94,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCapabilities() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -110,7 +112,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Off() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -121,7 +123,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Off() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Off() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -153,7 +155,7 @@ func newCmdAndroidHardwareVibratorIVibrator_On() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -164,7 +166,7 @@ func newCmdAndroidHardwareVibratorIVibrator_On() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -193,7 +195,7 @@ func newCmdAndroidHardwareVibratorIVibrator_On() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -215,7 +217,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Perform() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -226,7 +228,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Perform() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Perform() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -286,7 +288,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedEffects() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -297,7 +299,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedEffects() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -311,7 +313,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedEffects() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -329,7 +331,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetAmplitude() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -340,7 +342,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetAmplitude() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -359,7 +361,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetAmplitude() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -379,7 +381,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetExternalControl() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -390,7 +392,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetExternalControl() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -409,7 +411,7 @@ func newCmdAndroidHardwareVibratorIVibrator_SetExternalControl() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionDelayMax() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionDelayMax() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -454,7 +456,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionDelayMax() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -472,7 +474,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionSizeMax() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -483,7 +485,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionSizeMax() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -497,7 +499,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetCompositionSizeMax() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -515,7 +517,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedPrimitives() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -526,7 +528,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedPrimitives() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -540,7 +542,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedPrimitives() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -558,7 +560,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPrimitiveDuration() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -569,7 +571,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPrimitiveDuration() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -589,7 +591,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPrimitiveDuration() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -609,7 +611,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Compose() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -620,7 +622,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Compose() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -655,7 +657,7 @@ func newCmdAndroidHardwareVibratorIVibrator_Compose() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -677,7 +679,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedAlwaysOnEffects() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -688,7 +690,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedAlwaysOnEffects() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedAlwaysOnEffects() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -720,7 +722,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnEnable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -731,7 +733,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnEnable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -762,7 +764,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnEnable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -786,7 +788,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnDisable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -797,7 +799,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnDisable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -816,7 +818,7 @@ func newCmdAndroidHardwareVibratorIVibrator_AlwaysOnDisable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -836,7 +838,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetResonantFrequency() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -847,7 +849,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetResonantFrequency() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -861,7 +863,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetResonantFrequency() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -879,7 +881,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetQFactor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -890,7 +892,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetQFactor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -904,7 +906,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetQFactor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -922,7 +924,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyResolution() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -933,7 +935,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyResolution() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -947,7 +949,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyResolution() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -965,7 +967,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyMinimum() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -976,7 +978,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyMinimum() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -990,7 +992,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetFrequencyMinimum() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1008,7 +1010,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetBandwidthAmplitudeMap() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1019,7 +1021,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetBandwidthAmplitudeMap() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -1033,7 +1035,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetBandwidthAmplitudeMap() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1051,7 +1053,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwlePrimitiveDurationMax() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1062,7 +1064,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwlePrimitiveDurationMax() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -1076,7 +1078,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwlePrimitiveDurationMax() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1094,7 +1096,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwleCompositionSizeMax() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1105,7 +1107,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwleCompositionSizeMax() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -1119,7 +1121,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetPwleCompositionSizeMax() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1137,7 +1139,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedBraking() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1148,7 +1150,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedBraking() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -1162,7 +1164,7 @@ func newCmdAndroidHardwareVibratorIVibrator_GetSupportedBraking() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1180,7 +1182,7 @@ func newCmdAndroidHardwareVibratorIVibrator_ComposePwle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1191,7 +1193,7 @@ func newCmdAndroidHardwareVibratorIVibrator_ComposePwle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibrator")
 			}
 			if err != nil {
 				return err
@@ -1226,7 +1228,7 @@ func newCmdAndroidHardwareVibratorIVibrator_ComposePwle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1259,7 +1261,7 @@ func newCmdAndroidHardwareVibratorIVibratorCallback_OnComplete() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1270,7 +1272,7 @@ func newCmdAndroidHardwareVibratorIVibratorCallback_OnComplete() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorCallback")
 			}
 			if err != nil {
 				return err
@@ -1284,7 +1286,7 @@ func newCmdAndroidHardwareVibratorIVibratorCallback_OnComplete() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1318,7 +1320,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetCapabilities() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1329,7 +1331,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetCapabilities() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1343,7 +1345,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetCapabilities() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1361,7 +1363,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibratorIds() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1372,7 +1374,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibratorIds() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1386,7 +1388,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibratorIds() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1404,7 +1406,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibrator() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1415,7 +1417,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibrator() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1434,7 +1436,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_GetVibrator() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1454,7 +1456,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_PrepareSynced() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1465,7 +1467,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_PrepareSynced() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1494,7 +1496,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_PrepareSynced() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1514,7 +1516,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_TriggerSynced() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1525,7 +1527,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_TriggerSynced() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1549,7 +1551,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_TriggerSynced() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1569,7 +1571,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_CancelSynced() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1580,7 +1582,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_CancelSynced() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.vibrator.IVibratorManager")
 			}
 			if err != nil {
 				return err
@@ -1594,7 +1596,7 @@ func newCmdAndroidHardwareVibratorIVibratorManager_CancelSynced() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

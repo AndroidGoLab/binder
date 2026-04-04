@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/location"
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_GetSupportedActiv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_GetSupportedActiv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_GetSupportedActiv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_IsActivitySupport
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_IsActivitySupport
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_IsActivitySupport
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_RegisterSink() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_RegisterSink() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -185,7 +187,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_RegisterSink() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_UnregisterSink() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_UnregisterSink() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -240,7 +242,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_UnregisterSink() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -260,7 +262,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_EnableActivityEve
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -271,7 +273,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_EnableActivityEve
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -300,7 +302,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_EnableActivityEve
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -324,7 +326,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_DisableActivityEv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -335,7 +337,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_DisableActivityEv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -359,7 +361,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_DisableActivityEv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_Flush() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_Flush() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardware")
 			}
 			if err != nil {
 				return err
@@ -406,7 +408,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardware_Flush() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -435,7 +437,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareClient_OnAvailabil
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareClient_OnAvailabil
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareClient")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareClient_OnAvailabil
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -508,7 +510,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareSink_OnActivityCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -519,7 +521,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareSink_OnActivityCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareSink")
 			}
 			if err != nil {
 				return err
@@ -535,7 +537,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareSink_OnActivityCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -564,7 +566,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareWatcher_OnInstance
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -575,7 +577,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareWatcher_OnInstance
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareWatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IActivityRecognitionHardwareWatcher")
 			}
 			if err != nil {
 				return err
@@ -599,7 +601,7 @@ func newCmdAndroidHardwareLocationIActivityRecognitionHardwareWatcher_OnInstance
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -630,7 +632,7 @@ func newCmdAndroidHardwareLocationIContextHubCallback_OnMessageReceipt() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -641,7 +643,7 @@ func newCmdAndroidHardwareLocationIContextHubCallback_OnMessageReceipt() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubCallback")
 			}
 			if err != nil {
 				return err
@@ -667,7 +669,7 @@ func newCmdAndroidHardwareLocationIContextHubCallback_OnMessageReceipt() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -705,7 +707,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendMessageToNanoApp() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -716,7 +718,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendMessageToNanoApp() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -732,7 +734,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendMessageToNanoApp() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -750,7 +752,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -761,7 +763,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -775,7 +777,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -793,7 +795,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_GetId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -804,7 +806,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_GetId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -818,7 +820,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_GetId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -836,7 +838,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_CallbackFinished() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -847,7 +849,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_CallbackFinished() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -861,7 +863,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_CallbackFinished() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -879,7 +881,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_ReliableMessageCallbackFinis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -890,7 +892,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_ReliableMessageCallbackFinis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -914,7 +916,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_ReliableMessageCallbackFinis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -936,7 +938,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendReliableMessageToNanoApp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -947,7 +949,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendReliableMessageToNanoApp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClient")
 			}
 			if err != nil {
 				return err
@@ -973,7 +975,7 @@ func newCmdAndroidHardwareLocationIContextHubClient_SendReliableMessageToNanoApp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1011,7 +1013,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnMessageFromNanoApp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1022,7 +1024,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnMessageFromNanoApp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1038,7 +1040,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnMessageFromNanoApp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1056,7 +1058,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnHubReset() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1067,7 +1069,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnHubReset() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1081,7 +1083,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnHubReset() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1099,7 +1101,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppAborted() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1110,7 +1112,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppAborted() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1134,7 +1136,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppAborted() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1156,7 +1158,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppLoaded() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1167,7 +1169,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppLoaded() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1186,7 +1188,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppLoaded() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1206,7 +1208,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppUnloaded() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1217,7 +1219,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppUnloaded() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1236,7 +1238,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppUnloaded() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1256,7 +1258,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppEnabled() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1267,7 +1269,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppEnabled() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1286,7 +1288,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppEnabled() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1306,7 +1308,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppDisabled() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1317,7 +1319,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppDisabled() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1336,7 +1338,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnNanoAppDisabled() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1356,7 +1358,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnClientAuthorizatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1367,7 +1369,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnClientAuthorizatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1391,7 +1393,7 @@ func newCmdAndroidHardwareLocationIContextHubClientCallback_OnClientAuthorizatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1440,7 +1442,7 @@ func newCmdAndroidHardwareLocationIContextHubService_RegisterCallback() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1451,7 +1453,7 @@ func newCmdAndroidHardwareLocationIContextHubService_RegisterCallback() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1475,7 +1477,7 @@ func newCmdAndroidHardwareLocationIContextHubService_RegisterCallback() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1495,7 +1497,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubHandles() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1506,7 +1508,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubHandles() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1520,7 +1522,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubHandles() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1538,7 +1540,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubInfo() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1549,7 +1551,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubInfo() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1568,7 +1570,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubInfo() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1588,7 +1590,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoApp() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1599,7 +1601,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoApp() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1620,7 +1622,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoApp() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1640,7 +1642,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoApp() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1651,7 +1653,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoApp() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1670,7 +1672,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoApp() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1690,7 +1692,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetNanoAppInstanceInfo() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1701,7 +1703,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetNanoAppInstanceInfo() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1720,7 +1722,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetNanoAppInstanceInfo() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1740,7 +1742,7 @@ func newCmdAndroidHardwareLocationIContextHubService_FindNanoAppOnHub() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1751,7 +1753,7 @@ func newCmdAndroidHardwareLocationIContextHubService_FindNanoAppOnHub() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1772,7 +1774,7 @@ func newCmdAndroidHardwareLocationIContextHubService_FindNanoAppOnHub() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1792,7 +1794,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SendMessage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1803,7 +1805,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SendMessage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1829,7 +1831,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SendMessage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1851,7 +1853,7 @@ func newCmdAndroidHardwareLocationIContextHubService_CreateClient() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1862,7 +1864,7 @@ func newCmdAndroidHardwareLocationIContextHubService_CreateClient() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1896,7 +1898,7 @@ func newCmdAndroidHardwareLocationIContextHubService_CreateClient() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1920,7 +1922,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubs() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1931,7 +1933,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubs() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -1945,7 +1947,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetContextHubs() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1963,7 +1965,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoAppOnHub() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1974,7 +1976,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoAppOnHub() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2005,7 +2007,7 @@ func newCmdAndroidHardwareLocationIContextHubService_LoadNanoAppOnHub() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2027,7 +2029,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoAppFromHub() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2038,7 +2040,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoAppFromHub() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2072,7 +2074,7 @@ func newCmdAndroidHardwareLocationIContextHubService_UnloadNanoAppFromHub() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2096,7 +2098,7 @@ func newCmdAndroidHardwareLocationIContextHubService_EnableNanoApp() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2107,7 +2109,7 @@ func newCmdAndroidHardwareLocationIContextHubService_EnableNanoApp() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2141,7 +2143,7 @@ func newCmdAndroidHardwareLocationIContextHubService_EnableNanoApp() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2165,7 +2167,7 @@ func newCmdAndroidHardwareLocationIContextHubService_DisableNanoApp() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2176,7 +2178,7 @@ func newCmdAndroidHardwareLocationIContextHubService_DisableNanoApp() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2210,7 +2212,7 @@ func newCmdAndroidHardwareLocationIContextHubService_DisableNanoApp() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2234,7 +2236,7 @@ func newCmdAndroidHardwareLocationIContextHubService_QueryNanoApps() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2245,7 +2247,7 @@ func newCmdAndroidHardwareLocationIContextHubService_QueryNanoApps() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2274,7 +2276,7 @@ func newCmdAndroidHardwareLocationIContextHubService_QueryNanoApps() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2296,7 +2298,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetPreloadedNanoAppIds() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2307,7 +2309,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetPreloadedNanoAppIds() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2323,7 +2325,7 @@ func newCmdAndroidHardwareLocationIContextHubService_GetPreloadedNanoAppIds() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2341,7 +2343,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SetTestMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2352,7 +2354,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SetTestMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubService")
 			}
 			if err != nil {
 				return err
@@ -2371,7 +2373,7 @@ func newCmdAndroidHardwareLocationIContextHubService_SetTestMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2403,7 +2405,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnQueryResponse
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2414,7 +2416,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnQueryResponse
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubTransactionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubTransactionCallback")
 			}
 			if err != nil {
 				return err
@@ -2444,7 +2446,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnQueryResponse
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2466,7 +2468,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnTransactionCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2477,7 +2479,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnTransactionCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubTransactionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IContextHubTransactionCallback")
 			}
 			if err != nil {
 				return err
@@ -2496,7 +2498,7 @@ func newCmdAndroidHardwareLocationIContextHubTransactionCallback_OnTransactionCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2534,7 +2536,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetMonitoringTypes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2545,7 +2547,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetMonitoringTypes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2559,7 +2561,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetMonitoringTypes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2577,7 +2579,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetStatusOfMonitoringType() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2588,7 +2590,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetStatusOfMonitoringType() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2607,7 +2609,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_GetStatusOfMonitoringType() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2627,7 +2629,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_AddCircularFence() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2638,7 +2640,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_AddCircularFence() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2669,7 +2671,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_AddCircularFence() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2691,7 +2693,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RemoveGeofence() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2702,7 +2704,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RemoveGeofence() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2726,7 +2728,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RemoveGeofence() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2748,7 +2750,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_PauseGeofence() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2759,7 +2761,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_PauseGeofence() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2783,7 +2785,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_PauseGeofence() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2805,7 +2807,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_ResumeGeofence() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2816,7 +2818,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_ResumeGeofence() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2845,7 +2847,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_ResumeGeofence() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2869,7 +2871,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RegisterForMonitorStateChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2880,7 +2882,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RegisterForMonitorStateChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2909,7 +2911,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_RegisterForMonitorStateChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2931,7 +2933,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_UnregisterForMonitorStateCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2942,7 +2944,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_UnregisterForMonitorStateCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardware")
 			}
 			if err != nil {
 				return err
@@ -2971,7 +2973,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardware_UnregisterForMonitorStateCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3007,7 +3009,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceAdd() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3018,7 +3020,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceAdd() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
 			}
 			if err != nil {
 				return err
@@ -3042,7 +3044,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceAdd() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3064,7 +3066,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceRemove() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3075,7 +3077,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceRemove() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
 			}
 			if err != nil {
 				return err
@@ -3099,7 +3101,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceRemove() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3121,7 +3123,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofencePause() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3132,7 +3134,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofencePause() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
 			}
 			if err != nil {
 				return err
@@ -3156,7 +3158,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofencePause() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3178,7 +3180,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceResume() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3189,7 +3191,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceResume() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareCallback")
 			}
 			if err != nil {
 				return err
@@ -3213,7 +3215,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareCallback_OnGeofenceResume() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3246,7 +3248,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareMonitorCallback_OnMonitoringS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3257,7 +3259,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareMonitorCallback_OnMonitoringS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareMonitorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.location.IGeofenceHardwareMonitorCallback")
 			}
 			if err != nil {
 				return err
@@ -3273,7 +3275,7 @@ func newCmdAndroidHardwareLocationIGeofenceHardwareMonitorCallback_OnMonitoringS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net/vcn"
@@ -48,7 +50,7 @@ func newCmdAndroidNetVcnIVcnManagementService_SetVcnConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidNetVcnIVcnManagementService_SetVcnConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidNetVcnIVcnManagementService_SetVcnConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidNetVcnIVcnManagementService_ClearVcnConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidNetVcnIVcnManagementService_ClearVcnConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -134,7 +136,7 @@ func newCmdAndroidNetVcnIVcnManagementService_ClearVcnConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -154,7 +156,7 @@ func newCmdAndroidNetVcnIVcnManagementService_GetConfiguredSubscriptionGroups() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -165,7 +167,7 @@ func newCmdAndroidNetVcnIVcnManagementService_GetConfiguredSubscriptionGroups() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -184,7 +186,7 @@ func newCmdAndroidNetVcnIVcnManagementService_GetConfiguredSubscriptionGroups() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -204,7 +206,7 @@ func newCmdAndroidNetVcnIVcnManagementService_AddVcnUnderlyingNetworkPolicyListe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -215,7 +217,7 @@ func newCmdAndroidNetVcnIVcnManagementService_AddVcnUnderlyingNetworkPolicyListe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -239,7 +241,7 @@ func newCmdAndroidNetVcnIVcnManagementService_AddVcnUnderlyingNetworkPolicyListe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -259,7 +261,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RemoveVcnUnderlyingNetworkPolicyLi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -270,7 +272,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RemoveVcnUnderlyingNetworkPolicyLi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -294,7 +296,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RemoveVcnUnderlyingNetworkPolicyLi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -314,7 +316,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RegisterVcnStatusCallback() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -325,7 +327,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RegisterVcnStatusCallback() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -356,7 +358,7 @@ func newCmdAndroidNetVcnIVcnManagementService_RegisterVcnStatusCallback() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -378,7 +380,7 @@ func newCmdAndroidNetVcnIVcnManagementService_UnregisterVcnStatusCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -389,7 +391,7 @@ func newCmdAndroidNetVcnIVcnManagementService_UnregisterVcnStatusCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnManagementService")
 			}
 			if err != nil {
 				return err
@@ -413,7 +415,7 @@ func newCmdAndroidNetVcnIVcnManagementService_UnregisterVcnStatusCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -445,7 +447,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnVcnStatusChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -456,7 +458,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnVcnStatusChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnVcnStatusChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -495,7 +497,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnGatewayConnectionError() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -506,7 +508,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnGatewayConnectionError() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -540,7 +542,7 @@ func newCmdAndroidNetVcnIVcnStatusCallback_OnGatewayConnectionError() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -577,7 +579,7 @@ func newCmdAndroidNetVcnIVcnUnderlyingNetworkPolicyListener_OnPolicyChanged() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -588,7 +590,7 @@ func newCmdAndroidNetVcnIVcnUnderlyingNetworkPolicyListener_OnPolicyChanged() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnUnderlyingNetworkPolicyListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.vcn.IVcnUnderlyingNetworkPolicyListener")
 			}
 			if err != nil {
 				return err
@@ -602,7 +604,7 @@ func newCmdAndroidNetVcnIVcnUnderlyingNetworkPolicyListener_OnPolicyChanged() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

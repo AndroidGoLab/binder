@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -59,7 +61,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionCreated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -70,7 +72,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionCreated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -105,7 +107,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionCreated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -129,7 +131,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionReleased() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -140,7 +142,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionReleased() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -159,7 +161,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnSessionReleased() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -179,7 +181,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnLayoutSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -190,7 +192,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnLayoutSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -229,7 +231,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnLayoutSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -257,7 +259,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentVideoBounds() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -268,7 +270,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentVideoBounds() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -287,7 +289,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentVideoBounds() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentChannelUri() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentChannelUri() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -337,7 +339,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentChannelUri() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestTrackInfoList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestTrackInfoList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -387,7 +389,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestTrackInfoList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentTvInputId() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentTvInputId() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestCurrentTvInputId() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -457,7 +459,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestSigning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -468,7 +470,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestSigning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -511,7 +513,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnRequestSigning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -539,7 +541,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnTvAdSessionData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -550,7 +552,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnTvAdSessionData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdClient")
 			}
 			if err != nil {
 				return err
@@ -576,7 +578,7 @@ func newCmdAndroidMediaTvAdITvAdClient_OnTvAdSessionData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -627,7 +629,7 @@ func newCmdAndroidMediaTvAdITvAdManager_GetTvAdServiceList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -638,7 +640,7 @@ func newCmdAndroidMediaTvAdITvAdManager_GetTvAdServiceList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -652,7 +654,7 @@ func newCmdAndroidMediaTvAdITvAdManager_GetTvAdServiceList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -670,7 +672,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendAppLinkCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -681,7 +683,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendAppLinkCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -702,7 +704,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendAppLinkCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -722,7 +724,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ReleaseSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -733,7 +735,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ReleaseSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -756,7 +758,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ReleaseSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -776,7 +778,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StartAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -787,7 +789,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StartAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -810,7 +812,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StartAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -830,7 +832,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StopAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -841,7 +843,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StopAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -864,7 +866,7 @@ func newCmdAndroidMediaTvAdITvAdManager_StopAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -884,7 +886,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ResetAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -895,7 +897,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ResetAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -918,7 +920,7 @@ func newCmdAndroidMediaTvAdITvAdManager_ResetAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -938,7 +940,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SetSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -949,7 +951,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SetSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -974,7 +976,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SetSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -994,7 +996,7 @@ func newCmdAndroidMediaTvAdITvAdManager_DispatchSurfaceChanged() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1005,7 +1007,7 @@ func newCmdAndroidMediaTvAdITvAdManager_DispatchSurfaceChanged() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1043,7 +1045,7 @@ func newCmdAndroidMediaTvAdITvAdManager_DispatchSurfaceChanged() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1069,7 +1071,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentVideoBounds() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1080,7 +1082,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentVideoBounds() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1105,7 +1107,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentVideoBounds() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1125,7 +1127,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentChannelUri() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1136,7 +1138,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentChannelUri() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1161,7 +1163,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentChannelUri() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1181,7 +1183,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendTrackInfoList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1192,7 +1194,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendTrackInfoList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1226,7 +1228,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendTrackInfoList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1248,7 +1250,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentTvInputId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1259,7 +1261,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentTvInputId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1287,7 +1289,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendCurrentTvInputId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1309,7 +1311,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendSigningResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1320,7 +1322,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendSigningResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1357,7 +1359,7 @@ func newCmdAndroidMediaTvAdITvAdManager_SendSigningResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1381,7 +1383,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1392,7 +1394,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1422,7 +1424,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1444,7 +1446,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1455,7 +1457,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1485,7 +1487,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1507,7 +1509,7 @@ func newCmdAndroidMediaTvAdITvAdManager_CreateMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1518,7 +1520,7 @@ func newCmdAndroidMediaTvAdITvAdManager_CreateMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1552,7 +1554,7 @@ func newCmdAndroidMediaTvAdITvAdManager_CreateMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1574,7 +1576,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RelayoutMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1585,7 +1587,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RelayoutMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1610,7 +1612,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RelayoutMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1630,7 +1632,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RemoveMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1641,7 +1643,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RemoveMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1664,7 +1666,7 @@ func newCmdAndroidMediaTvAdITvAdManager_RemoveMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1684,7 +1686,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvInputSessionData() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1695,7 +1697,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvInputSessionData() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManager")
 			}
 			if err != nil {
 				return err
@@ -1725,7 +1727,7 @@ func newCmdAndroidMediaTvAdITvAdManager_NotifyTvInputSessionData() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1760,7 +1762,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceAdded() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1771,7 +1773,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceAdded() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -1790,7 +1792,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceAdded() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1810,7 +1812,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceRemoved() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1821,7 +1823,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceRemoved() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -1840,7 +1842,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceRemoved() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1860,7 +1862,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceUpdated() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1871,7 +1873,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceUpdated() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -1890,7 +1892,7 @@ func newCmdAndroidMediaTvAdITvAdManagerCallback_OnAdServiceUpdated() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1924,7 +1926,7 @@ func newCmdAndroidMediaTvAdITvAdService_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1935,7 +1937,7 @@ func newCmdAndroidMediaTvAdITvAdService_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
 			}
 			if err != nil {
 				return err
@@ -1959,7 +1961,7 @@ func newCmdAndroidMediaTvAdITvAdService_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1979,7 +1981,7 @@ func newCmdAndroidMediaTvAdITvAdService_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1990,7 +1992,7 @@ func newCmdAndroidMediaTvAdITvAdService_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
 			}
 			if err != nil {
 				return err
@@ -2014,7 +2016,7 @@ func newCmdAndroidMediaTvAdITvAdService_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2034,7 +2036,7 @@ func newCmdAndroidMediaTvAdITvAdService_CreateSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2045,7 +2047,7 @@ func newCmdAndroidMediaTvAdITvAdService_CreateSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
 			}
 			if err != nil {
 				return err
@@ -2081,7 +2083,7 @@ func newCmdAndroidMediaTvAdITvAdService_CreateSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2105,7 +2107,7 @@ func newCmdAndroidMediaTvAdITvAdService_SendAppLinkCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2116,7 +2118,7 @@ func newCmdAndroidMediaTvAdITvAdService_SendAppLinkCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdService")
 			}
 			if err != nil {
 				return err
@@ -2132,7 +2134,7 @@ func newCmdAndroidMediaTvAdITvAdService_SendAppLinkCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2177,7 +2179,7 @@ func newCmdAndroidMediaTvAdITvAdSession_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2188,7 +2190,7 @@ func newCmdAndroidMediaTvAdITvAdSession_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2202,7 +2204,7 @@ func newCmdAndroidMediaTvAdITvAdSession_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2220,7 +2222,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StartAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2231,7 +2233,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StartAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2245,7 +2247,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StartAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2263,7 +2265,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StopAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2274,7 +2276,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StopAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2288,7 +2290,7 @@ func newCmdAndroidMediaTvAdITvAdSession_StopAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2306,7 +2308,7 @@ func newCmdAndroidMediaTvAdITvAdSession_ResetAdService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2317,7 +2319,7 @@ func newCmdAndroidMediaTvAdITvAdSession_ResetAdService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2331,7 +2333,7 @@ func newCmdAndroidMediaTvAdITvAdSession_ResetAdService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2349,7 +2351,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SetSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2360,7 +2362,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SetSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2376,7 +2378,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SetSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2394,7 +2396,7 @@ func newCmdAndroidMediaTvAdITvAdSession_DispatchSurfaceChanged() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2405,7 +2407,7 @@ func newCmdAndroidMediaTvAdITvAdSession_DispatchSurfaceChanged() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2434,7 +2436,7 @@ func newCmdAndroidMediaTvAdITvAdSession_DispatchSurfaceChanged() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2458,7 +2460,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentVideoBounds() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2469,7 +2471,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentVideoBounds() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2485,7 +2487,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentVideoBounds() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2503,7 +2505,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentChannelUri() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2514,7 +2516,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentChannelUri() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2530,7 +2532,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentChannelUri() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2548,7 +2550,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendTrackInfoList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2559,7 +2561,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendTrackInfoList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2584,7 +2586,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendTrackInfoList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2604,7 +2606,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentTvInputId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2615,7 +2617,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentTvInputId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2634,7 +2636,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendCurrentTvInputId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2654,7 +2656,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendSigningResult() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2665,7 +2667,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendSigningResult() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2693,7 +2695,7 @@ func newCmdAndroidMediaTvAdITvAdSession_SendSigningResult() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2715,7 +2717,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2726,7 +2728,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2747,7 +2749,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2767,7 +2769,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2778,7 +2780,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2799,7 +2801,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2819,7 +2821,7 @@ func newCmdAndroidMediaTvAdITvAdSession_CreateMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2830,7 +2832,7 @@ func newCmdAndroidMediaTvAdITvAdSession_CreateMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2855,7 +2857,7 @@ func newCmdAndroidMediaTvAdITvAdSession_CreateMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2875,7 +2877,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RelayoutMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2886,7 +2888,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RelayoutMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2902,7 +2904,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RelayoutMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2920,7 +2922,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RemoveMediaView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2931,7 +2933,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RemoveMediaView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2945,7 +2947,7 @@ func newCmdAndroidMediaTvAdITvAdSession_RemoveMediaView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2963,7 +2965,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvInputSessionData() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2974,7 +2976,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvInputSessionData() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSession")
 			}
 			if err != nil {
 				return err
@@ -2995,7 +2997,7 @@ func newCmdAndroidMediaTvAdITvAdSession_NotifyTvInputSessionData() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3033,7 +3035,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnSessionCreated() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3044,7 +3046,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnSessionCreated() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3068,7 +3070,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnSessionCreated() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3088,7 +3090,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnLayoutSurface() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3099,7 +3101,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnLayoutSurface() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3133,7 +3135,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnLayoutSurface() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3159,7 +3161,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentVideoBounds() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3170,7 +3172,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentVideoBounds() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3184,7 +3186,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentVideoBounds() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3202,7 +3204,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentChannelUri() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3213,7 +3215,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentChannelUri() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3227,7 +3229,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentChannelUri() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3245,7 +3247,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestTrackInfoList() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3256,7 +3258,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestTrackInfoList() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3270,7 +3272,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestTrackInfoList() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3288,7 +3290,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentTvInputId() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3299,7 +3301,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentTvInputId() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3313,7 +3315,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestCurrentTvInputId() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3331,7 +3333,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestSigning() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3342,7 +3344,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestSigning() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3380,7 +3382,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnRequestSigning() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3406,7 +3408,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnTvAdSessionData() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3417,7 +3419,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnTvAdSessionData() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.tv.ad.ITvAdSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3438,7 +3440,7 @@ func newCmdAndroidMediaTvAdITvAdSessionCallback_OnTvAdSessionData() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

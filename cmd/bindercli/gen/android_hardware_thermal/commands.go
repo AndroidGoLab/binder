@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/thermal"
@@ -41,7 +43,7 @@ func newCmdAndroidHardwareThermalICoolingDeviceChangedCallback_NotifyCoolingDevi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -52,7 +54,7 @@ func newCmdAndroidHardwareThermalICoolingDeviceChangedCallback_NotifyCoolingDevi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.ICoolingDeviceChangedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.ICoolingDeviceChangedCallback")
 			}
 			if err != nil {
 				return err
@@ -75,7 +77,7 @@ func newCmdAndroidHardwareThermalICoolingDeviceChangedCallback_NotifyCoolingDevi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -120,7 +122,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -131,7 +133,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -145,7 +147,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevicesWithType() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -174,7 +176,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevicesWithType() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareThermalIThermal_GetCoolingDevicesWithType() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -214,7 +216,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatures() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -225,7 +227,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatures() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -239,7 +241,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatures() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -257,7 +259,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperaturesWithType() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -268,7 +270,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperaturesWithType() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -288,7 +290,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperaturesWithType() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -308,7 +310,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholds() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholds() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholds() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -351,7 +353,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholdsWithType() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -362,7 +364,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholdsWithType() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -382,7 +384,7 @@ func newCmdAndroidHardwareThermalIThermal_GetTemperatureThresholdsWithType() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -402,7 +404,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -413,7 +415,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallbackWithType
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -468,7 +470,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallbackWithType
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -498,7 +500,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterThermalChangedCallbackWithType
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -520,7 +522,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterThermalChangedCallback() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -531,7 +533,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterThermalChangedCallback() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -555,7 +557,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterThermalChangedCallback() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -575,7 +577,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterCoolingDeviceChangedCallbackWi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -586,7 +588,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterCoolingDeviceChangedCallbackWi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -616,7 +618,7 @@ func newCmdAndroidHardwareThermalIThermal_RegisterCoolingDeviceChangedCallbackWi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -638,7 +640,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterCoolingDeviceChangedCallback
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -649,7 +651,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterCoolingDeviceChangedCallback
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermal")
 			}
 			if err != nil {
 				return err
@@ -673,7 +675,7 @@ func newCmdAndroidHardwareThermalIThermal_UnregisterCoolingDeviceChangedCallback
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -704,7 +706,7 @@ func newCmdAndroidHardwareThermalIThermalChangedCallback_NotifyThrottling() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -715,7 +717,7 @@ func newCmdAndroidHardwareThermalIThermalChangedCallback_NotifyThrottling() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermalChangedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.thermal.IThermalChangedCallback")
 			}
 			if err != nil {
 				return err
@@ -737,7 +739,7 @@ func newCmdAndroidHardwareThermalIThermalChangedCallback_NotifyThrottling() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

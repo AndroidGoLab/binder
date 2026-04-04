@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net"
@@ -48,7 +50,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsApkVeritySupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsApkVeritySupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsApkVeritySupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsAppSourceCertificateTrusted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsAppSourceCertificateTrusted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidSecurityIFileIntegrityService_IsAppSourceCertificateTrusted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdAndroidSecurityIFileIntegrityService_CreateAuthToken() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdAndroidSecurityIFileIntegrityService_CreateAuthToken() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
 			}
 			if err != nil {
 				return err
@@ -182,7 +184,7 @@ func newCmdAndroidSecurityIFileIntegrityService_CreateAuthToken() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -202,7 +204,7 @@ func newCmdAndroidSecurityIFileIntegrityService_SetupFsverity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -213,7 +215,7 @@ func newCmdAndroidSecurityIFileIntegrityService_SetupFsverity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IFileIntegrityService")
 			}
 			if err != nil {
 				return err
@@ -247,7 +249,7 @@ func newCmdAndroidSecurityIFileIntegrityService_SetupFsverity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -282,7 +284,7 @@ func newCmdAndroidSecurityIKeyChainAliasCallback_Alias() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -293,7 +295,7 @@ func newCmdAndroidSecurityIKeyChainAliasCallback_Alias() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainAliasCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainAliasCallback")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdAndroidSecurityIKeyChainAliasCallback_Alias() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -371,7 +373,7 @@ func newCmdAndroidSecurityIKeyChainService_RequestPrivateKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -382,7 +384,7 @@ func newCmdAndroidSecurityIKeyChainService_RequestPrivateKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -401,7 +403,7 @@ func newCmdAndroidSecurityIKeyChainService_RequestPrivateKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -421,7 +423,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCertificate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -432,7 +434,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCertificate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -451,7 +453,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCertificate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -471,7 +473,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificates() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -482,7 +484,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificates() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -501,7 +503,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificates() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -521,7 +523,7 @@ func newCmdAndroidSecurityIKeyChainService_IsUserSelectable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -532,7 +534,7 @@ func newCmdAndroidSecurityIKeyChainService_IsUserSelectable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -551,7 +553,7 @@ func newCmdAndroidSecurityIKeyChainService_IsUserSelectable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -571,7 +573,7 @@ func newCmdAndroidSecurityIKeyChainService_SetUserSelectable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -582,7 +584,7 @@ func newCmdAndroidSecurityIKeyChainService_SetUserSelectable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -606,7 +608,7 @@ func newCmdAndroidSecurityIKeyChainService_SetUserSelectable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -628,7 +630,7 @@ func newCmdAndroidSecurityIKeyChainService_GenerateKeyPair() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -639,7 +641,7 @@ func newCmdAndroidSecurityIKeyChainService_GenerateKeyPair() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -660,7 +662,7 @@ func newCmdAndroidSecurityIKeyChainService_GenerateKeyPair() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -680,7 +682,7 @@ func newCmdAndroidSecurityIKeyChainService_SetKeyPairCertificate() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -691,7 +693,7 @@ func newCmdAndroidSecurityIKeyChainService_SetKeyPairCertificate() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -728,7 +730,7 @@ func newCmdAndroidSecurityIKeyChainService_SetKeyPairCertificate() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -752,7 +754,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallCaCertificate() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -763,7 +765,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallCaCertificate() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -786,7 +788,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallCaCertificate() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -806,7 +808,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallKeyPair() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -817,7 +819,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallKeyPair() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -868,7 +870,7 @@ func newCmdAndroidSecurityIKeyChainService_InstallKeyPair() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -896,7 +898,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveKeyPair() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -907,7 +909,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveKeyPair() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -926,7 +928,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveKeyPair() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -946,7 +948,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsKeyPair() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -957,7 +959,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsKeyPair() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -976,7 +978,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsKeyPair() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -996,7 +998,7 @@ func newCmdAndroidSecurityIKeyChainService_GetGrants() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1007,7 +1009,7 @@ func newCmdAndroidSecurityIKeyChainService_GetGrants() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1026,7 +1028,7 @@ func newCmdAndroidSecurityIKeyChainService_GetGrants() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1046,7 +1048,7 @@ func newCmdAndroidSecurityIKeyChainService_DeleteCaCertificate() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1057,7 +1059,7 @@ func newCmdAndroidSecurityIKeyChainService_DeleteCaCertificate() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1076,7 +1078,7 @@ func newCmdAndroidSecurityIKeyChainService_DeleteCaCertificate() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1096,7 +1098,7 @@ func newCmdAndroidSecurityIKeyChainService_Reset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1107,7 +1109,7 @@ func newCmdAndroidSecurityIKeyChainService_Reset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1121,7 +1123,7 @@ func newCmdAndroidSecurityIKeyChainService_Reset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1139,7 +1141,7 @@ func newCmdAndroidSecurityIKeyChainService_GetUserCaAliases() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1150,7 +1152,7 @@ func newCmdAndroidSecurityIKeyChainService_GetUserCaAliases() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1164,7 +1166,7 @@ func newCmdAndroidSecurityIKeyChainService_GetUserCaAliases() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1182,7 +1184,7 @@ func newCmdAndroidSecurityIKeyChainService_GetSystemCaAliases() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1193,7 +1195,7 @@ func newCmdAndroidSecurityIKeyChainService_GetSystemCaAliases() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1207,7 +1209,7 @@ func newCmdAndroidSecurityIKeyChainService_GetSystemCaAliases() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1225,7 +1227,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsCaAlias() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1236,7 +1238,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsCaAlias() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1255,7 +1257,7 @@ func newCmdAndroidSecurityIKeyChainService_ContainsCaAlias() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1275,7 +1277,7 @@ func newCmdAndroidSecurityIKeyChainService_GetEncodedCaCertificate() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1286,7 +1288,7 @@ func newCmdAndroidSecurityIKeyChainService_GetEncodedCaCertificate() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1310,7 +1312,7 @@ func newCmdAndroidSecurityIKeyChainService_GetEncodedCaCertificate() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1332,7 +1334,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificateChainAliases() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1343,7 +1345,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificateChainAliases() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1367,7 +1369,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCaCertificateChainAliases() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1389,7 +1391,7 @@ func newCmdAndroidSecurityIKeyChainService_SetCredentialManagementApp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1400,7 +1402,7 @@ func newCmdAndroidSecurityIKeyChainService_SetCredentialManagementApp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1421,7 +1423,7 @@ func newCmdAndroidSecurityIKeyChainService_SetCredentialManagementApp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1441,7 +1443,7 @@ func newCmdAndroidSecurityIKeyChainService_HasCredentialManagementApp() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1452,7 +1454,7 @@ func newCmdAndroidSecurityIKeyChainService_HasCredentialManagementApp() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1466,7 +1468,7 @@ func newCmdAndroidSecurityIKeyChainService_HasCredentialManagementApp() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1484,7 +1486,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPackageName
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1495,7 +1497,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPackageName
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1509,7 +1511,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPackageName
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1527,7 +1529,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPolicy() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1538,7 +1540,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPolicy() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1552,7 +1554,7 @@ func newCmdAndroidSecurityIKeyChainService_GetCredentialManagementAppPolicy() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1570,7 +1572,7 @@ func newCmdAndroidSecurityIKeyChainService_GetPredefinedAliasForPackageAndUri() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1581,7 +1583,7 @@ func newCmdAndroidSecurityIKeyChainService_GetPredefinedAliasForPackageAndUri() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1602,7 +1604,7 @@ func newCmdAndroidSecurityIKeyChainService_GetPredefinedAliasForPackageAndUri() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1622,7 +1624,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveCredentialManagementApp() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1633,7 +1635,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveCredentialManagementApp() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1647,7 +1649,7 @@ func newCmdAndroidSecurityIKeyChainService_RemoveCredentialManagementApp() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1665,7 +1667,7 @@ func newCmdAndroidSecurityIKeyChainService_IsCredentialManagementApp() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1676,7 +1678,7 @@ func newCmdAndroidSecurityIKeyChainService_IsCredentialManagementApp() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1695,7 +1697,7 @@ func newCmdAndroidSecurityIKeyChainService_IsCredentialManagementApp() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1715,7 +1717,7 @@ func newCmdAndroidSecurityIKeyChainService_SetGrant() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1726,7 +1728,7 @@ func newCmdAndroidSecurityIKeyChainService_SetGrant() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1755,7 +1757,7 @@ func newCmdAndroidSecurityIKeyChainService_SetGrant() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1779,7 +1781,7 @@ func newCmdAndroidSecurityIKeyChainService_HasGrant() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1790,7 +1792,7 @@ func newCmdAndroidSecurityIKeyChainService_HasGrant() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1814,7 +1816,7 @@ func newCmdAndroidSecurityIKeyChainService_HasGrant() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1836,7 +1838,7 @@ func newCmdAndroidSecurityIKeyChainService_GetWifiKeyGrantAsUser() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1847,7 +1849,7 @@ func newCmdAndroidSecurityIKeyChainService_GetWifiKeyGrantAsUser() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.security.IKeyChainService")
 			}
 			if err != nil {
 				return err
@@ -1866,7 +1868,7 @@ func newCmdAndroidSecurityIKeyChainService_GetWifiKeyGrantAsUser() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

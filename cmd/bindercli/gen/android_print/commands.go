@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -57,7 +59,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutStarted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutStarted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
 			}
 			if err != nil {
 				return err
@@ -97,7 +99,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutStarted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -119,7 +121,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -130,7 +132,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
 			}
 			if err != nil {
 				return err
@@ -156,7 +158,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFailed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFailed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
 			}
 			if err != nil {
 				return err
@@ -213,7 +215,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutFailed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutCanceled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutCanceled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.ILayoutResultCallback")
 			}
 			if err != nil {
 				return err
@@ -265,7 +267,7 @@ func newCmdAndroidPrintILayoutResultCallback_OnLayoutCanceled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -301,7 +303,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_SetObserver() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -312,7 +314,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_SetObserver() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_SetObserver() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -356,7 +358,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -367,7 +369,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -399,7 +401,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Layout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -410,7 +412,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Layout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -445,7 +447,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Layout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -467,7 +469,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Write() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -478,7 +480,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Write() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -523,7 +525,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Write() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -549,7 +551,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Finish() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -560,7 +562,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Finish() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -574,7 +576,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Finish() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -592,7 +594,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Kill() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -603,7 +605,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Kill() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapter")
 			}
 			if err != nil {
 				return err
@@ -622,7 +624,7 @@ func newCmdAndroidPrintIPrintDocumentAdapter_Kill() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -653,7 +655,7 @@ func newCmdAndroidPrintIPrintDocumentAdapterObserver_OnDestroy() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -664,7 +666,7 @@ func newCmdAndroidPrintIPrintDocumentAdapterObserver_OnDestroy() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapterObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintDocumentAdapterObserver")
 			}
 			if err != nil {
 				return err
@@ -678,7 +680,7 @@ func newCmdAndroidPrintIPrintDocumentAdapterObserver_OnDestroy() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -731,7 +733,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfos() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -742,7 +744,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfos() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -761,7 +763,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfos() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -781,7 +783,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -792,7 +794,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -813,7 +815,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintJobInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -833,7 +835,7 @@ func newCmdAndroidPrintIPrintManager_Print() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -844,7 +846,7 @@ func newCmdAndroidPrintIPrintManager_Print() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -885,7 +887,7 @@ func newCmdAndroidPrintIPrintManager_Print() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -911,7 +913,7 @@ func newCmdAndroidPrintIPrintManager_CancelPrintJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -922,7 +924,7 @@ func newCmdAndroidPrintIPrintManager_CancelPrintJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -943,7 +945,7 @@ func newCmdAndroidPrintIPrintManager_CancelPrintJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -963,7 +965,7 @@ func newCmdAndroidPrintIPrintManager_RestartPrintJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -974,7 +976,7 @@ func newCmdAndroidPrintIPrintManager_RestartPrintJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -995,7 +997,7 @@ func newCmdAndroidPrintIPrintManager_RestartPrintJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1015,7 +1017,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintJobStateChangeListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1026,7 +1028,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintJobStateChangeListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1055,7 +1057,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintJobStateChangeListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1077,7 +1079,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintJobStateChangeListener() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1088,7 +1090,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintJobStateChangeListener() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1112,7 +1114,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintJobStateChangeListener() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1132,7 +1134,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServicesChangeListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1143,7 +1145,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServicesChangeListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1167,7 +1169,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServicesChangeListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1187,7 +1189,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServicesChangeListener() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1198,7 +1200,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServicesChangeListener() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1222,7 +1224,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServicesChangeListener() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1242,7 +1244,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1253,7 +1255,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1272,7 +1274,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1292,7 +1294,7 @@ func newCmdAndroidPrintIPrintManager_SetPrintServiceEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1303,7 +1305,7 @@ func newCmdAndroidPrintIPrintManager_SetPrintServiceEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1324,7 +1326,7 @@ func newCmdAndroidPrintIPrintManager_SetPrintServiceEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdAndroidPrintIPrintManager_IsPrintServiceEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdAndroidPrintIPrintManager_IsPrintServiceEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1371,7 +1373,7 @@ func newCmdAndroidPrintIPrintManager_IsPrintServiceEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1389,7 +1391,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServiceRecommendationsChangeListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1400,7 +1402,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServiceRecommendationsChangeListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1424,7 +1426,7 @@ func newCmdAndroidPrintIPrintManager_AddPrintServiceRecommendationsChangeListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1444,7 +1446,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServiceRecommendationsChangeList
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1455,7 +1457,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServiceRecommendationsChangeList
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1479,7 +1481,7 @@ func newCmdAndroidPrintIPrintManager_RemovePrintServiceRecommendationsChangeList
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1499,7 +1501,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServiceRecommendations() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1510,7 +1512,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServiceRecommendations() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1524,7 +1526,7 @@ func newCmdAndroidPrintIPrintManager_GetPrintServiceRecommendations() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1542,7 +1544,7 @@ func newCmdAndroidPrintIPrintManager_CreatePrinterDiscoverySession() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1553,7 +1555,7 @@ func newCmdAndroidPrintIPrintManager_CreatePrinterDiscoverySession() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1577,7 +1579,7 @@ func newCmdAndroidPrintIPrintManager_CreatePrinterDiscoverySession() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1597,7 +1599,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterDiscovery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1608,7 +1610,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterDiscovery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1643,7 +1645,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterDiscovery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1665,7 +1667,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterDiscovery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1676,7 +1678,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterDiscovery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1700,7 +1702,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterDiscovery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1720,7 +1722,7 @@ func newCmdAndroidPrintIPrintManager_ValidatePrinters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1731,7 +1733,7 @@ func newCmdAndroidPrintIPrintManager_ValidatePrinters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1756,7 +1758,7 @@ func newCmdAndroidPrintIPrintManager_ValidatePrinters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1776,7 +1778,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterStateTracking() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1787,7 +1789,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterStateTracking() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1803,7 +1805,7 @@ func newCmdAndroidPrintIPrintManager_StartPrinterStateTracking() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1821,7 +1823,7 @@ func newCmdAndroidPrintIPrintManager_GetCustomPrinterIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1832,7 +1834,7 @@ func newCmdAndroidPrintIPrintManager_GetCustomPrinterIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1848,7 +1850,7 @@ func newCmdAndroidPrintIPrintManager_GetCustomPrinterIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1866,7 +1868,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterStateTracking() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1877,7 +1879,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterStateTracking() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1893,7 +1895,7 @@ func newCmdAndroidPrintIPrintManager_StopPrinterStateTracking() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1911,7 +1913,7 @@ func newCmdAndroidPrintIPrintManager_DestroyPrinterDiscoverySession() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1922,7 +1924,7 @@ func newCmdAndroidPrintIPrintManager_DestroyPrinterDiscoverySession() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1946,7 +1948,7 @@ func newCmdAndroidPrintIPrintManager_DestroyPrinterDiscoverySession() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1966,7 +1968,7 @@ func newCmdAndroidPrintIPrintManager_GetBindInstantServiceAllowed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1977,7 +1979,7 @@ func newCmdAndroidPrintIPrintManager_GetBindInstantServiceAllowed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -1991,7 +1993,7 @@ func newCmdAndroidPrintIPrintManager_GetBindInstantServiceAllowed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2009,7 +2011,7 @@ func newCmdAndroidPrintIPrintManager_SetBindInstantServiceAllowed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2020,7 +2022,7 @@ func newCmdAndroidPrintIPrintManager_SetBindInstantServiceAllowed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintManager")
 			}
 			if err != nil {
 				return err
@@ -2039,7 +2041,7 @@ func newCmdAndroidPrintIPrintManager_SetBindInstantServiceAllowed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2070,7 +2072,7 @@ func newCmdAndroidPrintIPrintServicesChangeListener_OnPrintServicesChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2081,7 +2083,7 @@ func newCmdAndroidPrintIPrintServicesChangeListener_OnPrintServicesChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintServicesChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintServicesChangeListener")
 			}
 			if err != nil {
 				return err
@@ -2095,7 +2097,7 @@ func newCmdAndroidPrintIPrintServicesChangeListener_OnPrintServicesChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2139,7 +2141,7 @@ func newCmdAndroidPrintIPrintSpooler_RemoveObsoletePrintJobs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2150,7 +2152,7 @@ func newCmdAndroidPrintIPrintSpooler_RemoveObsoletePrintJobs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2164,7 +2166,7 @@ func newCmdAndroidPrintIPrintSpooler_RemoveObsoletePrintJobs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2182,7 +2184,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfos() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2193,7 +2195,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfos() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2234,7 +2236,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfos() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2260,7 +2262,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2271,7 +2273,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2307,7 +2309,7 @@ func newCmdAndroidPrintIPrintSpooler_GetPrintJobInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2331,7 +2333,7 @@ func newCmdAndroidPrintIPrintSpooler_CreatePrintJob() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2342,7 +2344,7 @@ func newCmdAndroidPrintIPrintSpooler_CreatePrintJob() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2358,7 +2360,7 @@ func newCmdAndroidPrintIPrintSpooler_CreatePrintJob() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2376,7 +2378,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2387,7 +2389,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2428,7 +2430,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2454,7 +2456,7 @@ func newCmdAndroidPrintIPrintSpooler_SetProgress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2465,7 +2467,7 @@ func newCmdAndroidPrintIPrintSpooler_SetProgress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2486,7 +2488,7 @@ func newCmdAndroidPrintIPrintSpooler_SetProgress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2506,7 +2508,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2517,7 +2519,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2538,7 +2540,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2558,7 +2560,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatusRes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2569,7 +2571,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatusRes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2595,7 +2597,7 @@ func newCmdAndroidPrintIPrintSpooler_SetStatusRes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2617,7 +2619,7 @@ func newCmdAndroidPrintIPrintSpooler_OnCustomPrinterIconLoaded() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2628,7 +2630,7 @@ func newCmdAndroidPrintIPrintSpooler_OnCustomPrinterIconLoaded() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2661,7 +2663,7 @@ func newCmdAndroidPrintIPrintSpooler_OnCustomPrinterIconLoaded() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2683,7 +2685,7 @@ func newCmdAndroidPrintIPrintSpooler_GetCustomPrinterIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2694,7 +2696,7 @@ func newCmdAndroidPrintIPrintSpooler_GetCustomPrinterIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2725,7 +2727,7 @@ func newCmdAndroidPrintIPrintSpooler_GetCustomPrinterIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2747,7 +2749,7 @@ func newCmdAndroidPrintIPrintSpooler_ClearCustomPrinterIconCache() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2758,7 +2760,7 @@ func newCmdAndroidPrintIPrintSpooler_ClearCustomPrinterIconCache() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2787,7 +2789,7 @@ func newCmdAndroidPrintIPrintSpooler_ClearCustomPrinterIconCache() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2809,7 +2811,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobTag() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2820,7 +2822,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobTag() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2856,7 +2858,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobTag() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2880,7 +2882,7 @@ func newCmdAndroidPrintIPrintSpooler_WritePrintJobData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2891,7 +2893,7 @@ func newCmdAndroidPrintIPrintSpooler_WritePrintJobData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2912,7 +2914,7 @@ func newCmdAndroidPrintIPrintSpooler_WritePrintJobData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2932,7 +2934,7 @@ func newCmdAndroidPrintIPrintSpooler_SetClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2943,7 +2945,7 @@ func newCmdAndroidPrintIPrintSpooler_SetClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -2967,7 +2969,7 @@ func newCmdAndroidPrintIPrintSpooler_SetClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2987,7 +2989,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobCancelling() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2998,7 +3000,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobCancelling() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -3019,7 +3021,7 @@ func newCmdAndroidPrintIPrintSpooler_SetPrintJobCancelling() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3039,7 +3041,7 @@ func newCmdAndroidPrintIPrintSpooler_PruneApprovedPrintServices() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3050,7 +3052,7 @@ func newCmdAndroidPrintIPrintSpooler_PruneApprovedPrintServices() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpooler")
 			}
 			if err != nil {
 				return err
@@ -3075,7 +3077,7 @@ func newCmdAndroidPrintIPrintSpooler_PruneApprovedPrintServices() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3113,7 +3115,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfosResult() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3124,7 +3126,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfosResult() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3154,7 +3156,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfosResult() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3176,7 +3178,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCancelPrintJobResult() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3187,7 +3189,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCancelPrintJobResult() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3211,7 +3213,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCancelPrintJobResult() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3233,7 +3235,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobStateResult() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3244,7 +3246,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobStateResult() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3268,7 +3270,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobStateResult() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3290,7 +3292,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobTagResult() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3301,7 +3303,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobTagResult() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3325,7 +3327,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnSetPrintJobTagResult() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3347,7 +3349,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfoResult() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3358,7 +3360,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfoResult() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3379,7 +3381,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetPrintJobInfoResult() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3399,7 +3401,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetCustomPrinterIconResult() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3410,7 +3412,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetCustomPrinterIconResult() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3431,7 +3433,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnGetCustomPrinterIconResult() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3451,7 +3453,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCustomPrinterIconCached() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3462,7 +3464,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCustomPrinterIconCached() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3481,7 +3483,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_OnCustomPrinterIconCached() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3501,7 +3503,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_CustomPrinterIconCacheCleared() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3512,7 +3514,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_CustomPrinterIconCacheCleared() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerCallbacks")
 			}
 			if err != nil {
 				return err
@@ -3531,7 +3533,7 @@ func newCmdAndroidPrintIPrintSpoolerCallbacks_CustomPrinterIconCacheCleared() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3565,7 +3567,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobQueued() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3576,7 +3578,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobQueued() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
 			}
 			if err != nil {
 				return err
@@ -3592,7 +3594,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobQueued() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3610,7 +3612,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsForServiceHandled() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3621,7 +3623,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsForServiceHandled() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
 			}
 			if err != nil {
 				return err
@@ -3637,7 +3639,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsForServiceHandled() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3655,7 +3657,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsHandled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3666,7 +3668,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsHandled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
 			}
 			if err != nil {
 				return err
@@ -3680,7 +3682,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnAllPrintJobsHandled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3698,7 +3700,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobStateChanged() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3709,7 +3711,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobStateChanged() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrintSpoolerClient")
 			}
 			if err != nil {
 				return err
@@ -3725,7 +3727,7 @@ func newCmdAndroidPrintIPrintSpoolerClient_OnPrintJobStateChanged() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3755,7 +3757,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersAdded() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3766,7 +3768,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersAdded() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrinterDiscoveryObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrinterDiscoveryObserver")
 			}
 			if err != nil {
 				return err
@@ -3782,7 +3784,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersAdded() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3800,7 +3802,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersRemoved() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3811,7 +3813,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersRemoved() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IPrinterDiscoveryObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IPrinterDiscoveryObserver")
 			}
 			if err != nil {
 				return err
@@ -3827,7 +3829,7 @@ func newCmdAndroidPrintIPrinterDiscoveryObserver_OnPrintersRemoved() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3859,7 +3861,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteStarted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3870,7 +3872,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteStarted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
 			}
 			if err != nil {
 				return err
@@ -3899,7 +3901,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteStarted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3921,7 +3923,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFinished() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3932,7 +3934,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFinished() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
 			}
 			if err != nil {
 				return err
@@ -3962,7 +3964,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFinished() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3984,7 +3986,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFailed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3995,7 +3997,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFailed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
 			}
 			if err != nil {
 				return err
@@ -4019,7 +4021,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteFailed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4041,7 +4043,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteCanceled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4052,7 +4054,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteCanceled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.print.IWriteResultCallback")
 			}
 			if err != nil {
 				return err
@@ -4071,7 +4073,7 @@ func newCmdAndroidPrintIWriteResultCallback_OnWriteCanceled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

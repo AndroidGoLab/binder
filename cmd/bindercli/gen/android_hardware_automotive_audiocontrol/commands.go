@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/audio/common"
@@ -58,7 +60,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -69,7 +71,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -99,7 +101,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToDuckCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToDuckCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToDuckCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -179,7 +181,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToMuteCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -190,7 +192,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToMuteCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -215,7 +217,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnDevicesToMuteCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterFocusListe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterFocusListe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -270,7 +272,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterFocusListe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -290,7 +292,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetBalanceTowardRi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -301,7 +303,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetBalanceTowardRi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -320,7 +322,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetBalanceTowardRi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -340,7 +342,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetFadeTowardFront
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -351,7 +353,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetFadeTowardFront
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -370,7 +372,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetFadeTowardFront
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -390,7 +392,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -401,7 +403,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_OnAudioFocusChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -515,7 +517,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetAudioDeviceGain
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -526,7 +528,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetAudioDeviceGain
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -562,7 +564,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetAudioDeviceGain
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -584,7 +586,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterGainCallba
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterGainCallba
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -619,7 +621,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_RegisterGainCallba
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -639,7 +641,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetModuleChangeCal
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -650,7 +652,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetModuleChangeCal
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -674,7 +676,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_SetModuleChangeCal
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -694,7 +696,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_ClearModuleChangeC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -705,7 +707,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_ClearModuleChangeC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioControl")
 			}
 			if err != nil {
 				return err
@@ -719,7 +721,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioControl_ClearModuleChangeC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -748,7 +750,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioGainCallback_OnAudioDevice
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -759,7 +761,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioGainCallback_OnAudioDevice
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioGainCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IAudioGainCallback")
 			}
 			if err != nil {
 				return err
@@ -795,7 +797,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIAudioGainCallback_OnAudioDevice
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -831,7 +833,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -842,7 +844,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
 			}
 			if err != nil {
 				return err
@@ -866,7 +868,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -888,7 +890,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -899,7 +901,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
 			}
 			if err != nil {
 				return err
@@ -929,7 +931,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -953,7 +955,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -964,7 +966,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
 			}
 			if err != nil {
 				return err
@@ -1034,7 +1036,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_AbandonAudioFocus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1070,7 +1072,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1081,7 +1083,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IFocusListener")
 			}
 			if err != nil {
 				return err
@@ -1157,7 +1159,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIFocusListener_RequestAudioFocus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1206,7 +1208,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIModuleChangeCallback_OnAudioPor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1217,7 +1219,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIModuleChangeCallback_OnAudioPor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IModuleChangeCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.audiocontrol.IModuleChangeCallback")
 			}
 			if err != nil {
 				return err
@@ -1242,7 +1244,7 @@ func newCmdAndroidHardwareAutomotiveAudiocontrolIModuleChangeCallback_OnAudioPor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

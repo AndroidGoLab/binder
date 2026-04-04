@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	aaudio2 "github.com/AndroidGoLab/binder/aaudio"
@@ -43,7 +45,7 @@ func newCmdAaudioIAAudioClient_OnStreamChange() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAaudioIAAudioClient_OnStreamChange() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioClient")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAaudioIAAudioClient_OnStreamChange() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -128,7 +130,7 @@ func newCmdAaudioIAAudioService_RegisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -139,7 +141,7 @@ func newCmdAaudioIAAudioService_RegisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdAaudioIAAudioService_RegisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAaudioIAAudioService_OpenStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAaudioIAAudioService_OpenStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -257,7 +259,7 @@ func newCmdAaudioIAAudioService_OpenStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAaudioIAAudioService_CloseStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAaudioIAAudioService_CloseStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -337,7 +339,7 @@ func newCmdAaudioIAAudioService_CloseStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAaudioIAAudioService_GetStreamDescription() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAaudioIAAudioService_GetStreamDescription() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdAaudioIAAudioService_GetStreamDescription() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -408,7 +410,7 @@ func newCmdAaudioIAAudioService_StartStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -419,7 +421,7 @@ func newCmdAaudioIAAudioService_StartStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -438,7 +440,7 @@ func newCmdAaudioIAAudioService_StartStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -458,7 +460,7 @@ func newCmdAaudioIAAudioService_PauseStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -469,7 +471,7 @@ func newCmdAaudioIAAudioService_PauseStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -488,7 +490,7 @@ func newCmdAaudioIAAudioService_PauseStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -508,7 +510,7 @@ func newCmdAaudioIAAudioService_StopStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -519,7 +521,7 @@ func newCmdAaudioIAAudioService_StopStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -538,7 +540,7 @@ func newCmdAaudioIAAudioService_StopStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -558,7 +560,7 @@ func newCmdAaudioIAAudioService_FlushStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -569,7 +571,7 @@ func newCmdAaudioIAAudioService_FlushStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -588,7 +590,7 @@ func newCmdAaudioIAAudioService_FlushStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -608,7 +610,7 @@ func newCmdAaudioIAAudioService_RegisterAudioThread() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -619,7 +621,7 @@ func newCmdAaudioIAAudioService_RegisterAudioThread() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -648,7 +650,7 @@ func newCmdAaudioIAAudioService_RegisterAudioThread() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -672,7 +674,7 @@ func newCmdAaudioIAAudioService_UnregisterAudioThread() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -683,7 +685,7 @@ func newCmdAaudioIAAudioService_UnregisterAudioThread() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -707,7 +709,7 @@ func newCmdAaudioIAAudioService_UnregisterAudioThread() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -729,7 +731,7 @@ func newCmdAaudioIAAudioService_ExitStandby() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -740,7 +742,7 @@ func newCmdAaudioIAAudioService_ExitStandby() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "aaudio.IAAudioService")
 			}
 			if err != nil {
 				return err
@@ -760,7 +762,7 @@ func newCmdAaudioIAAudioService_ExitStandby() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

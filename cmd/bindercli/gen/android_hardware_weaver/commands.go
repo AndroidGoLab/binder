@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/weaver"
@@ -42,7 +44,7 @@ func newCmdAndroidHardwareWeaverIWeaver_GetConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareWeaverIWeaver_GetConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
 			}
 			if err != nil {
 				return err
@@ -67,7 +69,7 @@ func newCmdAndroidHardwareWeaverIWeaver_GetConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -85,7 +87,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Read() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -96,7 +98,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Read() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Read() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -146,7 +148,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Write() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -157,7 +159,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Write() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.weaver.IWeaver")
 			}
 			if err != nil {
 				return err
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareWeaverIWeaver_Write() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

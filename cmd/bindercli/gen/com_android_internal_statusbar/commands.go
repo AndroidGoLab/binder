@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -59,7 +61,7 @@ func newCmdComAndroidInternalStatusbarIAddTileResultCallback_OnTileRequest() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -70,7 +72,7 @@ func newCmdComAndroidInternalStatusbarIAddTileResultCallback_OnTileRequest() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAddTileResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAddTileResultCallback")
 			}
 			if err != nil {
 				return err
@@ -89,7 +91,7 @@ func newCmdComAndroidInternalStatusbarIAddTileResultCallback_OnTileRequest() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -121,7 +123,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -132,7 +134,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAppClipsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAppClipsService")
 			}
 			if err != nil {
 				return err
@@ -151,7 +153,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAppClipsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IAppClipsService")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdComAndroidInternalStatusbarIAppClipsService_CanLaunchCaptureContentAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -233,7 +235,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionStarted() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -244,7 +246,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionStarted() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.ISessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.ISessionListener")
 			}
 			if err != nil {
 				return err
@@ -265,7 +267,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionStarted() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -285,7 +287,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionEnded() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -296,7 +298,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionEnded() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.ISessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.ISessionListener")
 			}
 			if err != nil {
 				return err
@@ -317,7 +319,7 @@ func newCmdComAndroidInternalStatusbarISessionListener_OnSessionEnded() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -426,7 +428,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -437,7 +439,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -458,7 +460,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -478,7 +480,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemoveIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -489,7 +491,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemoveIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -508,7 +510,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemoveIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_Disable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_Disable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -568,7 +570,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_Disable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -592,7 +594,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandNotificationsPanel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -603,7 +605,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandNotificationsPanel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -617,7 +619,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandNotificationsPanel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -635,7 +637,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandSettingsPanel() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -646,7 +648,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandSettingsPanel() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -665,7 +667,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateExpandSettingsPanel() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -685,7 +687,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateCollapsePanels() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -696,7 +698,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateCollapsePanels() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -710,7 +712,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AnimateCollapsePanels() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -728,7 +730,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_TogglePanel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -739,7 +741,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_TogglePanel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -753,7 +755,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_TogglePanel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -771,7 +773,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowWirelessChargingAnimation()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -782,7 +784,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowWirelessChargingAnimation()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -801,7 +803,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowWirelessChargingAnimation()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -821,7 +823,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetImeWindowStatus() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -832,7 +834,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetImeWindowStatus() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -875,7 +877,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetImeWindowStatus() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -903,7 +905,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetWindowState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -914,7 +916,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetWindowState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -943,7 +945,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetWindowState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -967,7 +969,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRecentApps() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -978,7 +980,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRecentApps() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -997,7 +999,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRecentApps() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1017,7 +1019,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideRecentApps() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1028,7 +1030,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideRecentApps() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1052,7 +1054,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideRecentApps() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1074,7 +1076,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleRecentApps() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1085,7 +1087,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleRecentApps() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1099,7 +1101,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleRecentApps() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1117,7 +1119,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleTaskbar() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1128,7 +1130,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleTaskbar() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1142,7 +1144,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleTaskbar() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1160,7 +1162,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleSplitScreen() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1171,7 +1173,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleSplitScreen() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1185,7 +1187,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleSplitScreen() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1203,7 +1205,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PreloadRecentApps() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1214,7 +1216,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PreloadRecentApps() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1228,7 +1230,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PreloadRecentApps() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1246,7 +1248,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelPreloadRecentApps() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1257,7 +1259,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelPreloadRecentApps() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1271,7 +1273,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelPreloadRecentApps() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1289,7 +1291,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowScreenPinningRequest() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1300,7 +1302,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowScreenPinningRequest() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1319,7 +1321,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowScreenPinningRequest() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1339,7 +1341,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ConfirmImmersivePrompt() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1350,7 +1352,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ConfirmImmersivePrompt() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1364,7 +1366,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ConfirmImmersivePrompt() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1382,7 +1384,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ImmersiveModeChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1393,7 +1395,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ImmersiveModeChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1417,7 +1419,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ImmersiveModeChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1439,7 +1441,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissKeyboardShortcutsMenu() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1450,7 +1452,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissKeyboardShortcutsMenu() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1464,7 +1466,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissKeyboardShortcutsMenu() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1482,7 +1484,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleKeyboardShortcutsMenu() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1493,7 +1495,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleKeyboardShortcutsMenu() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1512,7 +1514,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ToggleKeyboardShortcutsMenu() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1532,7 +1534,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionPending() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1543,7 +1545,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionPending() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1562,7 +1564,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionPending() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1582,7 +1584,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionCancelled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1593,7 +1595,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionCancelled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1612,7 +1614,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionCancelled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1632,7 +1634,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionStarting() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1643,7 +1645,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionStarting() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1672,7 +1674,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionStarting() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1696,7 +1698,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionFinished() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1707,7 +1709,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionFinished() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1726,7 +1728,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AppTransitionFinished() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1746,7 +1748,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAssistDisclosure() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1757,7 +1759,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAssistDisclosure() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1771,7 +1773,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAssistDisclosure() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1789,7 +1791,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartAssist() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1800,7 +1802,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartAssist() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1816,7 +1818,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartAssist() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1834,7 +1836,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnCameraLaunchGestureDetected()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1845,7 +1847,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnCameraLaunchGestureDetected()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1864,7 +1866,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnCameraLaunchGestureDetected()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1884,7 +1886,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnEmergencyActionLaunchGestureD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1895,7 +1897,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnEmergencyActionLaunchGestureD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1909,7 +1911,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnEmergencyActionLaunchGestureD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1927,7 +1929,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPictureInPictureMenu() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1938,7 +1940,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPictureInPictureMenu() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1952,7 +1954,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPictureInPictureMenu() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1970,7 +1972,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowGlobalActionsMenu() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1981,7 +1983,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowGlobalActionsMenu() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -1995,7 +1997,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowGlobalActionsMenu() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2013,7 +2015,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnProposedRotationChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2024,7 +2026,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnProposedRotationChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2048,7 +2050,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnProposedRotationChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2070,7 +2072,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetTopAppHidesStatusBar() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2081,7 +2083,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetTopAppHidesStatusBar() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2100,7 +2102,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetTopAppHidesStatusBar() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2120,7 +2122,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2131,7 +2133,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2147,7 +2149,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2165,7 +2167,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTileToFrontOrEnd() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2176,7 +2178,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTileToFrontOrEnd() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2197,7 +2199,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AddQsTileToFrontOrEnd() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2217,7 +2219,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemQsTile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2228,7 +2230,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemQsTile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2244,7 +2246,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RemQsTile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2262,7 +2264,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetQsTiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2273,7 +2275,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetQsTiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2296,7 +2298,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetQsTiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2316,7 +2318,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ClickQsTile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2327,7 +2329,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ClickQsTile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2343,7 +2345,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ClickQsTile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2361,7 +2363,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HandleSystemKey() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2372,7 +2374,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HandleSystemKey() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2403,7 +2405,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HandleSystemKey() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2434,7 +2436,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEnterExitToast() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2445,7 +2447,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEnterExitToast() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2464,7 +2466,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEnterExitToast() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2484,7 +2486,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEscapeToast() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2495,7 +2497,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEscapeToast() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2509,7 +2511,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowPinningEscapeToast() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2527,7 +2529,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowShutdownUi() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2538,7 +2540,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowShutdownUi() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2562,7 +2564,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowShutdownUi() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2584,7 +2586,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAuthenticationDialog() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2595,7 +2597,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAuthenticationDialog() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2656,7 +2658,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowAuthenticationDialog() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2686,7 +2688,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricAuthenticated() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2697,7 +2699,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricAuthenticated() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2716,7 +2718,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricAuthenticated() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2736,7 +2738,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricHelp() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2747,7 +2749,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricHelp() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2771,7 +2773,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricHelp() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2793,7 +2795,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricError() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2804,7 +2806,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricError() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2833,7 +2835,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnBiometricError() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2857,7 +2859,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideAuthenticationDialog() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2868,7 +2870,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideAuthenticationDialog() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2887,7 +2889,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideAuthenticationDialog() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2907,7 +2909,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetBiometicContextListener() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2918,7 +2920,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetBiometicContextListener() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2942,7 +2944,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetBiometicContextListener() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2962,7 +2964,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetUdfpsRefreshRateCallback() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2973,7 +2975,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetUdfpsRefreshRateCallback() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -2997,7 +2999,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetUdfpsRefreshRateCallback() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3017,7 +3019,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnDisplayReady() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3028,7 +3030,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnDisplayReady() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3047,7 +3049,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnDisplayReady() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3067,7 +3069,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnRecentsAnimationStateChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3078,7 +3080,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnRecentsAnimationStateChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3097,7 +3099,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnRecentsAnimationStateChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3117,7 +3119,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnSystemBarAttributesChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3128,7 +3130,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnSystemBarAttributesChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3194,7 +3196,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_OnSystemBarAttributesChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3228,7 +3230,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowTransient() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3239,7 +3241,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowTransient() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3268,7 +3270,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowTransient() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3292,7 +3294,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AbortTransient() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3303,7 +3305,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AbortTransient() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3327,7 +3329,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_AbortTransient() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3349,7 +3351,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowInattentiveSleepWarning() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3360,7 +3362,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowInattentiveSleepWarning() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3374,7 +3376,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowInattentiveSleepWarning() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3392,7 +3394,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissInattentiveSleepWarning(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3403,7 +3405,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissInattentiveSleepWarning(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3422,7 +3424,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DismissInattentiveSleepWarning(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3442,7 +3444,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowToast() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3453,7 +3455,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowToast() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3520,7 +3522,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowToast() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3554,7 +3556,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideToast() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3565,7 +3567,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideToast() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3593,7 +3595,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_HideToast() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3615,7 +3617,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartTracing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3626,7 +3628,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartTracing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3640,7 +3642,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StartTracing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3658,7 +3660,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StopTracing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3669,7 +3671,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StopTracing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3683,7 +3685,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_StopTracing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3701,7 +3703,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SuppressAmbientDisplay() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3712,7 +3714,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SuppressAmbientDisplay() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3731,7 +3733,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SuppressAmbientDisplay() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3751,7 +3753,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestMagnificationConnection(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3762,7 +3764,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestMagnificationConnection(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3781,7 +3783,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestMagnificationConnection(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3801,7 +3803,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PassThroughShellCommand() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3812,7 +3814,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PassThroughShellCommand() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3840,7 +3842,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_PassThroughShellCommand() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3862,7 +3864,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetNavigationBarLumaSamplingEna
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3873,7 +3875,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetNavigationBarLumaSamplingEna
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3897,7 +3899,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_SetNavigationBarLumaSamplingEna
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3919,7 +3921,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RunGcForTest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3930,7 +3932,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RunGcForTest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3944,7 +3946,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RunGcForTest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3962,7 +3964,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestTileServiceListeningStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3973,7 +3975,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestTileServiceListeningStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -3989,7 +3991,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestTileServiceListeningStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4007,7 +4009,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestAddTile() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4018,7 +4020,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestAddTile() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4056,7 +4058,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RequestAddTile() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4080,7 +4082,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelRequestAddTile() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4091,7 +4093,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelRequestAddTile() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4110,7 +4112,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_CancelRequestAddTile() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4130,7 +4132,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferSenderD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4141,7 +4143,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferSenderD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4172,7 +4174,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferSenderD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4194,7 +4196,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferReceive
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4205,7 +4207,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferReceive
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4233,7 +4235,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UpdateMediaTapToTransferReceive
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4255,7 +4257,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RegisterNearbyMediaDevicesProvi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4266,7 +4268,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RegisterNearbyMediaDevicesProvi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4290,7 +4292,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_RegisterNearbyMediaDevicesProvi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4310,7 +4312,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UnregisterNearbyMediaDevicesPro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4321,7 +4323,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UnregisterNearbyMediaDevicesPro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4345,7 +4347,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_UnregisterNearbyMediaDevicesPro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4365,7 +4367,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DumpProto() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4376,7 +4378,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DumpProto() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4404,7 +4406,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_DumpProto() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4426,7 +4428,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRearDisplayDialog() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4437,7 +4439,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRearDisplayDialog() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4456,7 +4458,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowRearDisplayDialog() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4476,7 +4478,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_MoveFocusedTaskToFullscreen() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4487,7 +4489,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_MoveFocusedTaskToFullscreen() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4506,7 +4508,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_MoveFocusedTaskToFullscreen() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4526,7 +4528,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterStageSplitFromRunningApp()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4537,7 +4539,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterStageSplitFromRunningApp()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4556,7 +4558,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterStageSplitFromRunningApp()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4576,7 +4578,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowMediaOutputSwitcher() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4587,7 +4589,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowMediaOutputSwitcher() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4606,7 +4608,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_ShowMediaOutputSwitcher() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4626,7 +4628,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterDesktop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4637,7 +4639,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterDesktop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBar")
 			}
 			if err != nil {
 				return err
@@ -4656,7 +4658,7 @@ func newCmdComAndroidInternalStatusbarIStatusBar_EnterDesktop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4759,7 +4761,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandNotificationsPanel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4770,7 +4772,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandNotificationsPanel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -4784,7 +4786,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandNotificationsPanel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4802,7 +4804,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CollapsePanels() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4813,7 +4815,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CollapsePanels() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -4827,7 +4829,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CollapsePanels() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4845,7 +4847,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_TogglePanel() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4856,7 +4858,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_TogglePanel() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -4870,7 +4872,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_TogglePanel() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4888,7 +4890,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4899,7 +4901,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -4932,7 +4934,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4956,7 +4958,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DisableForUser() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4967,7 +4969,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DisableForUser() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5000,7 +5002,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DisableForUser() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5024,7 +5026,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5035,7 +5037,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5068,7 +5070,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5092,7 +5094,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2ForUser() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5103,7 +5105,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2ForUser() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5136,7 +5138,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Disable2ForUser() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5160,7 +5162,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetDisableFlags() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5171,7 +5173,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetDisableFlags() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5194,7 +5196,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetDisableFlags() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5214,7 +5216,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIcon() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5225,7 +5227,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIcon() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5264,7 +5266,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIcon() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5292,7 +5294,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIconVisibility() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5303,7 +5305,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIconVisibility() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5327,7 +5329,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetIconVisibility() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5349,7 +5351,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemoveIcon() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5360,7 +5362,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemoveIcon() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5379,7 +5381,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemoveIcon() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5399,7 +5401,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetImeWindowStatus() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5410,7 +5412,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetImeWindowStatus() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5453,7 +5455,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetImeWindowStatus() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5481,7 +5483,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandSettingsPanel() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5492,7 +5494,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandSettingsPanel() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5511,7 +5513,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ExpandSettingsPanel() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5531,7 +5533,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterStatusBar() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5542,7 +5544,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterStatusBar() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5566,7 +5568,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterStatusBar() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5586,7 +5588,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelRevealed() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5597,7 +5599,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelRevealed() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5621,7 +5623,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelRevealed() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5643,7 +5645,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelHidden() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5654,7 +5656,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelHidden() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5668,7 +5670,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnPanelHidden() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5686,7 +5688,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearNotificationEffects
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5697,7 +5699,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearNotificationEffects
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5711,7 +5713,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearNotificationEffects
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5729,7 +5731,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClick() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5740,7 +5742,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClick() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5761,7 +5763,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClick() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5781,7 +5783,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationActionClic
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5792,7 +5794,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationActionClic
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5825,7 +5827,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationActionClic
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5849,7 +5851,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationError() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5860,7 +5862,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationError() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5904,7 +5906,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationError() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5934,7 +5936,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnClearAllNotifications(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5945,7 +5947,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnClearAllNotifications(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -5959,7 +5961,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnClearAllNotifications(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5977,7 +5979,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClear() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5988,7 +5990,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClear() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6024,7 +6026,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationClear() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6050,7 +6052,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationVisibility
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6061,7 +6063,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationVisibility
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6097,7 +6099,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationVisibility
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6119,7 +6121,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationExpansionC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6130,7 +6132,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationExpansionC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6164,7 +6166,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationExpansionC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6190,7 +6192,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationDirectRepl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6201,7 +6203,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationDirectRepl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6220,7 +6222,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationDirectRepl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6240,7 +6242,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartSugge
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6251,7 +6253,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartSugge
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6290,7 +6292,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartSugge
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6318,7 +6320,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartReply
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6329,7 +6331,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartReply
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6368,7 +6370,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSmartReply
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6396,7 +6398,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSettingsVi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6407,7 +6409,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSettingsVi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6426,7 +6428,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationSettingsVi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6446,7 +6448,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationBubbleChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6457,7 +6459,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationBubbleChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6486,7 +6488,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationBubbleChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6510,7 +6512,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBubbleMetadataFlagChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6521,7 +6523,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBubbleMetadataFlagChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6545,7 +6547,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBubbleMetadataFlagChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6567,7 +6569,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideCurrentInputMethodFo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6578,7 +6580,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideCurrentInputMethodFo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6597,7 +6599,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideCurrentInputMethodFo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6617,7 +6619,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GrantInlineReplyUriPermi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6628,7 +6630,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GrantInlineReplyUriPermi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6656,7 +6658,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GrantInlineReplyUriPermi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6678,7 +6680,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearInlineReplyUriPermi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6689,7 +6691,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearInlineReplyUriPermi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6708,7 +6710,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClearInlineReplyUriPermi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6728,7 +6730,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationFeedbackRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6739,7 +6741,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationFeedbackRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6760,7 +6762,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnNotificationFeedbackRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6780,7 +6782,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsShown() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6791,7 +6793,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsShown() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6805,7 +6807,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsShown() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6823,7 +6825,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsHidden() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6834,7 +6836,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsHidden() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6848,7 +6850,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnGlobalActionsHidden() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6866,7 +6868,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Shutdown() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6877,7 +6879,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Shutdown() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6891,7 +6893,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Shutdown() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6909,7 +6911,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Reboot() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6920,7 +6922,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Reboot() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6939,7 +6941,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Reboot() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6959,7 +6961,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Restart() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6970,7 +6972,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Restart() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -6984,7 +6986,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_Restart() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7002,7 +7004,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_AddTile() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7013,7 +7015,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_AddTile() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7029,7 +7031,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_AddTile() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7047,7 +7049,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemTile() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7058,7 +7060,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemTile() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7074,7 +7076,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RemTile() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7092,7 +7094,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClickTile() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7103,7 +7105,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClickTile() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7119,7 +7121,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ClickTile() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7137,7 +7139,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HandleSystemKey() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7148,7 +7150,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HandleSystemKey() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7179,7 +7181,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HandleSystemKey() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7210,7 +7212,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetLastSystemKey() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7221,7 +7223,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetLastSystemKey() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7235,7 +7237,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetLastSystemKey() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7253,7 +7255,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEnterExitToas
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7264,7 +7266,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEnterExitToas
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7283,7 +7285,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEnterExitToas
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7303,7 +7305,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEscapeToast()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7314,7 +7316,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEscapeToast()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7328,7 +7330,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowPinningEscapeToast()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7346,7 +7348,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowAuthenticationDialog
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7357,7 +7359,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowAuthenticationDialog
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7418,7 +7420,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowAuthenticationDialog
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7448,7 +7450,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricAuthenticated
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7459,7 +7461,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricAuthenticated
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7478,7 +7480,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricAuthenticated
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7498,7 +7500,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricHelp() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7509,7 +7511,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricHelp() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7533,7 +7535,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricHelp() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7555,7 +7557,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricError() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7566,7 +7568,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricError() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7595,7 +7597,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnBiometricError() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7619,7 +7621,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideAuthenticationDialog
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7630,7 +7632,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideAuthenticationDialog
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7649,7 +7651,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_HideAuthenticationDialog
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7669,7 +7671,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetBiometicContextListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7680,7 +7682,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetBiometicContextListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7704,7 +7706,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetBiometicContextListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7724,7 +7726,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetUdfpsRefreshRateCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7735,7 +7737,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetUdfpsRefreshRateCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7759,7 +7761,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetUdfpsRefreshRateCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7779,7 +7781,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowInattentiveSleepWarn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7790,7 +7792,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowInattentiveSleepWarn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7804,7 +7806,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowInattentiveSleepWarn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7822,7 +7824,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DismissInattentiveSleepW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7833,7 +7835,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DismissInattentiveSleepW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7852,7 +7854,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_DismissInattentiveSleepW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7872,7 +7874,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StartTracing() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7883,7 +7885,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StartTracing() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7897,7 +7899,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StartTracing() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7915,7 +7917,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StopTracing() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7926,7 +7928,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StopTracing() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7940,7 +7942,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_StopTracing() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7958,7 +7960,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_IsTracing() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7969,7 +7971,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_IsTracing() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -7983,7 +7985,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_IsTracing() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8001,7 +8003,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SuppressAmbientDisplay()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8012,7 +8014,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SuppressAmbientDisplay()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8031,7 +8033,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SuppressAmbientDisplay()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8051,7 +8053,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestTileServiceListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8062,7 +8064,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestTileServiceListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8078,7 +8080,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestTileServiceListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8096,7 +8098,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestAddTile() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8107,7 +8109,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestAddTile() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8140,7 +8142,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RequestAddTile() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8162,7 +8164,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CancelRequestAddTile() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8173,7 +8175,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CancelRequestAddTile() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8192,7 +8194,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_CancelRequestAddTile() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8212,7 +8214,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetNavBarMode() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8223,7 +8225,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetNavBarMode() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8242,7 +8244,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_SetNavBarMode() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8262,7 +8264,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetNavBarMode() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8273,7 +8275,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetNavBarMode() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8287,7 +8289,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_GetNavBarMode() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8305,7 +8307,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterSessionListener(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8316,7 +8318,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterSessionListener(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8345,7 +8347,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterSessionListener(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8367,7 +8369,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterSessionListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8378,7 +8380,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterSessionListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8407,7 +8409,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterSessionListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8429,7 +8431,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionStarted() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8440,7 +8442,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionStarted() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8461,7 +8463,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionStarted() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8481,7 +8483,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionEnded() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8492,7 +8494,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionEnded() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8513,7 +8515,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_OnSessionEnded() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8533,7 +8535,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8544,7 +8546,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8575,7 +8577,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8597,7 +8599,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8608,7 +8610,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8636,7 +8638,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UpdateMediaTapToTransfer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8658,7 +8660,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterNearbyMediaDevic
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8669,7 +8671,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterNearbyMediaDevic
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8693,7 +8695,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_RegisterNearbyMediaDevic
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8713,7 +8715,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterNearbyMediaDev
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8724,7 +8726,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterNearbyMediaDev
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8748,7 +8750,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_UnregisterNearbyMediaDev
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8768,7 +8770,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowRearDisplayDialog() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8779,7 +8781,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowRearDisplayDialog() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IStatusBarService")
 			}
 			if err != nil {
 				return err
@@ -8798,7 +8800,7 @@ func newCmdComAndroidInternalStatusbarIStatusBarService_ShowRearDisplayDialog() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8829,7 +8831,7 @@ func newCmdComAndroidInternalStatusbarIUndoMediaTransferCallback_OnUndoTriggered
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8840,7 +8842,7 @@ func newCmdComAndroidInternalStatusbarIUndoMediaTransferCallback_OnUndoTriggered
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IUndoMediaTransferCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.statusbar.IUndoMediaTransferCallback")
 			}
 			if err != nil {
 				return err
@@ -8854,7 +8856,7 @@ func newCmdComAndroidInternalStatusbarIUndoMediaTransferCallback_OnUndoTriggered
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

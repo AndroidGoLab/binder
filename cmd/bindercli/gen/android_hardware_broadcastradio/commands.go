@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/broadcastradio"
@@ -44,7 +46,7 @@ func newCmdAndroidHardwareBroadcastradioIAnnouncementListener_OnListUpdated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareBroadcastradioIAnnouncementListener_OnListUpdated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IAnnouncementListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IAnnouncementListener")
 			}
 			if err != nil {
 				return err
@@ -80,7 +82,7 @@ func newCmdAndroidHardwareBroadcastradioIAnnouncementListener_OnListUpdated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -127,7 +129,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetProperties() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -138,7 +140,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetProperties() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -152,7 +154,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetProperties() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -170,7 +172,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetAmFmRegionConfig() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -181,7 +183,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetAmFmRegionConfig() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -200,7 +202,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetAmFmRegionConfig() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -220,7 +222,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetDabRegionConfig() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -231,7 +233,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetDabRegionConfig() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetDabRegionConfig() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -263,7 +265,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetTunerCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -274,7 +276,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetTunerCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -298,7 +300,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetTunerCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -318,7 +320,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_UnsetTunerCallback() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -329,7 +331,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_UnsetTunerCallback() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -343,7 +345,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_UnsetTunerCallback() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -361,7 +363,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Tune() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -372,7 +374,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Tune() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Tune() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -417,7 +419,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Seek() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -428,7 +430,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Seek() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -452,7 +454,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Seek() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -474,7 +476,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Step() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -485,7 +487,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Step() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -504,7 +506,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Step() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -524,7 +526,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Cancel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -535,7 +537,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Cancel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -549,7 +551,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_Cancel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -567,7 +569,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StartProgramListUpdates(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -578,7 +580,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StartProgramListUpdates(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StartProgramListUpdates(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -628,7 +630,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StopProgramListUpdates()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -639,7 +641,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StopProgramListUpdates()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -653,7 +655,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_StopProgramListUpdates()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -671,7 +673,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_IsConfigFlagSet() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -682,7 +684,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_IsConfigFlagSet() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_IsConfigFlagSet() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -722,7 +724,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetConfigFlag() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -733,7 +735,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetConfigFlag() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -758,7 +760,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetConfigFlag() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -780,7 +782,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetParameters() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -791,7 +793,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetParameters() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -816,7 +818,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_SetParameters() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -836,7 +838,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetParameters() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -847,7 +849,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetParameters() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -870,7 +872,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetParameters() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -890,7 +892,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetImage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -901,7 +903,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetImage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -920,7 +922,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_GetImage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -940,7 +942,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_RegisterAnnouncementList
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -951,7 +953,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_RegisterAnnouncementList
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.IBroadcastRadio")
 			}
 			if err != nil {
 				return err
@@ -986,7 +988,7 @@ func newCmdAndroidHardwareBroadcastradioIBroadcastRadio_RegisterAnnouncementList
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1019,7 +1021,7 @@ func newCmdAndroidHardwareBroadcastradioICloseHandle_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1030,7 +1032,7 @@ func newCmdAndroidHardwareBroadcastradioICloseHandle_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ICloseHandle")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ICloseHandle")
 			}
 			if err != nil {
 				return err
@@ -1044,7 +1046,7 @@ func newCmdAndroidHardwareBroadcastradioICloseHandle_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1078,7 +1080,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnTuneFailed() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1089,7 +1091,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnTuneFailed() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1119,7 +1121,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnTuneFailed() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1142,7 +1144,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnCurrentProgramInfoChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1153,7 +1155,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnCurrentProgramInfoChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1200,7 +1202,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnCurrentProgramInfoChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1230,7 +1232,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnProgramListUpdated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1241,7 +1243,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnProgramListUpdated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1269,7 +1271,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnProgramListUpdated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1291,7 +1293,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnAntennaStateChange() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1302,7 +1304,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnAntennaStateChange() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1321,7 +1323,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnAntennaStateChange() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1341,7 +1343,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnConfigFlagUpdated() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1352,7 +1354,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnConfigFlagUpdated() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1377,7 +1379,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnConfigFlagUpdated() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1399,7 +1401,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnParametersUpdated() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1410,7 +1412,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnParametersUpdated() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.broadcastradio.ITunerCallback")
 			}
 			if err != nil {
 				return err
@@ -1435,7 +1437,7 @@ func newCmdAndroidHardwareBroadcastradioITunerCallback_OnParametersUpdated() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

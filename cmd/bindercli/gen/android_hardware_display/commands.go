@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/display"
@@ -71,7 +73,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDeviceColorManaged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDeviceColorManaged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -96,7 +98,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDeviceColorManaged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -114,7 +116,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetSaturationLevel() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -125,7 +127,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetSaturationLevel() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -144,7 +146,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetSaturationLevel() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -164,7 +166,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetAppSaturationLevel() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetAppSaturationLevel() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -199,7 +201,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetAppSaturationLevel() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsSaturationActivated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsSaturationActivated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsSaturationActivated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetTransformCapabilities()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetTransformCapabilities()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -289,7 +291,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetTransformCapabilities()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsNightDisplayActivated() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsNightDisplayActivated() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -332,7 +334,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsNightDisplayActivated() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -350,7 +352,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayActivated()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -361,7 +363,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayActivated()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -380,7 +382,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayActivated()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -400,7 +402,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayColorTemper
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -411,7 +413,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayColorTemper
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -425,7 +427,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayColorTemper
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -443,7 +445,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayColorTemper
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -454,7 +456,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayColorTemper
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -473,7 +475,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayColorTemper
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -493,7 +495,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoMode() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -504,7 +506,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoMode() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -518,7 +520,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoMode() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -536,7 +538,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoModeRaw
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -547,7 +549,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoModeRaw
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -561,7 +563,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayAutoModeRaw
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -579,7 +581,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayAutoMode() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -590,7 +592,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayAutoMode() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -609,7 +611,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayAutoMode() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -629,7 +631,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomStart
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -640,7 +642,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomStart
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -654,7 +656,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomStart
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -672,7 +674,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomStart
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -683,7 +685,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomStart
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -699,7 +701,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomStart
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -717,7 +719,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomEndTi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -728,7 +730,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomEndTi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -742,7 +744,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetNightDisplayCustomEndTi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -760,7 +762,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomEndTi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -771,7 +773,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomEndTi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -787,7 +789,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetNightDisplayCustomEndTi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -805,7 +807,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetColorMode() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -816,7 +818,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetColorMode() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -830,7 +832,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetColorMode() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -848,7 +850,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetColorMode() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -859,7 +861,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetColorMode() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetColorMode() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -898,7 +900,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDisplayWhiteBalanceEnabl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -909,7 +911,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDisplayWhiteBalanceEnabl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -923,7 +925,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsDisplayWhiteBalanceEnabl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -941,7 +943,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetDisplayWhiteBalanceEnab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -952,7 +954,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetDisplayWhiteBalanceEnab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -971,7 +973,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetDisplayWhiteBalanceEnab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -991,7 +993,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsReduceBrightColorsActiva
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1002,7 +1004,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsReduceBrightColorsActiva
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1016,7 +1018,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_IsReduceBrightColorsActiva
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1034,7 +1036,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsActiv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1045,7 +1047,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsActiv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1064,7 +1066,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsActiv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1084,7 +1086,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsStren
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1095,7 +1097,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsStren
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1109,7 +1111,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsStren
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1127,7 +1129,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsStren
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1138,7 +1140,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsStren
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1157,7 +1159,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_SetReduceBrightColorsStren
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1177,7 +1179,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsOffse
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1188,7 +1190,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsOffse
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IColorDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1202,7 +1204,7 @@ func newCmdAndroidHardwareDisplayIColorDisplayManager_GetReduceBrightColorsOffse
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1287,7 +1289,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1298,7 +1300,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1317,7 +1319,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1337,7 +1339,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayIds() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1348,7 +1350,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayIds() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1367,7 +1369,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayIds() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1387,7 +1389,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsUidPresentOnDisplay() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1398,7 +1400,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsUidPresentOnDisplay() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1422,7 +1424,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsUidPresentOnDisplay() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1444,7 +1446,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallback() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1455,7 +1457,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallback() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1479,7 +1481,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallback() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1499,7 +1501,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallbackWithEventMask()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1510,7 +1512,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallbackWithEventMask()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1539,7 +1541,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RegisterCallbackWithEventMask()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1561,7 +1563,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StartWifiDisplayScan() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1572,7 +1574,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StartWifiDisplayScan() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1586,7 +1588,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StartWifiDisplayScan() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1604,7 +1606,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StopWifiDisplayScan() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1615,7 +1617,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StopWifiDisplayScan() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1629,7 +1631,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_StopWifiDisplayScan() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1647,7 +1649,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ConnectWifiDisplay() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1658,7 +1660,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ConnectWifiDisplay() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1677,7 +1679,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ConnectWifiDisplay() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1697,7 +1699,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisconnectWifiDisplay() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1708,7 +1710,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisconnectWifiDisplay() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1722,7 +1724,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisconnectWifiDisplay() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1740,7 +1742,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RenameWifiDisplay() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1751,7 +1753,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RenameWifiDisplay() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1775,7 +1777,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RenameWifiDisplay() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1797,7 +1799,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ForgetWifiDisplay() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1808,7 +1810,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ForgetWifiDisplay() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1827,7 +1829,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ForgetWifiDisplay() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1847,7 +1849,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_PauseWifiDisplay() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1858,7 +1860,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_PauseWifiDisplay() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1872,7 +1874,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_PauseWifiDisplay() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1890,7 +1892,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResumeWifiDisplay() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1901,7 +1903,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResumeWifiDisplay() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1915,7 +1917,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResumeWifiDisplay() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1933,7 +1935,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetWifiDisplayStatus() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1944,7 +1946,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetWifiDisplayStatus() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -1958,7 +1960,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetWifiDisplayStatus() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1976,7 +1978,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserDisabledHdrTypes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1987,7 +1989,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserDisabledHdrTypes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2016,7 +2018,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserDisabledHdrTypes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2036,7 +2038,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetAreUserDisabledHdrTypesAllow
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2047,7 +2049,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetAreUserDisabledHdrTypesAllow
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2066,7 +2068,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetAreUserDisabledHdrTypesAllow
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2086,7 +2088,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_AreUserDisabledHdrTypesAllowed(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2097,7 +2099,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_AreUserDisabledHdrTypesAllowed(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2111,7 +2113,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_AreUserDisabledHdrTypesAllowed(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2129,7 +2131,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserDisabledHdrTypes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2140,7 +2142,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserDisabledHdrTypes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2154,7 +2156,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserDisabledHdrTypes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2172,7 +2174,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_OverrideHdrTypes() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2183,7 +2185,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_OverrideHdrTypes() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2217,7 +2219,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_OverrideHdrTypes() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2239,7 +2241,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RequestColorMode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2250,7 +2252,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RequestColorMode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2274,7 +2276,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_RequestColorMode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2296,7 +2298,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_CreateVirtualDisplay() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2307,7 +2309,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_CreateVirtualDisplay() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2348,7 +2350,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_CreateVirtualDisplay() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2372,7 +2374,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResizeVirtualDisplay() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2383,7 +2385,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResizeVirtualDisplay() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2422,7 +2424,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ResizeVirtualDisplay() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2448,7 +2450,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplaySurface() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2459,7 +2461,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplaySurface() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2485,7 +2487,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplaySurface() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2505,7 +2507,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ReleaseVirtualDisplay() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2516,7 +2518,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ReleaseVirtualDisplay() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2540,7 +2542,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ReleaseVirtualDisplay() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2560,7 +2562,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplayState() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2571,7 +2573,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplayState() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2600,7 +2602,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetVirtualDisplayState() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2622,7 +2624,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetStableDisplaySize() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2633,7 +2635,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetStableDisplaySize() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2647,7 +2649,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetStableDisplaySize() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2665,7 +2667,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessEvents() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2676,7 +2678,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessEvents() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2690,7 +2692,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessEvents() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2708,7 +2710,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetAmbientBrightnessStats() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2719,7 +2721,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetAmbientBrightnessStats() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2733,7 +2735,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetAmbientBrightnessStats() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2751,7 +2753,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForUs
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2762,7 +2764,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForUs
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2783,7 +2785,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForUs
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2803,7 +2805,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForDi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2814,7 +2816,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForDi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2840,7 +2842,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightnessConfigurationForDi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2862,7 +2864,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForDi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2873,7 +2875,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForDi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2892,7 +2894,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForDi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2912,7 +2914,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForUs
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2923,7 +2925,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForUs
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2937,7 +2939,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessConfigurationForUs
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2955,7 +2957,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDefaultBrightnessConfigurati
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2966,7 +2968,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDefaultBrightnessConfigurati
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -2980,7 +2982,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDefaultBrightnessConfigurati
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2998,7 +3000,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsMinimalPostProcessingRequeste
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3009,7 +3011,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsMinimalPostProcessingRequeste
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3028,7 +3030,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_IsMinimalPostProcessingRequeste
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3048,7 +3050,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryBrightness() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3059,7 +3061,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryBrightness() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3083,7 +3085,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryBrightness() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3105,7 +3107,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightness() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3116,7 +3118,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightness() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3140,7 +3142,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetBrightness() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3162,7 +3164,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightness() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3173,7 +3175,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightness() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3192,7 +3194,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightness() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3212,7 +3214,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryAutoBrightnessAdjus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3223,7 +3225,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryAutoBrightnessAdjus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3242,7 +3244,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetTemporaryAutoBrightnessAdjus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3262,7 +3264,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetMinimumBrightnessCurve() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3273,7 +3275,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetMinimumBrightnessCurve() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3287,7 +3289,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetMinimumBrightnessCurve() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3305,7 +3307,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessInfo() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3316,7 +3318,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessInfo() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3335,7 +3337,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetBrightnessInfo() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3355,7 +3357,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetPreferredWideGamutColorSpace
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3366,7 +3368,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetPreferredWideGamutColorSpace
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3380,7 +3382,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetPreferredWideGamutColorSpace
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3398,7 +3400,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserPreferredDisplayMode() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3409,7 +3411,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserPreferredDisplayMode() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3434,7 +3436,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetUserPreferredDisplayMode() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3456,7 +3458,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserPreferredDisplayMode() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3467,7 +3469,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserPreferredDisplayMode() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3486,7 +3488,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetUserPreferredDisplayMode() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3506,7 +3508,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSystemPreferredDisplayMode()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3517,7 +3519,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSystemPreferredDisplayMode()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3536,7 +3538,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSystemPreferredDisplayMode()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3556,7 +3558,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetHdrConversionMode() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3567,7 +3569,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetHdrConversionMode() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3583,7 +3585,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetHdrConversionMode() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3601,7 +3603,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionModeSetting() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3612,7 +3614,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionModeSetting() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3626,7 +3628,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionModeSetting() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3644,7 +3646,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionMode() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3655,7 +3657,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionMode() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3669,7 +3671,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetHdrConversionMode() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3687,7 +3689,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSupportedHdrOutputTypes() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3698,7 +3700,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSupportedHdrOutputTypes() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3712,7 +3714,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetSupportedHdrOutputTypes() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3730,7 +3732,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetShouldAlwaysRespectAppReques
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3741,7 +3743,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetShouldAlwaysRespectAppReques
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3760,7 +3762,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetShouldAlwaysRespectAppReques
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3780,7 +3782,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ShouldAlwaysRespectAppRequested
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3791,7 +3793,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ShouldAlwaysRespectAppRequested
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3805,7 +3807,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_ShouldAlwaysRespectAppRequested
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3823,7 +3825,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetRefreshRateSwitchingType() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3834,7 +3836,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetRefreshRateSwitchingType() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3853,7 +3855,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetRefreshRateSwitchingType() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3873,7 +3875,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetRefreshRateSwitchingType() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3884,7 +3886,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetRefreshRateSwitchingType() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3898,7 +3900,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetRefreshRateSwitchingType() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3916,7 +3918,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayDecorationSupport() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3927,7 +3929,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayDecorationSupport() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -3946,7 +3948,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetDisplayDecorationSupport() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3966,7 +3968,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetDisplayIdToMirror() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3977,7 +3979,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetDisplayIdToMirror() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -4005,7 +4007,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_SetDisplayIdToMirror() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4027,7 +4029,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetOverlaySupport() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4038,7 +4040,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetOverlaySupport() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -4052,7 +4054,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_GetOverlaySupport() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4070,7 +4072,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_EnableConnectedDisplay() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4081,7 +4083,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_EnableConnectedDisplay() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -4100,7 +4102,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_EnableConnectedDisplay() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4120,7 +4122,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisableConnectedDisplay() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4131,7 +4133,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisableConnectedDisplay() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManager")
 			}
 			if err != nil {
 				return err
@@ -4150,7 +4152,7 @@ func newCmdAndroidHardwareDisplayIDisplayManager_DisableConnectedDisplay() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4181,7 +4183,7 @@ func newCmdAndroidHardwareDisplayIDisplayManagerCallback_OnDisplayEvent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4192,7 +4194,7 @@ func newCmdAndroidHardwareDisplayIDisplayManagerCallback_OnDisplayEvent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IDisplayManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -4216,7 +4218,7 @@ func newCmdAndroidHardwareDisplayIDisplayManagerCallback_OnDisplayEvent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4251,7 +4253,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnPaused() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4262,7 +4264,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnPaused() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
 			}
 			if err != nil {
 				return err
@@ -4276,7 +4278,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnPaused() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4294,7 +4296,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnResumed() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4305,7 +4307,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnResumed() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
 			}
 			if err != nil {
 				return err
@@ -4319,7 +4321,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnResumed() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4337,7 +4339,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnStopped() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4348,7 +4350,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnStopped() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.display.IVirtualDisplayCallback")
 			}
 			if err != nil {
 				return err
@@ -4362,7 +4364,7 @@ func newCmdAndroidHardwareDisplayIVirtualDisplayCallback_OnStopped() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

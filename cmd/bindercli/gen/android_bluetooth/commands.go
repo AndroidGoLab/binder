@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/bluetooth"
@@ -102,7 +104,7 @@ func newCmdAndroidBluetoothIAdapter_OffToBleOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidBluetoothIAdapter_OffToBleOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -137,7 +139,7 @@ func newCmdAndroidBluetoothIAdapter_OffToBleOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdAndroidBluetoothIAdapter_OnToBleOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdAndroidBluetoothIAdapter_OnToBleOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -184,7 +186,7 @@ func newCmdAndroidBluetoothIAdapter_OnToBleOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -202,7 +204,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -213,7 +215,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -227,7 +229,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -245,7 +247,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOff() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -256,7 +258,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOff() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -270,7 +272,7 @@ func newCmdAndroidBluetoothIAdapter_BleOnToOff() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -288,7 +290,7 @@ func newCmdAndroidBluetoothIAdapter_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -299,7 +301,7 @@ func newCmdAndroidBluetoothIAdapter_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -323,7 +325,7 @@ func newCmdAndroidBluetoothIAdapter_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -343,7 +345,7 @@ func newCmdAndroidBluetoothIAdapter_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -354,7 +356,7 @@ func newCmdAndroidBluetoothIAdapter_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -378,7 +380,7 @@ func newCmdAndroidBluetoothIAdapter_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -398,7 +400,7 @@ func newCmdAndroidBluetoothIAdapter_UnregAllGattClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -409,7 +411,7 @@ func newCmdAndroidBluetoothIAdapter_UnregAllGattClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -423,7 +425,7 @@ func newCmdAndroidBluetoothIAdapter_UnregAllGattClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -441,7 +443,7 @@ func newCmdAndroidBluetoothIAdapter_KillBluetoothProcess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -452,7 +454,7 @@ func newCmdAndroidBluetoothIAdapter_KillBluetoothProcess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAdapter")
 			}
 			if err != nil {
 				return err
@@ -466,7 +468,7 @@ func newCmdAndroidBluetoothIAdapter_KillBluetoothProcess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -500,7 +502,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnDescriptionChanged() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -511,7 +513,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnDescriptionChanged() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -530,7 +532,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnDescriptionChanged() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStatusChanged() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStatusChanged() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -580,7 +582,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStatusChanged() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -600,7 +602,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -611,7 +613,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -640,7 +642,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -664,7 +666,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainSettingFailed() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -675,7 +677,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainSettingFailed() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -689,7 +691,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainSettingFailed() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -707,7 +709,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainModeFailed() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -718,7 +720,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainModeFailed() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -732,7 +734,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetGainModeFailed() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -750,7 +752,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetMuteFailed() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -761,7 +763,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetMuteFailed() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IAudioInputCallback")
 			}
 			if err != nil {
 				return err
@@ -775,7 +777,7 @@ func newCmdAndroidBluetoothIAudioInputCallback_OnSetMuteFailed() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -917,7 +919,7 @@ func newCmdAndroidBluetoothIBluetooth_GetUuids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -928,7 +930,7 @@ func newCmdAndroidBluetoothIBluetooth_GetUuids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -944,7 +946,7 @@ func newCmdAndroidBluetoothIBluetooth_GetUuids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -962,7 +964,7 @@ func newCmdAndroidBluetoothIBluetooth_SetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -973,7 +975,7 @@ func newCmdAndroidBluetoothIBluetooth_SetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -994,7 +996,7 @@ func newCmdAndroidBluetoothIBluetooth_SetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1014,7 +1016,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1025,7 +1027,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1044,7 +1046,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1064,7 +1066,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddressWithType() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1075,7 +1077,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddressWithType() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1094,7 +1096,7 @@ func newCmdAndroidBluetoothIBluetooth_GetIdentityAddressWithType() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1114,7 +1116,7 @@ func newCmdAndroidBluetoothIBluetooth_GetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1125,7 +1127,7 @@ func newCmdAndroidBluetoothIBluetooth_GetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1141,7 +1143,7 @@ func newCmdAndroidBluetoothIBluetooth_GetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1159,7 +1161,7 @@ func newCmdAndroidBluetoothIBluetooth_GetNameLengthForAdvertise() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1170,7 +1172,7 @@ func newCmdAndroidBluetoothIBluetooth_GetNameLengthForAdvertise() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1186,7 +1188,7 @@ func newCmdAndroidBluetoothIBluetooth_GetNameLengthForAdvertise() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1204,7 +1206,7 @@ func newCmdAndroidBluetoothIBluetooth_GetScanMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1215,7 +1217,7 @@ func newCmdAndroidBluetoothIBluetooth_GetScanMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1231,7 +1233,7 @@ func newCmdAndroidBluetoothIBluetooth_GetScanMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1249,7 +1251,7 @@ func newCmdAndroidBluetoothIBluetooth_SetScanMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1260,7 +1262,7 @@ func newCmdAndroidBluetoothIBluetooth_SetScanMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1281,7 +1283,7 @@ func newCmdAndroidBluetoothIBluetooth_SetScanMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1301,7 +1303,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoverableTimeout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1312,7 +1314,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoverableTimeout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1328,7 +1330,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoverableTimeout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1346,7 +1348,7 @@ func newCmdAndroidBluetoothIBluetooth_SetDiscoverableTimeout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1357,7 +1359,7 @@ func newCmdAndroidBluetoothIBluetooth_SetDiscoverableTimeout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1378,7 +1380,7 @@ func newCmdAndroidBluetoothIBluetooth_SetDiscoverableTimeout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1398,7 +1400,7 @@ func newCmdAndroidBluetoothIBluetooth_StartDiscovery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1409,7 +1411,7 @@ func newCmdAndroidBluetoothIBluetooth_StartDiscovery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1425,7 +1427,7 @@ func newCmdAndroidBluetoothIBluetooth_StartDiscovery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1443,7 +1445,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelDiscovery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1454,7 +1456,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelDiscovery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1470,7 +1472,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelDiscovery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1488,7 +1490,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDiscovering() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1499,7 +1501,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDiscovering() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1515,7 +1517,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDiscovering() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1533,7 +1535,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoveryEndMillis() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1544,7 +1546,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoveryEndMillis() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1560,7 +1562,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDiscoveryEndMillis() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1578,7 +1580,7 @@ func newCmdAndroidBluetoothIBluetooth_GetAdapterConnectionState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1589,7 +1591,7 @@ func newCmdAndroidBluetoothIBluetooth_GetAdapterConnectionState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1603,7 +1605,7 @@ func newCmdAndroidBluetoothIBluetooth_GetAdapterConnectionState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1621,7 +1623,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileConnectionState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1632,7 +1634,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileConnectionState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1653,7 +1655,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileConnectionState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1673,7 +1675,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1684,7 +1686,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1700,7 +1702,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1718,7 +1720,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBond() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1729,7 +1731,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBond() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1752,7 +1754,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBond() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1772,7 +1774,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBondOutOfBand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1783,7 +1785,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBondOutOfBand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1810,7 +1812,7 @@ func newCmdAndroidBluetoothIBluetooth_CreateBondOutOfBand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1830,7 +1832,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelBondProcess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1841,7 +1843,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelBondProcess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1859,7 +1861,7 @@ func newCmdAndroidBluetoothIBluetooth_CancelBondProcess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1877,7 +1879,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveBond() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1888,7 +1890,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveBond() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1906,7 +1908,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveBond() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1924,7 +1926,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1935,7 +1937,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -1953,7 +1955,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBondState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1971,7 +1973,7 @@ func newCmdAndroidBluetoothIBluetooth_IsBondingInitiatedLocally() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1982,7 +1984,7 @@ func newCmdAndroidBluetoothIBluetooth_IsBondingInitiatedLocally() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2000,7 +2002,7 @@ func newCmdAndroidBluetoothIBluetooth_IsBondingInitiatedLocally() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2018,7 +2020,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSupportedProfiles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2029,7 +2031,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSupportedProfiles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2045,7 +2047,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSupportedProfiles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2063,7 +2065,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2074,7 +2076,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2092,7 +2094,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2110,7 +2112,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionHandle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2121,7 +2123,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionHandle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2144,7 +2146,7 @@ func newCmdAndroidBluetoothIBluetooth_GetConnectionHandle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2164,7 +2166,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2175,7 +2177,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2193,7 +2195,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2211,7 +2213,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2222,7 +2224,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2240,7 +2242,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2258,7 +2260,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteAlias() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2269,7 +2271,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteAlias() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2287,7 +2289,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteAlias() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2305,7 +2307,7 @@ func newCmdAndroidBluetoothIBluetooth_SetRemoteAlias() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2316,7 +2318,7 @@ func newCmdAndroidBluetoothIBluetooth_SetRemoteAlias() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2339,7 +2341,7 @@ func newCmdAndroidBluetoothIBluetooth_SetRemoteAlias() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2359,7 +2361,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteClass() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2370,7 +2372,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteClass() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2388,7 +2390,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteClass() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2406,7 +2408,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteUuids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2417,7 +2419,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteUuids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2435,7 +2437,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRemoteUuids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2453,7 +2455,7 @@ func newCmdAndroidBluetoothIBluetooth_FetchRemoteUuids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2464,7 +2466,7 @@ func newCmdAndroidBluetoothIBluetooth_FetchRemoteUuids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2487,7 +2489,7 @@ func newCmdAndroidBluetoothIBluetooth_FetchRemoteUuids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2507,7 +2509,7 @@ func newCmdAndroidBluetoothIBluetooth_SdpSearch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2518,7 +2520,7 @@ func newCmdAndroidBluetoothIBluetooth_SdpSearch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2538,7 +2540,7 @@ func newCmdAndroidBluetoothIBluetooth_SdpSearch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2556,7 +2558,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBatteryLevel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2567,7 +2569,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBatteryLevel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2585,7 +2587,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBatteryLevel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2603,7 +2605,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMaxConnectedAudioDevices() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2614,7 +2616,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMaxConnectedAudioDevices() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2630,7 +2632,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMaxConnectedAudioDevices() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2648,7 +2650,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2659,7 +2661,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2696,7 +2698,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2720,7 +2722,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPasskey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2731,7 +2733,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPasskey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2768,7 +2770,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPasskey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2792,7 +2794,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPairingConfirmation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2803,7 +2805,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPairingConfirmation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2826,7 +2828,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPairingConfirmation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2846,7 +2848,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPhonebookAccessPermission() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2857,7 +2859,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPhonebookAccessPermission() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2875,7 +2877,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPhonebookAccessPermission() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2893,7 +2895,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSilenceMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2904,7 +2906,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSilenceMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2927,7 +2929,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSilenceMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2947,7 +2949,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSilenceMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2958,7 +2960,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSilenceMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -2976,7 +2978,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSilenceMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2994,7 +2996,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPhonebookAccessPermission() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3005,7 +3007,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPhonebookAccessPermission() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3028,7 +3030,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPhonebookAccessPermission() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3048,7 +3050,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMessageAccessPermission() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3059,7 +3061,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMessageAccessPermission() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3077,7 +3079,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMessageAccessPermission() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3095,7 +3097,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMessageAccessPermission() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3106,7 +3108,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMessageAccessPermission() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3129,7 +3131,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMessageAccessPermission() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3149,7 +3151,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSimAccessPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3160,7 +3162,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSimAccessPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3178,7 +3180,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSimAccessPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3196,7 +3198,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSimAccessPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3207,7 +3209,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSimAccessPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3230,7 +3232,7 @@ func newCmdAndroidBluetoothIBluetooth_SetSimAccessPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3250,7 +3252,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocServerConnection() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3261,7 +3263,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocServerConnection() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3312,7 +3314,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocServerConnection() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3344,7 +3346,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSocketManager() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3355,7 +3357,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSocketManager() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3369,7 +3371,7 @@ func newCmdAndroidBluetoothIBluetooth_GetSocketManager() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3387,7 +3389,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocClientConnection() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3398,7 +3400,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocClientConnection() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3444,7 +3446,7 @@ func newCmdAndroidBluetoothIBluetooth_LogL2capcocClientConnection() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3474,7 +3476,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMultiAdvertisementSupported() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3485,7 +3487,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMultiAdvertisementSupported() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3499,7 +3501,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMultiAdvertisementSupported() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3517,7 +3519,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedFilteringSupported() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3528,7 +3530,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedFilteringSupported() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3542,7 +3544,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedFilteringSupported() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3560,7 +3562,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedScanBatchingSupported() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3571,7 +3573,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedScanBatchingSupported() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3585,7 +3587,7 @@ func newCmdAndroidBluetoothIBluetooth_IsOffloadedScanBatchingSupported() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3603,7 +3605,7 @@ func newCmdAndroidBluetoothIBluetooth_IsActivityAndEnergyReportingSupported() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3614,7 +3616,7 @@ func newCmdAndroidBluetoothIBluetooth_IsActivityAndEnergyReportingSupported() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3628,7 +3630,7 @@ func newCmdAndroidBluetoothIBluetooth_IsActivityAndEnergyReportingSupported() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3646,7 +3648,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLe2MPhySupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3657,7 +3659,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLe2MPhySupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3671,7 +3673,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLe2MPhySupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3689,7 +3691,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCodedPhySupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3700,7 +3702,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCodedPhySupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3714,7 +3716,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCodedPhySupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3732,7 +3734,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeExtendedAdvertisingSupported() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3743,7 +3745,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeExtendedAdvertisingSupported() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3757,7 +3759,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeExtendedAdvertisingSupported() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3775,7 +3777,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLePeriodicAdvertisingSupported() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3786,7 +3788,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLePeriodicAdvertisingSupported() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3800,7 +3802,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLePeriodicAdvertisingSupported() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3818,7 +3820,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3829,7 +3831,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3843,7 +3845,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3861,7 +3863,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastSourceSupported() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3872,7 +3874,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastSourceSupported() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3886,7 +3888,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastSourceSupported() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3904,7 +3906,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastAssistantSupported() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3915,7 +3917,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastAssistantSupported() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3929,7 +3931,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeAudioBroadcastAssistantSupported() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3947,7 +3949,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDistanceMeasurementSupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3958,7 +3960,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDistanceMeasurementSupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -3974,7 +3976,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDistanceMeasurementSupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3992,7 +3994,7 @@ func newCmdAndroidBluetoothIBluetooth_GetLeMaximumAdvertisingDataLength() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4003,7 +4005,7 @@ func newCmdAndroidBluetoothIBluetooth_GetLeMaximumAdvertisingDataLength() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4017,7 +4019,7 @@ func newCmdAndroidBluetoothIBluetooth_GetLeMaximumAdvertisingDataLength() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4035,7 +4037,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterMetadataListener() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4046,7 +4048,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterMetadataListener() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4074,7 +4076,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterMetadataListener() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4094,7 +4096,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterMetadataListener() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4105,7 +4107,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterMetadataListener() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4133,7 +4135,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterMetadataListener() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4153,7 +4155,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMetadata() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4164,7 +4166,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMetadata() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4196,7 +4198,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMetadata() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4218,7 +4220,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMetadata() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4229,7 +4231,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMetadata() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4252,7 +4254,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMetadata() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4272,7 +4274,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestActivityInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4283,7 +4285,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestActivityInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4309,7 +4311,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestActivityInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4329,7 +4331,7 @@ func newCmdAndroidBluetoothIBluetooth_ConnectAllEnabledProfiles() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4340,7 +4342,7 @@ func newCmdAndroidBluetoothIBluetooth_ConnectAllEnabledProfiles() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4358,7 +4360,7 @@ func newCmdAndroidBluetoothIBluetooth_ConnectAllEnabledProfiles() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4376,7 +4378,7 @@ func newCmdAndroidBluetoothIBluetooth_DisconnectAllEnabledProfiles() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4387,7 +4389,7 @@ func newCmdAndroidBluetoothIBluetooth_DisconnectAllEnabledProfiles() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4405,7 +4407,7 @@ func newCmdAndroidBluetoothIBluetooth_DisconnectAllEnabledProfiles() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4423,7 +4425,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4434,7 +4436,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4457,7 +4459,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4477,7 +4479,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4488,7 +4490,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4509,7 +4511,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4529,7 +4531,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMostRecentlyConnectedDevices() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4540,7 +4542,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMostRecentlyConnectedDevices() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4556,7 +4558,7 @@ func newCmdAndroidBluetoothIBluetooth_GetMostRecentlyConnectedDevices() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4574,7 +4576,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4585,7 +4587,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4606,7 +4608,7 @@ func newCmdAndroidBluetoothIBluetooth_RemoveActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4626,7 +4628,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothConnectionCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4637,7 +4639,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothConnectionCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4663,7 +4665,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothConnectionCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4683,7 +4685,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothConnectionCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4694,7 +4696,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothConnectionCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4720,7 +4722,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothConnectionCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4740,7 +4742,7 @@ func newCmdAndroidBluetoothIBluetooth_CanBondWithoutDialog() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4751,7 +4753,7 @@ func newCmdAndroidBluetoothIBluetooth_CanBondWithoutDialog() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4769,7 +4771,7 @@ func newCmdAndroidBluetoothIBluetooth_CanBondWithoutDialog() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4787,7 +4789,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPackageNameOfBondingApplication() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4798,7 +4800,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPackageNameOfBondingApplication() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4816,7 +4818,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPackageNameOfBondingApplication() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4834,7 +4836,7 @@ func newCmdAndroidBluetoothIBluetooth_GenerateLocalOobData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4845,7 +4847,7 @@ func newCmdAndroidBluetoothIBluetooth_GenerateLocalOobData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4876,7 +4878,7 @@ func newCmdAndroidBluetoothIBluetooth_GenerateLocalOobData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4898,7 +4900,7 @@ func newCmdAndroidBluetoothIBluetooth_AllowLowLatencyAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4909,7 +4911,7 @@ func newCmdAndroidBluetoothIBluetooth_AllowLowLatencyAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4930,7 +4932,7 @@ func newCmdAndroidBluetoothIBluetooth_AllowLowLatencyAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4950,7 +4952,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRequestAudioPolicyAsSinkSupported() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4961,7 +4963,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRequestAudioPolicyAsSinkSupported() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -4979,7 +4981,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRequestAudioPolicyAsSinkSupported() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4997,7 +4999,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestAudioPolicyAsSink() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5008,7 +5010,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestAudioPolicyAsSink() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5028,7 +5030,7 @@ func newCmdAndroidBluetoothIBluetooth_RequestAudioPolicyAsSink() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5046,7 +5048,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRequestedAudioPolicyAsSink() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5057,7 +5059,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRequestedAudioPolicyAsSink() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5075,7 +5077,7 @@ func newCmdAndroidBluetoothIBluetooth_GetRequestedAudioPolicyAsSink() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5093,7 +5095,7 @@ func newCmdAndroidBluetoothIBluetooth_StopRfcommListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5104,7 +5106,7 @@ func newCmdAndroidBluetoothIBluetooth_StopRfcommListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5122,7 +5124,7 @@ func newCmdAndroidBluetoothIBluetooth_StopRfcommListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5140,7 +5142,7 @@ func newCmdAndroidBluetoothIBluetooth_RetrievePendingSocketForServiceRecord() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5151,7 +5153,7 @@ func newCmdAndroidBluetoothIBluetooth_RetrievePendingSocketForServiceRecord() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5169,7 +5171,7 @@ func newCmdAndroidBluetoothIBluetooth_RetrievePendingSocketForServiceRecord() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5187,7 +5189,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPreferredAudioProfiles() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5198,7 +5200,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPreferredAudioProfiles() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5218,7 +5220,7 @@ func newCmdAndroidBluetoothIBluetooth_SetPreferredAudioProfiles() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5236,7 +5238,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPreferredAudioProfiles() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5247,7 +5249,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPreferredAudioProfiles() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5265,7 +5267,7 @@ func newCmdAndroidBluetoothIBluetooth_GetPreferredAudioProfiles() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5283,7 +5285,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDualModeAudioEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5294,7 +5296,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDualModeAudioEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5310,7 +5312,7 @@ func newCmdAndroidBluetoothIBluetooth_IsDualModeAudioEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5328,7 +5330,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterPreferredAudioProfilesChangedCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5339,7 +5341,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterPreferredAudioProfilesChangedCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5365,7 +5367,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterPreferredAudioProfilesChangedCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5385,7 +5387,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterPreferredAudioProfilesChangedCal
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5396,7 +5398,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterPreferredAudioProfilesChangedCal
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5422,7 +5424,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterPreferredAudioProfilesChangedCal
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5442,7 +5444,7 @@ func newCmdAndroidBluetoothIBluetooth_NotifyActiveDeviceChangeApplied() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5453,7 +5455,7 @@ func newCmdAndroidBluetoothIBluetooth_NotifyActiveDeviceChangeApplied() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5471,7 +5473,7 @@ func newCmdAndroidBluetoothIBluetooth_NotifyActiveDeviceChangeApplied() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5489,7 +5491,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothQualityReportReadyCallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5500,7 +5502,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothQualityReportReadyCallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5526,7 +5528,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterBluetoothQualityReportReadyCallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5546,7 +5548,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothQualityReportReadyCallb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5557,7 +5559,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothQualityReportReadyCallb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5583,7 +5585,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterBluetoothQualityReportReadyCallb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5603,7 +5605,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterHciVendorSpecificCallback() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5614,7 +5616,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterHciVendorSpecificCallback() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5653,7 +5655,7 @@ func newCmdAndroidBluetoothIBluetooth_RegisterHciVendorSpecificCallback() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5675,7 +5677,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterHciVendorSpecificCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5686,7 +5688,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterHciVendorSpecificCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5710,7 +5712,7 @@ func newCmdAndroidBluetoothIBluetooth_UnregisterHciVendorSpecificCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5730,7 +5732,7 @@ func newCmdAndroidBluetoothIBluetooth_SendHciVendorSpecificCommand() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5741,7 +5743,7 @@ func newCmdAndroidBluetoothIBluetooth_SendHciVendorSpecificCommand() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5779,7 +5781,7 @@ func newCmdAndroidBluetoothIBluetooth_SendHciVendorSpecificCommand() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5803,7 +5805,7 @@ func newCmdAndroidBluetoothIBluetooth_GetOffloadedTransportDiscoveryDataScanSupp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5814,7 +5816,7 @@ func newCmdAndroidBluetoothIBluetooth_GetOffloadedTransportDiscoveryDataScanSupp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5830,7 +5832,7 @@ func newCmdAndroidBluetoothIBluetooth_GetOffloadedTransportDiscoveryDataScanSupp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5848,7 +5850,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothGatt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5859,7 +5861,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothGatt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5873,7 +5875,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothGatt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5891,7 +5893,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5902,7 +5904,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5916,7 +5918,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5934,7 +5936,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5945,7 +5947,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -5964,7 +5966,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5984,7 +5986,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileOneway() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5995,7 +5997,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileOneway() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6024,7 +6026,7 @@ func newCmdAndroidBluetoothIBluetooth_GetProfileOneway() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6046,7 +6048,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveAudioDevicePolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6057,7 +6059,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveAudioDevicePolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6080,7 +6082,7 @@ func newCmdAndroidBluetoothIBluetooth_SetActiveAudioDevicePolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6100,7 +6102,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveAudioDevicePolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6111,7 +6113,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveAudioDevicePolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6129,7 +6131,7 @@ func newCmdAndroidBluetoothIBluetooth_GetActiveAudioDevicePolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6147,7 +6149,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMicrophonePreferredForCalls() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6158,7 +6160,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMicrophonePreferredForCalls() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6181,7 +6183,7 @@ func newCmdAndroidBluetoothIBluetooth_SetMicrophonePreferredForCalls() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6201,7 +6203,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMicrophonePreferredForCalls() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6212,7 +6214,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMicrophonePreferredForCalls() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6230,7 +6232,7 @@ func newCmdAndroidBluetoothIBluetooth_IsMicrophonePreferredForCalls() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6248,7 +6250,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHeadDetectionEnabled() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6259,7 +6261,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHeadDetectionEnabled() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6282,7 +6284,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHeadDetectionEnabled() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6302,7 +6304,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHead() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6313,7 +6315,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHead() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6336,7 +6338,7 @@ func newCmdAndroidBluetoothIBluetooth_SetOnHead() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6356,7 +6358,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCocSocketOffloadSupported() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6367,7 +6369,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCocSocketOffloadSupported() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6383,7 +6385,7 @@ func newCmdAndroidBluetoothIBluetooth_IsLeCocSocketOffloadSupported() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6401,7 +6403,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRfcommSocketOffloadSupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6412,7 +6414,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRfcommSocketOffloadSupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6428,7 +6430,7 @@ func newCmdAndroidBluetoothIBluetooth_IsRfcommSocketOffloadSupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6446,7 +6448,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothAdvertise() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6457,7 +6459,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothAdvertise() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6471,7 +6473,7 @@ func newCmdAndroidBluetoothIBluetooth_GetBluetoothAdvertise() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6489,7 +6491,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDistanceMeasurement() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6500,7 +6502,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDistanceMeasurement() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6514,7 +6516,7 @@ func newCmdAndroidBluetoothIBluetooth_GetDistanceMeasurement() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6532,7 +6534,7 @@ func newCmdAndroidBluetoothIBluetooth_GetKeyMissingCount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6543,7 +6545,7 @@ func newCmdAndroidBluetoothIBluetooth_GetKeyMissingCount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6561,7 +6563,7 @@ func newCmdAndroidBluetoothIBluetooth_GetKeyMissingCount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6579,7 +6581,7 @@ func newCmdAndroidBluetoothIBluetooth_GetEncryptionStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6590,7 +6592,7 @@ func newCmdAndroidBluetoothIBluetooth_GetEncryptionStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6613,7 +6615,7 @@ func newCmdAndroidBluetoothIBluetooth_GetEncryptionStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6633,7 +6635,7 @@ func newCmdAndroidBluetoothIBluetooth_IsConnected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6644,7 +6646,7 @@ func newCmdAndroidBluetoothIBluetooth_IsConnected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetooth")
 			}
 			if err != nil {
 				return err
@@ -6667,7 +6669,7 @@ func newCmdAndroidBluetoothIBluetooth_IsConnected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6719,7 +6721,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6730,7 +6732,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6748,7 +6750,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6766,7 +6768,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6777,7 +6779,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6795,7 +6797,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6813,7 +6815,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6824,7 +6826,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6840,7 +6842,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6858,7 +6860,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDevicesMatchingConnectionStates() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6869,7 +6871,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDevicesMatchingConnectionStates() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6900,7 +6902,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDevicesMatchingConnectionStates() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6920,7 +6922,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6931,7 +6933,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6949,7 +6951,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6967,7 +6969,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6978,7 +6980,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -6996,7 +6998,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7014,7 +7016,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7025,7 +7027,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7041,7 +7043,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7059,7 +7061,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7070,7 +7072,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7093,7 +7095,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7113,7 +7115,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7124,7 +7126,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7142,7 +7144,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7160,7 +7162,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetAvrcpAbsoluteVolume() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7171,7 +7173,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetAvrcpAbsoluteVolume() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7192,7 +7194,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetAvrcpAbsoluteVolume() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7212,7 +7214,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsA2dpPlaying() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7223,7 +7225,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsA2dpPlaying() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7241,7 +7243,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsA2dpPlaying() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7259,7 +7261,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetSupportedCodecTypes() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7270,7 +7272,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetSupportedCodecTypes() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7284,7 +7286,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetSupportedCodecTypes() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7302,7 +7304,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetCodecStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7313,7 +7315,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetCodecStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7331,7 +7333,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetCodecStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7349,7 +7351,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetCodecConfigPreference() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7360,7 +7362,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetCodecConfigPreference() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7380,7 +7382,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetCodecConfigPreference() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7398,7 +7400,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_EnableOptionalCodecs() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7409,7 +7411,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_EnableOptionalCodecs() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7427,7 +7429,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_EnableOptionalCodecs() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7445,7 +7447,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_DisableOptionalCodecs() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7456,7 +7458,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_DisableOptionalCodecs() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7474,7 +7476,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_DisableOptionalCodecs() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7492,7 +7494,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsSupported() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7503,7 +7505,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsSupported() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7521,7 +7523,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsSupported() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7539,7 +7541,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsEnabled() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7550,7 +7552,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsEnabled() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7568,7 +7570,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_IsOptionalCodecsEnabled() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7586,7 +7588,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetOptionalCodecsEnabled() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7597,7 +7599,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetOptionalCodecsEnabled() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7620,7 +7622,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetOptionalCodecsEnabled() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7640,7 +7642,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDynamicBufferSupport() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7651,7 +7653,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDynamicBufferSupport() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7667,7 +7669,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetDynamicBufferSupport() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7685,7 +7687,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetBufferConstraints() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7696,7 +7698,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetBufferConstraints() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7712,7 +7714,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_GetBufferConstraints() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7730,7 +7732,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetBufferLengthMillis() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7741,7 +7743,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetBufferLengthMillis() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dp")
 			}
 			if err != nil {
 				return err
@@ -7767,7 +7769,7 @@ func newCmdAndroidBluetoothIBluetoothA2dp_SetBufferLengthMillis() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7808,7 +7810,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7819,7 +7821,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -7837,7 +7839,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7855,7 +7857,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7866,7 +7868,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -7884,7 +7886,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7902,7 +7904,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectedDevices() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7913,7 +7915,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectedDevices() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -7929,7 +7931,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectedDevices() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7947,7 +7949,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetDevicesMatchingConnectionStates
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7958,7 +7960,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetDevicesMatchingConnectionStates
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -7989,7 +7991,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetDevicesMatchingConnectionStates
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8009,7 +8011,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionState() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8020,7 +8022,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionState() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -8038,7 +8040,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionState() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8056,7 +8058,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetAudioConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8067,7 +8069,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetAudioConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -8085,7 +8087,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetAudioConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8103,7 +8105,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_SetConnectionPolicy() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8114,7 +8116,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_SetConnectionPolicy() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -8137,7 +8139,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_SetConnectionPolicy() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8157,7 +8159,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionPolicy() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8168,7 +8170,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionPolicy() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -8186,7 +8188,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_GetConnectionPolicy() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8204,7 +8206,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_IsA2dpPlaying() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8215,7 +8217,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_IsA2dpPlaying() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothA2dpSink")
 			}
 			if err != nil {
 				return err
@@ -8233,7 +8235,7 @@ func newCmdAndroidBluetoothIBluetoothA2dpSink_IsA2dpPlaying() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8262,7 +8264,7 @@ func newCmdAndroidBluetoothIBluetoothActivityEnergyInfoListener_OnBluetoothActiv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8273,7 +8275,7 @@ func newCmdAndroidBluetoothIBluetoothActivityEnergyInfoListener_OnBluetoothActiv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothActivityEnergyInfoListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothActivityEnergyInfoListener")
 			}
 			if err != nil {
 				return err
@@ -8289,7 +8291,7 @@ func newCmdAndroidBluetoothIBluetoothActivityEnergyInfoListener_OnBluetoothActiv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8327,7 +8329,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StartAdvertisingSet() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8338,7 +8340,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StartAdvertisingSet() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8394,7 +8396,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StartAdvertisingSet() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8420,7 +8422,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StopAdvertisingSet() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8431,7 +8433,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StopAdvertisingSet() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8457,7 +8459,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_StopAdvertisingSet() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8477,7 +8479,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_GetOwnAddress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8488,7 +8490,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_GetOwnAddress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8509,7 +8511,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_GetOwnAddress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8529,7 +8531,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_EnableAdvertisingSet() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8540,7 +8542,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_EnableAdvertisingSet() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8576,7 +8578,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_EnableAdvertisingSet() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8602,7 +8604,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingData() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8613,7 +8615,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingData() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8636,7 +8638,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingData() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8656,7 +8658,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetScanResponseData() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8667,7 +8669,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetScanResponseData() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8690,7 +8692,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetScanResponseData() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8710,7 +8712,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingParameters() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8721,7 +8723,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingParameters() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8744,7 +8746,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetAdvertisingParameters() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8764,7 +8766,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingParameters(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8775,7 +8777,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingParameters(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8798,7 +8800,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingParameters(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8818,7 +8820,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingData() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8829,7 +8831,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingData() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8852,7 +8854,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingData() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8872,7 +8874,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingEnable() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8883,7 +8885,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingEnable() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAdvertise")
 			}
 			if err != nil {
 				return err
@@ -8909,7 +8911,7 @@ func newCmdAndroidBluetoothIBluetoothAdvertise_SetPeriodicAdvertisingEnable() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8944,7 +8946,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectedDevices() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8955,7 +8957,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectedDevices() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
 			}
 			if err != nil {
 				return err
@@ -8971,7 +8973,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectedDevices() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8989,7 +8991,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetDevicesMatchingConnectio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9000,7 +9002,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetDevicesMatchingConnectio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
 			}
 			if err != nil {
 				return err
@@ -9031,7 +9033,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetDevicesMatchingConnectio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9051,7 +9053,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectionState() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9062,7 +9064,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectionState() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothAvrcpController")
 			}
 			if err != nil {
 				return err
@@ -9080,7 +9082,7 @@ func newCmdAndroidBluetoothIBluetoothAvrcpController_GetConnectionState() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9114,7 +9116,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnBluetoothStateChange() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9125,7 +9127,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnBluetoothStateChange() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9149,7 +9151,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnBluetoothStateChange() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9171,7 +9173,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterNameChange() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9182,7 +9184,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterNameChange() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9201,7 +9203,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterNameChange() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9221,7 +9223,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterAddressChange() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9232,7 +9234,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterAddressChange() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9251,7 +9253,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnAdapterAddressChange() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9271,7 +9273,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_SetAdapterServiceBinder() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9282,7 +9284,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_SetAdapterServiceBinder() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9305,7 +9307,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_SetAdapterServiceBinder() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9325,7 +9327,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnMediaProfileConnectionChange() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9336,7 +9338,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnMediaProfileConnectionChange() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9355,7 +9357,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnMediaProfileConnectionChange() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9375,7 +9377,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnWatchConnectionChange() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9386,7 +9388,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnWatchConnectionChange() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCallback")
 			}
 			if err != nil {
 				return err
@@ -9405,7 +9407,7 @@ func newCmdAndroidBluetoothIBluetoothCallback_OnWatchConnectionChange() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9437,7 +9439,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceConnected() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9448,7 +9450,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceConnected() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -9464,7 +9466,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceConnected() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9482,7 +9484,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceDisconnected() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9493,7 +9495,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceDisconnected() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -9514,7 +9516,7 @@ func newCmdAndroidBluetoothIBluetoothConnectionCallback_OnDeviceDisconnected() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9554,7 +9556,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectedDevices() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9565,7 +9567,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectedDevices() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9581,7 +9583,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectedDevices() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9599,7 +9601,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDevicesMatchingConnec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9610,7 +9612,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDevicesMatchingConnec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9641,7 +9643,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDevicesMatchingConnec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9661,7 +9663,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionState() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9672,7 +9674,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionState() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9690,7 +9692,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionState() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9708,7 +9710,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_SetConnectionPolicy() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9719,7 +9721,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_SetConnectionPolicy() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9742,7 +9744,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_SetConnectionPolicy() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9762,7 +9764,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionPolicy() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9773,7 +9775,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionPolicy() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9791,7 +9793,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetConnectionPolicy() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9809,7 +9811,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetAllGroupIds() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9820,7 +9822,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetAllGroupIds() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9838,7 +9840,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetAllGroupIds() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9856,7 +9858,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetGroupUuidMapByDevice(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9867,7 +9869,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetGroupUuidMapByDevice(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9885,7 +9887,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetGroupUuidMapByDevice(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9903,7 +9905,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDesiredGroupSize() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9914,7 +9916,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDesiredGroupSize() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9935,7 +9937,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_GetDesiredGroupSize() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9955,7 +9957,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_LockGroup() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9966,7 +9968,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_LockGroup() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -9997,7 +9999,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_LockGroup() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10019,7 +10021,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_UnlockGroup() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10030,7 +10032,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_UnlockGroup() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinator")
 			}
 			if err != nil {
 				return err
@@ -10048,7 +10050,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinator_UnlockGroup() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10077,7 +10079,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorCallback_OnCsisSetMemberA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10088,7 +10090,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorCallback_OnCsisSetMemberA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinatorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinatorCallback")
 			}
 			if err != nil {
 				return err
@@ -10109,7 +10111,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorCallback_OnCsisSetMemberA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10140,7 +10142,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorLockCallback_OnGroupLockS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10151,7 +10153,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorLockCallback_OnGroupLockS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinatorLockCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothCsipSetCoordinatorLockCallback")
 			}
 			if err != nil {
 				return err
@@ -10180,7 +10182,7 @@ func newCmdAndroidBluetoothIBluetoothCsipSetCoordinatorLockCallback_OnGroupLockS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10249,7 +10251,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_GetDevicesMatchingConnectionStates() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10260,7 +10262,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_GetDevicesMatchingConnectionStates() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10291,7 +10293,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_GetDevicesMatchingConnectionStates() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10311,7 +10313,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10322,7 +10324,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10360,7 +10362,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10384,7 +10386,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10395,7 +10397,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10421,7 +10423,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10441,7 +10443,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientConnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10452,7 +10454,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientConnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10505,7 +10507,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientConnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10535,7 +10537,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientDisconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10546,7 +10548,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientDisconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10574,7 +10576,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientDisconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10594,7 +10596,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientSetPreferredPhy() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10605,7 +10607,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientSetPreferredPhy() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10648,7 +10650,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientSetPreferredPhy() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10674,7 +10676,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientReadPhy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10685,7 +10687,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientReadPhy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10713,7 +10715,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClientReadPhy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10733,7 +10735,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RefreshDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10744,7 +10746,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RefreshDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10772,7 +10774,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RefreshDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10792,7 +10794,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10803,7 +10805,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10831,7 +10833,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10851,7 +10853,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServiceByUuid() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10862,7 +10864,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServiceByUuid() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10892,7 +10894,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DiscoverServiceByUuid() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10912,7 +10914,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadCharacteristic() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10923,7 +10925,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadCharacteristic() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -10961,7 +10963,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadCharacteristic() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10985,7 +10987,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadUsingCharacteristicUuid() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10996,7 +10998,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadUsingCharacteristicUuid() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11041,7 +11043,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadUsingCharacteristicUuid() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11067,7 +11069,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteCharacteristic() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11078,7 +11080,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteCharacteristic() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11130,7 +11132,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteCharacteristic() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11158,7 +11160,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadDescriptor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11169,7 +11171,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadDescriptor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11207,7 +11209,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadDescriptor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11231,7 +11233,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteDescriptor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11242,7 +11244,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteDescriptor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11289,7 +11291,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_WriteDescriptor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11315,7 +11317,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterForNotification() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11326,7 +11328,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterForNotification() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11364,7 +11366,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterForNotification() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11388,7 +11390,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_BeginReliableWrite() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11399,7 +11401,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_BeginReliableWrite() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11417,7 +11419,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_BeginReliableWrite() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11435,7 +11437,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_EndReliableWrite() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11446,7 +11448,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_EndReliableWrite() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11479,7 +11481,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_EndReliableWrite() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11501,7 +11503,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadRemoteRssi() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11512,7 +11514,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadRemoteRssi() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11540,7 +11542,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ReadRemoteRssi() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11560,7 +11562,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConfigureMTU() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11571,7 +11573,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConfigureMTU() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11604,7 +11606,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConfigureMTU() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11626,7 +11628,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConnectionParameterUpdate() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11637,7 +11639,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConnectionParameterUpdate() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11670,7 +11672,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ConnectionParameterUpdate() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11692,7 +11694,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_LeConnectionUpdate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11703,7 +11705,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_LeConnectionUpdate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11761,7 +11763,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_LeConnectionUpdate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11793,7 +11795,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterServer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11804,7 +11806,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterServer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11842,7 +11844,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RegisterServer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11866,7 +11868,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterServer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11877,7 +11879,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterServer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11903,7 +11905,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_UnregisterServer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11923,7 +11925,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerConnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11934,7 +11936,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerConnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -11977,7 +11979,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerConnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12003,7 +12005,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerDisconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12014,7 +12016,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerDisconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12042,7 +12044,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerDisconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12062,7 +12064,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerSetPreferredPhy() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12073,7 +12075,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerSetPreferredPhy() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12116,7 +12118,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerSetPreferredPhy() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12142,7 +12144,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerReadPhy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12153,7 +12155,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerReadPhy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12181,7 +12183,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ServerReadPhy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12201,7 +12203,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_AddService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12212,7 +12214,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_AddService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12240,7 +12242,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_AddService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12260,7 +12262,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RemoveService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12271,7 +12273,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RemoveService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12302,7 +12304,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_RemoveService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12324,7 +12326,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClearServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12335,7 +12337,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClearServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12361,7 +12363,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_ClearServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12381,7 +12383,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendResponse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12392,7 +12394,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendResponse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12444,7 +12446,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendResponse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12472,7 +12474,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendNotification() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12483,7 +12485,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendNotification() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12530,7 +12532,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SendNotification() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12556,7 +12558,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DisconnectAll() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12567,7 +12569,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DisconnectAll() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12583,7 +12585,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_DisconnectAll() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12601,7 +12603,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SubrateModeRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12612,7 +12614,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SubrateModeRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGatt")
 			}
 			if err != nil {
 				return err
@@ -12645,7 +12647,7 @@ func newCmdAndroidBluetoothIBluetoothGatt_SubrateModeRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12693,7 +12695,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientRegistered() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12704,7 +12706,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientRegistered() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -12723,7 +12725,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientRegistered() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12743,7 +12745,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientConnectionState() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12754,7 +12756,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientConnectionState() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -12780,7 +12782,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnClientConnectionState() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12802,7 +12804,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyUpdate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12813,7 +12815,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyUpdate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -12844,7 +12846,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyUpdate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12868,7 +12870,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyRead() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12879,7 +12881,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyRead() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -12910,7 +12912,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnPhyRead() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12934,7 +12936,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSearchComplete() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12945,7 +12947,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSearchComplete() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -12977,7 +12979,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSearchComplete() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12999,7 +13001,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicRead() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13010,7 +13012,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicRead() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13045,7 +13047,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicRead() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13069,7 +13071,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicWrite() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13080,7 +13082,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicWrite() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13115,7 +13117,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnCharacteristicWrite() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13139,7 +13141,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnExecuteWrite() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13150,7 +13152,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnExecuteWrite() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13171,7 +13173,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnExecuteWrite() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13191,7 +13193,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorRead() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13202,7 +13204,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorRead() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13237,7 +13239,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorRead() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13261,7 +13263,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorWrite() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13272,7 +13274,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorWrite() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13307,7 +13309,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnDescriptorWrite() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13331,7 +13333,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnNotify() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13342,7 +13344,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnNotify() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13372,7 +13374,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnNotify() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13394,7 +13396,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnReadRemoteRssi() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13405,7 +13407,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnReadRemoteRssi() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13431,7 +13433,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnReadRemoteRssi() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13453,7 +13455,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConfigureMTU() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13464,7 +13466,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConfigureMTU() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13490,7 +13492,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConfigureMTU() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13512,7 +13514,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConnectionUpdated() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13523,7 +13525,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConnectionUpdated() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13559,7 +13561,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnConnectionUpdated() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13585,7 +13587,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnServiceChanged() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13596,7 +13598,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnServiceChanged() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13612,7 +13614,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnServiceChanged() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13630,7 +13632,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSubrateChange() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13641,7 +13643,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSubrateChange() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattCallback")
 			}
 			if err != nil {
 				return err
@@ -13667,7 +13669,7 @@ func newCmdAndroidBluetoothIBluetoothGattCallback_OnSubrateChange() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13713,7 +13715,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerRegistered() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13724,7 +13726,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerRegistered() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -13743,7 +13745,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerRegistered() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13763,7 +13765,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerConnectionState(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13774,7 +13776,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerConnectionState(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -13800,7 +13802,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServerConnectionState(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13822,7 +13824,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServiceAdded() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13833,7 +13835,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServiceAdded() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -13854,7 +13856,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnServiceAdded() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13874,7 +13876,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicReadRequ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13885,7 +13887,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicReadRequ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -13921,7 +13923,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicReadRequ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13947,7 +13949,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorReadRequest(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13958,7 +13960,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorReadRequest(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -13994,7 +13996,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorReadRequest(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14020,7 +14022,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicWriteReq
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14031,7 +14033,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicWriteReq
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14086,7 +14088,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnCharacteristicWriteReq
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14118,7 +14120,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorWriteRequest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14129,7 +14131,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorWriteRequest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14184,7 +14186,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnDescriptorWriteRequest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14216,7 +14218,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnExecuteWrite() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14227,7 +14229,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnExecuteWrite() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14253,7 +14255,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnExecuteWrite() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14275,7 +14277,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnNotificationSent() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14286,7 +14288,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnNotificationSent() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14307,7 +14309,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnNotificationSent() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14327,7 +14329,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnMtuChanged() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14338,7 +14340,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnMtuChanged() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14359,7 +14361,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnMtuChanged() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14379,7 +14381,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyUpdate() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14390,7 +14392,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyUpdate() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14421,7 +14423,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyUpdate() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14445,7 +14447,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyRead() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14456,7 +14458,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyRead() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14487,7 +14489,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnPhyRead() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14511,7 +14513,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnConnectionUpdated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14522,7 +14524,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnConnectionUpdated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14558,7 +14560,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnConnectionUpdated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14584,7 +14586,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnSubrateChange() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14595,7 +14597,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnSubrateChange() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothGattServerCallback")
 			}
 			if err != nil {
 				return err
@@ -14621,7 +14623,7 @@ func newCmdAndroidBluetoothIBluetoothGattServerCallback_OnSubrateChange() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14672,7 +14674,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectedDevices() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14683,7 +14685,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectedDevices() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14699,7 +14701,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectedDevices() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14717,7 +14719,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetDevicesMatchingConnectionState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14728,7 +14730,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetDevicesMatchingConnectionState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14759,7 +14761,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetDevicesMatchingConnectionState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14779,7 +14781,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionState() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14790,7 +14792,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionState() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14808,7 +14810,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionState() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14826,7 +14828,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetConnectionPolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14837,7 +14839,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetConnectionPolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14860,7 +14862,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetConnectionPolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14880,7 +14882,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionPolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14891,7 +14893,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionPolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14909,7 +14911,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetConnectionPolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14927,7 +14929,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetHapGroup() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14938,7 +14940,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetHapGroup() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -14956,7 +14958,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetHapGroup() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14974,7 +14976,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetIndex() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14985,7 +14987,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetIndex() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15003,7 +15005,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetIndex() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15021,7 +15023,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetInfo() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15032,7 +15034,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetInfo() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15050,7 +15052,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetActivePresetInfo() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15068,7 +15070,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPreset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15079,7 +15081,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPreset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15102,7 +15104,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPreset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15122,7 +15124,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPresetForGroup() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15133,7 +15135,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPresetForGroup() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15159,7 +15161,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SelectPresetForGroup() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15181,7 +15183,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPreset() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15192,7 +15194,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPreset() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15210,7 +15212,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPreset() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15228,7 +15230,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPresetForGroup() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15239,7 +15241,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPresetForGroup() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15260,7 +15262,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToNextPresetForGroup() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15280,7 +15282,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPreset() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15291,7 +15293,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPreset() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15309,7 +15311,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPreset() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15327,7 +15329,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPresetForGroup() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15338,7 +15340,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPresetForGroup() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15359,7 +15361,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SwitchToPreviousPresetForGroup() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15379,7 +15381,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetPresetInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15390,7 +15392,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetPresetInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15413,7 +15415,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetPresetInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15433,7 +15435,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetAllPresetInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15444,7 +15446,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetAllPresetInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15462,7 +15464,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetAllPresetInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15480,7 +15482,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetFeatures() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15491,7 +15493,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetFeatures() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15509,7 +15511,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_GetFeatures() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15527,7 +15529,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15538,7 +15540,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15566,7 +15568,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15588,7 +15590,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetNameForGroup() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15599,7 +15601,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetNameForGroup() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClient")
 			}
 			if err != nil {
 				return err
@@ -15630,7 +15632,7 @@ func newCmdAndroidBluetoothIBluetoothHapClient_SetPresetNameForGroup() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15670,7 +15672,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelected() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15681,7 +15683,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelected() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15707,7 +15709,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelected() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15729,7 +15731,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionFailed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15740,7 +15742,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionFailed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15761,7 +15763,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionFailed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15781,7 +15783,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionForGroup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15792,7 +15794,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionForGroup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15816,7 +15818,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetSelectionForGroup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15838,7 +15840,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetInfoChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15849,7 +15851,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetInfoChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15881,7 +15883,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnPresetInfoChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15903,7 +15905,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameFailed() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15914,7 +15916,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameFailed() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15935,7 +15937,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameFailed() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15955,7 +15957,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameForGroupFa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15966,7 +15968,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameForGroupFa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHapClientCallback")
 			}
 			if err != nil {
 				return err
@@ -15990,7 +15992,7 @@ func newCmdAndroidBluetoothIBluetoothHapClientCallback_OnSetPresetNameForGroupFa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16025,7 +16027,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandStatus()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16036,7 +16038,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandStatus()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
 			}
 			if err != nil {
 				return err
@@ -16060,7 +16062,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandStatus()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16082,7 +16084,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandComplete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16093,7 +16095,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandComplete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
 			}
 			if err != nil {
 				return err
@@ -16121,7 +16123,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnCommandComplete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16143,7 +16145,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnEvent() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16154,7 +16156,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnEvent() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHciVendorSpecificCallback")
 			}
 			if err != nil {
 				return err
@@ -16182,7 +16184,7 @@ func newCmdAndroidBluetoothIBluetoothHciVendorSpecificCallback_OnEvent() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16238,7 +16240,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectedDevices() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16249,7 +16251,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectedDevices() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16265,7 +16267,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectedDevices() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16283,7 +16285,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetDevicesMatchingConnectionStates(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16294,7 +16296,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetDevicesMatchingConnectionStates(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16325,7 +16327,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetDevicesMatchingConnectionStates(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16345,7 +16347,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16356,7 +16358,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16374,7 +16376,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16392,7 +16394,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartVoiceRecognition() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16403,7 +16405,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartVoiceRecognition() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16421,7 +16423,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartVoiceRecognition() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16439,7 +16441,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopVoiceRecognition() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16450,7 +16452,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopVoiceRecognition() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16468,7 +16470,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopVoiceRecognition() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16486,7 +16488,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsAudioConnected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16497,7 +16499,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsAudioConnected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16515,7 +16517,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsAudioConnected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16533,7 +16535,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SendVendorSpecificResultCode() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16544,7 +16546,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SendVendorSpecificResultCode() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16572,7 +16574,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SendVendorSpecificResultCode() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16594,7 +16596,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16605,7 +16607,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16623,7 +16625,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16641,7 +16643,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16652,7 +16654,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16670,7 +16672,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16688,7 +16690,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16699,7 +16701,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16722,7 +16724,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16742,7 +16744,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16753,7 +16755,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16771,7 +16773,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16789,7 +16791,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16800,7 +16802,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16818,7 +16820,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16836,7 +16838,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_ConnectAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16847,7 +16849,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_ConnectAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16863,7 +16865,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_ConnectAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16881,7 +16883,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_DisconnectAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16892,7 +16894,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_DisconnectAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16908,7 +16910,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_DisconnectAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16926,7 +16928,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetAudioRouteAllowed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16937,7 +16939,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetAudioRouteAllowed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -16958,7 +16960,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetAudioRouteAllowed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16978,7 +16980,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioRouteAllowed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16989,7 +16991,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioRouteAllowed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17005,7 +17007,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetAudioRouteAllowed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17023,7 +17025,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetForceScoAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17034,7 +17036,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetForceScoAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17055,7 +17057,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetForceScoAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17075,7 +17077,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartScoUsingVirtualVoiceCall() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17086,7 +17088,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartScoUsingVirtualVoiceCall() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17102,7 +17104,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StartScoUsingVirtualVoiceCall() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17120,7 +17122,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopScoUsingVirtualVoiceCall() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17131,7 +17133,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopScoUsingVirtualVoiceCall() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17147,7 +17149,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_StopScoUsingVirtualVoiceCall() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17165,7 +17167,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17176,7 +17178,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17194,7 +17196,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_SetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17212,7 +17214,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17223,7 +17225,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17239,7 +17241,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_GetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17257,7 +17259,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsInbandRingingEnabled() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17268,7 +17270,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsInbandRingingEnabled() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17284,7 +17286,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsInbandRingingEnabled() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17302,7 +17304,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsNoiseReductionSupported() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17313,7 +17315,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsNoiseReductionSupported() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17331,7 +17333,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsNoiseReductionSupported() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17349,7 +17351,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsVoiceRecognitionSupported() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17360,7 +17362,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsVoiceRecognitionSupported() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadset")
 			}
 			if err != nil {
 				return err
@@ -17378,7 +17380,7 @@ func newCmdAndroidBluetoothIBluetoothHeadset_IsVoiceRecognitionSupported() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17433,7 +17435,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17444,7 +17446,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17462,7 +17464,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17480,7 +17482,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17491,7 +17493,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17509,7 +17511,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17527,7 +17529,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectedDevices() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17538,7 +17540,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectedDevices() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17554,7 +17556,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectedDevices() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17572,7 +17574,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetDevicesMatchingConnectionS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17583,7 +17585,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetDevicesMatchingConnectionS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17614,7 +17616,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetDevicesMatchingConnectionS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17634,7 +17636,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionState() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17645,7 +17647,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionState() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17663,7 +17665,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionState() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17681,7 +17683,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetConnectionPolicy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17692,7 +17694,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetConnectionPolicy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17715,7 +17717,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetConnectionPolicy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17735,7 +17737,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionPolicy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17746,7 +17748,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionPolicy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17764,7 +17766,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetConnectionPolicy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17782,7 +17784,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StartVoiceRecognition() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17793,7 +17795,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StartVoiceRecognition() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17811,7 +17813,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StartVoiceRecognition() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17829,7 +17831,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StopVoiceRecognition() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17840,7 +17842,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StopVoiceRecognition() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17858,7 +17860,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_StopVoiceRecognition() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17876,7 +17878,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentCalls() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17887,7 +17889,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentCalls() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17905,7 +17907,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentCalls() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17923,7 +17925,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgEvents() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17934,7 +17936,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgEvents() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -17952,7 +17954,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgEvents() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17970,7 +17972,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_AcceptCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17981,7 +17983,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_AcceptCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18004,7 +18006,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_AcceptCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18024,7 +18026,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_HoldCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18035,7 +18037,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_HoldCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18053,7 +18055,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_HoldCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18071,7 +18073,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_RejectCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18082,7 +18084,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_RejectCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18100,7 +18102,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_RejectCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18118,7 +18120,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_TerminateCall() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18129,7 +18131,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_TerminateCall() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18149,7 +18151,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_TerminateCall() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18167,7 +18169,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_EnterPrivateMode() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18178,7 +18180,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_EnterPrivateMode() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18201,7 +18203,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_EnterPrivateMode() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18221,7 +18223,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ExplicitCallTransfer() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18232,7 +18234,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ExplicitCallTransfer() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18250,7 +18252,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ExplicitCallTransfer() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18268,7 +18270,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Dial() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18279,7 +18281,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Dial() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18302,7 +18304,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_Dial() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18322,7 +18324,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendDTMF() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18333,7 +18335,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendDTMF() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18356,7 +18358,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendDTMF() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18376,7 +18378,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetLastVoiceTagNumber() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18387,7 +18389,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetLastVoiceTagNumber() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18405,7 +18407,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetLastVoiceTagNumber() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18423,7 +18425,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioState() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18434,7 +18436,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioState() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18452,7 +18454,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioState() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18470,7 +18472,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ConnectAudio() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18481,7 +18483,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ConnectAudio() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18499,7 +18501,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_ConnectAudio() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18517,7 +18519,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_DisconnectAudio() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18528,7 +18530,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_DisconnectAudio() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18546,7 +18548,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_DisconnectAudio() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18564,7 +18566,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetAudioRouteAllowed() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18575,7 +18577,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetAudioRouteAllowed() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18598,7 +18600,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SetAudioRouteAllowed() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18618,7 +18620,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioRouteAllowed() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18629,7 +18631,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioRouteAllowed() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18647,7 +18649,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetAudioRouteAllowed() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18665,7 +18667,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendVendorAtCommand() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18676,7 +18678,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendVendorAtCommand() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18704,7 +18706,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_SendVendorAtCommand() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18726,7 +18728,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgFeatures() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18737,7 +18739,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgFeatures() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHeadsetClient")
 			}
 			if err != nil {
 				return err
@@ -18755,7 +18757,7 @@ func newCmdAndroidBluetoothIBluetoothHeadsetClient_GetCurrentAgFeatures() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18797,7 +18799,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18808,7 +18810,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -18826,7 +18828,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18844,7 +18846,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18855,7 +18857,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -18873,7 +18875,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18891,7 +18893,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectedDevices() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18902,7 +18904,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectedDevices() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -18918,7 +18920,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectedDevices() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18936,7 +18938,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDevicesMatchingConnectionStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18947,7 +18949,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDevicesMatchingConnectionStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -18978,7 +18980,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDevicesMatchingConnectionStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18998,7 +19000,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19009,7 +19011,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19027,7 +19029,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19045,7 +19047,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetActiveDevice() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19056,7 +19058,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetActiveDevice() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19074,7 +19076,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetActiveDevice() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19092,7 +19094,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetActiveDevices() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19103,7 +19105,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetActiveDevices() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19119,7 +19121,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetActiveDevices() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19137,7 +19139,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetConnectionPolicy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19148,7 +19150,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetConnectionPolicy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19171,7 +19173,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetConnectionPolicy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19191,7 +19193,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionPolicy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19202,7 +19204,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionPolicy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19220,7 +19222,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetConnectionPolicy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19238,7 +19240,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19249,7 +19251,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19270,7 +19272,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_SetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19290,7 +19292,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetHiSyncId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19301,7 +19303,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetHiSyncId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19319,7 +19321,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetHiSyncId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19337,7 +19339,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceSide() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19348,7 +19350,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceSide() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19366,7 +19368,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceSide() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19384,7 +19386,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19395,7 +19397,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19413,7 +19415,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetDeviceMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19431,7 +19433,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetAdvertisementServiceData() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19442,7 +19444,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetAdvertisementServiceData() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHearingAid")
 			}
 			if err != nil {
 				return err
@@ -19460,7 +19462,7 @@ func newCmdAndroidBluetoothIBluetoothHearingAid_GetAdvertisementServiceData() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19501,7 +19503,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_RegisterApp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19512,7 +19514,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_RegisterApp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19544,7 +19546,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_RegisterApp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19564,7 +19566,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_UnregisterApp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19575,7 +19577,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_UnregisterApp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19591,7 +19593,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_UnregisterApp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19609,7 +19611,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SendReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19620,7 +19622,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SendReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19652,7 +19654,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SendReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19674,7 +19676,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReplyReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19685,7 +19687,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReplyReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19722,7 +19724,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReplyReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19746,7 +19748,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReportError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19757,7 +19759,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReportError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19780,7 +19782,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_ReportError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19800,7 +19802,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Unplug() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19811,7 +19813,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Unplug() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19829,7 +19831,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Unplug() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19847,7 +19849,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19858,7 +19860,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19876,7 +19878,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19894,7 +19896,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19905,7 +19907,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19923,7 +19925,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19941,7 +19943,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectedDevices() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19952,7 +19954,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectedDevices() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -19968,7 +19970,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectedDevices() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19986,7 +19988,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetDevicesMatchingConnectionState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19997,7 +19999,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetDevicesMatchingConnectionState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -20028,7 +20030,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetDevicesMatchingConnectionState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20048,7 +20050,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectionState() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20059,7 +20061,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectionState() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -20077,7 +20079,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetConnectionState() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20095,7 +20097,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetUserAppName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20106,7 +20108,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetUserAppName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -20122,7 +20124,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_GetUserAppName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20140,7 +20142,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SetConnectionPolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20151,7 +20153,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SetConnectionPolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDevice")
 			}
 			if err != nil {
 				return err
@@ -20174,7 +20176,7 @@ func newCmdAndroidBluetoothIBluetoothHidDevice_SetConnectionPolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20211,7 +20213,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnAppStatusChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20222,7 +20224,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnAppStatusChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20243,7 +20245,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnAppStatusChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20263,7 +20265,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnConnectionStateChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20274,7 +20276,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnConnectionStateChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20295,7 +20297,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnConnectionStateChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20315,7 +20317,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnGetReport() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20326,7 +20328,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnGetReport() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20357,7 +20359,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnGetReport() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20381,7 +20383,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetReport() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20392,7 +20394,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetReport() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20427,7 +20429,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetReport() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20451,7 +20453,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetProtocol() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20462,7 +20464,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetProtocol() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20483,7 +20485,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnSetProtocol() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20503,7 +20505,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnInterruptData() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20514,7 +20516,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnInterruptData() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20544,7 +20546,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnInterruptData() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20566,7 +20568,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnVirtualCableUnplug() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20577,7 +20579,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnVirtualCableUnplug() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidDeviceCallback")
 			}
 			if err != nil {
 				return err
@@ -20593,7 +20595,7 @@ func newCmdAndroidBluetoothIBluetoothHidDeviceCallback_OnVirtualCableUnplug() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20638,7 +20640,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20649,7 +20651,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20667,7 +20669,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20685,7 +20687,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20696,7 +20698,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20714,7 +20716,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20732,7 +20734,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectedDevices() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20743,7 +20745,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectedDevices() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20759,7 +20761,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectedDevices() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20777,7 +20779,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetDevicesMatchingConnectionStates(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20788,7 +20790,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetDevicesMatchingConnectionStates(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20819,7 +20821,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetDevicesMatchingConnectionStates(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20839,7 +20841,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20850,7 +20852,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20868,7 +20870,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20886,7 +20888,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20897,7 +20899,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20920,7 +20922,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20940,7 +20942,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20951,7 +20953,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -20969,7 +20971,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20987,7 +20989,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetPreferredTransport() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20998,7 +21000,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetPreferredTransport() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21021,7 +21023,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetPreferredTransport() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21041,7 +21043,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetPreferredTransport() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21052,7 +21054,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetPreferredTransport() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21070,7 +21072,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetPreferredTransport() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21088,7 +21090,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetProtocolMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21099,7 +21101,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetProtocolMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21117,7 +21119,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetProtocolMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21135,7 +21137,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_VirtualUnplug() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21146,7 +21148,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_VirtualUnplug() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21164,7 +21166,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_VirtualUnplug() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21182,7 +21184,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetProtocolMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21193,7 +21195,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetProtocolMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21216,7 +21218,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetProtocolMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21236,7 +21238,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21247,7 +21249,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21280,7 +21282,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21304,7 +21306,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetReport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21315,7 +21317,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetReport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21343,7 +21345,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetReport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21365,7 +21367,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SendData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21376,7 +21378,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SendData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21399,7 +21401,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SendData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21419,7 +21421,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetIdleTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21430,7 +21432,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetIdleTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21448,7 +21450,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_GetIdleTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21466,7 +21468,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetIdleTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21477,7 +21479,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetIdleTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothHidHost")
 			}
 			if err != nil {
 				return err
@@ -21500,7 +21502,7 @@ func newCmdAndroidBluetoothIBluetoothHidHost_SetIdleTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21564,7 +21566,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21575,7 +21577,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21593,7 +21595,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21611,7 +21613,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21622,7 +21624,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21640,7 +21642,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21658,7 +21660,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedDevices() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21669,7 +21671,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedDevices() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21685,7 +21687,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedDevices() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21703,7 +21705,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetDevicesMatchingConnectionStates(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21714,7 +21716,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetDevicesMatchingConnectionStates(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21745,7 +21747,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetDevicesMatchingConnectionStates(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21765,7 +21767,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionState() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21776,7 +21778,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionState() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21794,7 +21796,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionState() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21812,7 +21814,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetActiveDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21823,7 +21825,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetActiveDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21841,7 +21843,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetActiveDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21859,7 +21861,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetActiveDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21870,7 +21872,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetActiveDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21886,7 +21888,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetActiveDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21904,7 +21906,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21915,7 +21917,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21938,7 +21940,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21958,7 +21960,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21969,7 +21971,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -21987,7 +21989,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectionPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22005,7 +22007,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedGroupLeadDevice() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22016,7 +22018,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedGroupLeadDevice() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22037,7 +22039,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetConnectedGroupLeadDevice() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22057,7 +22059,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetCodecStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22068,7 +22070,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetCodecStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22089,7 +22091,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetCodecStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22109,7 +22111,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCodecConfigPreference() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22120,7 +22122,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCodecConfigPreference() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22145,7 +22147,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCodecConfigPreference() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22165,7 +22167,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetBroadcastToUnicastFallbackGroup(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22176,7 +22178,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetBroadcastToUnicastFallbackGroup(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22197,7 +22199,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetBroadcastToUnicastFallbackGroup(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22217,7 +22219,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetBroadcastToUnicastFallbackGroup(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22228,7 +22230,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetBroadcastToUnicastFallbackGroup(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22244,7 +22246,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetBroadcastToUnicastFallbackGroup(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22262,7 +22264,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCcidInformation() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22273,7 +22275,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCcidInformation() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22301,7 +22303,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetCcidInformation() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22323,7 +22325,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22334,7 +22336,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22355,7 +22357,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22375,7 +22377,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInactiveForHfpHandover() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22386,7 +22388,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInactiveForHfpHandover() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22404,7 +22406,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetInactiveForHfpHandover() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22422,7 +22424,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetGroupId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22433,7 +22435,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetGroupId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22451,7 +22453,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetGroupId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22469,7 +22471,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22480,7 +22482,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22501,7 +22503,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_SetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22521,7 +22523,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupAddNode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22532,7 +22534,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupAddNode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22555,7 +22557,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupAddNode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22575,7 +22577,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupRemoveNode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22586,7 +22588,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupRemoveNode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22609,7 +22611,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GroupRemoveNode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22629,7 +22631,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAudioLocation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22640,7 +22642,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAudioLocation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22658,7 +22660,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAudioLocation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22676,7 +22678,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsInbandRingtoneEnabled() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22687,7 +22689,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsInbandRingtoneEnabled() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22708,7 +22710,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsInbandRingtoneEnabled() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22728,7 +22730,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_RegisterLeBroadcastCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22739,7 +22741,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_RegisterLeBroadcastCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22765,7 +22767,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_RegisterLeBroadcastCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22785,7 +22787,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UnregisterLeBroadcastCallback() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22796,7 +22798,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UnregisterLeBroadcastCallback() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22822,7 +22824,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UnregisterLeBroadcastCallback() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22842,7 +22844,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StartBroadcast() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22853,7 +22855,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StartBroadcast() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22871,7 +22873,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StartBroadcast() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22889,7 +22891,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StopBroadcast() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22900,7 +22902,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StopBroadcast() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22921,7 +22923,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_StopBroadcast() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22941,7 +22943,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UpdateBroadcast() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22952,7 +22954,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UpdateBroadcast() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -22975,7 +22977,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_UpdateBroadcast() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22995,7 +22997,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsPlaying() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23006,7 +23008,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsPlaying() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23027,7 +23029,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsPlaying() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23047,7 +23049,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAllBroadcastMetadata() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23058,7 +23060,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAllBroadcastMetadata() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23074,7 +23076,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetAllBroadcastMetadata() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23092,7 +23094,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumNumberOfBroadcasts() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23103,7 +23105,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumNumberOfBroadcasts() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23117,7 +23119,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumNumberOfBroadcasts() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23135,7 +23137,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumStreamsPerBroadcast() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23146,7 +23148,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumStreamsPerBroadcast() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23160,7 +23162,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumStreamsPerBroadcast() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23178,7 +23180,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumSubgroupsPerBroadcast() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23189,7 +23191,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumSubgroupsPerBroadcast() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23203,7 +23205,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_GetMaximumSubgroupsPerBroadcast() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23221,7 +23223,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsBroadcastActive() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23232,7 +23234,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsBroadcastActive() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudio")
 			}
 			if err != nil {
 				return err
@@ -23248,7 +23250,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudio_IsBroadcastActive() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23282,7 +23284,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnCodecConfigChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23293,7 +23295,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnCodecConfigChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23314,7 +23316,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnCodecConfigChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23334,7 +23336,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeAdded() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23345,7 +23347,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeAdded() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23366,7 +23368,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeAdded() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23386,7 +23388,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeRemoved() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23397,7 +23399,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeRemoved() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23418,7 +23420,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupNodeRemoved() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23438,7 +23440,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStatusChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23449,7 +23451,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStatusChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23473,7 +23475,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStatusChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23495,7 +23497,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStreamStatusChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23506,7 +23508,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStreamStatusChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23530,7 +23532,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnGroupStreamStatusChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23552,7 +23554,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnBroadcastToUnicastFallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23563,7 +23565,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnBroadcastToUnicastFallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeAudioCallback")
 			}
 			if err != nil {
 				return err
@@ -23582,7 +23584,7 @@ func newCmdAndroidBluetoothIBluetoothLeAudioCallback_OnBroadcastToUnicastFallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23626,7 +23628,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionState() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23637,7 +23639,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionState() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23655,7 +23657,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionState() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23673,7 +23675,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetDevicesMatchingConn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23684,7 +23686,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetDevicesMatchingConn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23715,7 +23717,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetDevicesMatchingConn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23735,7 +23737,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectedDevices() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23746,7 +23748,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectedDevices() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23762,7 +23764,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectedDevices() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23780,7 +23782,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_SetConnectionPolicy() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23791,7 +23793,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_SetConnectionPolicy() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23814,7 +23816,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_SetConnectionPolicy() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23834,7 +23836,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionPolicy() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23845,7 +23847,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionPolicy() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23863,7 +23865,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetConnectionPolicy() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23881,7 +23883,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StartSearchingForSourc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23892,7 +23894,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StartSearchingForSourc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23919,7 +23921,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StartSearchingForSourc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23939,7 +23941,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StopSearchingForSource
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23950,7 +23952,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StopSearchingForSource
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -23966,7 +23968,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_StopSearchingForSource
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23984,7 +23986,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_IsSearchInProgress() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23995,7 +23997,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_IsSearchInProgress() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24011,7 +24013,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_IsSearchInProgress() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24029,7 +24031,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_AddSource() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24040,7 +24042,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_AddSource() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24065,7 +24067,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_AddSource() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24085,7 +24087,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_ModifySource() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24096,7 +24098,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_ModifySource() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24121,7 +24123,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_ModifySource() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24141,7 +24143,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_RemoveSource() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24152,7 +24154,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_RemoveSource() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24175,7 +24177,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_RemoveSource() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24195,7 +24197,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetAllSources() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24206,7 +24208,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetAllSources() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24224,7 +24226,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetAllSources() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24242,7 +24244,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetMaximumSourceCapaci
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24253,7 +24255,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetMaximumSourceCapaci
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24271,7 +24273,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetMaximumSourceCapaci
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24289,7 +24291,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetSourceMetadata() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24300,7 +24302,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetSourceMetadata() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistant")
 			}
 			if err != nil {
 				return err
@@ -24323,7 +24325,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistant_GetSourceMetadata() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24366,7 +24368,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStarte
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24377,7 +24379,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStarte
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24396,7 +24398,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStarte
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24416,7 +24418,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStartF
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24427,7 +24429,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStartF
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24446,7 +24448,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStartF
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24466,7 +24468,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStoppe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24477,7 +24479,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStoppe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24496,7 +24498,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStoppe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24516,7 +24518,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStopFa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24527,7 +24529,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStopFa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24546,7 +24548,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSearchStopFa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24566,7 +24568,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceFound(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24577,7 +24579,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceFound(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24593,7 +24595,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceFound(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24611,7 +24613,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAdded(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24622,7 +24624,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAdded(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24648,7 +24650,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAdded(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24670,7 +24672,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAddFai
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24681,7 +24683,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAddFai
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24704,7 +24706,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceAddFai
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24724,7 +24726,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModifi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24735,7 +24737,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModifi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24761,7 +24763,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModifi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24783,7 +24785,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModify
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24794,7 +24796,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModify
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24820,7 +24822,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceModify
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24842,7 +24844,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24853,7 +24855,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24879,7 +24881,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24901,7 +24903,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24912,7 +24914,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24938,7 +24940,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceRemove
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24960,7 +24962,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnReceiveState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24971,7 +24973,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnReceiveState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -24994,7 +24996,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnReceiveState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25014,7 +25016,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceLost()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25025,7 +25027,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceLost()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastAssistantCallback")
 			}
 			if err != nil {
 				return err
@@ -25044,7 +25046,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastAssistantCallback_OnSourceLost()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25083,7 +25085,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStarted() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25094,7 +25096,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStarted() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25118,7 +25120,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStarted() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25140,7 +25142,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStartFailed(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25151,7 +25153,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStartFailed(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25170,7 +25172,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStartFailed(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25190,7 +25192,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopped() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25201,7 +25203,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopped() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25225,7 +25227,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopped() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25247,7 +25249,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopFailed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25258,7 +25260,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopFailed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25277,7 +25279,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastStopFailed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25297,7 +25299,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStarted() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25308,7 +25310,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStarted() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25332,7 +25334,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStarted() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25354,7 +25356,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStopped() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25365,7 +25367,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStopped() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25389,7 +25391,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnPlaybackStopped() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25411,7 +25413,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdated() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25422,7 +25424,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdated() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25446,7 +25448,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdated() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25468,7 +25470,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdateFailed
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25479,7 +25481,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdateFailed
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25503,7 +25505,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastUpdateFailed
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25525,7 +25527,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastMetadataChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25536,7 +25538,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastMetadataChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothLeBroadcastCallback")
 			}
 			if err != nil {
 				return err
@@ -25557,7 +25559,7 @@ func newCmdAndroidBluetoothIBluetoothLeBroadcastCallback_OnBroadcastMetadataChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25606,7 +25608,7 @@ func newCmdAndroidBluetoothIBluetoothManager_RegisterAdapter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25617,7 +25619,7 @@ func newCmdAndroidBluetoothIBluetoothManager_RegisterAdapter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25641,7 +25643,7 @@ func newCmdAndroidBluetoothIBluetoothManager_RegisterAdapter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25661,7 +25663,7 @@ func newCmdAndroidBluetoothIBluetoothManager_UnregisterAdapter() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25672,7 +25674,7 @@ func newCmdAndroidBluetoothIBluetoothManager_UnregisterAdapter() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25696,7 +25698,7 @@ func newCmdAndroidBluetoothIBluetoothManager_UnregisterAdapter() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25716,7 +25718,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25727,7 +25729,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25741,7 +25743,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25759,7 +25761,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetAddress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25770,7 +25772,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetAddress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25786,7 +25788,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetAddress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25804,7 +25806,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25815,7 +25817,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25831,7 +25833,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25849,7 +25851,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsHearingAidProfileSupported() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25860,7 +25862,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsHearingAidProfileSupported() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25874,7 +25876,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsHearingAidProfileSupported() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25892,7 +25894,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsBleScanAvailable() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25903,7 +25905,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsBleScanAvailable() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25917,7 +25919,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsBleScanAvailable() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25935,7 +25937,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Enable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25946,7 +25948,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Enable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -25962,7 +25964,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Enable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25980,7 +25982,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableBle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25991,7 +25993,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableBle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26016,7 +26018,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableBle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26036,7 +26038,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableNoAutoConnect() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26047,7 +26049,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableNoAutoConnect() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26063,7 +26065,7 @@ func newCmdAndroidBluetoothIBluetoothManager_EnableNoAutoConnect() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26081,7 +26083,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Disable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26092,7 +26094,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Disable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26113,7 +26115,7 @@ func newCmdAndroidBluetoothIBluetoothManager_Disable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26133,7 +26135,7 @@ func newCmdAndroidBluetoothIBluetoothManager_DisableBle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26144,7 +26146,7 @@ func newCmdAndroidBluetoothIBluetoothManager_DisableBle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26169,7 +26171,7 @@ func newCmdAndroidBluetoothIBluetoothManager_DisableBle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26189,7 +26191,7 @@ func newCmdAndroidBluetoothIBluetoothManager_FactoryReset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26200,7 +26202,7 @@ func newCmdAndroidBluetoothIBluetoothManager_FactoryReset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26216,7 +26218,7 @@ func newCmdAndroidBluetoothIBluetoothManager_FactoryReset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26234,7 +26236,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetBtHciSnoopLogMode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26245,7 +26247,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetBtHciSnoopLogMode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26264,7 +26266,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetBtHciSnoopLogMode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26284,7 +26286,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetBtHciSnoopLogMode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26295,7 +26297,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetBtHciSnoopLogMode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26309,7 +26311,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetBtHciSnoopLogMode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26327,7 +26329,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnSupported() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26338,7 +26340,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnSupported() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26352,7 +26354,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnSupported() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26370,7 +26372,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26381,7 +26383,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26395,7 +26397,7 @@ func newCmdAndroidBluetoothIBluetoothManager_IsAutoOnEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26413,7 +26415,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetAutoOnEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26424,7 +26426,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetAutoOnEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26443,7 +26445,7 @@ func newCmdAndroidBluetoothIBluetoothManager_SetAutoOnEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26463,7 +26465,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetServiceMessenger() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26474,7 +26476,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetServiceMessenger() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManager")
 			}
 			if err != nil {
 				return err
@@ -26488,7 +26490,7 @@ func newCmdAndroidBluetoothIBluetoothManager_GetServiceMessenger() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26520,7 +26522,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceUp() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26531,7 +26533,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceUp() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -26554,7 +26556,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceUp() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26574,7 +26576,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceDown() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26585,7 +26587,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceDown() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -26599,7 +26601,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothServiceDown() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26617,7 +26619,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOn() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26628,7 +26630,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOn() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -26642,7 +26644,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOn() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26660,7 +26662,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOff() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26671,7 +26673,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOff() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -26685,7 +26687,7 @@ func newCmdAndroidBluetoothIBluetoothManagerCallback_OnBluetoothOff() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26722,7 +26724,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26733,7 +26735,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26749,7 +26751,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26767,7 +26769,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26778,7 +26780,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26794,7 +26796,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26812,7 +26814,7 @@ func newCmdAndroidBluetoothIBluetoothMap_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26823,7 +26825,7 @@ func newCmdAndroidBluetoothIBluetoothMap_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26841,7 +26843,7 @@ func newCmdAndroidBluetoothIBluetoothMap_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26859,7 +26861,7 @@ func newCmdAndroidBluetoothIBluetoothMap_IsConnected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26870,7 +26872,7 @@ func newCmdAndroidBluetoothIBluetoothMap_IsConnected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26888,7 +26890,7 @@ func newCmdAndroidBluetoothIBluetoothMap_IsConnected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26906,7 +26908,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26917,7 +26919,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26933,7 +26935,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26951,7 +26953,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetDevicesMatchingConnectionStates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26962,7 +26964,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetDevicesMatchingConnectionStates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -26993,7 +26995,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetDevicesMatchingConnectionStates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27013,7 +27015,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27024,7 +27026,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -27042,7 +27044,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27060,7 +27062,7 @@ func newCmdAndroidBluetoothIBluetoothMap_SetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27071,7 +27073,7 @@ func newCmdAndroidBluetoothIBluetoothMap_SetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -27094,7 +27096,7 @@ func newCmdAndroidBluetoothIBluetoothMap_SetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27114,7 +27116,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27125,7 +27127,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMap")
 			}
 			if err != nil {
 				return err
@@ -27143,7 +27145,7 @@ func newCmdAndroidBluetoothIBluetoothMap_GetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27178,7 +27180,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27189,7 +27191,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27207,7 +27209,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27225,7 +27227,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27236,7 +27238,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27254,7 +27256,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27272,7 +27274,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectedDevices() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27283,7 +27285,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectedDevices() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27299,7 +27301,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectedDevices() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27317,7 +27319,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetDevicesMatchingConnectionState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27328,7 +27330,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetDevicesMatchingConnectionState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27359,7 +27361,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetDevicesMatchingConnectionState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27379,7 +27381,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionState() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27390,7 +27392,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionState() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27408,7 +27410,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionState() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27426,7 +27428,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_SetConnectionPolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27437,7 +27439,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_SetConnectionPolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27460,7 +27462,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_SetConnectionPolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27480,7 +27482,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionPolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27491,7 +27493,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionPolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMapClient")
 			}
 			if err != nil {
 				return err
@@ -27509,7 +27511,7 @@ func newCmdAndroidBluetoothIBluetoothMapClient_GetConnectionPolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27538,7 +27540,7 @@ func newCmdAndroidBluetoothIBluetoothMetadataListener_OnMetadataChanged() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27549,7 +27551,7 @@ func newCmdAndroidBluetoothIBluetoothMetadataListener_OnMetadataChanged() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMetadataListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothMetadataListener")
 			}
 			if err != nil {
 				return err
@@ -27579,7 +27581,7 @@ func newCmdAndroidBluetoothIBluetoothMetadataListener_OnMetadataChanged() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27613,7 +27615,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnOobData() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27624,7 +27626,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnOobData() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothOobDataCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothOobDataCallback")
 			}
 			if err != nil {
 				return err
@@ -27645,7 +27647,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnOobData() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27665,7 +27667,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27676,7 +27678,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothOobDataCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothOobDataCallback")
 			}
 			if err != nil {
 				return err
@@ -27695,7 +27697,7 @@ func newCmdAndroidBluetoothIBluetoothOobDataCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27733,7 +27735,7 @@ func newCmdAndroidBluetoothIBluetoothPan_IsTetheringOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27744,7 +27746,7 @@ func newCmdAndroidBluetoothIBluetoothPan_IsTetheringOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -27760,7 +27762,7 @@ func newCmdAndroidBluetoothIBluetoothPan_IsTetheringOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27778,7 +27780,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetBluetoothTethering() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27789,7 +27791,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetBluetoothTethering() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -27825,7 +27827,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetBluetoothTethering() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27849,7 +27851,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27860,7 +27862,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -27878,7 +27880,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27896,7 +27898,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27907,7 +27909,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -27925,7 +27927,7 @@ func newCmdAndroidBluetoothIBluetoothPan_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27943,7 +27945,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27954,7 +27956,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -27970,7 +27972,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27988,7 +27990,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetDevicesMatchingConnectionStates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27999,7 +28001,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetDevicesMatchingConnectionStates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -28030,7 +28032,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetDevicesMatchingConnectionStates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28050,7 +28052,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28061,7 +28063,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -28079,7 +28081,7 @@ func newCmdAndroidBluetoothIBluetoothPan_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28097,7 +28099,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28108,7 +28110,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPan")
 			}
 			if err != nil {
 				return err
@@ -28131,7 +28133,7 @@ func newCmdAndroidBluetoothIBluetoothPan_SetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28163,7 +28165,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnAvailable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28174,7 +28176,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnAvailable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPanCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPanCallback")
 			}
 			if err != nil {
 				return err
@@ -28193,7 +28195,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnAvailable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28213,7 +28215,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnUnavailable() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28224,7 +28226,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnUnavailable() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPanCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPanCallback")
 			}
 			if err != nil {
 				return err
@@ -28238,7 +28240,7 @@ func newCmdAndroidBluetoothIBluetoothPanCallback_OnUnavailable() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28271,7 +28273,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28282,7 +28284,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
 			}
 			if err != nil {
 				return err
@@ -28298,7 +28300,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28316,7 +28318,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetDevicesMatchingConnectionStates() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28327,7 +28329,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetDevicesMatchingConnectionStates() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
 			}
 			if err != nil {
 				return err
@@ -28358,7 +28360,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetDevicesMatchingConnectionStates() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28378,7 +28380,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28389,7 +28391,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
 			}
 			if err != nil {
 				return err
@@ -28407,7 +28409,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28425,7 +28427,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28436,7 +28438,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
 			}
 			if err != nil {
 				return err
@@ -28454,7 +28456,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28472,7 +28474,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_SetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28483,7 +28485,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_SetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbap")
 			}
 			if err != nil {
 				return err
@@ -28506,7 +28508,7 @@ func newCmdAndroidBluetoothIBluetoothPbap_SetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28543,7 +28545,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28554,7 +28556,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28572,7 +28574,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28590,7 +28592,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28601,7 +28603,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28619,7 +28621,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28637,7 +28639,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectedDevices() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28648,7 +28650,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectedDevices() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28664,7 +28666,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectedDevices() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28682,7 +28684,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetDevicesMatchingConnectionStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28693,7 +28695,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetDevicesMatchingConnectionStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28724,7 +28726,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetDevicesMatchingConnectionStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28744,7 +28746,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28755,7 +28757,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28773,7 +28775,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28791,7 +28793,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_SetConnectionPolicy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28802,7 +28804,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_SetConnectionPolicy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28825,7 +28827,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_SetConnectionPolicy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28845,7 +28847,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionPolicy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28856,7 +28858,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionPolicy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPbapClient")
 			}
 			if err != nil {
 				return err
@@ -28874,7 +28876,7 @@ func newCmdAndroidBluetoothIBluetoothPbapClient_GetConnectionPolicy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28903,7 +28905,7 @@ func newCmdAndroidBluetoothIBluetoothPreferredAudioProfilesCallback_OnPreferredA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28914,7 +28916,7 @@ func newCmdAndroidBluetoothIBluetoothPreferredAudioProfilesCallback_OnPreferredA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPreferredAudioProfilesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothPreferredAudioProfilesCallback")
 			}
 			if err != nil {
 				return err
@@ -28937,7 +28939,7 @@ func newCmdAndroidBluetoothIBluetoothPreferredAudioProfilesCallback_OnPreferredA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28968,7 +28970,7 @@ func newCmdAndroidBluetoothIBluetoothProfileCallback_GetProfileReply() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28979,7 +28981,7 @@ func newCmdAndroidBluetoothIBluetoothProfileCallback_GetProfileReply() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileCallback")
 			}
 			if err != nil {
 				return err
@@ -29002,7 +29004,7 @@ func newCmdAndroidBluetoothIBluetoothProfileCallback_GetProfileReply() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29034,7 +29036,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceConnected
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29045,7 +29047,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceConnected
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileServiceConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileServiceConnection")
 			}
 			if err != nil {
 				return err
@@ -29070,7 +29072,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceConnected
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29090,7 +29092,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceDisconnec
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29101,7 +29103,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceDisconnec
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileServiceConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothProfileServiceConnection")
 			}
 			if err != nil {
 				return err
@@ -29117,7 +29119,7 @@ func newCmdAndroidBluetoothIBluetoothProfileServiceConnection_OnServiceDisconnec
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29146,7 +29148,7 @@ func newCmdAndroidBluetoothIBluetoothQualityReportReadyCallback_OnBluetoothQuali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29157,7 +29159,7 @@ func newCmdAndroidBluetoothIBluetoothQualityReportReadyCallback_OnBluetoothQuali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothQualityReportReadyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothQualityReportReadyCallback")
 			}
 			if err != nil {
 				return err
@@ -29180,7 +29182,7 @@ func newCmdAndroidBluetoothIBluetoothQualityReportReadyCallback_OnBluetoothQuali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29219,7 +29221,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29230,7 +29232,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29246,7 +29248,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29264,7 +29266,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29275,7 +29277,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29291,7 +29293,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29309,7 +29311,7 @@ func newCmdAndroidBluetoothIBluetoothSap_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29320,7 +29322,7 @@ func newCmdAndroidBluetoothIBluetoothSap_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29338,7 +29340,7 @@ func newCmdAndroidBluetoothIBluetoothSap_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29356,7 +29358,7 @@ func newCmdAndroidBluetoothIBluetoothSap_IsConnected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29367,7 +29369,7 @@ func newCmdAndroidBluetoothIBluetoothSap_IsConnected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29385,7 +29387,7 @@ func newCmdAndroidBluetoothIBluetoothSap_IsConnected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29403,7 +29405,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectedDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29414,7 +29416,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectedDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29430,7 +29432,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectedDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29448,7 +29450,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetDevicesMatchingConnectionStates() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29459,7 +29461,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetDevicesMatchingConnectionStates() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29490,7 +29492,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetDevicesMatchingConnectionStates() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29510,7 +29512,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29521,7 +29523,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29539,7 +29541,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29557,7 +29559,7 @@ func newCmdAndroidBluetoothIBluetoothSap_SetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29568,7 +29570,7 @@ func newCmdAndroidBluetoothIBluetoothSap_SetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29591,7 +29593,7 @@ func newCmdAndroidBluetoothIBluetoothSap_SetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29611,7 +29613,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29622,7 +29624,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSap")
 			}
 			if err != nil {
 				return err
@@ -29640,7 +29642,7 @@ func newCmdAndroidBluetoothIBluetoothSap_GetConnectionPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29678,7 +29680,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterScanner() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29689,7 +29691,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterScanner() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -29717,7 +29719,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterScanner() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29737,7 +29739,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterScanner() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29748,7 +29750,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterScanner() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -29769,7 +29771,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterScanner() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29789,7 +29791,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StartScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29800,7 +29802,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StartScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -29834,7 +29836,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StartScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29856,7 +29858,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StopScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29867,7 +29869,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StopScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -29888,7 +29890,7 @@ func newCmdAndroidBluetoothIBluetoothScan_StopScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29908,7 +29910,7 @@ func newCmdAndroidBluetoothIBluetoothScan_FlushPendingBatchResults() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29919,7 +29921,7 @@ func newCmdAndroidBluetoothIBluetoothScan_FlushPendingBatchResults() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -29940,7 +29942,7 @@ func newCmdAndroidBluetoothIBluetoothScan_FlushPendingBatchResults() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29960,7 +29962,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterSync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29971,7 +29973,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterSync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -30009,7 +30011,7 @@ func newCmdAndroidBluetoothIBluetoothScan_RegisterSync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30033,7 +30035,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterSync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30044,7 +30046,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterSync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -30070,7 +30072,7 @@ func newCmdAndroidBluetoothIBluetoothScan_UnregisterSync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30090,7 +30092,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30101,7 +30103,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -30129,7 +30131,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30151,7 +30153,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSetInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30162,7 +30164,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSetInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -30200,7 +30202,7 @@ func newCmdAndroidBluetoothIBluetoothScan_TransferSetInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30224,7 +30226,7 @@ func newCmdAndroidBluetoothIBluetoothScan_NumHwTrackFiltersAvailable() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30235,7 +30237,7 @@ func newCmdAndroidBluetoothIBluetoothScan_NumHwTrackFiltersAvailable() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothScan")
 			}
 			if err != nil {
 				return err
@@ -30251,7 +30253,7 @@ func newCmdAndroidBluetoothIBluetoothScan_NumHwTrackFiltersAvailable() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30286,7 +30288,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocket() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30297,7 +30299,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocket() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30333,7 +30335,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocket() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30357,7 +30359,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocketWithOffload() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30368,7 +30370,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocketWithOffload() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30429,7 +30431,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_ConnectSocketWithOffload() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30463,7 +30465,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannel() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30474,7 +30476,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannel() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30513,7 +30515,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannel() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30539,7 +30541,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannelWithOffloa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30550,7 +30552,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannelWithOffloa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30614,7 +30616,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_CreateSocketChannelWithOffloa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30650,7 +30652,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_RequestMaximumTxDataLength() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30661,7 +30663,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_RequestMaximumTxDataLength() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30679,7 +30681,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_RequestMaximumTxDataLength() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30697,7 +30699,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capLocalChannelId() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30708,7 +30710,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capLocalChannelId() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30726,7 +30728,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capLocalChannelId() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30744,7 +30746,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capRemoteChannelId() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30755,7 +30757,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capRemoteChannelId() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothSocketManager")
 			}
 			if err != nil {
 				return err
@@ -30773,7 +30775,7 @@ func newCmdAndroidBluetoothIBluetoothSocketManager_GetL2capRemoteChannelId() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30830,7 +30832,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectedDevices() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30841,7 +30843,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectedDevices() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -30857,7 +30859,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectedDevices() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30875,7 +30877,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetDevicesMatchingConnectionS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30886,7 +30888,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetDevicesMatchingConnectionS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -30917,7 +30919,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetDevicesMatchingConnectionS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30937,7 +30939,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionState() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30948,7 +30950,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionState() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -30966,7 +30968,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionState() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -30984,7 +30986,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetConnectionPolicy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30995,7 +30997,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetConnectionPolicy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31018,7 +31020,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetConnectionPolicy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31038,7 +31040,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionPolicy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31049,7 +31051,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionPolicy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31067,7 +31069,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetConnectionPolicy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31085,7 +31087,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsVolumeOffsetAvailable() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31096,7 +31098,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsVolumeOffsetAvailable() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31114,7 +31116,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsVolumeOffsetAvailable() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31132,7 +31134,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfVolumeOffsetInstan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31143,7 +31145,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfVolumeOffsetInstan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31161,7 +31163,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfVolumeOffsetInstan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31179,7 +31181,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetVolumeOffset() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31190,7 +31192,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetVolumeOffset() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31218,7 +31220,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetVolumeOffset() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31240,7 +31242,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetDeviceVolume() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31251,7 +31253,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetDeviceVolume() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31279,7 +31281,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetDeviceVolume() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31301,7 +31303,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterCallback() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31312,7 +31314,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterCallback() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31338,7 +31340,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterCallback() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31358,7 +31360,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterCallback() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31369,7 +31371,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterCallback() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31395,7 +31397,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterCallback() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31415,7 +31417,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_NotifyNewRegisteredCallback()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31426,7 +31428,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_NotifyNewRegisteredCallback()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31452,7 +31454,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_NotifyNewRegisteredCallback()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31472,7 +31474,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfAudioInputControlS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31483,7 +31485,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfAudioInputControlS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31501,7 +31503,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetNumberOfAudioInputControlS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31519,7 +31521,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterAudioInputControlCall
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31530,7 +31532,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterAudioInputControlCall
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31563,7 +31565,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_RegisterAudioInputControlCall
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31585,7 +31587,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterAudioInputControlCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31596,7 +31598,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterAudioInputControlCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31629,7 +31631,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_UnregisterAudioInputControlCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31651,7 +31653,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingUnit(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31662,7 +31664,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingUnit(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31685,7 +31687,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingUnit(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31705,7 +31707,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMin()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31716,7 +31718,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMin()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31739,7 +31741,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMin()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31759,7 +31761,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMax()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31770,7 +31772,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMax()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31793,7 +31795,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSettingMax()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31813,7 +31815,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputDescription() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31824,7 +31826,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputDescription() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31847,7 +31849,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputDescription() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31867,7 +31869,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsAudioInputDescriptionWritab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31878,7 +31880,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsAudioInputDescriptionWritab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31901,7 +31903,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_IsAudioInputDescriptionWritab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31921,7 +31923,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputDescription() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31932,7 +31934,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputDescription() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -31960,7 +31962,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputDescription() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31982,7 +31984,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputStatus() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31993,7 +31995,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputStatus() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32016,7 +32018,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputStatus() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32036,7 +32038,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputType() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32047,7 +32049,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputType() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32070,7 +32072,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputType() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32090,7 +32092,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSetting() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32101,7 +32103,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSetting() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32124,7 +32126,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainSetting() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32144,7 +32146,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainSetting() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32155,7 +32157,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainSetting() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32183,7 +32185,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainSetting() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32205,7 +32207,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainMode() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32216,7 +32218,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainMode() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32239,7 +32241,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputGainMode() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32259,7 +32261,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainMode() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32270,7 +32272,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainMode() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32298,7 +32300,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputGainMode() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32320,7 +32322,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputMute() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32331,7 +32333,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputMute() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32354,7 +32356,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_GetAudioInputMute() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32374,7 +32376,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputMute() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32385,7 +32387,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputMute() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControl")
 			}
 			if err != nil {
 				return err
@@ -32413,7 +32415,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControl_SetAudioInputMute() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32449,7 +32451,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32460,7 +32462,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
 			}
 			if err != nil {
 				return err
@@ -32486,7 +32488,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32508,7 +32510,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioLo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32519,7 +32521,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioLo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
 			}
 			if err != nil {
 				return err
@@ -32545,7 +32547,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioLo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32567,7 +32569,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32578,7 +32580,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
 			}
 			if err != nil {
 				return err
@@ -32604,7 +32606,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnVolumeOffsetAudioDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32626,7 +32628,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnDeviceVolumeChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32637,7 +32639,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnDeviceVolumeChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IBluetoothVolumeControlCallback")
 			}
 			if err != nil {
 				return err
@@ -32658,7 +32660,7 @@ func newCmdAndroidBluetoothIBluetoothVolumeControlCallback_OnDeviceVolumeChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32694,7 +32696,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetSupportedDistanceMeasurementM
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32705,7 +32707,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetSupportedDistanceMeasurementM
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32721,7 +32723,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetSupportedDistanceMeasurementM
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32739,7 +32741,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StartDistanceMeasurement() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32750,7 +32752,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StartDistanceMeasurement() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32780,7 +32782,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StartDistanceMeasurement() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32800,7 +32802,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StopDistanceMeasurement() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32811,7 +32813,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StopDistanceMeasurement() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32836,7 +32838,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_StopDistanceMeasurement() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32856,7 +32858,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingMaxSupportedSe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32867,7 +32869,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingMaxSupportedSe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32885,7 +32887,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingMaxSupportedSe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32903,7 +32905,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetLocalChannelSoundingMaxSuppor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32914,7 +32916,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetLocalChannelSoundingMaxSuppor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32930,7 +32932,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetLocalChannelSoundingMaxSuppor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32948,7 +32950,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingSupportedSecur
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32959,7 +32961,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingSupportedSecur
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.bluetooth.IDistanceMeasurement")
 			}
 			if err != nil {
 				return err
@@ -32975,7 +32977,7 @@ func newCmdAndroidBluetoothIDistanceMeasurement_GetChannelSoundingSupportedSecur
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

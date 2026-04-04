@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/common/fmq"
@@ -50,7 +52,7 @@ func newCmdAndroidHardwareSensorsISensors_Activate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -61,7 +63,7 @@ func newCmdAndroidHardwareSensorsISensors_Activate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidHardwareSensorsISensors_Activate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -107,7 +109,7 @@ func newCmdAndroidHardwareSensorsISensors_Batch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -118,7 +120,7 @@ func newCmdAndroidHardwareSensorsISensors_Batch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -147,7 +149,7 @@ func newCmdAndroidHardwareSensorsISensors_Batch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdAndroidHardwareSensorsISensors_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdAndroidHardwareSensorsISensors_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidHardwareSensorsISensors_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareSensorsISensors_GetSensorsList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareSensorsISensors_GetSensorsList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidHardwareSensorsISensors_GetSensorsList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -264,7 +266,7 @@ func newCmdAndroidHardwareSensorsISensors_Initialize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -275,7 +277,7 @@ func newCmdAndroidHardwareSensorsISensors_Initialize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -353,7 +355,7 @@ func newCmdAndroidHardwareSensorsISensors_Initialize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -383,7 +385,7 @@ func newCmdAndroidHardwareSensorsISensors_InjectSensorData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -394,7 +396,7 @@ func newCmdAndroidHardwareSensorsISensors_InjectSensorData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -419,7 +421,7 @@ func newCmdAndroidHardwareSensorsISensors_InjectSensorData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -441,7 +443,7 @@ func newCmdAndroidHardwareSensorsISensors_UnregisterDirectChannel() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -452,7 +454,7 @@ func newCmdAndroidHardwareSensorsISensors_UnregisterDirectChannel() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensors")
 			}
 			if err != nil {
 				return err
@@ -471,7 +473,7 @@ func newCmdAndroidHardwareSensorsISensors_UnregisterDirectChannel() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -503,7 +505,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsConnected() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -514,7 +516,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsConnected() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensorsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensorsCallback")
 			}
 			if err != nil {
 				return err
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsConnected() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -559,7 +561,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsDisconnected()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -570,7 +572,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsDisconnected()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensorsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.sensors.ISensorsCallback")
 			}
 			if err != nil {
 				return err
@@ -599,7 +601,7 @@ func newCmdAndroidHardwareSensorsISensorsCallback_OnDynamicSensorsDisconnected()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

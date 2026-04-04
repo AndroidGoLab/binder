@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/bluetooth"
@@ -72,7 +74,7 @@ func newCmdComAndroidInternalAppIAppOpsActiveCallback_OpActiveChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -83,7 +85,7 @@ func newCmdComAndroidInternalAppIAppOpsActiveCallback_OpActiveChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsActiveCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsActiveCallback")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdComAndroidInternalAppIAppOpsActiveCallback_OpActiveChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdComAndroidInternalAppIAppOpsCallback_OpChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdComAndroidInternalAppIAppOpsCallback_OpChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsCallback")
 			}
 			if err != nil {
 				return err
@@ -220,7 +222,7 @@ func newCmdComAndroidInternalAppIAppOpsCallback_OpChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -353,7 +355,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -377,7 +379,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -388,7 +390,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -432,7 +434,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -462,7 +464,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -473,7 +475,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -541,7 +543,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -579,7 +581,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperation() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -590,7 +592,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperation() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -628,7 +630,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperation() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -654,7 +656,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -665,7 +667,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -699,7 +701,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -723,7 +725,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingMode() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -734,7 +736,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingMode() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -758,7 +760,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingMode() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -778,7 +780,7 @@ func newCmdComAndroidInternalAppIAppOpsService_PermissionToOpCode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -789,7 +791,7 @@ func newCmdComAndroidInternalAppIAppOpsService_PermissionToOpCode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -808,7 +810,7 @@ func newCmdComAndroidInternalAppIAppOpsService_PermissionToOpCode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -828,7 +830,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckAudioOperation() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -839,7 +841,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckAudioOperation() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -873,7 +875,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckAudioOperation() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -899,7 +901,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ShouldCollectNotes() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -910,7 +912,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ShouldCollectNotes() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -929,7 +931,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ShouldCollectNotes() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -949,7 +951,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetCameraAudioRestriction() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -960,7 +962,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetCameraAudioRestriction() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -979,7 +981,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetCameraAudioRestriction() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -999,7 +1001,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingModeWithFlags() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1010,7 +1012,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingModeWithFlags() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1049,7 +1051,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingModeWithFlags() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1075,7 +1077,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperation() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1086,7 +1088,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperation() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1127,7 +1129,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperation() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1155,7 +1157,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperation() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1166,7 +1168,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperation() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1236,7 +1238,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperation() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1274,7 +1276,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperation() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1285,7 +1287,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperation() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1320,7 +1322,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperation() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckPackage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckPackage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1379,7 +1381,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckPackage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1401,7 +1403,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectRuntimeAppOpAccessMessage(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1412,7 +1414,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectRuntimeAppOpAccessMessage(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1426,7 +1428,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectRuntimeAppOpAccessMessage(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1444,7 +1446,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOps() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1455,7 +1457,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOps() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1484,7 +1486,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOps() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1504,7 +1506,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetOpsForPackage() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1515,7 +1517,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetOpsForPackage() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1554,7 +1556,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetOpsForPackage() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1578,7 +1580,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOps() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1589,7 +1591,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOps() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1649,7 +1651,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOps() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1683,7 +1685,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOpsFromDiskRaw() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1694,7 +1696,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOpsFromDiskRaw() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1754,7 +1756,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetHistoricalOpsFromDiskRaw() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1788,7 +1790,7 @@ func newCmdComAndroidInternalAppIAppOpsService_OffsetHistory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1799,7 +1801,7 @@ func newCmdComAndroidInternalAppIAppOpsService_OffsetHistory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1818,7 +1820,7 @@ func newCmdComAndroidInternalAppIAppOpsService_OffsetHistory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1838,7 +1840,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetHistoryParameters() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1849,7 +1851,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetHistoryParameters() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1878,7 +1880,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetHistoryParameters() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1902,7 +1904,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetHistoryParameters() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1913,7 +1915,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetHistoryParameters() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1927,7 +1929,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetHistoryParameters() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1945,7 +1947,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetPackageOpsNoHistory() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1956,7 +1958,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetPackageOpsNoHistory() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -1975,7 +1977,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetPackageOpsNoHistory() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1995,7 +1997,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ClearHistory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2006,7 +2008,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ClearHistory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2020,7 +2022,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ClearHistory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2038,7 +2040,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RebootHistory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2049,7 +2051,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RebootHistory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2068,7 +2070,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RebootHistory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2088,7 +2090,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetUidOps() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2099,7 +2101,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetUidOps() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2133,7 +2135,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetUidOps() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2155,7 +2157,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUidMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2166,7 +2168,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUidMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2195,7 +2197,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUidMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2219,7 +2221,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2230,7 +2232,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2264,7 +2266,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2290,7 +2292,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetAllModes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2301,7 +2303,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetAllModes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2325,7 +2327,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ResetAllModes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2347,7 +2349,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetAudioRestriction() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2358,7 +2360,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetAudioRestriction() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2401,7 +2403,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetAudioRestriction() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2429,7 +2431,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestrictions() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2440,7 +2442,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestrictions() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2465,7 +2467,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestrictions() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2485,7 +2487,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestriction() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2496,7 +2498,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestriction() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2531,7 +2533,7 @@ func newCmdComAndroidInternalAppIAppOpsService_SetUserRestriction() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2555,7 +2557,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RemoveUser() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2566,7 +2568,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RemoveUser() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2580,7 +2582,7 @@ func newCmdComAndroidInternalAppIAppOpsService_RemoveUser() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2598,7 +2600,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingActive() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2609,7 +2611,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingActive() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2648,7 +2650,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingActive() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2670,7 +2672,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingActive() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2681,7 +2683,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingActive() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2705,7 +2707,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingActive() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2725,7 +2727,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsOperationActive() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2736,7 +2738,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsOperationActive() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2765,7 +2767,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsOperationActive() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2789,7 +2791,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsProxying() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2800,7 +2802,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsProxying() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2839,7 +2841,7 @@ func newCmdComAndroidInternalAppIAppOpsService_IsProxying() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2867,7 +2869,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingStarted() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2878,7 +2880,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingStarted() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2917,7 +2919,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingStarted() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2939,7 +2941,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingStarted() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2950,7 +2952,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingStarted() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -2974,7 +2976,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingStarted() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2994,7 +2996,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingNoted() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3005,7 +3007,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingNoted() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3044,7 +3046,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingNoted() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3066,7 +3068,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingNoted() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3077,7 +3079,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingNoted() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3101,7 +3103,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingNoted() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3121,7 +3123,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingAsyncNoted() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3132,7 +3134,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingAsyncNoted() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3161,7 +3163,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartWatchingAsyncNoted() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3183,7 +3185,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingAsyncNoted() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3194,7 +3196,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingAsyncNoted() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3223,7 +3225,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StopWatchingAsyncNoted() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3245,7 +3247,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ExtractAsyncOps() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3256,7 +3258,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ExtractAsyncOps() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3275,7 +3277,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ExtractAsyncOps() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3295,7 +3297,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRaw() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3306,7 +3308,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRaw() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3335,7 +3337,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRaw() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3359,7 +3361,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ReloadNonHistoricalState() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3370,7 +3372,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ReloadNonHistoricalState() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3384,7 +3386,7 @@ func newCmdComAndroidInternalAppIAppOpsService_ReloadNonHistoricalState() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3402,7 +3404,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectNoteOpCallsForValidation()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3413,7 +3415,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectNoteOpCallsForValidation()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3447,7 +3449,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CollectNoteOpCallsForValidation()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3473,7 +3475,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperationWithState() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3484,7 +3486,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperationWithState() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3543,7 +3545,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteProxyOperationWithState() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3579,7 +3581,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperationWithState() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3590,7 +3592,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperationWithState() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3678,7 +3680,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartProxyOperationWithState() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3724,7 +3726,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperationWithState() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3735,7 +3737,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperationWithState() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3788,7 +3790,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishProxyOperationWithState() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3820,7 +3822,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRawForDevice() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3831,7 +3833,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRawForDevice() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3865,7 +3867,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationRawForDevice() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3891,7 +3893,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationForDevice() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3902,7 +3904,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationForDevice() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -3936,7 +3938,7 @@ func newCmdComAndroidInternalAppIAppOpsService_CheckOperationForDevice() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3962,7 +3964,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperationForDevice() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3973,7 +3975,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperationForDevice() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -4022,7 +4024,7 @@ func newCmdComAndroidInternalAppIAppOpsService_NoteOperationForDevice() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4054,7 +4056,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperationForDevice() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4065,7 +4067,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperationForDevice() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -4138,7 +4140,7 @@ func newCmdComAndroidInternalAppIAppOpsService_StartOperationForDevice() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4178,7 +4180,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperationForDevice() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4189,7 +4191,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperationForDevice() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -4232,7 +4234,7 @@ func newCmdComAndroidInternalAppIAppOpsService_FinishOperationForDevice() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4260,7 +4262,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOpsForDevice() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4271,7 +4273,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOpsForDevice() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsService")
 			}
 			if err != nil {
 				return err
@@ -4305,7 +4307,7 @@ func newCmdComAndroidInternalAppIAppOpsService_GetPackagesForOpsForDevice() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4338,7 +4340,7 @@ func newCmdComAndroidInternalAppIAppOpsStartedCallback_OpStarted() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4349,7 +4351,7 @@ func newCmdComAndroidInternalAppIAppOpsStartedCallback_OpStarted() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsStartedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IAppOpsStartedCallback")
 			}
 			if err != nil {
 				return err
@@ -4408,7 +4410,7 @@ func newCmdComAndroidInternalAppIAppOpsStartedCallback_OpStarted() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4552,7 +4554,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4563,7 +4565,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4587,7 +4589,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4609,7 +4611,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4620,7 +4622,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4644,7 +4646,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4666,7 +4668,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartVideo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4677,7 +4679,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartVideo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4696,7 +4698,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartVideo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4716,7 +4718,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopVideo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4727,7 +4729,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopVideo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4746,7 +4748,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopVideo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4766,7 +4768,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4777,7 +4779,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4796,7 +4798,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4816,7 +4818,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4827,7 +4829,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4846,7 +4848,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4866,7 +4868,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetVideo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4877,7 +4879,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetVideo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4891,7 +4893,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetVideo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4909,7 +4911,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4920,7 +4922,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4934,7 +4936,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4952,7 +4954,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOn() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4963,7 +4965,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOn() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -4982,7 +4984,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOn() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5002,7 +5004,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOff() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5013,7 +5015,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOff() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5032,7 +5034,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFlashlightOff() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5052,7 +5054,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartCamera() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5063,7 +5065,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartCamera() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5082,7 +5084,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartCamera() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5102,7 +5104,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopCamera() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5113,7 +5115,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopCamera() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5132,7 +5134,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopCamera() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5152,7 +5154,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetCamera() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5163,7 +5165,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetCamera() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5177,7 +5179,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetCamera() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5195,7 +5197,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetFlashlight() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5206,7 +5208,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetFlashlight() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5220,7 +5222,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteResetFlashlight() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5238,7 +5240,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeupSensorEvent() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5249,7 +5251,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeupSensorEvent() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5278,7 +5280,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeupSensorEvent() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5302,7 +5304,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBatteryUsageStats() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5313,7 +5315,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBatteryUsageStats() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5338,7 +5340,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBatteryUsageStats() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5358,7 +5360,7 @@ func newCmdComAndroidInternalAppIBatteryStats_IsCharging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5369,7 +5371,7 @@ func newCmdComAndroidInternalAppIBatteryStats_IsCharging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5383,7 +5385,7 @@ func newCmdComAndroidInternalAppIBatteryStats_IsCharging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5401,7 +5403,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryTimeRemaining() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5412,7 +5414,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryTimeRemaining() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5426,7 +5428,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryTimeRemaining() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5444,7 +5446,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeChargeTimeRemaining() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5455,7 +5457,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeChargeTimeRemaining() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5469,7 +5471,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeChargeTimeRemaining() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5487,7 +5489,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryScreenOffRealtimeMs(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5498,7 +5500,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryScreenOffRealtimeMs(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5512,7 +5514,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ComputeBatteryScreenOffRealtimeMs(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5530,7 +5532,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetScreenOffDischargeMah() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5541,7 +5543,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetScreenOffDischargeMah() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5555,7 +5557,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetScreenOffDischargeMah() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5573,7 +5575,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5584,7 +5586,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5613,7 +5615,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5637,7 +5639,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5648,7 +5650,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5672,7 +5674,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5694,7 +5696,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncFinish() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5705,7 +5707,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncFinish() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5729,7 +5731,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteSyncFinish() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5751,7 +5753,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5762,7 +5764,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5786,7 +5788,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5808,7 +5810,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobFinish() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5819,7 +5821,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobFinish() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5848,7 +5850,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteJobFinish() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5872,7 +5874,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelock() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5883,7 +5885,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelock() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -5927,7 +5929,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelock() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5957,7 +5959,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelock() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5968,7 +5970,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelock() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6007,7 +6009,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelock() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6035,7 +6037,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelockFromSource() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6046,7 +6048,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelockFromSource() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6087,7 +6089,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStartWakelockFromSource() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6115,7 +6117,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteChangeWakelockFromSource() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6126,7 +6128,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteChangeWakelockFromSource() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6189,7 +6191,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteChangeWakelockFromSource() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6225,7 +6227,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelockFromSource() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6236,7 +6238,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelockFromSource() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6272,7 +6274,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteStopWakelockFromSource() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6298,7 +6300,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStart() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6309,7 +6311,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStart() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6338,7 +6340,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStart() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6362,7 +6364,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStartFromSo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6373,7 +6375,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStartFromSo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6399,7 +6401,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockStartFromSo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6421,7 +6423,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinish() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6432,7 +6434,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinish() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6461,7 +6463,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinish() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6485,7 +6487,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinishFromS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6496,7 +6498,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinishFromS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6522,7 +6524,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteLongPartialWakelockFinishFromS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6544,7 +6546,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6555,7 +6557,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6579,7 +6581,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6601,7 +6603,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOff() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6612,7 +6614,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOff() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6631,7 +6633,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteVibratorOff() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6651,7 +6653,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6662,7 +6664,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6680,7 +6682,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6698,7 +6700,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsSignalQuality() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6709,7 +6711,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsSignalQuality() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6728,7 +6730,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteGpsSignalQuality() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6748,7 +6750,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6759,7 +6761,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6778,7 +6780,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6798,7 +6800,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenBrightness() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6809,7 +6811,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenBrightness() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6828,7 +6830,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteScreenBrightness() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6848,7 +6850,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteUserActivity() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6859,7 +6861,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteUserActivity() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6883,7 +6885,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteUserActivity() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6905,7 +6907,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeUp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6916,7 +6918,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeUp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6940,7 +6942,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWakeUp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6962,7 +6964,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteInteractive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6973,7 +6975,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteInteractive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -6992,7 +6994,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteInteractive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7012,7 +7014,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteConnectivityChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7023,7 +7025,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteConnectivityChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7047,7 +7049,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteConnectivityChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7069,7 +7071,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteMobileRadioPowerState() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7080,7 +7082,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteMobileRadioPowerState() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7109,7 +7111,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteMobileRadioPowerState() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7133,7 +7135,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7144,7 +7146,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7158,7 +7160,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7176,7 +7178,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOff() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7187,7 +7189,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOff() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7201,7 +7203,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneOff() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7219,7 +7221,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneSignalStrength() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7230,7 +7232,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneSignalStrength() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7246,7 +7248,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneSignalStrength() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7264,7 +7266,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneDataConnectionState() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7275,7 +7277,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneDataConnectionState() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7314,7 +7316,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneDataConnectionState() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7342,7 +7344,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7353,7 +7355,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7372,7 +7374,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NotePhoneState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7392,7 +7394,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7403,7 +7405,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7417,7 +7419,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7435,7 +7437,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOff() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7446,7 +7448,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOff() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7460,7 +7462,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiOff() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7478,7 +7480,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7489,7 +7491,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7505,7 +7507,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7523,7 +7525,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunningChanged() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7534,7 +7536,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunningChanged() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7552,7 +7554,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRunningChanged() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7570,7 +7572,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiStopped() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7581,7 +7583,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiStopped() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7597,7 +7599,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiStopped() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7615,7 +7617,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7626,7 +7628,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7650,7 +7652,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7672,7 +7674,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiSupplicantStateChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7683,7 +7685,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiSupplicantStateChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7707,7 +7709,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiSupplicantStateChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7729,7 +7731,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRssiChanged() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7740,7 +7742,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRssiChanged() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7759,7 +7761,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRssiChanged() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7779,7 +7781,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquired() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7790,7 +7792,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquired() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7809,7 +7811,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquired() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7829,7 +7831,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleased() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7840,7 +7842,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleased() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7859,7 +7861,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleased() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7879,7 +7881,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStarted() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7890,7 +7892,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStarted() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7909,7 +7911,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStarted() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7929,7 +7931,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStopped() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7940,7 +7942,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStopped() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -7959,7 +7961,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStopped() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7979,7 +7981,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7990,7 +7992,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8009,7 +8011,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8029,7 +8031,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastDisabled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8040,7 +8042,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastDisabled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8059,7 +8061,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiMulticastDisabled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8079,7 +8081,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquiredFromSource
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8090,7 +8092,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquiredFromSource
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8106,7 +8108,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockAcquiredFromSource
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8124,7 +8126,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleasedFromSource
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8135,7 +8137,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleasedFromSource
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8151,7 +8153,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteFullWifiLockReleasedFromSource
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8169,7 +8171,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStartedFromSource() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8180,7 +8182,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStartedFromSource() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8196,7 +8198,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStartedFromSource() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8214,7 +8216,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStoppedFromSource() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8225,7 +8227,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStoppedFromSource() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8241,7 +8243,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiScanStoppedFromSource() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8259,7 +8261,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStartedFromSour
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8270,7 +8272,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStartedFromSour
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8291,7 +8293,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStartedFromSour
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8311,7 +8313,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStoppedFromSour
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8322,7 +8324,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStoppedFromSour
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8338,7 +8340,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiBatchedScanStoppedFromSour
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8356,7 +8358,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRadioPowerState() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8367,7 +8369,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRadioPowerState() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8396,7 +8398,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiRadioPowerState() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8420,7 +8422,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkInterfaceForTransports(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8431,7 +8433,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkInterfaceForTransports(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8465,7 +8467,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkInterfaceForTransports(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8487,7 +8489,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkStatsEnabled() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8498,7 +8500,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkStatsEnabled() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8512,7 +8514,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteNetworkStatsEnabled() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8530,7 +8532,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteDeviceIdleMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8541,7 +8543,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteDeviceIdleMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8570,7 +8572,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteDeviceIdleMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8594,7 +8596,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8605,7 +8607,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8664,7 +8666,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8700,7 +8702,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimeBattery() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8711,7 +8713,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimeBattery() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8725,7 +8727,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimeBattery() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8743,7 +8745,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimePlugged() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8754,7 +8756,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimePlugged() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8768,7 +8770,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetAwakeTimePlugged() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8786,7 +8788,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStarted() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8797,7 +8799,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStarted() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8818,7 +8820,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStarted() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8838,7 +8840,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStopped() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8849,7 +8851,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStopped() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8870,7 +8872,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanStopped() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8890,7 +8892,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanReset() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8901,7 +8903,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanReset() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8915,7 +8917,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanReset() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8933,7 +8935,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanResults() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8944,7 +8946,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanResults() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -8965,7 +8967,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBleScanResults() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8985,7 +8987,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetCellularBatteryStats() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8996,7 +8998,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetCellularBatteryStats() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9010,7 +9012,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetCellularBatteryStats() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9028,7 +9030,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWifiBatteryStats() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9039,7 +9041,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWifiBatteryStats() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9053,7 +9055,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWifiBatteryStats() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9071,7 +9073,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetGpsBatteryStats() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9082,7 +9084,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetGpsBatteryStats() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9096,7 +9098,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetGpsBatteryStats() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9114,7 +9116,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWakeLockStats() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9125,7 +9127,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWakeLockStats() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9139,7 +9141,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetWakeLockStats() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9157,7 +9159,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBluetoothBatteryStats() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9168,7 +9170,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBluetoothBatteryStats() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9182,7 +9184,7 @@ func newCmdComAndroidInternalAppIBatteryStats_GetBluetoothBatteryStats() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9200,7 +9202,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9211,7 +9213,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9230,7 +9232,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9250,7 +9252,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshots() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9261,7 +9263,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshots() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9290,7 +9292,7 @@ func newCmdComAndroidInternalAppIBatteryStats_TakeUidSnapshots() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9310,7 +9312,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBluetoothControllerActivity() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9321,7 +9323,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBluetoothControllerActivity() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9337,7 +9339,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteBluetoothControllerActivity() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9355,7 +9357,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteModemControllerActivity() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9366,7 +9368,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteModemControllerActivity() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9382,7 +9384,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteModemControllerActivity() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9400,7 +9402,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiControllerActivity() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9411,7 +9413,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiControllerActivity() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9427,7 +9429,7 @@ func newCmdComAndroidInternalAppIBatteryStats_NoteWifiControllerActivity() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9445,7 +9447,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargingStateUpdateDelayMillis(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9456,7 +9458,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargingStateUpdateDelayMillis(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9475,7 +9477,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargingStateUpdateDelayMillis(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9495,7 +9497,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargerAcOnline() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9506,7 +9508,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargerAcOnline() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9530,7 +9532,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetChargerAcOnline() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9552,7 +9554,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryLevel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9563,7 +9565,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryLevel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9587,7 +9589,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SetBatteryLevel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9609,7 +9611,7 @@ func newCmdComAndroidInternalAppIBatteryStats_UnplugBattery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9620,7 +9622,7 @@ func newCmdComAndroidInternalAppIBatteryStats_UnplugBattery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9639,7 +9641,7 @@ func newCmdComAndroidInternalAppIBatteryStats_UnplugBattery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9659,7 +9661,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ResetBattery() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9670,7 +9672,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ResetBattery() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9689,7 +9691,7 @@ func newCmdComAndroidInternalAppIBatteryStats_ResetBattery() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9709,7 +9711,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SuspendBatteryInput() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9720,7 +9722,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SuspendBatteryInput() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IBatteryStats")
 			}
 			if err != nil {
 				return err
@@ -9734,7 +9736,7 @@ func newCmdComAndroidInternalAppIBatteryStats_SuspendBatteryInput() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9769,7 +9771,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnGenericSound
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9780,7 +9782,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnGenericSound
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -9796,7 +9798,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnGenericSound
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9814,7 +9816,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnUnknownFailu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9825,7 +9827,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnUnknownFailu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -9844,7 +9846,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnUnknownFailu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9864,7 +9866,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9875,7 +9877,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -9889,7 +9891,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9907,7 +9909,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9918,7 +9920,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -9932,7 +9934,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnRecognitionR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9950,7 +9952,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnStatusReport
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9961,7 +9963,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnStatusReport
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -9980,7 +9982,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnStatusReport
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10000,7 +10002,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnProcessResta
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10011,7 +10013,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnProcessResta
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -10025,7 +10027,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnProcessResta
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10043,7 +10045,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnOpenFile() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10054,7 +10056,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnOpenFile() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IHotwordRecognitionStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -10075,7 +10077,7 @@ func newCmdComAndroidInternalAppIHotwordRecognitionStatusCallback_OnOpenFile() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10107,7 +10109,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_ApproveAccessForClient(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10118,7 +10120,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_ApproveAccessForClient(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ILogAccessDialogCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ILogAccessDialogCallback")
 			}
 			if err != nil {
 				return err
@@ -10142,7 +10144,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_ApproveAccessForClient(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10164,7 +10166,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_DeclineAccessForClient(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10175,7 +10177,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_DeclineAccessForClient(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ILogAccessDialogCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ILogAccessDialogCallback")
 			}
 			if err != nil {
 				return err
@@ -10199,7 +10201,7 @@ func newCmdComAndroidInternalAppILogAccessDialogCallback_DeclineAccessForClient(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10235,7 +10237,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CopyPackage() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10246,7 +10248,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CopyPackage() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
 			}
 			if err != nil {
 				return err
@@ -10275,7 +10277,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CopyPackage() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10297,7 +10299,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetMinimalPackageInfo() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10308,7 +10310,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetMinimalPackageInfo() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
 			}
 			if err != nil {
 				return err
@@ -10337,7 +10339,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetMinimalPackageInfo() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10361,7 +10363,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetObbInfo() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10372,7 +10374,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetObbInfo() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
 			}
 			if err != nil {
 				return err
@@ -10391,7 +10393,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_GetObbInfo() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10411,7 +10413,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CalculateInstalledSize() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10422,7 +10424,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CalculateInstalledSize() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IMediaContainerService")
 			}
 			if err != nil {
 				return err
@@ -10446,7 +10448,7 @@ func newCmdComAndroidInternalAppIMediaContainerService_CalculateInstalledSize() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10483,7 +10485,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsOriginator() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10494,7 +10496,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsOriginator() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
 			}
 			if err != nil {
 				return err
@@ -10525,7 +10527,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsOriginator() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10549,7 +10551,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsMiddleman() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10560,7 +10562,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsMiddleman() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
 			}
 			if err != nil {
 				return err
@@ -10597,7 +10599,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachAsMiddleman() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10625,7 +10627,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_ListModuleProperties() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10636,7 +10638,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_ListModuleProperties() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
 			}
 			if err != nil {
 				return err
@@ -10656,7 +10658,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_ListModuleProperties() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10678,7 +10680,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachInjection() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10689,7 +10691,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachInjection() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
 			}
 			if err != nil {
 				return err
@@ -10713,7 +10715,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_AttachInjection() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10733,7 +10735,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_SetInPhoneCallState() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10744,7 +10746,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_SetInPhoneCallState() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerService")
 			}
 			if err != nil {
 				return err
@@ -10763,7 +10765,7 @@ func newCmdComAndroidInternalAppISoundTriggerService_SetInPhoneCallState() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10808,7 +10810,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetSoundModel() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10819,7 +10821,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetSoundModel() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -10835,7 +10837,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetSoundModel() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10853,7 +10855,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UpdateSoundModel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10864,7 +10866,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UpdateSoundModel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -10880,7 +10882,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UpdateSoundModel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10898,7 +10900,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_DeleteSoundModel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10909,7 +10911,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_DeleteSoundModel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -10925,7 +10927,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_DeleteSoundModel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10943,7 +10945,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognition() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10954,7 +10956,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognition() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -10987,7 +10989,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognition() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11009,7 +11011,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadGenericSoundModel() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11020,7 +11022,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadGenericSoundModel() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11036,7 +11038,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadGenericSoundModel() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11054,7 +11056,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadKeyphraseSoundModel() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11065,7 +11067,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadKeyphraseSoundModel() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11081,7 +11083,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_LoadKeyphraseSoundModel() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11099,7 +11101,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognitionForService(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11110,7 +11112,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognitionForService(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11132,7 +11134,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StartRecognitionForService(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11150,7 +11152,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StopRecognitionForService()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11161,7 +11163,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StopRecognitionForService()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11177,7 +11179,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_StopRecognitionForService()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11195,7 +11197,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UnloadSoundModel() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11206,7 +11208,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UnloadSoundModel() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11222,7 +11224,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_UnloadSoundModel() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11240,7 +11242,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_IsRecognitionActive() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11251,7 +11253,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_IsRecognitionActive() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11267,7 +11269,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_IsRecognitionActive() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11285,7 +11287,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModelState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11296,7 +11298,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModelState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11312,7 +11314,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModelState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11330,7 +11332,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModuleProperties() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11341,7 +11343,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModuleProperties() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11355,7 +11357,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetModuleProperties() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11373,7 +11375,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_SetParameter() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11384,7 +11386,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_SetParameter() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11411,7 +11413,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_SetParameter() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11433,7 +11435,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetParameter() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11444,7 +11446,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetParameter() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11466,7 +11468,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_GetParameter() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11486,7 +11488,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_QueryParameter() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11497,7 +11499,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_QueryParameter() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.ISoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -11519,7 +11521,7 @@ func newCmdComAndroidInternalAppISoundTriggerSession_QueryParameter() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11550,7 +11552,7 @@ func newCmdComAndroidInternalAppIVisualQueryDetectionAttentionListener_OnAttenti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11561,7 +11563,7 @@ func newCmdComAndroidInternalAppIVisualQueryDetectionAttentionListener_OnAttenti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryDetectionAttentionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryDetectionAttentionListener")
 			}
 			if err != nil {
 				return err
@@ -11580,7 +11582,7 @@ func newCmdComAndroidInternalAppIVisualQueryDetectionAttentionListener_OnAttenti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11612,7 +11614,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStartPer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11623,7 +11625,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStartPer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryRecognitionStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryRecognitionStatusListener")
 			}
 			if err != nil {
 				return err
@@ -11637,7 +11639,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStartPer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11655,7 +11657,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStopPerc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11666,7 +11668,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStopPerc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryRecognitionStatusListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVisualQueryRecognitionStatusListener")
 			}
 			if err != nil {
 				return err
@@ -11680,7 +11682,7 @@ func newCmdComAndroidInternalAppIVisualQueryRecognitionStatusListener_OnStopPerc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11709,7 +11711,7 @@ func newCmdComAndroidInternalAppIVoiceActionCheckCallback_OnComplete() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11720,7 +11722,7 @@ func newCmdComAndroidInternalAppIVoiceActionCheckCallback_OnComplete() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceActionCheckCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceActionCheckCallback")
 			}
 			if err != nil {
 				return err
@@ -11743,7 +11745,7 @@ func newCmdComAndroidInternalAppIVoiceActionCheckCallback_OnComplete() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11774,7 +11776,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionAccessibilitySettingsListener_O
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11785,7 +11787,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionAccessibilitySettingsListener_O
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionAccessibilitySettingsListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionAccessibilitySettingsListener")
 			}
 			if err != nil {
 				return err
@@ -11804,7 +11806,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionAccessibilitySettingsListener_O
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11884,7 +11886,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSession() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11895,7 +11897,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSession() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -11916,7 +11918,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSession() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11936,7 +11938,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionFromS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11947,7 +11949,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionFromS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -11977,7 +11979,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionFromS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11999,7 +12001,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideSessionFromS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12010,7 +12012,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideSessionFromS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12033,7 +12035,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideSessionFromS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12053,7 +12055,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartVoiceActivi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12064,7 +12066,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartVoiceActivi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12094,7 +12096,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartVoiceActivi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12116,7 +12118,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartAssistantAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12127,7 +12129,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartAssistantAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12159,7 +12161,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartAssistantAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12181,7 +12183,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetKeepAwake() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12192,7 +12194,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetKeepAwake() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12220,7 +12222,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetKeepAwake() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12242,7 +12244,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CloseSystemDialo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12253,7 +12255,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CloseSystemDialo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12276,7 +12278,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CloseSystemDialo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12296,7 +12298,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_Finish() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12307,7 +12309,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_Finish() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12330,7 +12332,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_Finish() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12350,7 +12352,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabledShowC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12361,7 +12363,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabledShowC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12380,7 +12382,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabledShowC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12400,7 +12402,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetDisabledShowC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12411,7 +12413,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetDisabledShowC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12425,7 +12427,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetDisabledShowC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12443,7 +12445,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetUserDisabledS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12454,7 +12456,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetUserDisabledS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12468,7 +12470,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetUserDisabledS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12486,7 +12488,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetKeyphraseSoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12497,7 +12499,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetKeyphraseSoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12521,7 +12523,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetKeyphraseSoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12543,7 +12545,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateKeyphraseS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12554,7 +12556,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateKeyphraseS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12570,7 +12572,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateKeyphraseS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12588,7 +12590,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DeleteKeyphraseS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12599,7 +12601,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DeleteKeyphraseS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12623,7 +12625,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DeleteKeyphraseS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12645,7 +12647,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetModelDatabase
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12656,7 +12658,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetModelDatabase
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12684,7 +12686,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetModelDatabase
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12706,7 +12708,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsEnrolledForKey
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12717,7 +12719,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsEnrolledForKey
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12741,7 +12743,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsEnrolledForKey
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12763,7 +12765,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetEnrolledKeyph
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12774,7 +12776,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetEnrolledKeyph
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12798,7 +12800,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetEnrolledKeyph
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12820,7 +12822,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12831,7 +12833,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12845,7 +12847,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12863,7 +12865,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionForAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12874,7 +12876,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionForAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12914,7 +12916,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShowSessionForAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12938,7 +12940,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideCurrentSessi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12949,7 +12951,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideCurrentSessi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -12963,7 +12965,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_HideCurrentSessi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12981,7 +12983,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_LaunchVoiceAssis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12992,7 +12994,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_LaunchVoiceAssis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13006,7 +13008,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_LaunchVoiceAssis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13024,7 +13026,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsSessionRunning
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13035,7 +13037,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsSessionRunning
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13049,7 +13051,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_IsSessionRunning
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13067,7 +13069,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13078,7 +13080,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13092,7 +13094,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13110,7 +13112,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13121,7 +13123,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13135,7 +13137,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ActiveServiceSup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13153,7 +13155,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_OnLockscreenShow
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13164,7 +13166,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_OnLockscreenShow
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13178,7 +13180,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_OnLockscreenShow
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13196,7 +13198,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterVoiceInt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13207,7 +13209,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterVoiceInt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13231,7 +13233,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterVoiceInt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13251,7 +13253,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13262,7 +13264,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13295,7 +13297,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetActiveService
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13317,7 +13319,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetUiHints() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13328,7 +13330,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetUiHints() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13344,7 +13346,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetUiHints() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13362,7 +13364,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RequestDirectAct
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13373,7 +13375,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RequestDirectAct
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13414,7 +13416,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RequestDirectAct
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13438,7 +13440,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_PerformDirectAct
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13449,7 +13451,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_PerformDirectAct
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13497,7 +13499,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_PerformDirectAct
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13523,7 +13525,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabled() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13534,7 +13536,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabled() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13553,7 +13555,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetDisabled() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13573,7 +13575,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CreateSoundTrigg
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13584,7 +13586,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CreateSoundTrigg
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13615,7 +13617,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_CreateSoundTrigg
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13639,7 +13641,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ListModuleProper
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13650,7 +13652,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ListModuleProper
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13670,7 +13672,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ListModuleProper
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13692,7 +13694,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateState() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13703,7 +13705,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateState() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13730,7 +13732,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UpdateState() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13750,7 +13752,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_InitAndVerifyDet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13761,7 +13763,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_InitAndVerifyDet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13809,7 +13811,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_InitAndVerifyDet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13837,7 +13839,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DestroyDetector(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13848,7 +13850,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DestroyDetector(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13871,7 +13873,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DestroyDetector(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13891,7 +13893,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShutdownHotwordD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13902,7 +13904,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShutdownHotwordD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13916,7 +13918,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_ShutdownHotwordD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13934,7 +13936,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SubscribeVisualQ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13945,7 +13947,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SubscribeVisualQ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -13969,7 +13971,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SubscribeVisualQ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13989,7 +13991,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_EnableVisualQuer
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14000,7 +14002,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_EnableVisualQuer
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14024,7 +14026,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_EnableVisualQuer
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14044,7 +14046,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DisableVisualQue
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14055,7 +14057,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DisableVisualQue
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14069,7 +14071,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_DisableVisualQue
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14087,7 +14089,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopPerceiving()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14098,7 +14100,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopPerceiving()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14112,7 +14114,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopPerceiving()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14130,7 +14132,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningFro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14141,7 +14143,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningFro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14155,7 +14157,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningFro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14173,7 +14175,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_TriggerHardwareR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14184,7 +14186,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_TriggerHardwareR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14210,7 +14212,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_TriggerHardwareR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14230,7 +14232,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartListeningVi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14241,7 +14243,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartListeningVi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14264,7 +14266,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StartListeningVi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14284,7 +14286,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningVis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14295,7 +14297,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningVis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14318,7 +14320,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_StopListeningVis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14338,7 +14340,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetSessionWindow
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14349,7 +14351,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetSessionWindow
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14377,7 +14379,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_SetSessionWindow
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14399,7 +14401,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_NotifyActivityEv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14410,7 +14412,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_NotifyActivityEv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14438,7 +14440,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_NotifyActivityEv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14460,7 +14462,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetAccessibility
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14471,7 +14473,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetAccessibility
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14485,7 +14487,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_GetAccessibility
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14503,7 +14505,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterAccessib
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14514,7 +14516,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterAccessib
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14538,7 +14540,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_RegisterAccessib
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14558,7 +14560,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UnregisterAccess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14569,7 +14571,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UnregisterAccess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionManagerService")
 			}
 			if err != nil {
 				return err
@@ -14593,7 +14595,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionManagerService_UnregisterAccess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14627,7 +14629,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14638,7 +14640,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
 			}
 			if err != nil {
 				return err
@@ -14652,7 +14654,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14670,7 +14672,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionH
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14681,7 +14683,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionH
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
 			}
 			if err != nil {
 				return err
@@ -14695,7 +14697,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionH
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14713,7 +14715,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14724,7 +14726,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
 			}
 			if err != nil {
 				return err
@@ -14743,7 +14745,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnVoiceSessionW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14763,7 +14765,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnSetUiHints() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14774,7 +14776,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnSetUiHints() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionListener")
 			}
 			if err != nil {
 				return err
@@ -14790,7 +14792,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionListener_OnSetUiHints() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14820,7 +14822,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnFailed() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14831,7 +14833,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnFailed() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionShowCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionShowCallback")
 			}
 			if err != nil {
 				return err
@@ -14845,7 +14847,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnFailed() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14863,7 +14865,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnShown() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14874,7 +14876,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnShown() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionShowCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSessionShowCallback")
 			}
 			if err != nil {
 				return err
@@ -14888,7 +14890,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSessionShowCallback_OnShown() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14923,7 +14925,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetDspModul
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14934,7 +14936,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetDspModul
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -14948,7 +14950,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetDspModul
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14966,7 +14968,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StartRecogn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14977,7 +14979,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StartRecogn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15018,7 +15020,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StartRecogn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15044,7 +15046,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StopRecogni
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15055,7 +15057,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StopRecogni
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15084,7 +15086,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_StopRecogni
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15106,7 +15108,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_SetParamete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15117,7 +15119,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_SetParamete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15147,7 +15149,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_SetParamete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15171,7 +15173,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetParamete
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15182,7 +15184,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetParamete
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15207,7 +15209,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_GetParamete
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15229,7 +15231,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_QueryParame
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15240,7 +15242,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_QueryParame
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15265,7 +15267,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_QueryParame
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15287,7 +15289,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_Detach() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15298,7 +15300,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_Detach() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractionSoundTriggerSession")
 			}
 			if err != nil {
 				return err
@@ -15312,7 +15314,7 @@ func newCmdComAndroidInternalAppIVoiceInteractionSoundTriggerSession_Detach() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15344,7 +15346,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_StartCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15355,7 +15357,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_StartCommand() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
 			}
 			if err != nil {
 				return err
@@ -15386,7 +15388,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_StartCommand() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15408,7 +15410,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SupportsCommands() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15419,7 +15421,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SupportsCommands() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
 			}
 			if err != nil {
 				return err
@@ -15442,7 +15444,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SupportsCommands() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15462,7 +15464,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_NotifyDirectActionsChanged() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15473,7 +15475,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_NotifyDirectActionsChanged() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
 			}
 			if err != nil {
 				return err
@@ -15501,7 +15503,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_NotifyDirectActionsChanged() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15523,7 +15525,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SetKillCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15534,7 +15536,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SetKillCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractor")
 			}
 			if err != nil {
 				return err
@@ -15558,7 +15560,7 @@ func newCmdComAndroidInternalAppIVoiceInteractor_SetKillCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15594,7 +15596,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverConfirmationResu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15605,7 +15607,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverConfirmationResu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15636,7 +15638,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverConfirmationResu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15658,7 +15660,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCompleteVoiceRes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15669,7 +15671,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCompleteVoiceRes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15695,7 +15697,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCompleteVoiceRes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15715,7 +15717,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverAbortVoiceResult
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15726,7 +15728,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverAbortVoiceResult
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15752,7 +15754,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverAbortVoiceResult
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15772,7 +15774,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCommandResult() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15783,7 +15785,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCommandResult() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15814,7 +15816,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCommandResult() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15836,7 +15838,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCancel() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15847,7 +15849,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCancel() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15871,7 +15873,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_DeliverCancel() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15891,7 +15893,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_Destroy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15902,7 +15904,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_Destroy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorCallback")
 			}
 			if err != nil {
 				return err
@@ -15916,7 +15918,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorCallback_Destroy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15945,7 +15947,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorRequest_Cancel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15956,7 +15958,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorRequest_Cancel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorRequest")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.IVoiceInteractorRequest")
 			}
 			if err != nil {
 				return err
@@ -15970,7 +15972,7 @@ func newCmdComAndroidInternalAppIVoiceInteractorRequest_Cancel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

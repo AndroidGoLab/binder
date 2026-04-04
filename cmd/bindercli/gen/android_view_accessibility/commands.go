@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -57,7 +59,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_AssociateEmb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_AssociateEmb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
 			}
 			if err != nil {
 				return err
@@ -96,7 +98,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_AssociateEmb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -118,7 +120,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_Disassociate
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -129,7 +131,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_Disassociate
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
 			}
 			if err != nil {
 				return err
@@ -143,7 +145,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_Disassociate
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_SetWindowMat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_SetWindowMat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityEmbeddedConnection")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityEmbeddedConnection_SetWindowMat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -240,7 +242,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -251,7 +253,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -321,7 +323,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -353,7 +355,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -364,7 +366,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -471,7 +473,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -482,7 +484,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -555,7 +557,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindAcces
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -589,7 +591,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindFocus
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -600,7 +602,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindFocus
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -673,7 +675,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FindFocus
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -707,7 +709,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FocusSear
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -718,7 +720,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FocusSear
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -791,7 +793,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_FocusSear
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -825,7 +827,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_PerformAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -836,7 +838,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_PerformAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -892,7 +894,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_PerformAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -924,7 +926,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_ClearAcce
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -935,7 +937,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_ClearAcce
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -949,7 +951,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_ClearAcce
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -967,7 +969,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_NotifyOut
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -978,7 +980,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_NotifyOut
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -992,7 +994,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_NotifyOut
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1010,7 +1012,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_TakeScree
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1021,7 +1023,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_TakeScree
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnection")
 			}
 			if err != nil {
 				return err
@@ -1052,7 +1054,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnection_TakeScree
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1090,7 +1092,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1101,7 +1103,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1122,7 +1124,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1142,7 +1144,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1153,7 +1155,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1183,7 +1185,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1205,7 +1207,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1216,7 +1218,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1246,7 +1248,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1268,7 +1270,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1279,7 +1281,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1303,7 +1305,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1325,7 +1327,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1336,7 +1338,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1360,7 +1362,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1382,7 +1384,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1393,7 +1395,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityInteractionConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -1417,7 +1419,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityInteractionConnectionCallback_S
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1487,7 +1489,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_Interrupt() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1498,7 +1500,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_Interrupt() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1512,7 +1514,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_Interrupt() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1530,7 +1532,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendAccessibilityEvent(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1541,7 +1543,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendAccessibilityEvent(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1557,7 +1559,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendAccessibilityEvent(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1575,7 +1577,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddClient() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1586,7 +1588,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddClient() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1610,7 +1612,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddClient() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1630,7 +1632,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveClient() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1641,7 +1643,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveClient() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1665,7 +1667,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveClient() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1685,7 +1687,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetInstalledAccessibili
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1696,7 +1698,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetInstalledAccessibili
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1710,7 +1712,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetInstalledAccessibili
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1728,7 +1730,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetEnabledAccessibility
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1739,7 +1741,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetEnabledAccessibility
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1758,7 +1760,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetEnabledAccessibility
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1778,7 +1780,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddAccessibilityInterac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1789,7 +1791,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddAccessibilityInterac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1837,7 +1839,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AddAccessibilityInterac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1863,7 +1865,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveAccessibilityInte
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1874,7 +1876,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveAccessibilityInte
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1898,7 +1900,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RemoveAccessibilityInte
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1918,7 +1920,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetPictureInPictureActi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1929,7 +1931,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetPictureInPictureActi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -1953,7 +1955,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetPictureInPictureActi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1973,7 +1975,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowToken() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1984,7 +1986,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowToken() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2003,7 +2005,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowToken() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2023,7 +2025,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2034,7 +2036,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2058,7 +2060,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2080,7 +2082,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2091,7 +2093,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2110,7 +2112,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyAccessibilityButt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2130,7 +2132,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_PerformAccessibilitySho
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2141,7 +2143,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_PerformAccessibilitySho
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2160,7 +2162,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_PerformAccessibilitySho
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2180,7 +2182,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityShortcu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2191,7 +2193,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityShortcu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2210,7 +2212,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityShortcu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2230,7 +2232,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendFingerprintGesture(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2241,7 +2243,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendFingerprintGesture(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2260,7 +2262,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendFingerprintGesture(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2280,7 +2282,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityWindowI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2291,7 +2293,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityWindowI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2314,7 +2316,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetAccessibilityWindowI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2334,7 +2336,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetRecommendedTimeoutMi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2345,7 +2347,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetRecommendedTimeoutMi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2359,7 +2361,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetRecommendedTimeoutMi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2377,7 +2379,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RegisterSystemAction() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2388,7 +2390,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RegisterSystemAction() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2409,7 +2411,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_RegisterSystemAction() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2429,7 +2431,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterSystemAction(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2440,7 +2442,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterSystemAction(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2459,7 +2461,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterSystemAction(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2479,7 +2481,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetMagnificationConnect
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2490,7 +2492,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetMagnificationConnect
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2514,7 +2516,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetMagnificationConnect
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2534,7 +2536,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AssociateEmbeddedHierar
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2545,7 +2547,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AssociateEmbeddedHierar
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2577,7 +2579,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_AssociateEmbeddedHierar
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2599,7 +2601,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_DisassociateEmbeddedHie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2610,7 +2612,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_DisassociateEmbeddedHie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2633,7 +2635,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_DisassociateEmbeddedHie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2653,7 +2655,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusStrokeWidth() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2664,7 +2666,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusStrokeWidth() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2678,7 +2680,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusStrokeWidth() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2696,7 +2698,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusColor() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2707,7 +2709,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusColor() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2721,7 +2723,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetFocusColor() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2739,7 +2741,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAudioDescriptionByDef
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2750,7 +2752,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAudioDescriptionByDef
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2764,7 +2766,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAudioDescriptionByDef
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2782,7 +2784,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2793,7 +2795,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2812,7 +2814,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2832,7 +2834,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsSystemAudioCaptioning
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2843,7 +2845,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsSystemAudioCaptioning
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2857,7 +2859,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsSystemAudioCaptioning
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2875,7 +2877,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2886,7 +2888,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2905,7 +2907,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetSystemAudioCaptionin
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2925,7 +2927,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetAccessibilityWindowA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2936,7 +2938,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetAccessibilityWindowA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -2962,7 +2964,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SetAccessibilityWindowA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2984,7 +2986,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterProxyForDispl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2995,7 +2997,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterProxyForDispl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3014,7 +3016,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_UnregisterProxyForDispl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3034,7 +3036,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_InjectInputEventToInput
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3045,7 +3047,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_InjectInputEventToInput
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3061,7 +3063,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_InjectInputEventToInput
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3079,7 +3081,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3090,7 +3092,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3123,7 +3125,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3147,7 +3149,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StopFlashNotificationSe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3158,7 +3160,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StopFlashNotificationSe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3177,7 +3179,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StopFlashNotificationSe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3197,7 +3199,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3208,7 +3210,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3237,7 +3239,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_StartFlashNotificationE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3261,7 +3263,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAccessibilityTargetAl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3272,7 +3274,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAccessibilityTargetAl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3296,7 +3298,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_IsAccessibilityTargetAl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3318,7 +3320,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendRestrictedDialogInt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3329,7 +3331,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendRestrictedDialogInt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3353,7 +3355,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_SendRestrictedDialogInt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3375,7 +3377,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowTransformation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3386,7 +3388,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowTransformation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3405,7 +3407,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_GetWindowTransformation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3425,7 +3427,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyQuickSettingsTile
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3436,7 +3438,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyQuickSettingsTile
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManager")
 			}
 			if err != nil {
 				return err
@@ -3461,7 +3463,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManager_NotifyQuickSettingsTile
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3495,7 +3497,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetState() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3506,7 +3508,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetState() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
 			}
 			if err != nil {
 				return err
@@ -3525,7 +3527,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetState() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3545,7 +3547,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_NotifyServicesSta
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3556,7 +3558,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_NotifyServicesSta
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
 			}
 			if err != nil {
 				return err
@@ -3575,7 +3577,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_NotifyServicesSta
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3595,7 +3597,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetRelevantEventT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3606,7 +3608,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetRelevantEventT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
 			}
 			if err != nil {
 				return err
@@ -3625,7 +3627,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetRelevantEventT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3645,7 +3647,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetFocusAppearanc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3656,7 +3658,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetFocusAppearanc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IAccessibilityManagerClient")
 			}
 			if err != nil {
 				return err
@@ -3680,7 +3682,7 @@ func newCmdAndroidViewAccessibilityIAccessibilityManagerClient_SetFocusAppearanc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3723,7 +3725,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_EnableWindowMagnific
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3734,7 +3736,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_EnableWindowMagnific
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -3788,7 +3790,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_EnableWindowMagnific
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3820,7 +3822,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetScaleForWindowMag
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3831,7 +3833,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetScaleForWindowMag
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -3855,7 +3857,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetScaleForWindowMag
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3877,7 +3879,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_DisableWindowMagnifi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3888,7 +3890,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_DisableWindowMagnifi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -3917,7 +3919,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_DisableWindowMagnifi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3939,7 +3941,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifier(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3950,7 +3952,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifier(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -3979,7 +3981,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifier(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4003,7 +4005,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifierT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4014,7 +4016,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifierT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4053,7 +4055,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_MoveWindowMagnifierT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4079,7 +4081,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_ShowMagnificationBut
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4090,7 +4092,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_ShowMagnificationBut
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4114,7 +4116,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_ShowMagnificationBut
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4136,7 +4138,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationB
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4147,7 +4149,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationB
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4166,7 +4168,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationB
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4186,7 +4188,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4197,7 +4199,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4216,7 +4218,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_RemoveMagnificationS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4236,7 +4238,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetConnectionCallbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4247,7 +4249,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetConnectionCallbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4271,7 +4273,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_SetConnectionCallbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4291,7 +4293,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnUserMagnificationS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4302,7 +4304,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnUserMagnificationS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4326,7 +4328,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnUserMagnificationS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4348,7 +4350,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnFullscreenMagnific
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4359,7 +4361,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnFullscreenMagnific
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnection")
 			}
 			if err != nil {
 				return err
@@ -4383,7 +4385,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnection_OnFullscreenMagnific
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4421,7 +4423,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnWindowMagn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4432,7 +4434,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnWindowMagn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4453,7 +4455,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnWindowMagn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4473,7 +4475,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnChangeMagn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4484,7 +4486,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnChangeMagn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4508,7 +4510,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnChangeMagn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4530,7 +4532,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnSourceBoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4541,7 +4543,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnSourceBoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4562,7 +4564,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnSourceBoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4582,7 +4584,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnPerformSca
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4593,7 +4595,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnPerformSca
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4622,7 +4624,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnPerformSca
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4646,7 +4648,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnAccessibil
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4657,7 +4659,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnAccessibil
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4676,7 +4678,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnAccessibil
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4696,7 +4698,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnMove() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4707,7 +4709,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnMove() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IMagnificationConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -4726,7 +4728,7 @@ func newCmdAndroidViewAccessibilityIMagnificationConnectionCallback_OnMove() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4757,7 +4759,7 @@ func newCmdAndroidViewAccessibilityIRemoteMagnificationAnimationCallback_OnResul
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4768,7 +4770,7 @@ func newCmdAndroidViewAccessibilityIRemoteMagnificationAnimationCallback_OnResul
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IRemoteMagnificationAnimationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.accessibility.IRemoteMagnificationAnimationCallback")
 			}
 			if err != nil {
 				return err
@@ -4787,7 +4789,7 @@ func newCmdAndroidViewAccessibilityIRemoteMagnificationAnimationCallback_OnResul
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

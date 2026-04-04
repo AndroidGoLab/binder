@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -49,7 +51,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RegisterBubbleListener() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RegisterBubbleListener() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RegisterBubbleListener() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -104,7 +106,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_UnregisterBubbleListener() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -115,7 +117,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_UnregisterBubbleListener() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -139,7 +141,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_UnregisterBubbleListener() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowBubble() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowBubble() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -191,7 +193,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowBubble() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveBubble() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveBubble() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -241,7 +243,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveBubble() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -261,7 +263,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveAllBubbles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -272,7 +274,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveAllBubbles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_RemoveAllBubbles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -304,7 +306,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_CollapseBubbles() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -315,7 +317,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_CollapseBubbles() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -329,7 +331,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_CollapseBubbles() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -347,7 +349,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_OnBubbleDrag() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -358,7 +360,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_OnBubbleDrag() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -382,7 +384,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_OnBubbleDrag() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -404,7 +406,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowUserEducation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -415,7 +417,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowUserEducation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubbles")
 			}
 			if err != nil {
 				return err
@@ -439,7 +441,7 @@ func newCmdComAndroidWmShellBubblesIBubbles_ShowUserEducation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -472,7 +474,7 @@ func newCmdComAndroidWmShellBubblesIBubblesListener_OnBubbleStateChange() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -483,7 +485,7 @@ func newCmdComAndroidWmShellBubblesIBubblesListener_OnBubbleStateChange() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubblesListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.bubbles.IBubblesListener")
 			}
 			if err != nil {
 				return err
@@ -499,7 +501,7 @@ func newCmdComAndroidWmShellBubblesIBubblesListener_OnBubbleStateChange() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

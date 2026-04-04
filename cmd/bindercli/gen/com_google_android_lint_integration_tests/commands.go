@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/google/android/lint/integration_tests"
@@ -38,7 +40,7 @@ func newCmdComGoogleAndroidLintIntegration_testsIFoo_Method() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -49,7 +51,7 @@ func newCmdComGoogleAndroidLintIntegration_testsIFoo_Method() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.google.android.lint.integration_tests.IFoo")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.google.android.lint.integration_tests.IFoo")
 			}
 			if err != nil {
 				return err
@@ -63,7 +65,7 @@ func newCmdComGoogleAndroidLintIntegration_testsIFoo_Method() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

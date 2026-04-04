@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/contentsuggestions"
@@ -44,7 +46,7 @@ func newCmdAndroidAppContentsuggestionsIClassificationsCallback_OnContentClassif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidAppContentsuggestionsIClassificationsCallback_OnContentClassif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IClassificationsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IClassificationsCallback")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidAppContentsuggestionsIClassificationsCallback_OnContentClassif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -125,7 +127,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -136,7 +138,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -157,7 +159,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -177,7 +179,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -188,7 +190,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -206,7 +208,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ProvideContext
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -224,7 +226,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SuggestContent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -235,7 +237,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SuggestContent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -261,7 +263,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SuggestContent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -281,7 +283,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ClassifyConten
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -292,7 +294,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ClassifyConten
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -318,7 +320,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ClassifyConten
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -338,7 +340,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_NotifyInteract
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -349,7 +351,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_NotifyInteract
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -370,7 +372,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_NotifyInteract
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -390,7 +392,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ResetTemporary
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -401,7 +403,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ResetTemporary
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -415,7 +417,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_ResetTemporary
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -433,7 +435,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetTemporarySe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -444,7 +446,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetTemporarySe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -468,7 +470,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetTemporarySe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -490,7 +492,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetDefaultServ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -501,7 +503,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetDefaultServ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.IContentSuggestionsManager")
 			}
 			if err != nil {
 				return err
@@ -520,7 +522,7 @@ func newCmdAndroidAppContentsuggestionsIContentSuggestionsManager_SetDefaultServ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -551,7 +553,7 @@ func newCmdAndroidAppContentsuggestionsISelectionsCallback_OnContentSelectionsAv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -562,7 +564,7 @@ func newCmdAndroidAppContentsuggestionsISelectionsCallback_OnContentSelectionsAv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.ISelectionsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.contentsuggestions.ISelectionsCallback")
 			}
 			if err != nil {
 				return err
@@ -592,7 +594,7 @@ func newCmdAndroidAppContentsuggestionsISelectionsCallback_OnContentSelectionsAv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

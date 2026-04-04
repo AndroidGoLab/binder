@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -54,7 +56,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConnectedStateChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -65,7 +67,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConnectedStateChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConnectedStateChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -104,7 +106,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnFillRequest() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -115,7 +117,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnFillRequest() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
 			}
 			if err != nil {
 				return err
@@ -141,7 +143,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnFillRequest() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSaveRequest() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSaveRequest() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
 			}
 			if err != nil {
 				return err
@@ -198,7 +200,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSaveRequest() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -218,7 +220,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSavedPasswordCountRequest() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -229,7 +231,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSavedPasswordCountRequest() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
 			}
 			if err != nil {
 				return err
@@ -253,7 +255,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnSavedPasswordCountRequest() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -273,7 +275,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConvertCredentialRequest() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -284,7 +286,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConvertCredentialRequest() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IAutoFillService")
 			}
 			if err != nil {
 				return err
@@ -310,7 +312,7 @@ func newCmdAndroidServiceAutofillIAutoFillService_OnConvertCredentialRequest() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -341,7 +343,7 @@ func newCmdAndroidServiceAutofillIConvertCredentialCallback_OnFailure() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -352,7 +354,7 @@ func newCmdAndroidServiceAutofillIConvertCredentialCallback_OnFailure() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IConvertCredentialCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IConvertCredentialCallback")
 			}
 			if err != nil {
 				return err
@@ -371,7 +373,7 @@ func newCmdAndroidServiceAutofillIConvertCredentialCallback_OnFailure() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -403,7 +405,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnCancellable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -414,7 +416,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnCancellable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IFillCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IFillCallback")
 			}
 			if err != nil {
 				return err
@@ -438,7 +440,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnCancellable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -458,7 +460,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnFailure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -469,7 +471,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnFailure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IFillCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IFillCallback")
 			}
 			if err != nil {
 				return err
@@ -493,7 +495,7 @@ func newCmdAndroidServiceAutofillIFillCallback_OnFailure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_RenderSuggestion
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_RenderSuggestion
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
 			}
 			if err != nil {
 				return err
@@ -594,7 +596,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_RenderSuggestion
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -624,7 +626,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_GetInlineSuggest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -635,7 +637,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_GetInlineSuggest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
 			}
 			if err != nil {
 				return err
@@ -651,7 +653,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_GetInlineSuggest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -669,7 +671,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_DestroySuggestio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -680,7 +682,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_DestroySuggestio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionRenderService")
 			}
 			if err != nil {
 				return err
@@ -699,7 +701,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionRenderService_DestroySuggestio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -731,7 +733,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_GetSurfacePackage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -742,7 +744,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_GetSurfacePackage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUi")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUi")
 			}
 			if err != nil {
 				return err
@@ -766,7 +768,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_GetSurfacePackage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -786,7 +788,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_ReleaseSurfaceControlViewHo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -797,7 +799,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_ReleaseSurfaceControlViewHo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUi")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUi")
 			}
 			if err != nil {
 				return err
@@ -811,7 +813,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUi_ReleaseSurfaceControlViewHo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -844,7 +846,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnClick() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -855,7 +857,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnClick() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
 			}
 			if err != nil {
 				return err
@@ -869,7 +871,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnClick() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -887,7 +889,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnLongClick() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -898,7 +900,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnLongClick() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
 			}
 			if err != nil {
 				return err
@@ -912,7 +914,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnLongClick() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -930,7 +932,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnContent() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -941,7 +943,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnContent() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
 			}
 			if err != nil {
 				return err
@@ -977,7 +979,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnContent() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1001,7 +1003,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnError() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1012,7 +1014,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnError() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
 			}
 			if err != nil {
 				return err
@@ -1026,7 +1028,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnError() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1044,7 +1046,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnTransferTouchFocu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1055,7 +1057,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnTransferTouchFocu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.IInlineSuggestionUiCallback")
 			}
 			if err != nil {
 				return err
@@ -1083,7 +1085,7 @@ func newCmdAndroidServiceAutofillIInlineSuggestionUiCallback_OnTransferTouchFocu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1117,7 +1119,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1128,7 +1130,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISaveCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISaveCallback")
 			}
 			if err != nil {
 				return err
@@ -1144,7 +1146,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1162,7 +1164,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnFailure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1173,7 +1175,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnFailure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISaveCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISaveCallback")
 			}
 			if err != nil {
 				return err
@@ -1192,7 +1194,7 @@ func newCmdAndroidServiceAutofillISaveCallback_OnFailure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1223,7 +1225,7 @@ func newCmdAndroidServiceAutofillISurfacePackageResultCallback_OnResult() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1234,7 +1236,7 @@ func newCmdAndroidServiceAutofillISurfacePackageResultCallback_OnResult() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISurfacePackageResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.autofill.ISurfacePackageResultCallback")
 			}
 			if err != nil {
 				return err
@@ -1250,7 +1252,7 @@ func newCmdAndroidServiceAutofillISurfacePackageResultCallback_OnResult() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

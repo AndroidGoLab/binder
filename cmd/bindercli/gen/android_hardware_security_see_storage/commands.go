@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/security/see/storage"
@@ -43,7 +45,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIDir_ReadNextFilenames() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIDir_ReadNextFilenames() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IDir")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IDir")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIDir_ReadNextFilenames() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -108,7 +110,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Read() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -119,7 +121,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Read() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
 			}
 			if err != nil {
 				return err
@@ -143,7 +145,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Read() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -165,7 +167,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Write() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -176,7 +178,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Write() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
 			}
 			if err != nil {
 				return err
@@ -204,7 +206,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Write() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -226,7 +228,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_GetSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -237,7 +239,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_GetSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
 			}
 			if err != nil {
 				return err
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_GetSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -269,7 +271,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_SetSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -280,7 +282,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_SetSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
 			}
 			if err != nil {
 				return err
@@ -299,7 +301,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_SetSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Rename() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -330,7 +332,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Rename() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IFile")
 			}
 			if err != nil {
 				return err
@@ -355,7 +357,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIFile_Rename() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -388,7 +390,7 @@ func newCmdAndroidHardwareSecuritySeeStorageISecureStorage_StartSession() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -399,7 +401,7 @@ func newCmdAndroidHardwareSecuritySeeStorageISecureStorage_StartSession() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.ISecureStorage")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.ISecureStorage")
 			}
 			if err != nil {
 				return err
@@ -420,7 +422,7 @@ func newCmdAndroidHardwareSecuritySeeStorageISecureStorage_StartSession() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_CommitChanges() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -468,7 +470,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_CommitChanges() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -482,7 +484,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_CommitChanges() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -500,7 +502,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_AbandonChanges() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -511,7 +513,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_AbandonChanges() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -525,7 +527,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_AbandonChanges() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -543,7 +545,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenFile() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -554,7 +556,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenFile() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -583,7 +585,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenFile() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_DeleteFile() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -619,7 +621,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_DeleteFile() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -643,7 +645,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_DeleteFile() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -665,7 +667,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_RenameFile() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -676,7 +678,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_RenameFile() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -707,7 +709,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_RenameFile() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -732,7 +734,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenDir() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -743,7 +745,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenDir() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.see.storage.IStorageSession")
 			}
 			if err != nil {
 				return err
@@ -768,7 +770,7 @@ func newCmdAndroidHardwareSecuritySeeStorageIStorageSession_OpenDir() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

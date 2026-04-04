@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/window"
@@ -46,7 +48,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApps() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApps() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApps() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -98,7 +100,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_StashDesktopApps() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -109,7 +111,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_StashDesktopApps() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -128,7 +130,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_StashDesktopApps() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_HideStashedDesktopApps() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_HideStashedDesktopApps() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -178,7 +180,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_HideStashedDesktopApps() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -198,7 +200,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApp() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -209,7 +211,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApp() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_ShowDesktopApp() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -248,7 +250,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_GetVisibleTaskCount() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -259,7 +261,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_GetVisibleTaskCount() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -278,7 +280,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_GetVisibleTaskCount() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -298,7 +300,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_SetTaskListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -309,7 +311,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_SetTaskListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopMode")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopMode_SetTaskListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -365,7 +367,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnTasksVisibilityCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -376,7 +378,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnTasksVisibilityCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopTaskListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopTaskListener")
 			}
 			if err != nil {
 				return err
@@ -400,7 +402,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnTasksVisibilityCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -422,7 +424,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnStashedChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -433,7 +435,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnStashedChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopTaskListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.desktopmode.IDesktopTaskListener")
 			}
 			if err != nil {
 				return err
@@ -457,7 +459,7 @@ func newCmdComAndroidWmShellDesktopmodeIDesktopTaskListener_OnStashedChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

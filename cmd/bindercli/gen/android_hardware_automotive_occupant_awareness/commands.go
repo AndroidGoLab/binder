@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/automotive/occupant_awareness"
@@ -46,7 +48,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StartDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StartDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StartDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -89,7 +91,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StopDet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StopDet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -114,7 +116,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_StopDet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -132,7 +134,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetCapa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -143,7 +145,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetCapa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetCapa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -183,7 +185,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -194,7 +196,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -219,7 +221,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -241,7 +243,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_SetCall
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -252,7 +254,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_SetCall
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_SetCall
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -296,7 +298,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetLate
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -307,7 +309,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetLate
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwareness")
 			}
 			if err != nil {
 				return err
@@ -322,7 +324,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwareness_GetLate
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -352,7 +354,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -363,7 +365,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwarenessClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwarenessClientCallback")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -410,7 +412,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -421,7 +423,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwarenessClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.occupant_awareness.IOccupantAwarenessClientCallback")
 			}
 			if err != nil {
 				return err
@@ -443,7 +445,7 @@ func newCmdAndroidHardwareAutomotiveOccupant_awarenessIOccupantAwarenessClientCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

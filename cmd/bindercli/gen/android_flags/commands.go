@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/flags"
@@ -46,7 +48,7 @@ func newCmdAndroidFlagsIFeatureFlags_SyncFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidFlagsIFeatureFlags_SyncFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidFlagsIFeatureFlags_SyncFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidFlagsIFeatureFlags_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidFlagsIFeatureFlags_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -137,7 +139,7 @@ func newCmdAndroidFlagsIFeatureFlags_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -157,7 +159,7 @@ func newCmdAndroidFlagsIFeatureFlags_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -168,7 +170,7 @@ func newCmdAndroidFlagsIFeatureFlags_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -192,7 +194,7 @@ func newCmdAndroidFlagsIFeatureFlags_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -212,7 +214,7 @@ func newCmdAndroidFlagsIFeatureFlags_QueryFlags() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -223,7 +225,7 @@ func newCmdAndroidFlagsIFeatureFlags_QueryFlags() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -248,7 +250,7 @@ func newCmdAndroidFlagsIFeatureFlags_QueryFlags() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -268,7 +270,7 @@ func newCmdAndroidFlagsIFeatureFlags_OverrideFlag() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -279,7 +281,7 @@ func newCmdAndroidFlagsIFeatureFlags_OverrideFlag() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -295,7 +297,7 @@ func newCmdAndroidFlagsIFeatureFlags_OverrideFlag() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdAndroidFlagsIFeatureFlags_ResetFlag() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdAndroidFlagsIFeatureFlags_ResetFlag() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlags")
 			}
 			if err != nil {
 				return err
@@ -340,7 +342,7 @@ func newCmdAndroidFlagsIFeatureFlags_ResetFlag() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -369,7 +371,7 @@ func newCmdAndroidFlagsIFeatureFlagsCallback_OnFlagChange() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -380,7 +382,7 @@ func newCmdAndroidFlagsIFeatureFlagsCallback_OnFlagChange() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlagsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.flags.IFeatureFlagsCallback")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidFlagsIFeatureFlagsCallback_OnFlagChange() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

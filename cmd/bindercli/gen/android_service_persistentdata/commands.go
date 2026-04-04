@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/persistentdata"
@@ -52,7 +54,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Write() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Write() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -86,7 +88,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Write() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Read() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Read() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -131,7 +133,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Read() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -149,7 +151,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Wipe() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -160,7 +162,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Wipe() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -174,7 +176,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_Wipe() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -192,7 +194,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetDataBlockS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -203,7 +205,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetDataBlockS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetDataBlockS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -235,7 +237,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetMaximumDat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -246,7 +248,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetMaximumDat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -260,7 +262,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetMaximumDat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -278,7 +280,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetOemUnlockE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -289,7 +291,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetOemUnlockE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -308,7 +310,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetOemUnlockE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -328,7 +330,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetOemUnlockE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -339,7 +341,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetOemUnlockE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -353,7 +355,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetOemUnlockE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -371,7 +373,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetFlashLockS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -382,7 +384,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetFlashLockS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetFlashLockS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -414,7 +416,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_HasFrpCredent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -425,7 +427,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_HasFrpCredent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -439,7 +441,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_HasFrpCredent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -457,7 +459,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetPersistent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -468,7 +470,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetPersistent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -482,7 +484,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_GetPersistent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -500,7 +502,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_IsFactoryRese
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -511,7 +513,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_IsFactoryRese
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -525,7 +527,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_IsFactoryRese
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -543,7 +545,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_DeactivateFac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -554,7 +556,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_DeactivateFac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -577,7 +579,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_DeactivateFac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -597,7 +599,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetFactoryRes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -608,7 +610,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetFactoryRes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.persistentdata.IPersistentDataBlockService")
 			}
 			if err != nil {
 				return err
@@ -631,7 +633,7 @@ func newCmdAndroidServicePersistentdataIPersistentDataBlockService_SetFactoryRes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

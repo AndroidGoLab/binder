@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -54,7 +56,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewCoordinates
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -65,7 +67,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewCoordinates
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewCoordinates
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -99,7 +101,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewNodeParcela
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -110,7 +112,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewNodeParcela
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -126,7 +128,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_GetViewNodeParcela
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -144,7 +146,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_Autofill() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -155,7 +157,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_Autofill() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -201,7 +203,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_Autofill() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -227,7 +229,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestShowFillUi(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -238,7 +240,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestShowFillUi(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -281,7 +283,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestShowFillUi(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestHideFillUi(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestHideFillUi(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -339,7 +341,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestHideFillUi(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -359,7 +361,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestAutofill() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -370,7 +372,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestAutofill() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAugmentedAutofillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -391,7 +393,7 @@ func newCmdAndroidViewAutofillIAugmentedAutofillManagerClient_RequestAutofill() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -442,7 +444,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_AddClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -453,7 +455,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_AddClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -489,7 +491,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_AddClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -511,7 +513,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RemoveClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -522,7 +524,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RemoveClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -546,7 +548,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RemoveClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -566,7 +568,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_StartSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -577,7 +579,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_StartSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -642,7 +644,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_StartSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -672,7 +674,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetFillEventHistory() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -683,7 +685,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetFillEventHistory() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -707,7 +709,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetFillEventHistory() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -727,7 +729,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RestoreSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -738,7 +740,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RestoreSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -785,7 +787,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_RestoreSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -811,7 +813,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_UpdateSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -822,7 +824,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_UpdateSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -857,7 +859,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_UpdateSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -881,7 +883,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAutofillFailure() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -892,7 +894,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAutofillFailure() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -922,7 +924,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAutofillFailure() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -944,7 +946,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_FinishSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -955,7 +957,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_FinishSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -979,7 +981,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_FinishSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1001,7 +1003,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_CancelSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1012,7 +1014,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_CancelSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1031,7 +1033,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_CancelSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1051,7 +1053,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetHasCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1062,7 +1064,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetHasCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1086,7 +1088,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetHasCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1108,7 +1110,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_DisableOwnedAutofillServices() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1119,7 +1121,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_DisableOwnedAutofillServices() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1133,7 +1135,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_DisableOwnedAutofillServices() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1151,7 +1153,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceSupported() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1162,7 +1164,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceSupported() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1186,7 +1188,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceSupported() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1206,7 +1208,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceEnabled() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1217,7 +1219,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceEnabled() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1246,7 +1248,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsServiceEnabled() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1268,7 +1270,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_OnPendingSaveUi() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1279,7 +1281,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_OnPendingSaveUi() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1307,7 +1309,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_OnPendingSaveUi() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1329,7 +1331,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1340,7 +1342,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1364,7 +1366,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1384,7 +1386,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserDataId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1395,7 +1397,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserDataId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1419,7 +1421,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetUserDataId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1439,7 +1441,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsFieldClassificationEnabled() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1450,7 +1452,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsFieldClassificationEnabled() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1474,7 +1476,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_IsFieldClassificationEnabled() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1494,7 +1496,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAutofillServiceComponentName()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1505,7 +1507,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAutofillServiceComponentName()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1529,7 +1531,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAutofillServiceComponentName()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1549,7 +1551,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAvailableFieldClassificationAl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1560,7 +1562,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAvailableFieldClassificationAl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1584,7 +1586,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetAvailableFieldClassificationAl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1604,7 +1606,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetDefaultFieldClassificationAlgo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1615,7 +1617,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetDefaultFieldClassificationAlgo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1639,7 +1641,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_GetDefaultFieldClassificationAlgo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1659,7 +1661,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAugmentedAutofillWhitelist() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1670,7 +1672,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAugmentedAutofillWhitelist() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManager")
 			}
 			if err != nil {
 				return err
@@ -1714,7 +1716,7 @@ func newCmdAndroidViewAutofillIAutoFillManager_SetAugmentedAutofillWhitelist() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1765,7 +1767,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1776,7 +1778,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -1795,7 +1797,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1815,7 +1817,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_Autofill() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1826,7 +1828,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_Autofill() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -1872,7 +1874,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_Autofill() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1898,7 +1900,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialResponse() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1909,7 +1911,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialResponse() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -1932,7 +1934,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialResponse() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1952,7 +1954,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialException() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1963,7 +1965,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialException() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -1994,7 +1996,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_OnGetCredentialException() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2018,7 +2020,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetTrackedViews() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2029,7 +2031,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetTrackedViews() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2082,7 +2084,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetTrackedViews() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2110,7 +2112,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowFillUi() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2121,7 +2123,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowFillUi() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2164,7 +2166,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowFillUi() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2190,7 +2192,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUi() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2201,7 +2203,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUi() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2222,7 +2224,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUi() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2242,7 +2244,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUiWhenDestro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2253,7 +2255,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUiWhenDestro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2274,7 +2276,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestHideFillUiWhenDestro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2294,7 +2296,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyNoFillUi() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2305,7 +2307,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyNoFillUi() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2331,7 +2333,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyNoFillUi() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2353,7 +2355,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiShown() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2364,7 +2366,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiShown() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2385,7 +2387,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiShown() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2405,7 +2407,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiHidden() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2416,7 +2418,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiHidden() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2437,7 +2439,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillUiHidden() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2457,7 +2459,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_DispatchUnhandledKey() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2468,7 +2470,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_DispatchUnhandledKey() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2491,7 +2493,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_DispatchUnhandledKey() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2511,7 +2513,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSaveUiState() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2522,7 +2524,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSaveUiState() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2546,7 +2548,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSaveUiState() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2568,7 +2570,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSessionFinished() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2579,7 +2581,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSessionFinished() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2609,7 +2611,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_SetSessionFinished() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2631,7 +2633,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_GetAugmentedAutofillClient(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2642,7 +2644,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_GetAugmentedAutofillClient(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2666,7 +2668,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_GetAugmentedAutofillClient(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2686,7 +2688,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowSoftInput() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2697,7 +2699,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowSoftInput() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2713,7 +2715,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_RequestShowSoftInput() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2731,7 +2733,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillDialogTriggerIds(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2742,7 +2744,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillDialogTriggerIds(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutoFillManagerClient")
 			}
 			if err != nil {
 				return err
@@ -2767,7 +2769,7 @@ func newCmdAndroidViewAutofillIAutoFillManagerClient_NotifyFillDialogTriggerIds(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2799,7 +2801,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Show() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2810,7 +2812,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Show() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutofillWindowPresenter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutofillWindowPresenter")
 			}
 			if err != nil {
 				return err
@@ -2838,7 +2840,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Show() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2860,7 +2862,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Hide() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2871,7 +2873,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Hide() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutofillWindowPresenter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.view.autofill.IAutofillWindowPresenter")
 			}
 			if err != nil {
 				return err
@@ -2887,7 +2889,7 @@ func newCmdAndroidViewAutofillIAutofillWindowPresenter_Hide() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/biometrics"
@@ -47,7 +49,7 @@ func newCmdAndroidHardwareFaceIFaceAuthenticatorsRegisteredCallback_OnAllAuthent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidHardwareFaceIFaceAuthenticatorsRegisteredCallback_OnAllAuthent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceAuthenticatorsRegisteredCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceAuthenticatorsRegisteredCallback")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidHardwareFaceIFaceAuthenticatorsRegisteredCallback_OnAllAuthent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidHardwareFaceIFaceService_CreateTestSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareFaceIFaceService_CreateTestSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -188,7 +190,7 @@ func newCmdAndroidHardwareFaceIFaceService_CreateTestSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -210,7 +212,7 @@ func newCmdAndroidHardwareFaceIFaceService_DumpSensorServiceStateProto() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareFaceIFaceService_DumpSensorServiceStateProto() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdAndroidHardwareFaceIFaceService_DumpSensorServiceStateProto() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -267,7 +269,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorPropertiesInternal() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -278,7 +280,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorPropertiesInternal() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -292,7 +294,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorPropertiesInternal() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -310,7 +312,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorProperties() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -321,7 +323,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorProperties() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -340,7 +342,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetSensorProperties() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -360,7 +362,7 @@ func newCmdAndroidHardwareFaceIFaceService_Authenticate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -371,7 +373,7 @@ func newCmdAndroidHardwareFaceIFaceService_Authenticate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidHardwareFaceIFaceService_Authenticate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -435,7 +437,7 @@ func newCmdAndroidHardwareFaceIFaceService_DetectFace() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareFaceIFaceService_DetectFace() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -481,7 +483,7 @@ func newCmdAndroidHardwareFaceIFaceService_DetectFace() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -503,7 +505,7 @@ func newCmdAndroidHardwareFaceIFaceService_PrepareForAuthentication() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -514,7 +516,7 @@ func newCmdAndroidHardwareFaceIFaceService_PrepareForAuthentication() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -574,7 +576,7 @@ func newCmdAndroidHardwareFaceIFaceService_PrepareForAuthentication() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareFaceIFaceService_StartPreparedClient() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -617,7 +619,7 @@ func newCmdAndroidHardwareFaceIFaceService_StartPreparedClient() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -641,7 +643,7 @@ func newCmdAndroidHardwareFaceIFaceService_StartPreparedClient() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -663,7 +665,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthentication() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -674,7 +676,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthentication() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthentication() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -724,7 +726,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelFaceDetect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -735,7 +737,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelFaceDetect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -763,7 +765,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelFaceDetect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -785,7 +787,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthenticationFromService() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -796,7 +798,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthenticationFromService() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -829,7 +831,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelAuthenticationFromService() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -853,7 +855,7 @@ func newCmdAndroidHardwareFaceIFaceService_Enroll() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -864,7 +866,7 @@ func newCmdAndroidHardwareFaceIFaceService_Enroll() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdAndroidHardwareFaceIFaceService_Enroll() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -958,7 +960,7 @@ func newCmdAndroidHardwareFaceIFaceService_EnrollRemotely() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -969,7 +971,7 @@ func newCmdAndroidHardwareFaceIFaceService_EnrollRemotely() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1026,7 +1028,7 @@ func newCmdAndroidHardwareFaceIFaceService_EnrollRemotely() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1052,7 +1054,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelEnrollment() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1063,7 +1065,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelEnrollment() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1091,7 +1093,7 @@ func newCmdAndroidHardwareFaceIFaceService_CancelEnrollment() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1113,7 +1115,7 @@ func newCmdAndroidHardwareFaceIFaceService_Remove() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1124,7 +1126,7 @@ func newCmdAndroidHardwareFaceIFaceService_Remove() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1162,7 +1164,7 @@ func newCmdAndroidHardwareFaceIFaceService_Remove() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1186,7 +1188,7 @@ func newCmdAndroidHardwareFaceIFaceService_RemoveAll() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1197,7 +1199,7 @@ func newCmdAndroidHardwareFaceIFaceService_RemoveAll() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1230,7 +1232,7 @@ func newCmdAndroidHardwareFaceIFaceService_RemoveAll() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1252,7 +1254,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetEnrolledFaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1263,7 +1265,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetEnrolledFaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1282,7 +1284,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetEnrolledFaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1302,7 +1304,7 @@ func newCmdAndroidHardwareFaceIFaceService_IsHardwareDetected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1313,7 +1315,7 @@ func newCmdAndroidHardwareFaceIFaceService_IsHardwareDetected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1332,7 +1334,7 @@ func newCmdAndroidHardwareFaceIFaceService_IsHardwareDetected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1352,7 +1354,7 @@ func newCmdAndroidHardwareFaceIFaceService_GenerateChallenge() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1363,7 +1365,7 @@ func newCmdAndroidHardwareFaceIFaceService_GenerateChallenge() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1401,7 +1403,7 @@ func newCmdAndroidHardwareFaceIFaceService_GenerateChallenge() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1425,7 +1427,7 @@ func newCmdAndroidHardwareFaceIFaceService_RevokeChallenge() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1436,7 +1438,7 @@ func newCmdAndroidHardwareFaceIFaceService_RevokeChallenge() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1469,7 +1471,7 @@ func newCmdAndroidHardwareFaceIFaceService_RevokeChallenge() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1493,7 +1495,7 @@ func newCmdAndroidHardwareFaceIFaceService_HasEnrolledFaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1504,7 +1506,7 @@ func newCmdAndroidHardwareFaceIFaceService_HasEnrolledFaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1523,7 +1525,7 @@ func newCmdAndroidHardwareFaceIFaceService_HasEnrolledFaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1543,7 +1545,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetLockoutModeForUser() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1554,7 +1556,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetLockoutModeForUser() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1573,7 +1575,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetLockoutModeForUser() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1593,7 +1595,7 @@ func newCmdAndroidHardwareFaceIFaceService_InvalidateAuthenticatorId() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1604,7 +1606,7 @@ func newCmdAndroidHardwareFaceIFaceService_InvalidateAuthenticatorId() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1633,7 +1635,7 @@ func newCmdAndroidHardwareFaceIFaceService_InvalidateAuthenticatorId() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1655,7 +1657,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetAuthenticatorId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1666,7 +1668,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetAuthenticatorId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1685,7 +1687,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetAuthenticatorId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1705,7 +1707,7 @@ func newCmdAndroidHardwareFaceIFaceService_ResetLockout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1716,7 +1718,7 @@ func newCmdAndroidHardwareFaceIFaceService_ResetLockout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1753,7 +1755,7 @@ func newCmdAndroidHardwareFaceIFaceService_ResetLockout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1777,7 +1779,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddLockoutResetCallback() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1788,7 +1790,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddLockoutResetCallback() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1812,7 +1814,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddLockoutResetCallback() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1832,7 +1834,7 @@ func newCmdAndroidHardwareFaceIFaceService_SetFeature() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1843,7 +1845,7 @@ func newCmdAndroidHardwareFaceIFaceService_SetFeature() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1895,7 +1897,7 @@ func newCmdAndroidHardwareFaceIFaceService_SetFeature() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1923,7 +1925,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetFeature() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1934,7 +1936,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetFeature() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -1972,7 +1974,7 @@ func newCmdAndroidHardwareFaceIFaceService_GetFeature() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1996,7 +1998,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticators() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2007,7 +2009,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticators() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2032,7 +2034,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticators() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2052,7 +2054,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticatorsLegacy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2063,7 +2065,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticatorsLegacy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2079,7 +2081,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticatorsLegacy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2097,7 +2099,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddAuthenticatorsRegisteredCallback()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2108,7 +2110,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddAuthenticatorsRegisteredCallback()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2132,7 +2134,7 @@ func newCmdAndroidHardwareFaceIFaceService_AddAuthenticatorsRegisteredCallback()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2152,7 +2154,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticationStateListener()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2163,7 +2165,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticationStateListener()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2187,7 +2189,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterAuthenticationStateListener()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2207,7 +2209,7 @@ func newCmdAndroidHardwareFaceIFaceService_UnregisterAuthenticationStateListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2218,7 +2220,7 @@ func newCmdAndroidHardwareFaceIFaceService_UnregisterAuthenticationStateListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2242,7 +2244,7 @@ func newCmdAndroidHardwareFaceIFaceService_UnregisterAuthenticationStateListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2262,7 +2264,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterBiometricStateListener() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2273,7 +2275,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterBiometricStateListener() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2297,7 +2299,7 @@ func newCmdAndroidHardwareFaceIFaceService_RegisterBiometricStateListener() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2317,7 +2319,7 @@ func newCmdAndroidHardwareFaceIFaceService_ScheduleWatchdog() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2328,7 +2330,7 @@ func newCmdAndroidHardwareFaceIFaceService_ScheduleWatchdog() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceService")
 			}
 			if err != nil {
 				return err
@@ -2342,7 +2344,7 @@ func newCmdAndroidHardwareFaceIFaceService_ScheduleWatchdog() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2382,7 +2384,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollResult() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2393,7 +2395,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollResult() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2414,7 +2416,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollResult() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2434,7 +2436,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAcquired() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2445,7 +2447,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAcquired() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2469,7 +2471,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAcquired() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2491,7 +2493,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationSucceeded() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2502,7 +2504,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationSucceeded() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2523,7 +2525,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationSucceeded() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2543,7 +2545,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFaceDetected() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2554,7 +2556,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFaceDetected() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2578,7 +2580,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFaceDetected() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2600,7 +2602,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFailed() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2611,7 +2613,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFailed() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2625,7 +2627,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFailed() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2643,7 +2645,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2654,7 +2656,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2678,7 +2680,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2700,7 +2702,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnRemoved() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2711,7 +2713,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnRemoved() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2732,7 +2734,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnRemoved() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2752,7 +2754,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureSet() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2763,7 +2765,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureSet() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2787,7 +2789,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureSet() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2809,7 +2811,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureGet() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2820,7 +2822,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureGet() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2869,7 +2871,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnFeatureGet() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2893,7 +2895,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnChallengeGenerated() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2904,7 +2906,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnChallengeGenerated() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2928,7 +2930,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnChallengeGenerated() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2950,7 +2952,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFrame() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2961,7 +2963,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFrame() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -2977,7 +2979,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnAuthenticationFrame() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2995,7 +2997,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollmentFrame() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3006,7 +3008,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollmentFrame() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.face.IFaceServiceReceiver")
 			}
 			if err != nil {
 				return err
@@ -3022,7 +3024,7 @@ func newCmdAndroidHardwareFaceIFaceServiceReceiver_OnEnrollmentFrame() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

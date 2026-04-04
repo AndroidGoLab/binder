@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/internal_/view"
@@ -45,7 +47,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Take() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Take() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
 			}
 			if err != nil {
 				return err
@@ -79,7 +81,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Take() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -99,7 +101,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_TakeTransient() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -110,7 +112,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_TakeTransient() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_TakeTransient() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -142,7 +144,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Release() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -153,7 +155,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Release() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IDragAndDropPermissions")
 			}
 			if err != nil {
 				return err
@@ -167,7 +169,7 @@ func newCmdComAndroidInternalViewIDragAndDropPermissions_Release() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -214,7 +216,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodInfoAs
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -225,7 +227,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodInfoAs
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -239,7 +241,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodInfoAs
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -257,7 +259,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetInputMethodList() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -268,7 +270,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetInputMethodList() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -287,7 +289,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetInputMethodList() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodList()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodList()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -332,7 +334,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodList()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -350,7 +352,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodSubtyp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -361,7 +363,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodSubtyp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetEnabledInputMethodSubtyp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetLastInputMethodSubtype()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetLastInputMethodSubtype()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -432,7 +434,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetLastInputMethodSubtype()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -450,7 +452,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_HideSoftInputFromServerForT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -461,7 +463,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_HideSoftInputFromServerForT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_HideSoftInputFromServerForT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -493,7 +495,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ShowInputMethodPickerFromSy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -504,7 +506,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ShowInputMethodPickerFromSy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -528,7 +530,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ShowInputMethodPickerFromSy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsInputMethodPickerShownFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsInputMethodPickerShownFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -575,7 +577,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsInputMethodPickerShownFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -593,7 +595,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodSubtyp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -604,7 +606,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodSubtyp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -618,7 +620,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetCurrentInputMethodSubtyp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -636,7 +638,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_SetExplicitlyEnabledInputMe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -647,7 +649,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_SetExplicitlyEnabledInputMe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -681,7 +683,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_SetExplicitlyEnabledInputMe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -703,7 +705,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ReportPerceptibleAsync() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -714,7 +716,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ReportPerceptibleAsync() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -742,7 +744,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_ReportPerceptibleAsync() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -764,7 +766,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurface() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -775,7 +777,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurface() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -789,7 +791,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurface() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -807,7 +809,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurfaceFromWindowA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -818,7 +820,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurfaceFromWindowA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -841,7 +843,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_RemoveImeSurfaceFromWindowA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -861,7 +863,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartProtoDump() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -872,7 +874,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartProtoDump() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -905,7 +907,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartProtoDump() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -929,7 +931,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsImeTraceEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -940,7 +942,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsImeTraceEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -954,7 +956,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsImeTraceEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -972,7 +974,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartImeTrace() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -983,7 +985,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartImeTrace() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -997,7 +999,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StartImeTrace() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1015,7 +1017,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StopImeTrace() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1026,7 +1028,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StopImeTrace() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -1040,7 +1042,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_StopImeTrace() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1058,7 +1060,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsStylusHandwritingAvailabl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1069,7 +1071,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsStylusHandwritingAvailabl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -1088,7 +1090,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_IsStylusHandwritingAvailabl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1108,7 +1110,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetImeTrackerService() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1119,7 +1121,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetImeTrackerService() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.IInputMethodManager")
 			}
 			if err != nil {
 				return err
@@ -1133,7 +1135,7 @@ func newCmdComAndroidInternalViewIInputMethodManager_GetImeTrackerService() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

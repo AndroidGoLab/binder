@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/camera2"
@@ -69,7 +71,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetEstimatedCapt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -80,7 +82,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetEstimatedCapt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -108,7 +110,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetEstimatedCapt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -132,7 +134,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPrev
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -143,7 +145,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPrev
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -162,7 +164,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPrev
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -182,7 +184,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedCapt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -193,7 +195,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedCapt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -212,7 +214,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedCapt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPost
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -243,7 +245,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPost
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -261,7 +263,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSupportedPost
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -281,7 +283,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSessionProces
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -292,7 +294,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSessionProces
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -306,7 +308,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetSessionProces
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -324,7 +326,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -335,7 +337,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -354,7 +356,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -374,7 +376,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -385,7 +387,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -404,7 +406,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableCapt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -424,7 +426,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsCaptureProcess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -435,7 +437,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsCaptureProcess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -449,7 +451,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsCaptureProcess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -467,7 +469,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsPostviewAvaila
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -478,7 +480,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsPostviewAvaila
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -492,7 +494,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_IsPostviewAvaila
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -510,7 +512,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableChar
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -521,7 +523,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableChar
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IAdvancedExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -540,7 +542,7 @@ func newCmdAndroidHardwareCamera2ExtensionIAdvancedExtenderImpl_GetAvailableChar
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -578,7 +580,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Register
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -589,7 +591,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Register
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -612,7 +614,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Register
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -632,7 +634,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Unregist
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -643,7 +645,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Unregist
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -666,7 +668,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Unregist
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -686,7 +688,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Advanced
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -697,7 +699,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Advanced
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -711,7 +713,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Advanced
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -729,7 +731,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -740,7 +742,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -764,7 +766,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -784,7 +786,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_ReleaseS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -795,7 +797,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_ReleaseS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -809,7 +811,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_ReleaseS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -827,7 +829,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -838,7 +840,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -857,7 +859,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -877,7 +879,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -888,7 +890,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -907,7 +909,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -927,7 +929,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -938,7 +940,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICameraExtensionsProxyService")
 			}
 			if err != nil {
 				return err
@@ -957,7 +959,7 @@ func newCmdAndroidHardwareCamera2ExtensionICameraExtensionsProxyService_Initiali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -995,7 +997,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureStarted() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1006,7 +1008,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureStarted() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1030,7 +1032,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureStarted() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1052,7 +1054,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessStart
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1063,7 +1065,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessStart
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1082,7 +1084,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessStart
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1102,7 +1104,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureFailed() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1113,7 +1115,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureFailed() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1132,7 +1134,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureFailed() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1152,7 +1154,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceComp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1163,7 +1165,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceComp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1182,7 +1184,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceComp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1202,7 +1204,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceAbor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1213,7 +1215,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceAbor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1232,7 +1234,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureSequenceAbor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1252,7 +1254,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureCompleted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1263,7 +1265,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureCompleted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1289,7 +1291,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureCompleted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1311,7 +1313,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessProgr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1322,7 +1324,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessProgr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1341,7 +1343,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessProgr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1361,7 +1363,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessFaile
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1372,7 +1374,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessFaile
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureCallback")
 			}
 			if err != nil {
 				return err
@@ -1396,7 +1398,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureCallback_OnCaptureProcessFaile
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1433,7 +1435,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnOutputSurface(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1444,7 +1446,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnOutputSurface(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -1465,7 +1467,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnOutputSurface(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1485,7 +1487,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnPostviewOutput
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1496,7 +1498,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnPostviewOutput
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -1512,7 +1514,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnPostviewOutput
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1530,7 +1532,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnResolutionUpda
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1541,7 +1543,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnResolutionUpda
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -1563,7 +1565,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnResolutionUpda
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1585,7 +1587,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnImageFormatUpd
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1596,7 +1598,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnImageFormatUpd
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -1615,7 +1617,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_OnImageFormatUpd
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1635,7 +1637,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_Process() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1646,7 +1648,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_Process() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ICaptureProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -1686,7 +1688,7 @@ func newCmdAndroidHardwareCamera2ExtensionICaptureProcessorImpl_Process() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1739,7 +1741,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnInit() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1750,7 +1752,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnInit() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -1780,7 +1782,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnInit() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1802,7 +1804,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDeInit() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1813,7 +1815,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDeInit() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -1836,7 +1838,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDeInit() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1856,7 +1858,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnPresetSess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1867,7 +1869,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnPresetSess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -1881,7 +1883,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnPresetSess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1899,7 +1901,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnEnableSess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1910,7 +1912,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnEnableSess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -1924,7 +1926,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnEnableSess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1942,7 +1944,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDisableSes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1953,7 +1955,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDisableSes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -1967,7 +1969,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_OnDisableSes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1985,7 +1987,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSessionTy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1996,7 +1998,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSessionTy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2010,7 +2012,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSessionTy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2028,7 +2030,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsExtensionA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2039,7 +2041,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsExtensionA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2060,7 +2062,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsExtensionA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2080,7 +2082,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_Init() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2091,7 +2093,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_Init() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2112,7 +2114,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_Init() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2132,7 +2134,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCapturePr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2143,7 +2145,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCapturePr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2157,7 +2159,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCapturePr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2175,7 +2177,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCaptureSt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2186,7 +2188,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCaptureSt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2200,7 +2202,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetCaptureSt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2218,7 +2220,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetMaxCaptur
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2229,7 +2231,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetMaxCaptur
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2243,7 +2245,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetMaxCaptur
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2261,7 +2263,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2272,7 +2274,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2286,7 +2288,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2304,7 +2306,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2315,7 +2317,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2333,7 +2335,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetSupported
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2353,7 +2355,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetEstimated
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2364,7 +2366,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetEstimated
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2382,7 +2384,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetEstimated
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2402,7 +2404,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2413,7 +2415,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2427,7 +2429,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2445,7 +2447,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2456,7 +2458,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2470,7 +2472,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetAvailable
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2488,7 +2490,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsCapturePro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2499,7 +2501,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsCapturePro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2513,7 +2515,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsCapturePro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2531,7 +2533,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetRealtimeC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2542,7 +2544,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetRealtimeC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2556,7 +2558,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_GetRealtimeC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2574,7 +2576,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsPostviewAv
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2585,7 +2587,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsPostviewAv
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageCaptureExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -2599,7 +2601,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageCaptureExtenderImpl_IsPostviewAv
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2628,7 +2630,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageProcessorImpl_OnNextImageAvailab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2639,7 +2641,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageProcessorImpl_OnNextImageAvailab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IImageProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -2701,7 +2703,7 @@ func newCmdAndroidHardwareCamera2ExtensionIImageProcessorImpl_OnNextImageAvailab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2754,7 +2756,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnSuccess()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2765,7 +2767,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnSuccess()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IInitializeSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IInitializeSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2779,7 +2781,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnSuccess()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2797,7 +2799,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnFailure()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2808,7 +2810,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnFailure()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IInitializeSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IInitializeSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2822,7 +2824,7 @@ func newCmdAndroidHardwareCamera2ExtensionIInitializeSessionCallback_OnFailure()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2854,7 +2856,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPreview
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2865,7 +2867,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPreview
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2879,7 +2881,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPreview
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2897,7 +2899,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2908,7 +2910,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2922,7 +2924,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2940,7 +2942,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageAn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2951,7 +2953,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageAn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2965,7 +2967,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetImageAn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2983,7 +2985,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPostvie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2994,7 +2996,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPostvie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IOutputSurfaceConfiguration")
 			}
 			if err != nil {
 				return err
@@ -3008,7 +3010,7 @@ func newCmdAndroidHardwareCamera2ExtensionIOutputSurfaceConfiguration_GetPostvie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3049,7 +3051,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnInit() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3060,7 +3062,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnInit() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3090,7 +3092,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnInit() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3112,7 +3114,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDeInit() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3123,7 +3125,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDeInit() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3146,7 +3148,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDeInit() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3166,7 +3168,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnPresetSession()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3177,7 +3179,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnPresetSession()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3191,7 +3193,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnPresetSession()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3209,7 +3211,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnEnableSession()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3220,7 +3222,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnEnableSession()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3234,7 +3236,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnEnableSession()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3252,7 +3254,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDisableSession(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3263,7 +3265,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDisableSession(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3277,7 +3279,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_OnDisableSession(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3295,7 +3297,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_Init() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3306,7 +3308,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_Init() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3327,7 +3329,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_Init() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3347,7 +3349,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_IsExtensionAvaila
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3358,7 +3360,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_IsExtensionAvaila
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3379,7 +3381,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_IsExtensionAvaila
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3399,7 +3401,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetCaptureStage()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3410,7 +3412,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetCaptureStage()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3424,7 +3426,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetCaptureStage()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3442,7 +3444,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSessionType() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3453,7 +3455,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSessionType() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3467,7 +3469,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSessionType() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3485,7 +3487,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetProcessorType(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3496,7 +3498,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetProcessorType(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3510,7 +3512,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetProcessorType(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3528,7 +3530,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetPreviewImagePr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3539,7 +3541,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetPreviewImagePr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3553,7 +3555,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetPreviewImagePr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3571,7 +3573,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetRequestUpdateP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3582,7 +3584,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetRequestUpdateP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3596,7 +3598,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetRequestUpdateP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3614,7 +3616,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSupportedResol
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3625,7 +3627,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSupportedResol
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewExtenderImpl")
 			}
 			if err != nil {
 				return err
@@ -3639,7 +3641,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewExtenderImpl_GetSupportedResol
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3671,7 +3673,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnOutputSur
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3682,7 +3684,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnOutputSur
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -3703,7 +3705,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnOutputSur
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3723,7 +3725,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnResolutio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3734,7 +3736,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnResolutio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -3752,7 +3754,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnResolutio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3772,7 +3774,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnImageForm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3783,7 +3785,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnImageForm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -3802,7 +3804,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_OnImageForm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3822,7 +3824,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_Process() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3833,7 +3835,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_Process() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IPreviewImageProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -3904,7 +3906,7 @@ func newCmdAndroidHardwareCamera2ExtensionIPreviewImageProcessorImpl_Process() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3957,7 +3959,7 @@ func newCmdAndroidHardwareCamera2ExtensionIProcessResultImpl_OnCaptureProcessPro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3968,7 +3970,7 @@ func newCmdAndroidHardwareCamera2ExtensionIProcessResultImpl_OnCaptureProcessPro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IProcessResultImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IProcessResultImpl")
 			}
 			if err != nil {
 				return err
@@ -3987,7 +3989,7 @@ func newCmdAndroidHardwareCamera2ExtensionIProcessResultImpl_OnCaptureProcessPro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4024,7 +4026,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureStarted() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4035,7 +4037,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureStarted() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4064,7 +4066,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureStarted() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4088,7 +4090,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureProgressed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4099,7 +4101,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureProgressed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4123,7 +4125,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureProgressed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4146,7 +4148,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureCompleted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4157,7 +4159,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureCompleted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4192,7 +4194,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureCompleted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4218,7 +4220,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureFailed() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4229,7 +4231,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureFailed() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4255,7 +4257,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureFailed() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4280,7 +4282,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureBufferLost()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4291,7 +4293,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureBufferLost()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4320,7 +4322,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureBufferLost()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4344,7 +4346,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceComp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4355,7 +4357,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceComp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4379,7 +4381,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceComp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4401,7 +4403,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceAbor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4412,7 +4414,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceAbor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -4431,7 +4433,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestCallback_OnCaptureSequenceAbor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4467,7 +4469,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetImageProcesso
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4478,7 +4480,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetImageProcesso
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4505,7 +4507,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetImageProcesso
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4526,7 +4528,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_Submit() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4537,7 +4539,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_Submit() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4570,7 +4572,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_Submit() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4593,7 +4595,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SubmitBurst() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4604,7 +4606,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SubmitBurst() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4639,7 +4641,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SubmitBurst() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4661,7 +4663,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetRepeating() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4672,7 +4674,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetRepeating() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4705,7 +4707,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_SetRepeating() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4728,7 +4730,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_AbortCaptures() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4739,7 +4741,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_AbortCaptures() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4753,7 +4755,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_AbortCaptures() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4771,7 +4773,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_StopRepeating() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4782,7 +4784,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_StopRepeating() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4796,7 +4798,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestProcessorImpl_StopRepeating() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4828,7 +4830,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnOutputSu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4839,7 +4841,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnOutputSu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4860,7 +4862,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnOutputSu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4880,7 +4882,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnResoluti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4891,7 +4893,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnResoluti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4909,7 +4911,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnResoluti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4929,7 +4931,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnImageFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4940,7 +4942,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnImageFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -4959,7 +4961,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_OnImageFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4979,7 +4981,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_Process() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4990,7 +4992,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_Process() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.IRequestUpdateProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5011,7 +5013,7 @@ func newCmdAndroidHardwareCamera2ExtensionIRequestUpdateProcessorImpl_Process() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5050,7 +5052,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_DeInitSession() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5061,7 +5063,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_DeInitSession() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5084,7 +5086,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_DeInitSession() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5104,7 +5106,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5115,7 +5117,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5144,7 +5146,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5166,7 +5168,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5177,7 +5179,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5191,7 +5193,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_OnCaptureSession
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5209,7 +5211,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartRepeating()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5220,7 +5222,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartRepeating()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5244,7 +5246,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartRepeating()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5264,7 +5266,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StopRepeating() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5275,7 +5277,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StopRepeating() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5289,7 +5291,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StopRepeating() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5307,7 +5309,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartCapture() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5318,7 +5320,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartCapture() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5347,7 +5349,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartCapture() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5369,7 +5371,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_SetParameters() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5380,7 +5382,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_SetParameters() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5396,7 +5398,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_SetParameters() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5414,7 +5416,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartTrigger() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5425,7 +5427,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartTrigger() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5451,7 +5453,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_StartTrigger() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5471,7 +5473,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_GetRealtimeCaptu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5482,7 +5484,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_GetRealtimeCaptu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.camera2.extension.ISessionProcessorImpl")
 			}
 			if err != nil {
 				return err
@@ -5496,7 +5498,7 @@ func newCmdAndroidHardwareCamera2ExtensionISessionProcessorImpl_GetRealtimeCaptu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

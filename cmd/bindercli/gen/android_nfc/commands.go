@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -58,7 +60,7 @@ func newCmdAndroidNfcIAppCallback_OnTagDiscovered() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -69,7 +71,7 @@ func newCmdAndroidNfcIAppCallback_OnTagDiscovered() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.IAppCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.IAppCallback")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidNfcIAppCallback_OnTagDiscovered() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcTagInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcTagInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -185,7 +187,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcTagInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -203,7 +205,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcCardEmulationInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -214,7 +216,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcCardEmulationInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcCardEmulationInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcFCardEmulationInterface() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcFCardEmulationInterface() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -271,7 +273,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcFCardEmulationInterface() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -289,7 +291,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAdapterExtrasInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -300,7 +302,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAdapterExtrasInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAdapterExtrasInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -339,7 +341,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcDtaInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -350,7 +352,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcDtaInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcDtaInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdAndroidNfcINfcAdapter_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdAndroidNfcINfcAdapter_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -414,7 +416,7 @@ func newCmdAndroidNfcINfcAdapter_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -432,7 +434,7 @@ func newCmdAndroidNfcINfcAdapter_Disable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -443,7 +445,7 @@ func newCmdAndroidNfcINfcAdapter_Disable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -462,7 +464,7 @@ func newCmdAndroidNfcINfcAdapter_Disable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -482,7 +484,7 @@ func newCmdAndroidNfcINfcAdapter_Enable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -493,7 +495,7 @@ func newCmdAndroidNfcINfcAdapter_Enable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -507,7 +509,7 @@ func newCmdAndroidNfcINfcAdapter_Enable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -525,7 +527,7 @@ func newCmdAndroidNfcINfcAdapter_PausePolling() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -536,7 +538,7 @@ func newCmdAndroidNfcINfcAdapter_PausePolling() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -555,7 +557,7 @@ func newCmdAndroidNfcINfcAdapter_PausePolling() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -575,7 +577,7 @@ func newCmdAndroidNfcINfcAdapter_ResumePolling() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -586,7 +588,7 @@ func newCmdAndroidNfcINfcAdapter_ResumePolling() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -600,7 +602,7 @@ func newCmdAndroidNfcINfcAdapter_ResumePolling() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -618,7 +620,7 @@ func newCmdAndroidNfcINfcAdapter_SetForegroundDispatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -629,7 +631,7 @@ func newCmdAndroidNfcINfcAdapter_SetForegroundDispatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -658,7 +660,7 @@ func newCmdAndroidNfcINfcAdapter_SetForegroundDispatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -678,7 +680,7 @@ func newCmdAndroidNfcINfcAdapter_SetAppCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -689,7 +691,7 @@ func newCmdAndroidNfcINfcAdapter_SetAppCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -713,7 +715,7 @@ func newCmdAndroidNfcINfcAdapter_SetAppCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -733,7 +735,7 @@ func newCmdAndroidNfcINfcAdapter_Ignore() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -744,7 +746,7 @@ func newCmdAndroidNfcINfcAdapter_Ignore() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -778,7 +780,7 @@ func newCmdAndroidNfcINfcAdapter_Ignore() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -802,7 +804,7 @@ func newCmdAndroidNfcINfcAdapter_Dispatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -813,7 +815,7 @@ func newCmdAndroidNfcINfcAdapter_Dispatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -829,7 +831,7 @@ func newCmdAndroidNfcINfcAdapter_Dispatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -847,7 +849,7 @@ func newCmdAndroidNfcINfcAdapter_SetReaderMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -858,7 +860,7 @@ func newCmdAndroidNfcINfcAdapter_SetReaderMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -898,7 +900,7 @@ func newCmdAndroidNfcINfcAdapter_SetReaderMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -922,7 +924,7 @@ func newCmdAndroidNfcINfcAdapter_AddNfcUnlockHandler() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -933,7 +935,7 @@ func newCmdAndroidNfcINfcAdapter_AddNfcUnlockHandler() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -972,7 +974,7 @@ func newCmdAndroidNfcINfcAdapter_AddNfcUnlockHandler() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -994,7 +996,7 @@ func newCmdAndroidNfcINfcAdapter_RemoveNfcUnlockHandler() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1005,7 +1007,7 @@ func newCmdAndroidNfcINfcAdapter_RemoveNfcUnlockHandler() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1029,7 +1031,7 @@ func newCmdAndroidNfcINfcAdapter_RemoveNfcUnlockHandler() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1049,7 +1051,7 @@ func newCmdAndroidNfcINfcAdapter_VerifyNfcPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1060,7 +1062,7 @@ func newCmdAndroidNfcINfcAdapter_VerifyNfcPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1074,7 +1076,7 @@ func newCmdAndroidNfcINfcAdapter_VerifyNfcPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1092,7 +1094,7 @@ func newCmdAndroidNfcINfcAdapter_IsNfcSecureEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1103,7 +1105,7 @@ func newCmdAndroidNfcINfcAdapter_IsNfcSecureEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1117,7 +1119,7 @@ func newCmdAndroidNfcINfcAdapter_IsNfcSecureEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1135,7 +1137,7 @@ func newCmdAndroidNfcINfcAdapter_DeviceSupportsNfcSecure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1146,7 +1148,7 @@ func newCmdAndroidNfcINfcAdapter_DeviceSupportsNfcSecure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1160,7 +1162,7 @@ func newCmdAndroidNfcINfcAdapter_DeviceSupportsNfcSecure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1178,7 +1180,7 @@ func newCmdAndroidNfcINfcAdapter_SetNfcSecure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1189,7 +1191,7 @@ func newCmdAndroidNfcINfcAdapter_SetNfcSecure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1208,7 +1210,7 @@ func newCmdAndroidNfcINfcAdapter_SetNfcSecure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1228,7 +1230,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAntennaInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1239,7 +1241,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAntennaInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1253,7 +1255,7 @@ func newCmdAndroidNfcINfcAdapter_GetNfcAntennaInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1271,7 +1273,7 @@ func newCmdAndroidNfcINfcAdapter_SetControllerAlwaysOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1282,7 +1284,7 @@ func newCmdAndroidNfcINfcAdapter_SetControllerAlwaysOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1301,7 +1303,7 @@ func newCmdAndroidNfcINfcAdapter_SetControllerAlwaysOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1321,7 +1323,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1332,7 +1334,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1346,7 +1348,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1364,7 +1366,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOnSupported() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1375,7 +1377,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOnSupported() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1389,7 +1391,7 @@ func newCmdAndroidNfcINfcAdapter_IsControllerAlwaysOnSupported() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1407,7 +1409,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterControllerAlwaysOnListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1418,7 +1420,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterControllerAlwaysOnListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1442,7 +1444,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterControllerAlwaysOnListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1462,7 +1464,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterControllerAlwaysOnListener() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1473,7 +1475,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterControllerAlwaysOnListener() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1497,7 +1499,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterControllerAlwaysOnListener() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1517,7 +1519,7 @@ func newCmdAndroidNfcINfcAdapter_IsTagIntentAppPreferenceSupported() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1528,7 +1530,7 @@ func newCmdAndroidNfcINfcAdapter_IsTagIntentAppPreferenceSupported() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1542,7 +1544,7 @@ func newCmdAndroidNfcINfcAdapter_IsTagIntentAppPreferenceSupported() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1560,7 +1562,7 @@ func newCmdAndroidNfcINfcAdapter_GetTagIntentAppPreferenceForUser() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1571,7 +1573,7 @@ func newCmdAndroidNfcINfcAdapter_GetTagIntentAppPreferenceForUser() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1585,7 +1587,7 @@ func newCmdAndroidNfcINfcAdapter_GetTagIntentAppPreferenceForUser() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1603,7 +1605,7 @@ func newCmdAndroidNfcINfcAdapter_SetTagIntentAppPreferenceForUser() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1614,7 +1616,7 @@ func newCmdAndroidNfcINfcAdapter_SetTagIntentAppPreferenceForUser() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1638,7 +1640,7 @@ func newCmdAndroidNfcINfcAdapter_SetTagIntentAppPreferenceForUser() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1660,7 +1662,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1671,7 +1673,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1685,7 +1687,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1703,7 +1705,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1714,7 +1716,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1728,7 +1730,7 @@ func newCmdAndroidNfcINfcAdapter_IsReaderOptionSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1746,7 +1748,7 @@ func newCmdAndroidNfcINfcAdapter_EnableReaderOption() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1757,7 +1759,7 @@ func newCmdAndroidNfcINfcAdapter_EnableReaderOption() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1776,7 +1778,7 @@ func newCmdAndroidNfcINfcAdapter_EnableReaderOption() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1796,7 +1798,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1807,7 +1809,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1821,7 +1823,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1839,7 +1841,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1850,7 +1852,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1864,7 +1866,7 @@ func newCmdAndroidNfcINfcAdapter_IsObserveModeEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1882,7 +1884,7 @@ func newCmdAndroidNfcINfcAdapter_SetObserveMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1893,7 +1895,7 @@ func newCmdAndroidNfcINfcAdapter_SetObserveMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1912,7 +1914,7 @@ func newCmdAndroidNfcINfcAdapter_SetObserveMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1932,7 +1934,7 @@ func newCmdAndroidNfcINfcAdapter_SetWlcEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1943,7 +1945,7 @@ func newCmdAndroidNfcINfcAdapter_SetWlcEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -1962,7 +1964,7 @@ func newCmdAndroidNfcINfcAdapter_SetWlcEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1982,7 +1984,7 @@ func newCmdAndroidNfcINfcAdapter_IsWlcEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1993,7 +1995,7 @@ func newCmdAndroidNfcINfcAdapter_IsWlcEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2007,7 +2009,7 @@ func newCmdAndroidNfcINfcAdapter_IsWlcEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2025,7 +2027,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterWlcStateListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2036,7 +2038,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterWlcStateListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2060,7 +2062,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterWlcStateListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2080,7 +2082,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterWlcStateListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2091,7 +2093,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterWlcStateListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2115,7 +2117,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterWlcStateListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2135,7 +2137,7 @@ func newCmdAndroidNfcINfcAdapter_GetWlcListenerDeviceInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2146,7 +2148,7 @@ func newCmdAndroidNfcINfcAdapter_GetWlcListenerDeviceInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2160,7 +2162,7 @@ func newCmdAndroidNfcINfcAdapter_GetWlcListenerDeviceInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2178,7 +2180,7 @@ func newCmdAndroidNfcINfcAdapter_UpdateDiscoveryTechnology() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2189,7 +2191,7 @@ func newCmdAndroidNfcINfcAdapter_UpdateDiscoveryTechnology() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2222,7 +2224,7 @@ func newCmdAndroidNfcINfcAdapter_UpdateDiscoveryTechnology() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2246,7 +2248,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyPollingLoop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2257,7 +2259,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyPollingLoop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2273,7 +2275,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyPollingLoop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2291,7 +2293,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyHceDeactivated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2302,7 +2304,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyHceDeactivated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2316,7 +2318,7 @@ func newCmdAndroidNfcINfcAdapter_NotifyHceDeactivated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2334,7 +2336,7 @@ func newCmdAndroidNfcINfcAdapter_SendVendorNciMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2345,7 +2347,7 @@ func newCmdAndroidNfcINfcAdapter_SendVendorNciMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2383,7 +2385,7 @@ func newCmdAndroidNfcINfcAdapter_SendVendorNciMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2409,7 +2411,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterVendorExtensionCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2420,7 +2422,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterVendorExtensionCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2444,7 +2446,7 @@ func newCmdAndroidNfcINfcAdapter_RegisterVendorExtensionCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2464,7 +2466,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterVendorExtensionCallback() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2475,7 +2477,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterVendorExtensionCallback() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapter")
 			}
 			if err != nil {
 				return err
@@ -2499,7 +2501,7 @@ func newCmdAndroidNfcINfcAdapter_UnregisterVendorExtensionCallback() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2536,7 +2538,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Open() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2547,7 +2549,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Open() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2575,7 +2577,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Open() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2597,7 +2599,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2608,7 +2610,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2636,7 +2638,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2658,7 +2660,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Transceive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2669,7 +2671,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Transceive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2697,7 +2699,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Transceive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2719,7 +2721,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetCardEmulationRoute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2730,7 +2732,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetCardEmulationRoute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2749,7 +2751,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetCardEmulationRoute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2769,7 +2771,7 @@ func newCmdAndroidNfcINfcAdapterExtras_SetCardEmulationRoute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2780,7 +2782,7 @@ func newCmdAndroidNfcINfcAdapterExtras_SetCardEmulationRoute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2804,7 +2806,7 @@ func newCmdAndroidNfcINfcAdapterExtras_SetCardEmulationRoute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2826,7 +2828,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Authenticate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2837,7 +2839,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Authenticate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2865,7 +2867,7 @@ func newCmdAndroidNfcINfcAdapterExtras_Authenticate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2887,7 +2889,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetDriverName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2898,7 +2900,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetDriverName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcAdapterExtras")
 			}
 			if err != nil {
 				return err
@@ -2917,7 +2919,7 @@ func newCmdAndroidNfcINfcAdapterExtras_GetDriverName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2966,7 +2968,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForCategory() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2977,7 +2979,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForCategory() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -2998,7 +3000,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForCategory() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3018,7 +3020,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForAid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3029,7 +3031,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForAid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3050,7 +3052,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultServiceForAid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3070,7 +3072,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultServiceForCategory() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3081,7 +3083,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultServiceForCategory() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3102,7 +3104,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultServiceForCategory() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3122,7 +3124,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultForNextTap() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3133,7 +3135,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultForNextTap() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3149,7 +3151,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetDefaultForNextTap() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3167,7 +3169,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterAidGroupForService() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3178,7 +3180,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterAidGroupForService() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3196,7 +3198,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterAidGroupForService() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3214,7 +3216,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterPollingLoopFilterForService() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3225,7 +3227,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterPollingLoopFilterForService() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3251,7 +3253,7 @@ func newCmdAndroidNfcINfcCardEmulation_RegisterPollingLoopFilterForService() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3273,7 +3275,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetOffHostForService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3284,7 +3286,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetOffHostForService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3305,7 +3307,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetOffHostForService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3325,7 +3327,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetOffHostForService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3336,7 +3338,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetOffHostForService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3352,7 +3354,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetOffHostForService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3370,7 +3372,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetAidGroupForService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3381,7 +3383,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetAidGroupForService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3402,7 +3404,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetAidGroupForService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3422,7 +3424,7 @@ func newCmdAndroidNfcINfcCardEmulation_RemoveAidGroupForService() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3433,7 +3435,7 @@ func newCmdAndroidNfcINfcCardEmulation_RemoveAidGroupForService() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3454,7 +3456,7 @@ func newCmdAndroidNfcINfcCardEmulation_RemoveAidGroupForService() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3474,7 +3476,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3485,7 +3487,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3504,7 +3506,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3524,7 +3526,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetPreferredService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3535,7 +3537,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetPreferredService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3551,7 +3553,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetPreferredService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3569,7 +3571,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetPreferredService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3580,7 +3582,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetPreferredService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3594,7 +3596,7 @@ func newCmdAndroidNfcINfcCardEmulation_UnsetPreferredService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3612,7 +3614,7 @@ func newCmdAndroidNfcINfcCardEmulation_SupportsAidPrefixRegistration() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3623,7 +3625,7 @@ func newCmdAndroidNfcINfcCardEmulation_SupportsAidPrefixRegistration() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3637,7 +3639,7 @@ func newCmdAndroidNfcINfcCardEmulation_SupportsAidPrefixRegistration() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3655,7 +3657,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetPreferredPaymentService() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3666,7 +3668,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetPreferredPaymentService() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3680,7 +3682,7 @@ func newCmdAndroidNfcINfcCardEmulation_GetPreferredPaymentService() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3698,7 +3700,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetServiceEnabledForCategoryOther() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3709,7 +3711,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetServiceEnabledForCategoryOther() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3730,7 +3732,7 @@ func newCmdAndroidNfcINfcCardEmulation_SetServiceEnabledForCategoryOther() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3750,7 +3752,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultPaymentRegistered() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3761,7 +3763,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultPaymentRegistered() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3775,7 +3777,7 @@ func newCmdAndroidNfcINfcCardEmulation_IsDefaultPaymentRegistered() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3793,7 +3795,7 @@ func newCmdAndroidNfcINfcCardEmulation_OverrideRoutingTable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3804,7 +3806,7 @@ func newCmdAndroidNfcINfcCardEmulation_OverrideRoutingTable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3828,7 +3830,7 @@ func newCmdAndroidNfcINfcCardEmulation_OverrideRoutingTable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3850,7 +3852,7 @@ func newCmdAndroidNfcINfcCardEmulation_RecoverRoutingTable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3861,7 +3863,7 @@ func newCmdAndroidNfcINfcCardEmulation_RecoverRoutingTable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -3875,7 +3877,7 @@ func newCmdAndroidNfcINfcCardEmulation_RecoverRoutingTable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3904,7 +3906,7 @@ func newCmdAndroidNfcINfcControllerAlwaysOnListener_OnControllerAlwaysOnChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3915,7 +3917,7 @@ func newCmdAndroidNfcINfcControllerAlwaysOnListener_OnControllerAlwaysOnChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcControllerAlwaysOnListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcControllerAlwaysOnListener")
 			}
 			if err != nil {
 				return err
@@ -3934,7 +3936,7 @@ func newCmdAndroidNfcINfcControllerAlwaysOnListener_OnControllerAlwaysOnChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3971,7 +3973,7 @@ func newCmdAndroidNfcINfcDta_EnableDta() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3982,7 +3984,7 @@ func newCmdAndroidNfcINfcDta_EnableDta() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -3996,7 +3998,7 @@ func newCmdAndroidNfcINfcDta_EnableDta() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4014,7 +4016,7 @@ func newCmdAndroidNfcINfcDta_DisableDta() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4025,7 +4027,7 @@ func newCmdAndroidNfcINfcDta_DisableDta() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4039,7 +4041,7 @@ func newCmdAndroidNfcINfcDta_DisableDta() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4057,7 +4059,7 @@ func newCmdAndroidNfcINfcDta_EnableServer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4068,7 +4070,7 @@ func newCmdAndroidNfcINfcDta_EnableServer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4107,7 +4109,7 @@ func newCmdAndroidNfcINfcDta_EnableServer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4135,7 +4137,7 @@ func newCmdAndroidNfcINfcDta_DisableServer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4146,7 +4148,7 @@ func newCmdAndroidNfcINfcDta_DisableServer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4160,7 +4162,7 @@ func newCmdAndroidNfcINfcDta_DisableServer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4178,7 +4180,7 @@ func newCmdAndroidNfcINfcDta_EnableClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4189,7 +4191,7 @@ func newCmdAndroidNfcINfcDta_EnableClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4223,7 +4225,7 @@ func newCmdAndroidNfcINfcDta_EnableClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4249,7 +4251,7 @@ func newCmdAndroidNfcINfcDta_DisableClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4260,7 +4262,7 @@ func newCmdAndroidNfcINfcDta_DisableClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4274,7 +4276,7 @@ func newCmdAndroidNfcINfcDta_DisableClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4292,7 +4294,7 @@ func newCmdAndroidNfcINfcDta_RegisterMessageService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4303,7 +4305,7 @@ func newCmdAndroidNfcINfcDta_RegisterMessageService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcDta")
 			}
 			if err != nil {
 				return err
@@ -4322,7 +4324,7 @@ func newCmdAndroidNfcINfcDta_RegisterMessageService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4361,7 +4363,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetSystemCodeForService() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4372,7 +4374,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetSystemCodeForService() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4388,7 +4390,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetSystemCodeForService() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4406,7 +4408,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RegisterSystemCodeForService() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4417,7 +4419,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RegisterSystemCodeForService() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4438,7 +4440,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RegisterSystemCodeForService() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4458,7 +4460,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RemoveSystemCodeForService() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4469,7 +4471,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RemoveSystemCodeForService() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4485,7 +4487,7 @@ func newCmdAndroidNfcINfcFCardEmulation_RemoveSystemCodeForService() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4503,7 +4505,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcid2ForService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4514,7 +4516,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcid2ForService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4530,7 +4532,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcid2ForService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4548,7 +4550,7 @@ func newCmdAndroidNfcINfcFCardEmulation_SetNfcid2ForService() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4559,7 +4561,7 @@ func newCmdAndroidNfcINfcFCardEmulation_SetNfcid2ForService() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4580,7 +4582,7 @@ func newCmdAndroidNfcINfcFCardEmulation_SetNfcid2ForService() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4600,7 +4602,7 @@ func newCmdAndroidNfcINfcFCardEmulation_EnableNfcFForegroundService() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4611,7 +4613,7 @@ func newCmdAndroidNfcINfcFCardEmulation_EnableNfcFForegroundService() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4627,7 +4629,7 @@ func newCmdAndroidNfcINfcFCardEmulation_EnableNfcFForegroundService() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4645,7 +4647,7 @@ func newCmdAndroidNfcINfcFCardEmulation_DisableNfcFForegroundService() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4656,7 +4658,7 @@ func newCmdAndroidNfcINfcFCardEmulation_DisableNfcFForegroundService() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4670,7 +4672,7 @@ func newCmdAndroidNfcINfcFCardEmulation_DisableNfcFForegroundService() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4688,7 +4690,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcFServices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4699,7 +4701,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcFServices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4713,7 +4715,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetNfcFServices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4731,7 +4733,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetMaxNumOfRegisterableSystemCodes() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4742,7 +4744,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetMaxNumOfRegisterableSystemCodes() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcFCardEmulation")
 			}
 			if err != nil {
 				return err
@@ -4756,7 +4758,7 @@ func newCmdAndroidNfcINfcFCardEmulation_GetMaxNumOfRegisterableSystemCodes() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4803,7 +4805,7 @@ func newCmdAndroidNfcINfcTag_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4814,7 +4816,7 @@ func newCmdAndroidNfcINfcTag_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -4838,7 +4840,7 @@ func newCmdAndroidNfcINfcTag_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4860,7 +4862,7 @@ func newCmdAndroidNfcINfcTag_Reconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4871,7 +4873,7 @@ func newCmdAndroidNfcINfcTag_Reconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -4890,7 +4892,7 @@ func newCmdAndroidNfcINfcTag_Reconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4910,7 +4912,7 @@ func newCmdAndroidNfcINfcTag_GetTechList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4921,7 +4923,7 @@ func newCmdAndroidNfcINfcTag_GetTechList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -4940,7 +4942,7 @@ func newCmdAndroidNfcINfcTag_GetTechList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4960,7 +4962,7 @@ func newCmdAndroidNfcINfcTag_IsNdef() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4971,7 +4973,7 @@ func newCmdAndroidNfcINfcTag_IsNdef() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -4990,7 +4992,7 @@ func newCmdAndroidNfcINfcTag_IsNdef() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5010,7 +5012,7 @@ func newCmdAndroidNfcINfcTag_IsPresent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5021,7 +5023,7 @@ func newCmdAndroidNfcINfcTag_IsPresent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5040,7 +5042,7 @@ func newCmdAndroidNfcINfcTag_IsPresent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5060,7 +5062,7 @@ func newCmdAndroidNfcINfcTag_Transceive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5071,7 +5073,7 @@ func newCmdAndroidNfcINfcTag_Transceive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5104,7 +5106,7 @@ func newCmdAndroidNfcINfcTag_Transceive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5128,7 +5130,7 @@ func newCmdAndroidNfcINfcTag_NdefRead() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5139,7 +5141,7 @@ func newCmdAndroidNfcINfcTag_NdefRead() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5158,7 +5160,7 @@ func newCmdAndroidNfcINfcTag_NdefRead() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5178,7 +5180,7 @@ func newCmdAndroidNfcINfcTag_NdefWrite() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5189,7 +5191,7 @@ func newCmdAndroidNfcINfcTag_NdefWrite() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5210,7 +5212,7 @@ func newCmdAndroidNfcINfcTag_NdefWrite() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5230,7 +5232,7 @@ func newCmdAndroidNfcINfcTag_NdefMakeReadOnly() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5241,7 +5243,7 @@ func newCmdAndroidNfcINfcTag_NdefMakeReadOnly() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5260,7 +5262,7 @@ func newCmdAndroidNfcINfcTag_NdefMakeReadOnly() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5280,7 +5282,7 @@ func newCmdAndroidNfcINfcTag_NdefIsWritable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5291,7 +5293,7 @@ func newCmdAndroidNfcINfcTag_NdefIsWritable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5310,7 +5312,7 @@ func newCmdAndroidNfcINfcTag_NdefIsWritable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5330,7 +5332,7 @@ func newCmdAndroidNfcINfcTag_FormatNdef() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5341,7 +5343,7 @@ func newCmdAndroidNfcINfcTag_FormatNdef() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5369,7 +5371,7 @@ func newCmdAndroidNfcINfcTag_FormatNdef() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5391,7 +5393,7 @@ func newCmdAndroidNfcINfcTag_Rediscover() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5402,7 +5404,7 @@ func newCmdAndroidNfcINfcTag_Rediscover() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5421,7 +5423,7 @@ func newCmdAndroidNfcINfcTag_Rediscover() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5441,7 +5443,7 @@ func newCmdAndroidNfcINfcTag_SetTimeout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5452,7 +5454,7 @@ func newCmdAndroidNfcINfcTag_SetTimeout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5476,7 +5478,7 @@ func newCmdAndroidNfcINfcTag_SetTimeout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5498,7 +5500,7 @@ func newCmdAndroidNfcINfcTag_GetTimeout() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5509,7 +5511,7 @@ func newCmdAndroidNfcINfcTag_GetTimeout() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5528,7 +5530,7 @@ func newCmdAndroidNfcINfcTag_GetTimeout() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5548,7 +5550,7 @@ func newCmdAndroidNfcINfcTag_ResetTimeouts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5559,7 +5561,7 @@ func newCmdAndroidNfcINfcTag_ResetTimeouts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5573,7 +5575,7 @@ func newCmdAndroidNfcINfcTag_ResetTimeouts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5591,7 +5593,7 @@ func newCmdAndroidNfcINfcTag_CanMakeReadOnly() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5602,7 +5604,7 @@ func newCmdAndroidNfcINfcTag_CanMakeReadOnly() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5621,7 +5623,7 @@ func newCmdAndroidNfcINfcTag_CanMakeReadOnly() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5641,7 +5643,7 @@ func newCmdAndroidNfcINfcTag_GetMaxTransceiveLength() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5652,7 +5654,7 @@ func newCmdAndroidNfcINfcTag_GetMaxTransceiveLength() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5671,7 +5673,7 @@ func newCmdAndroidNfcINfcTag_GetMaxTransceiveLength() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5691,7 +5693,7 @@ func newCmdAndroidNfcINfcTag_GetExtendedLengthApdusSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5702,7 +5704,7 @@ func newCmdAndroidNfcINfcTag_GetExtendedLengthApdusSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5716,7 +5718,7 @@ func newCmdAndroidNfcINfcTag_GetExtendedLengthApdusSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5734,7 +5736,7 @@ func newCmdAndroidNfcINfcTag_IsTagUpToDate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5745,7 +5747,7 @@ func newCmdAndroidNfcINfcTag_IsTagUpToDate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcTag")
 			}
 			if err != nil {
 				return err
@@ -5764,7 +5766,7 @@ func newCmdAndroidNfcINfcTag_IsTagUpToDate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5795,7 +5797,7 @@ func newCmdAndroidNfcINfcUnlockHandler_OnUnlockAttempted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5806,7 +5808,7 @@ func newCmdAndroidNfcINfcUnlockHandler_OnUnlockAttempted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcUnlockHandler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcUnlockHandler")
 			}
 			if err != nil {
 				return err
@@ -5822,7 +5824,7 @@ func newCmdAndroidNfcINfcUnlockHandler_OnUnlockAttempted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5852,7 +5854,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorResponseReceived() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5863,7 +5865,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorResponseReceived() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcVendorNciCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcVendorNciCallback")
 			}
 			if err != nil {
 				return err
@@ -5896,7 +5898,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorResponseReceived() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5920,7 +5922,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorNotificationReceived() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5931,7 +5933,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorNotificationReceived() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcVendorNciCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcVendorNciCallback")
 			}
 			if err != nil {
 				return err
@@ -5964,7 +5966,7 @@ func newCmdAndroidNfcINfcVendorNciCallback_OnVendorNotificationReceived() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5999,7 +6001,7 @@ func newCmdAndroidNfcINfcWlcStateListener_OnWlcStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6010,7 +6012,7 @@ func newCmdAndroidNfcINfcWlcStateListener_OnWlcStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcWlcStateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.INfcWlcStateListener")
 			}
 			if err != nil {
 				return err
@@ -6026,7 +6028,7 @@ func newCmdAndroidNfcINfcWlcStateListener_OnWlcStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6055,7 +6057,7 @@ func newCmdAndroidNfcITagRemovedCallback_OnTagRemoved() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6066,7 +6068,7 @@ func newCmdAndroidNfcITagRemovedCallback_OnTagRemoved() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.nfc.ITagRemovedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.nfc.ITagRemovedCallback")
 			}
 			if err != nil {
 				return err
@@ -6080,7 +6082,7 @@ func newCmdAndroidNfcITagRemovedCallback_OnTagRemoved() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

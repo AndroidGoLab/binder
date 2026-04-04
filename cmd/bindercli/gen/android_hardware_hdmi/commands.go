@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/hdmi"
@@ -51,7 +53,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecSettingChangeListener_OnChange() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -62,7 +64,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecSettingChangeListener_OnChange() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiCecSettingChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiCecSettingChangeListener")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecSettingChangeListener_OnChange() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -112,7 +114,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecVolumeControlFeatureListener_OnHdmiCecVolu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -123,7 +125,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecVolumeControlFeatureListener_OnHdmiCecVolu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiCecVolumeControlFeatureListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiCecVolumeControlFeatureListener")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidHardwareHdmiIHdmiCecVolumeControlFeatureListener_OnHdmiCecVolu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -173,7 +175,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlCallback_OnComplete() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -184,7 +186,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlCallback_OnComplete() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlCallback")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlCallback_OnComplete() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -291,7 +293,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSupportedTypes() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -302,7 +304,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSupportedTypes() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -316,7 +318,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSupportedTypes() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetActiveSource() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetActiveSource() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -359,7 +361,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetActiveSource() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -377,7 +379,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_OneTouchPlay() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -388,7 +390,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_OneTouchPlay() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -412,7 +414,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_OneTouchPlay() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -432,7 +434,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ToggleAndFollowTvPower() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -443,7 +445,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ToggleAndFollowTvPower() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ToggleAndFollowTvPower() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -475,7 +477,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ShouldHandleTvPowerKey() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -486,7 +488,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ShouldHandleTvPowerKey() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -500,7 +502,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ShouldHandleTvPowerKey() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -518,7 +520,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_QueryDisplayStatus() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -529,7 +531,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_QueryDisplayStatus() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -553,7 +555,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_QueryDisplayStatus() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -573,7 +575,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiControlStatusChangeList
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -584,7 +586,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiControlStatusChangeList
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiControlStatusChangeList
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -628,7 +630,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiControlStatusChangeL
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -639,7 +641,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiControlStatusChangeL
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -663,7 +665,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiControlStatusChangeL
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -683,7 +685,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiCecVolumeControlFeature
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -694,7 +696,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiCecVolumeControlFeature
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -718,7 +720,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiCecVolumeControlFeature
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -738,7 +740,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiCecVolumeControlFeat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -749,7 +751,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiCecVolumeControlFeat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -773,7 +775,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHdmiCecVolumeControlFeat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -793,7 +795,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHotplugEventListener() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -804,7 +806,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHotplugEventListener() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -828,7 +830,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHotplugEventListener() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -848,7 +850,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHotplugEventListener() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -859,7 +861,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHotplugEventListener() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -883,7 +885,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveHotplugEventListener() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -903,7 +905,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddDeviceEventListener() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -914,7 +916,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddDeviceEventListener() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -938,7 +940,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddDeviceEventListener() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -958,7 +960,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_DeviceSelect() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -969,7 +971,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_DeviceSelect() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -998,7 +1000,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_DeviceSelect() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1020,7 +1022,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PortSelect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1031,7 +1033,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PortSelect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1060,7 +1062,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PortSelect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1082,7 +1084,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendKeyEvent() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1093,7 +1095,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendKeyEvent() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1122,7 +1124,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendKeyEvent() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1146,7 +1148,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVolumeKeyEvent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1157,7 +1159,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVolumeKeyEvent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1186,7 +1188,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVolumeKeyEvent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1210,7 +1212,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPortInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1221,7 +1223,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPortInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1235,7 +1237,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPortInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1253,7 +1255,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_CanChangeSystemAudioMode() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1264,7 +1266,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_CanChangeSystemAudioMode() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1278,7 +1280,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_CanChangeSystemAudioMode() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1296,7 +1298,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSystemAudioMode() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1307,7 +1309,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSystemAudioMode() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1321,7 +1323,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetSystemAudioMode() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1339,7 +1341,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPhysicalAddress() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1350,7 +1352,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPhysicalAddress() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1364,7 +1366,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetPhysicalAddress() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1382,7 +1384,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMode() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1393,7 +1395,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMode() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1422,7 +1424,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMode() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1444,7 +1446,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddSystemAudioModeChangeListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1455,7 +1457,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddSystemAudioModeChangeListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1479,7 +1481,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddSystemAudioModeChangeListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1499,7 +1501,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveSystemAudioModeChangeLis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1510,7 +1512,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveSystemAudioModeChangeLis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1534,7 +1536,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveSystemAudioModeChangeLis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1554,7 +1556,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetArcMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1565,7 +1567,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetArcMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1584,7 +1586,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetArcMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1604,7 +1606,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetProhibitMode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1615,7 +1617,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetProhibitMode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1634,7 +1636,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetProhibitMode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1654,7 +1656,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioVolume() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1665,7 +1667,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioVolume() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1694,7 +1696,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioVolume() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1718,7 +1720,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMute() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1729,7 +1731,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMute() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1748,7 +1750,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioMute() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1768,7 +1770,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetInputChangeListener() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1779,7 +1781,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetInputChangeListener() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1803,7 +1805,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetInputChangeListener() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1823,7 +1825,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetInputDevices() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1834,7 +1836,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetInputDevices() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1848,7 +1850,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetInputDevices() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1866,7 +1868,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetDeviceList() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1877,7 +1879,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetDeviceList() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1891,7 +1893,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetDeviceList() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1909,7 +1911,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOffRemoteDevice() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1920,7 +1922,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOffRemoteDevice() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -1944,7 +1946,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOffRemoteDevice() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1966,7 +1968,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOnRemoteDevice() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1977,7 +1979,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOnRemoteDevice() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2001,7 +2003,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_PowerOnRemoteDevice() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2023,7 +2025,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AskRemoteDeviceToBecomeActiveS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2034,7 +2036,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AskRemoteDeviceToBecomeActiveS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2053,7 +2055,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AskRemoteDeviceToBecomeActiveS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2073,7 +2075,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVendorCommand() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2084,7 +2086,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVendorCommand() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2122,7 +2124,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendVendorCommand() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2148,7 +2150,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddVendorCommandListener() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2159,7 +2161,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddVendorCommandListener() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2188,7 +2190,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddVendorCommandListener() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2210,7 +2212,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendStandby() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2221,7 +2223,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendStandby() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2245,7 +2247,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendStandby() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2267,7 +2269,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetHdmiRecordListener() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2278,7 +2280,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetHdmiRecordListener() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2302,7 +2304,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetHdmiRecordListener() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2322,7 +2324,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartOneTouchRecord() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2333,7 +2335,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartOneTouchRecord() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2361,7 +2363,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartOneTouchRecord() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2383,7 +2385,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StopOneTouchRecord() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2394,7 +2396,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StopOneTouchRecord() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2413,7 +2415,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StopOneTouchRecord() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2433,7 +2435,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartTimerRecording() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2444,7 +2446,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartTimerRecording() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2477,7 +2479,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_StartTimerRecording() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2501,7 +2503,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ClearTimerRecording() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2512,7 +2514,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ClearTimerRecording() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2545,7 +2547,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ClearTimerRecording() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2569,7 +2571,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendMhlVendorCommand() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2580,7 +2582,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendMhlVendorCommand() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2618,7 +2620,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SendMhlVendorCommand() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2644,7 +2646,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiMhlVendorCommandListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2655,7 +2657,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiMhlVendorCommandListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2679,7 +2681,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddHdmiMhlVendorCommandListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2699,7 +2701,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetStandbyMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2710,7 +2712,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetStandbyMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2729,7 +2731,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetStandbyMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2749,7 +2751,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ReportAudioStatus() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2760,7 +2762,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ReportAudioStatus() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2794,7 +2796,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_ReportAudioStatus() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2820,7 +2822,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioModeOnForAudioOn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2831,7 +2833,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioModeOnForAudioOn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2845,7 +2847,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetSystemAudioModeOnForAudioOn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2863,7 +2865,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetMessageHistorySize() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2874,7 +2876,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetMessageHistorySize() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2893,7 +2895,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetMessageHistorySize() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2913,7 +2915,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetMessageHistorySize() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2924,7 +2926,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetMessageHistorySize() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2938,7 +2940,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetMessageHistorySize() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2956,7 +2958,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddCecSettingChangeListener() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2967,7 +2969,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddCecSettingChangeListener() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -2996,7 +2998,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_AddCecSettingChangeListener() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3018,7 +3020,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveCecSettingChangeListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3029,7 +3031,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveCecSettingChangeListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3058,7 +3060,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_RemoveCecSettingChangeListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3080,7 +3082,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetUserCecSettings() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3091,7 +3093,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetUserCecSettings() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3105,7 +3107,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetUserCecSettings() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3123,7 +3125,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingStringValu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3134,7 +3136,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingStringValu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3153,7 +3155,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingStringValu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3173,7 +3175,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingIntValues(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3184,7 +3186,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingIntValues(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3203,7 +3205,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetAllowedCecSettingIntValues(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3223,7 +3225,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingStringValue() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3234,7 +3236,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingStringValue() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3253,7 +3255,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingStringValue() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3273,7 +3275,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingStringValue() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3284,7 +3286,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingStringValue() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3308,7 +3310,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingStringValue() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3330,7 +3332,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingIntValue() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3341,7 +3343,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingIntValue() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3360,7 +3362,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_GetCecSettingIntValue() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3380,7 +3382,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingIntValue() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3391,7 +3393,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingIntValue() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlService")
 			}
 			if err != nil {
 				return err
@@ -3415,7 +3417,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlService_SetCecSettingIntValue() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3448,7 +3450,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlStatusChangeListener_OnStatusChange() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3459,7 +3461,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlStatusChangeListener_OnStatusChange() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlStatusChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiControlStatusChangeListener")
 			}
 			if err != nil {
 				return err
@@ -3483,7 +3485,7 @@ func newCmdAndroidHardwareHdmiIHdmiControlStatusChangeListener_OnStatusChange() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3516,7 +3518,7 @@ func newCmdAndroidHardwareHdmiIHdmiDeviceEventListener_OnStatusChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3527,7 +3529,7 @@ func newCmdAndroidHardwareHdmiIHdmiDeviceEventListener_OnStatusChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiDeviceEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiDeviceEventListener")
 			}
 			if err != nil {
 				return err
@@ -3548,7 +3550,7 @@ func newCmdAndroidHardwareHdmiIHdmiDeviceEventListener_OnStatusChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3579,7 +3581,7 @@ func newCmdAndroidHardwareHdmiIHdmiHotplugEventListener_OnReceived() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3590,7 +3592,7 @@ func newCmdAndroidHardwareHdmiIHdmiHotplugEventListener_OnReceived() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiHotplugEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiHotplugEventListener")
 			}
 			if err != nil {
 				return err
@@ -3606,7 +3608,7 @@ func newCmdAndroidHardwareHdmiIHdmiHotplugEventListener_OnReceived() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3635,7 +3637,7 @@ func newCmdAndroidHardwareHdmiIHdmiInputChangeListener_OnChanged() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3646,7 +3648,7 @@ func newCmdAndroidHardwareHdmiIHdmiInputChangeListener_OnChanged() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiInputChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiInputChangeListener")
 			}
 			if err != nil {
 				return err
@@ -3662,7 +3664,7 @@ func newCmdAndroidHardwareHdmiIHdmiInputChangeListener_OnChanged() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3691,7 +3693,7 @@ func newCmdAndroidHardwareHdmiIHdmiMhlVendorCommandListener_OnReceived() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3702,7 +3704,7 @@ func newCmdAndroidHardwareHdmiIHdmiMhlVendorCommandListener_OnReceived() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiMhlVendorCommandListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiMhlVendorCommandListener")
 			}
 			if err != nil {
 				return err
@@ -3740,7 +3742,7 @@ func newCmdAndroidHardwareHdmiIHdmiMhlVendorCommandListener_OnReceived() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3780,7 +3782,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_GetOneTouchRecordSource() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3791,7 +3793,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_GetOneTouchRecordSource() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
 			}
 			if err != nil {
 				return err
@@ -3810,7 +3812,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_GetOneTouchRecordSource() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3830,7 +3832,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnOneTouchRecordResult() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3841,7 +3843,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnOneTouchRecordResult() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
 			}
 			if err != nil {
 				return err
@@ -3865,7 +3867,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnOneTouchRecordResult() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3887,7 +3889,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnTimerRecordingResult() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3898,7 +3900,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnTimerRecordingResult() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
 			}
 			if err != nil {
 				return err
@@ -3922,7 +3924,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnTimerRecordingResult() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3944,7 +3946,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnClearTimerRecordingResult() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3955,7 +3957,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnClearTimerRecordingResult() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiRecordListener")
 			}
 			if err != nil {
 				return err
@@ -3979,7 +3981,7 @@ func newCmdAndroidHardwareHdmiIHdmiRecordListener_OnClearTimerRecordingResult() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4012,7 +4014,7 @@ func newCmdAndroidHardwareHdmiIHdmiSystemAudioModeChangeListener_OnStatusChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4023,7 +4025,7 @@ func newCmdAndroidHardwareHdmiIHdmiSystemAudioModeChangeListener_OnStatusChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiSystemAudioModeChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiSystemAudioModeChangeListener")
 			}
 			if err != nil {
 				return err
@@ -4042,7 +4044,7 @@ func newCmdAndroidHardwareHdmiIHdmiSystemAudioModeChangeListener_OnStatusChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4074,7 +4076,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnReceived() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4085,7 +4087,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnReceived() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiVendorCommandListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiVendorCommandListener")
 			}
 			if err != nil {
 				return err
@@ -4123,7 +4125,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnReceived() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4149,7 +4151,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnControlStateChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4160,7 +4162,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnControlStateChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiVendorCommandListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.hdmi.IHdmiVendorCommandListener")
 			}
 			if err != nil {
 				return err
@@ -4184,7 +4186,7 @@ func newCmdAndroidHardwareHdmiIHdmiVendorCommandListener_OnControlStateChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

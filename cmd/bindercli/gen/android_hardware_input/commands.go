@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/input"
@@ -52,7 +54,7 @@ func newCmdAndroidHardwareInputIInputDeviceBatteryListener_OnBatteryStateChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidHardwareInputIInputDeviceBatteryListener_OnBatteryStateChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputDeviceBatteryListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputDeviceBatteryListener")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdAndroidHardwareInputIInputDeviceBatteryListener_OnBatteryStateChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -118,7 +120,7 @@ func newCmdAndroidHardwareInputIInputDevicesChangedListener_OnInputDevicesChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -129,7 +131,7 @@ func newCmdAndroidHardwareInputIInputDevicesChangedListener_OnInputDevicesChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputDevicesChangedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputDevicesChangedListener")
 			}
 			if err != nil {
 				return err
@@ -158,7 +160,7 @@ func newCmdAndroidHardwareInputIInputDevicesChangedListener_OnInputDevicesChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -260,7 +262,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVelocityTrackerStrategy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -271,7 +273,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVelocityTrackerStrategy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -285,7 +287,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVelocityTrackerStrategy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -303,7 +305,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -314,7 +316,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -353,7 +355,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceIds() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -364,7 +366,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceIds() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -378,7 +380,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceIds() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -396,7 +398,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInputDeviceEnabled() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -407,7 +409,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInputDeviceEnabled() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -426,7 +428,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInputDeviceEnabled() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableInputDevice() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableInputDevice() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -476,7 +478,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableInputDevice() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -496,7 +498,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableInputDevice() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableInputDevice() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -526,7 +528,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableInputDevice() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -546,7 +548,7 @@ func newCmdAndroidHardwareInputIInputManager_HasKeys() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -557,7 +559,7 @@ func newCmdAndroidHardwareInputIInputManager_HasKeys() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -597,7 +599,7 @@ func newCmdAndroidHardwareInputIInputManager_HasKeys() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -621,7 +623,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCodeForKeyLocation() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -632,7 +634,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCodeForKeyLocation() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -656,7 +658,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCodeForKeyLocation() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -678,7 +680,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCharacterMap() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -689,7 +691,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCharacterMap() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -708,7 +710,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyCharacterMap() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -728,7 +730,7 @@ func newCmdAndroidHardwareInputIInputManager_GetMousePointerSpeed() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -739,7 +741,7 @@ func newCmdAndroidHardwareInputIInputManager_GetMousePointerSpeed() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -753,7 +755,7 @@ func newCmdAndroidHardwareInputIInputManager_GetMousePointerSpeed() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -771,7 +773,7 @@ func newCmdAndroidHardwareInputIInputManager_TryPointerSpeed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -782,7 +784,7 @@ func newCmdAndroidHardwareInputIInputManager_TryPointerSpeed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -801,7 +803,7 @@ func newCmdAndroidHardwareInputIInputManager_TryPointerSpeed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -821,7 +823,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -832,7 +834,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -853,7 +855,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -873,7 +875,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEventToTarget() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -884,7 +886,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEventToTarget() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -910,7 +912,7 @@ func newCmdAndroidHardwareInputIInputManager_InjectInputEventToTarget() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -932,7 +934,7 @@ func newCmdAndroidHardwareInputIInputManager_VerifyInputEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -943,7 +945,7 @@ func newCmdAndroidHardwareInputIInputManager_VerifyInputEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -959,7 +961,7 @@ func newCmdAndroidHardwareInputIInputManager_VerifyInputEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -977,7 +979,7 @@ func newCmdAndroidHardwareInputIInputManager_GetTouchCalibrationForInputDevice()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -988,7 +990,7 @@ func newCmdAndroidHardwareInputIInputManager_GetTouchCalibrationForInputDevice()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1012,7 +1014,7 @@ func newCmdAndroidHardwareInputIInputManager_GetTouchCalibrationForInputDevice()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1034,7 +1036,7 @@ func newCmdAndroidHardwareInputIInputManager_SetTouchCalibrationForInputDevice()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1045,7 +1047,7 @@ func newCmdAndroidHardwareInputIInputManager_SetTouchCalibrationForInputDevice()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1071,7 +1073,7 @@ func newCmdAndroidHardwareInputIInputManager_SetTouchCalibrationForInputDevice()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1093,7 +1095,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayouts() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1104,7 +1106,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayouts() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1118,7 +1120,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayouts() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1136,7 +1138,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutsForInputDevice() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1147,7 +1149,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutsForInputDevice() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1163,7 +1165,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutsForInputDevice() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1181,7 +1183,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayout() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1192,7 +1194,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayout() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1211,7 +1213,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayout() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1231,7 +1233,7 @@ func newCmdAndroidHardwareInputIInputManager_GetCurrentKeyboardLayoutForInputDev
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1242,7 +1244,7 @@ func newCmdAndroidHardwareInputIInputManager_GetCurrentKeyboardLayoutForInputDev
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1258,7 +1260,7 @@ func newCmdAndroidHardwareInputIInputManager_GetCurrentKeyboardLayoutForInputDev
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1276,7 +1278,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCurrentKeyboardLayoutForInputDev
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1287,7 +1289,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCurrentKeyboardLayoutForInputDev
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1308,7 +1310,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCurrentKeyboardLayoutForInputDev
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1328,7 +1330,7 @@ func newCmdAndroidHardwareInputIInputManager_GetEnabledKeyboardLayoutsForInputDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1339,7 +1341,7 @@ func newCmdAndroidHardwareInputIInputManager_GetEnabledKeyboardLayoutsForInputDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1355,7 +1357,7 @@ func newCmdAndroidHardwareInputIInputManager_GetEnabledKeyboardLayoutsForInputDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1373,7 +1375,7 @@ func newCmdAndroidHardwareInputIInputManager_AddKeyboardLayoutForInputDevice() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1384,7 +1386,7 @@ func newCmdAndroidHardwareInputIInputManager_AddKeyboardLayoutForInputDevice() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1405,7 +1407,7 @@ func newCmdAndroidHardwareInputIInputManager_AddKeyboardLayoutForInputDevice() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1425,7 +1427,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveKeyboardLayoutForInputDevice(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1436,7 +1438,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveKeyboardLayoutForInputDevice(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1457,7 +1459,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveKeyboardLayoutForInputDevice(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1477,7 +1479,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutForInputDevice() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1488,7 +1490,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutForInputDevice() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1508,7 +1510,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutForInputDevice() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1526,7 +1528,7 @@ func newCmdAndroidHardwareInputIInputManager_SetKeyboardLayoutForInputDevice() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1537,7 +1539,7 @@ func newCmdAndroidHardwareInputIInputManager_SetKeyboardLayoutForInputDevice() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1562,7 +1564,7 @@ func newCmdAndroidHardwareInputIInputManager_SetKeyboardLayoutForInputDevice() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1582,7 +1584,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutListForInputDevice
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1593,7 +1595,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutListForInputDevice
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1613,7 +1615,7 @@ func newCmdAndroidHardwareInputIInputManager_GetKeyboardLayoutListForInputDevice
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1631,7 +1633,7 @@ func newCmdAndroidHardwareInputIInputManager_RemapModifierKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1642,7 +1644,7 @@ func newCmdAndroidHardwareInputIInputManager_RemapModifierKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1666,7 +1668,7 @@ func newCmdAndroidHardwareInputIInputManager_RemapModifierKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1688,7 +1690,7 @@ func newCmdAndroidHardwareInputIInputManager_ClearAllModifierKeyRemappings() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1699,7 +1701,7 @@ func newCmdAndroidHardwareInputIInputManager_ClearAllModifierKeyRemappings() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1713,7 +1715,7 @@ func newCmdAndroidHardwareInputIInputManager_ClearAllModifierKeyRemappings() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1731,7 +1733,7 @@ func newCmdAndroidHardwareInputIInputManager_GetModifierKeyRemapping() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1742,7 +1744,7 @@ func newCmdAndroidHardwareInputIInputManager_GetModifierKeyRemapping() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1756,7 +1758,7 @@ func newCmdAndroidHardwareInputIInputManager_GetModifierKeyRemapping() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1774,7 +1776,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterInputDevicesChangedListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1785,7 +1787,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterInputDevicesChangedListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1809,7 +1811,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterInputDevicesChangedListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1829,7 +1831,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInTabletMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1840,7 +1842,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInTabletMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1854,7 +1856,7 @@ func newCmdAndroidHardwareInputIInputManager_IsInTabletMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1872,7 +1874,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterTabletModeChangedListener()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1883,7 +1885,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterTabletModeChangedListener()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1907,7 +1909,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterTabletModeChangedListener()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1927,7 +1929,7 @@ func newCmdAndroidHardwareInputIInputManager_IsMicMuted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1938,7 +1940,7 @@ func newCmdAndroidHardwareInputIInputManager_IsMicMuted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -1952,7 +1954,7 @@ func newCmdAndroidHardwareInputIInputManager_IsMicMuted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1970,7 +1972,7 @@ func newCmdAndroidHardwareInputIInputManager_Vibrate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1981,7 +1983,7 @@ func newCmdAndroidHardwareInputIInputManager_Vibrate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2011,7 +2013,7 @@ func newCmdAndroidHardwareInputIInputManager_Vibrate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2033,7 +2035,7 @@ func newCmdAndroidHardwareInputIInputManager_VibrateCombined() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2044,7 +2046,7 @@ func newCmdAndroidHardwareInputIInputManager_VibrateCombined() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2074,7 +2076,7 @@ func newCmdAndroidHardwareInputIInputManager_VibrateCombined() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2096,7 +2098,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelVibrate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2107,7 +2109,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelVibrate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2135,7 +2137,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelVibrate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2157,7 +2159,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVibratorIds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2168,7 +2170,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVibratorIds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2187,7 +2189,7 @@ func newCmdAndroidHardwareInputIInputManager_GetVibratorIds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2207,7 +2209,7 @@ func newCmdAndroidHardwareInputIInputManager_IsVibrating() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2218,7 +2220,7 @@ func newCmdAndroidHardwareInputIInputManager_IsVibrating() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2237,7 +2239,7 @@ func newCmdAndroidHardwareInputIInputManager_IsVibrating() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2257,7 +2259,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterVibratorStateListener() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2268,7 +2270,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterVibratorStateListener() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2297,7 +2299,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterVibratorStateListener() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2319,7 +2321,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterVibratorStateListener() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2330,7 +2332,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterVibratorStateListener() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2359,7 +2361,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterVibratorStateListener() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2381,7 +2383,7 @@ func newCmdAndroidHardwareInputIInputManager_GetBatteryState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2392,7 +2394,7 @@ func newCmdAndroidHardwareInputIInputManager_GetBatteryState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2411,7 +2413,7 @@ func newCmdAndroidHardwareInputIInputManager_GetBatteryState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2431,7 +2433,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIconType() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2442,7 +2444,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIconType() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2461,7 +2463,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIconType() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2481,7 +2483,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCustomPointerIcon() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2492,7 +2494,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCustomPointerIcon() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2508,7 +2510,7 @@ func newCmdAndroidHardwareInputIInputManager_SetCustomPointerIcon() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2526,7 +2528,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIcon() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2537,7 +2539,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIcon() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2577,7 +2579,7 @@ func newCmdAndroidHardwareInputIInputManager_SetPointerIcon() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2603,7 +2605,7 @@ func newCmdAndroidHardwareInputIInputManager_RequestPointerCapture() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2614,7 +2616,7 @@ func newCmdAndroidHardwareInputIInputManager_RequestPointerCapture() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2642,7 +2644,7 @@ func newCmdAndroidHardwareInputIInputManager_RequestPointerCapture() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2664,7 +2666,7 @@ func newCmdAndroidHardwareInputIInputManager_MonitorGestureInput() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2675,7 +2677,7 @@ func newCmdAndroidHardwareInputIInputManager_MonitorGestureInput() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2708,7 +2710,7 @@ func newCmdAndroidHardwareInputIInputManager_MonitorGestureInput() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2732,7 +2734,7 @@ func newCmdAndroidHardwareInputIInputManager_AddPortAssociation() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2743,7 +2745,7 @@ func newCmdAndroidHardwareInputIInputManager_AddPortAssociation() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2767,7 +2769,7 @@ func newCmdAndroidHardwareInputIInputManager_AddPortAssociation() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2789,7 +2791,7 @@ func newCmdAndroidHardwareInputIInputManager_RemovePortAssociation() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2800,7 +2802,7 @@ func newCmdAndroidHardwareInputIInputManager_RemovePortAssociation() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2819,7 +2821,7 @@ func newCmdAndroidHardwareInputIInputManager_RemovePortAssociation() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2839,7 +2841,7 @@ func newCmdAndroidHardwareInputIInputManager_AddUniqueIdAssociation() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2850,7 +2852,7 @@ func newCmdAndroidHardwareInputIInputManager_AddUniqueIdAssociation() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2874,7 +2876,7 @@ func newCmdAndroidHardwareInputIInputManager_AddUniqueIdAssociation() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2896,7 +2898,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveUniqueIdAssociation() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2907,7 +2909,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveUniqueIdAssociation() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2926,7 +2928,7 @@ func newCmdAndroidHardwareInputIInputManager_RemoveUniqueIdAssociation() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2946,7 +2948,7 @@ func newCmdAndroidHardwareInputIInputManager_GetSensorList() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2957,7 +2959,7 @@ func newCmdAndroidHardwareInputIInputManager_GetSensorList() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -2976,7 +2978,7 @@ func newCmdAndroidHardwareInputIInputManager_GetSensorList() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2996,7 +2998,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterSensorListener() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3007,7 +3009,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterSensorListener() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3031,7 +3033,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterSensorListener() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3051,7 +3053,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterSensorListener() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3062,7 +3064,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterSensorListener() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3086,7 +3088,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterSensorListener() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3106,7 +3108,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3117,7 +3119,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3151,7 +3153,7 @@ func newCmdAndroidHardwareInputIInputManager_EnableSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3177,7 +3179,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3188,7 +3190,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3212,7 +3214,7 @@ func newCmdAndroidHardwareInputIInputManager_DisableSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3234,7 +3236,7 @@ func newCmdAndroidHardwareInputIInputManager_FlushSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3245,7 +3247,7 @@ func newCmdAndroidHardwareInputIInputManager_FlushSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3269,7 +3271,7 @@ func newCmdAndroidHardwareInputIInputManager_FlushSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3291,7 +3293,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLights() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3302,7 +3304,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLights() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3321,7 +3323,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLights() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3341,7 +3343,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLightState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3352,7 +3354,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLightState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3376,7 +3378,7 @@ func newCmdAndroidHardwareInputIInputManager_GetLightState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3398,7 +3400,7 @@ func newCmdAndroidHardwareInputIInputManager_SetLightStates() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3409,7 +3411,7 @@ func newCmdAndroidHardwareInputIInputManager_SetLightStates() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3463,7 +3465,7 @@ func newCmdAndroidHardwareInputIInputManager_SetLightStates() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3489,7 +3491,7 @@ func newCmdAndroidHardwareInputIInputManager_OpenLightSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3500,7 +3502,7 @@ func newCmdAndroidHardwareInputIInputManager_OpenLightSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3533,7 +3535,7 @@ func newCmdAndroidHardwareInputIInputManager_OpenLightSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3557,7 +3559,7 @@ func newCmdAndroidHardwareInputIInputManager_CloseLightSession() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3568,7 +3570,7 @@ func newCmdAndroidHardwareInputIInputManager_CloseLightSession() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3596,7 +3598,7 @@ func newCmdAndroidHardwareInputIInputManager_CloseLightSession() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3618,7 +3620,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelCurrentTouch() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3629,7 +3631,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelCurrentTouch() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3643,7 +3645,7 @@ func newCmdAndroidHardwareInputIInputManager_CancelCurrentTouch() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3661,7 +3663,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterBatteryListener() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3672,7 +3674,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterBatteryListener() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3701,7 +3703,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterBatteryListener() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3723,7 +3725,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterBatteryListener() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3734,7 +3736,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterBatteryListener() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3763,7 +3765,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterBatteryListener() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3785,7 +3787,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceBluetoothAddress() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3796,7 +3798,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceBluetoothAddress() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3815,7 +3817,7 @@ func newCmdAndroidHardwareInputIInputManager_GetInputDeviceBluetoothAddress() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3835,7 +3837,7 @@ func newCmdAndroidHardwareInputIInputManager_PilferPointers() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3846,7 +3848,7 @@ func newCmdAndroidHardwareInputIInputManager_PilferPointers() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3869,7 +3871,7 @@ func newCmdAndroidHardwareInputIInputManager_PilferPointers() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3889,7 +3891,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterKeyboardBacklightListener()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3900,7 +3902,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterKeyboardBacklightListener()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3924,7 +3926,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterKeyboardBacklightListener()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3944,7 +3946,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterKeyboardBacklightListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3955,7 +3957,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterKeyboardBacklightListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -3979,7 +3981,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterKeyboardBacklightListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3999,7 +4001,7 @@ func newCmdAndroidHardwareInputIInputManager_GetHostUsiVersionFromDisplayConfig(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4010,7 +4012,7 @@ func newCmdAndroidHardwareInputIInputManager_GetHostUsiVersionFromDisplayConfig(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -4029,7 +4031,7 @@ func newCmdAndroidHardwareInputIInputManager_GetHostUsiVersionFromDisplayConfig(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4049,7 +4051,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterStickyModifierStateListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4060,7 +4062,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterStickyModifierStateListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -4084,7 +4086,7 @@ func newCmdAndroidHardwareInputIInputManager_RegisterStickyModifierStateListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4104,7 +4106,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterStickyModifierStateListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4115,7 +4117,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterStickyModifierStateListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputManager")
 			}
 			if err != nil {
 				return err
@@ -4139,7 +4141,7 @@ func newCmdAndroidHardwareInputIInputManager_UnregisterStickyModifierStateListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4171,7 +4173,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4182,7 +4184,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputSensorEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputSensorEventListener")
 			}
 			if err != nil {
 				return err
@@ -4231,7 +4233,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4259,7 +4261,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorAccuracyCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4270,7 +4272,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorAccuracyCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputSensorEventListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IInputSensorEventListener")
 			}
 			if err != nil {
 				return err
@@ -4299,7 +4301,7 @@ func newCmdAndroidHardwareInputIInputSensorEventListener_OnInputSensorAccuracyCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4334,7 +4336,7 @@ func newCmdAndroidHardwareInputIKeyboardBacklightListener_OnBrightnessChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4345,7 +4347,7 @@ func newCmdAndroidHardwareInputIKeyboardBacklightListener_OnBrightnessChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IKeyboardBacklightListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IKeyboardBacklightListener")
 			}
 			if err != nil {
 				return err
@@ -4373,7 +4375,7 @@ func newCmdAndroidHardwareInputIKeyboardBacklightListener_OnBrightnessChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4408,7 +4410,7 @@ func newCmdAndroidHardwareInputIStickyModifierStateListener_OnStickyModifierStat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4419,7 +4421,7 @@ func newCmdAndroidHardwareInputIStickyModifierStateListener_OnStickyModifierStat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IStickyModifierStateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.IStickyModifierStateListener")
 			}
 			if err != nil {
 				return err
@@ -4443,7 +4445,7 @@ func newCmdAndroidHardwareInputIStickyModifierStateListener_OnStickyModifierStat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4476,7 +4478,7 @@ func newCmdAndroidHardwareInputITabletModeChangedListener_OnTabletModeChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4487,7 +4489,7 @@ func newCmdAndroidHardwareInputITabletModeChangedListener_OnTabletModeChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.input.ITabletModeChangedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.input.ITabletModeChangedListener")
 			}
 			if err != nil {
 				return err
@@ -4511,7 +4513,7 @@ func newCmdAndroidHardwareInputITabletModeChangedListener_OnTabletModeChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

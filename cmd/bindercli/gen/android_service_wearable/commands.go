@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/ambientcontext"
@@ -55,7 +57,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideSecureConnection
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -66,7 +68,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideSecureConnection
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -87,7 +89,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideSecureConnection
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -107,7 +109,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideDataStream() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -118,7 +120,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideDataStream() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -139,7 +141,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideDataStream() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideData() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideData() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -190,7 +192,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_ProvideData() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -208,7 +210,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_RegisterDataRequestObse
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -219,7 +221,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_RegisterDataRequestObse
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -252,7 +254,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_RegisterDataRequestObse
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -276,7 +278,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_UnregisterDataRequestOb
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -287,7 +289,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_UnregisterDataRequestOb
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -318,7 +320,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_UnregisterDataRequestOb
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -342,7 +344,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartHotwordRecognition
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -353,7 +355,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartHotwordRecognition
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -371,7 +373,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartHotwordRecognition
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -389,7 +391,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopHotwordRecognition(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -400,7 +402,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopHotwordRecognition(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -416,7 +418,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopHotwordRecognition(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -434,7 +436,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_OnValidatedByHotwordDet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -445,7 +447,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_OnValidatedByHotwordDet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -459,7 +461,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_OnValidatedByHotwordDet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopActiveHotwordAudio(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopActiveHotwordAudio(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -502,7 +504,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopActiveHotwordAudio(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -520,7 +522,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartDetection() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -531,7 +533,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartDetection() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -556,7 +558,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StartDetection() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -576,7 +578,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopDetection() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -587,7 +589,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopDetection() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -606,7 +608,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_StopDetection() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -626,7 +628,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_QueryServiceStatus() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -637,7 +639,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_QueryServiceStatus() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -673,7 +675,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_QueryServiceStatus() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -695,7 +697,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_KillProcess() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -706,7 +708,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_KillProcess() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wearable.IWearableSensingService")
 			}
 			if err != nil {
 				return err
@@ -720,7 +722,7 @@ func newCmdAndroidServiceWearableIWearableSensingService_KillProcess() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

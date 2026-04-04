@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/window"
@@ -59,7 +61,7 @@ func newCmdAndroidWindowIBackAnimationFinishedCallback_OnAnimationFinished() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -70,7 +72,7 @@ func newCmdAndroidWindowIBackAnimationFinishedCallback_OnAnimationFinished() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IBackAnimationFinishedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IBackAnimationFinishedCallback")
 			}
 			if err != nil {
 				return err
@@ -89,7 +91,7 @@ func newCmdAndroidWindowIBackAnimationFinishedCallback_OnAnimationFinished() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -120,7 +122,7 @@ func newCmdAndroidWindowIBackAnimationRunner_OnAnimationCancelled() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -131,7 +133,7 @@ func newCmdAndroidWindowIBackAnimationRunner_OnAnimationCancelled() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IBackAnimationRunner")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IBackAnimationRunner")
 			}
 			if err != nil {
 				return err
@@ -145,7 +147,7 @@ func newCmdAndroidWindowIBackAnimationRunner_OnAnimationCancelled() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaVanished() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaVanished() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizer")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaVanished() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -220,7 +222,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaInfoChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -231,7 +233,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaInfoChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizer")
 			}
 			if err != nil {
 				return err
@@ -247,7 +249,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizer_OnDisplayAreaInfoChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -277,7 +279,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_CreateTaskDisplayArea() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -288,7 +290,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_CreateTaskDisplayArea() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -327,7 +329,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_CreateTaskDisplayArea() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -353,7 +355,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_DeleteTaskDisplayArea() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -364,7 +366,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_DeleteTaskDisplayArea() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IDisplayAreaOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -380,7 +382,7 @@ func newCmdAndroidWindowIDisplayAreaOrganizerController_DeleteTaskDisplayArea() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -409,7 +411,7 @@ func newCmdAndroidWindowIDumpCallback_OnDump() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -420,7 +422,7 @@ func newCmdAndroidWindowIDumpCallback_OnDump() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IDumpCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IDumpCallback")
 			}
 			if err != nil {
 				return err
@@ -439,7 +441,7 @@ func newCmdAndroidWindowIDumpCallback_OnDump() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -473,7 +475,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackStarted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -484,7 +486,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackStarted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
 			}
 			if err != nil {
 				return err
@@ -500,7 +502,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackStarted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -518,7 +520,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackProgressed() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -529,7 +531,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackProgressed() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
 			}
 			if err != nil {
 				return err
@@ -545,7 +547,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackProgressed() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -563,7 +565,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackCancelled() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -574,7 +576,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackCancelled() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
 			}
 			if err != nil {
 				return err
@@ -588,7 +590,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackCancelled() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -606,7 +608,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackInvoked() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -617,7 +619,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackInvoked() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IOnBackInvokedCallback")
 			}
 			if err != nil {
 				return err
@@ -631,7 +633,7 @@ func newCmdAndroidWindowIOnBackInvokedCallback_OnBackInvoked() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -660,7 +662,7 @@ func newCmdAndroidWindowIRemoteTransition_OnTransitionConsumed() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -671,7 +673,7 @@ func newCmdAndroidWindowIRemoteTransition_OnTransitionConsumed() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IRemoteTransition")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IRemoteTransition")
 			}
 			if err != nil {
 				return err
@@ -699,7 +701,7 @@ func newCmdAndroidWindowIRemoteTransition_OnTransitionConsumed() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -732,7 +734,7 @@ func newCmdAndroidWindowIScreenRecordingCallback_OnScreenRecordingStateChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -743,7 +745,7 @@ func newCmdAndroidWindowIScreenRecordingCallback_OnScreenRecordingStateChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IScreenRecordingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IScreenRecordingCallback")
 			}
 			if err != nil {
 				return err
@@ -762,7 +764,7 @@ func newCmdAndroidWindowIScreenRecordingCallback_OnScreenRecordingStateChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -794,7 +796,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_OnAddedToSyncGroup() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -805,7 +807,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_OnAddedToSyncGroup() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroup")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroup")
 			}
 			if err != nil {
 				return err
@@ -833,7 +835,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_OnAddedToSyncGroup() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -855,7 +857,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_AddToSync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -866,7 +868,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_AddToSync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroup")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroup")
 			}
 			if err != nil {
 				return err
@@ -895,7 +897,7 @@ func newCmdAndroidWindowISurfaceSyncGroup_AddToSync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -928,7 +930,7 @@ func newCmdAndroidWindowISurfaceSyncGroupCompletedListener_OnSurfaceSyncGroupCom
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -939,7 +941,7 @@ func newCmdAndroidWindowISurfaceSyncGroupCompletedListener_OnSurfaceSyncGroupCom
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroupCompletedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ISurfaceSyncGroupCompletedListener")
 			}
 			if err != nil {
 				return err
@@ -953,7 +955,7 @@ func newCmdAndroidWindowISurfaceSyncGroupCompletedListener_OnSurfaceSyncGroupCom
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -982,7 +984,7 @@ func newCmdAndroidWindowITaskFpsCallback_OnFpsReported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -993,7 +995,7 @@ func newCmdAndroidWindowITaskFpsCallback_OnFpsReported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFpsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFpsCallback")
 			}
 			if err != nil {
 				return err
@@ -1012,7 +1014,7 @@ func newCmdAndroidWindowITaskFpsCallback_OnFpsReported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1048,7 +1050,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_RegisterOrganizer() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1059,7 +1061,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_RegisterOrganizer() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1088,7 +1090,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_RegisterOrganizer() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1110,7 +1112,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterOrganizer() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1121,7 +1123,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterOrganizer() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1145,7 +1147,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterOrganizer() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1165,7 +1167,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterRemoteAnimati
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1176,7 +1178,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterRemoteAnimati
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1200,7 +1202,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_UnregisterRemoteAnimati
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1220,7 +1222,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_IsActivityEmbedded() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1231,7 +1233,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_IsActivityEmbedded() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1254,7 +1256,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_IsActivityEmbedded() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1274,7 +1276,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_OnTransactionHandled() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1285,7 +1287,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_OnTransactionHandled() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1320,7 +1322,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_OnTransactionHandled() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1344,7 +1346,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_ApplyTransaction() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1355,7 +1357,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_ApplyTransaction() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskFragmentOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1383,7 +1385,7 @@ func newCmdAndroidWindowITaskFragmentOrganizerController_ApplyTransaction() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1420,7 +1422,7 @@ func newCmdAndroidWindowITaskOrganizer_AddStartingWindow() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1431,7 +1433,7 @@ func newCmdAndroidWindowITaskOrganizer_AddStartingWindow() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
 			}
 			if err != nil {
 				return err
@@ -1447,7 +1449,7 @@ func newCmdAndroidWindowITaskOrganizer_AddStartingWindow() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1465,7 +1467,7 @@ func newCmdAndroidWindowITaskOrganizer_RemoveStartingWindow() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1476,7 +1478,7 @@ func newCmdAndroidWindowITaskOrganizer_RemoveStartingWindow() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
 			}
 			if err != nil {
 				return err
@@ -1492,7 +1494,7 @@ func newCmdAndroidWindowITaskOrganizer_RemoveStartingWindow() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1510,7 +1512,7 @@ func newCmdAndroidWindowITaskOrganizer_CopySplashScreenView() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1521,7 +1523,7 @@ func newCmdAndroidWindowITaskOrganizer_CopySplashScreenView() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
 			}
 			if err != nil {
 				return err
@@ -1540,7 +1542,7 @@ func newCmdAndroidWindowITaskOrganizer_CopySplashScreenView() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1560,7 +1562,7 @@ func newCmdAndroidWindowITaskOrganizer_OnAppSplashScreenViewRemoved() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1571,7 +1573,7 @@ func newCmdAndroidWindowITaskOrganizer_OnAppSplashScreenViewRemoved() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
 			}
 			if err != nil {
 				return err
@@ -1590,7 +1592,7 @@ func newCmdAndroidWindowITaskOrganizer_OnAppSplashScreenViewRemoved() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1610,7 +1612,7 @@ func newCmdAndroidWindowITaskOrganizer_OnImeDrawnOnTask() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1621,7 +1623,7 @@ func newCmdAndroidWindowITaskOrganizer_OnImeDrawnOnTask() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizer")
 			}
 			if err != nil {
 				return err
@@ -1640,7 +1642,7 @@ func newCmdAndroidWindowITaskOrganizer_OnImeDrawnOnTask() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1680,7 +1682,7 @@ func newCmdAndroidWindowITaskOrganizerController_RegisterTaskOrganizer() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1691,7 +1693,7 @@ func newCmdAndroidWindowITaskOrganizerController_RegisterTaskOrganizer() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1715,7 +1717,7 @@ func newCmdAndroidWindowITaskOrganizerController_RegisterTaskOrganizer() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1735,7 +1737,7 @@ func newCmdAndroidWindowITaskOrganizerController_UnregisterTaskOrganizer() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1746,7 +1748,7 @@ func newCmdAndroidWindowITaskOrganizerController_UnregisterTaskOrganizer() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1770,7 +1772,7 @@ func newCmdAndroidWindowITaskOrganizerController_UnregisterTaskOrganizer() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1790,7 +1792,7 @@ func newCmdAndroidWindowITaskOrganizerController_CreateRootTask() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1801,7 +1803,7 @@ func newCmdAndroidWindowITaskOrganizerController_CreateRootTask() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1839,7 +1841,7 @@ func newCmdAndroidWindowITaskOrganizerController_CreateRootTask() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1865,7 +1867,7 @@ func newCmdAndroidWindowITaskOrganizerController_DeleteRootTask() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1876,7 +1878,7 @@ func newCmdAndroidWindowITaskOrganizerController_DeleteRootTask() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1892,7 +1894,7 @@ func newCmdAndroidWindowITaskOrganizerController_DeleteRootTask() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1910,7 +1912,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetChildTasks() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1921,7 +1923,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetChildTasks() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -1952,7 +1954,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetChildTasks() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1972,7 +1974,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetRootTasks() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1983,7 +1985,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetRootTasks() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2017,7 +2019,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetRootTasks() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2039,7 +2041,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetImeTarget() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2050,7 +2052,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetImeTarget() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2069,7 +2071,7 @@ func newCmdAndroidWindowITaskOrganizerController_GetImeTarget() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2089,7 +2091,7 @@ func newCmdAndroidWindowITaskOrganizerController_SetInterceptBackPressedOnTaskRo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2100,7 +2102,7 @@ func newCmdAndroidWindowITaskOrganizerController_SetInterceptBackPressedOnTaskRo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2121,7 +2123,7 @@ func newCmdAndroidWindowITaskOrganizerController_SetInterceptBackPressedOnTaskRo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2141,7 +2143,7 @@ func newCmdAndroidWindowITaskOrganizerController_RestartTaskTopActivityProcessIf
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2152,7 +2154,7 @@ func newCmdAndroidWindowITaskOrganizerController_RestartTaskTopActivityProcessIf
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2168,7 +2170,7 @@ func newCmdAndroidWindowITaskOrganizerController_RestartTaskTopActivityProcessIf
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2186,7 +2188,7 @@ func newCmdAndroidWindowITaskOrganizerController_UpdateCameraCompatControlState(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2197,7 +2199,7 @@ func newCmdAndroidWindowITaskOrganizerController_UpdateCameraCompatControlState(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITaskOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2218,7 +2220,7 @@ func newCmdAndroidWindowITaskOrganizerController_UpdateCameraCompatControlState(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2249,7 +2251,7 @@ func newCmdAndroidWindowITransitionMetricsReporter_ReportAnimationStart() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2260,7 +2262,7 @@ func newCmdAndroidWindowITransitionMetricsReporter_ReportAnimationStart() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITransitionMetricsReporter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITransitionMetricsReporter")
 			}
 			if err != nil {
 				return err
@@ -2288,7 +2290,7 @@ func newCmdAndroidWindowITransitionMetricsReporter_ReportAnimationStart() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2321,7 +2323,7 @@ func newCmdAndroidWindowITransitionPlayer_RequestStartTransition() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2332,7 +2334,7 @@ func newCmdAndroidWindowITransitionPlayer_RequestStartTransition() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITransitionPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITransitionPlayer")
 			}
 			if err != nil {
 				return err
@@ -2357,7 +2359,7 @@ func newCmdAndroidWindowITransitionPlayer_RequestStartTransition() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2388,7 +2390,7 @@ func newCmdAndroidWindowITrustedPresentationListener_OnTrustedPresentationChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2399,7 +2401,7 @@ func newCmdAndroidWindowITrustedPresentationListener_OnTrustedPresentationChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.ITrustedPresentationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.ITrustedPresentationListener")
 			}
 			if err != nil {
 				return err
@@ -2443,7 +2445,7 @@ func newCmdAndroidWindowITrustedPresentationListener_OnTrustedPresentationChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2476,7 +2478,7 @@ func newCmdAndroidWindowIUnhandledDragCallback_NotifyUnhandledDropComplete() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2487,7 +2489,7 @@ func newCmdAndroidWindowIUnhandledDragCallback_NotifyUnhandledDropComplete() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IUnhandledDragCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IUnhandledDragCallback")
 			}
 			if err != nil {
 				return err
@@ -2506,7 +2508,7 @@ func newCmdAndroidWindowIUnhandledDragCallback_NotifyUnhandledDropComplete() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2547,7 +2549,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplyTransaction() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2558,7 +2560,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplyTransaction() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2574,7 +2576,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplyTransaction() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2592,7 +2594,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplySyncTransaction() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2603,7 +2605,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplySyncTransaction() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2629,7 +2631,7 @@ func newCmdAndroidWindowIWindowOrganizerController_ApplySyncTransaction() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2649,7 +2651,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartNewTransition() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2660,7 +2662,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartNewTransition() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2682,7 +2684,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartNewTransition() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2702,7 +2704,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartTransition() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2713,7 +2715,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartTransition() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2739,7 +2741,7 @@ func newCmdAndroidWindowIWindowOrganizerController_StartTransition() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2759,7 +2761,7 @@ func newCmdAndroidWindowIWindowOrganizerController_FinishTransition() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2770,7 +2772,7 @@ func newCmdAndroidWindowIWindowOrganizerController_FinishTransition() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2796,7 +2798,7 @@ func newCmdAndroidWindowIWindowOrganizerController_FinishTransition() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2816,7 +2818,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskOrganizerController() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2827,7 +2829,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskOrganizerController() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2841,7 +2843,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskOrganizerController() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2859,7 +2861,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetDisplayAreaOrganizerContro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2870,7 +2872,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetDisplayAreaOrganizerContro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2884,7 +2886,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetDisplayAreaOrganizerContro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2902,7 +2904,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskFragmentOrganizerContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2913,7 +2915,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskFragmentOrganizerContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2927,7 +2929,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTaskFragmentOrganizerContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2945,7 +2947,7 @@ func newCmdAndroidWindowIWindowOrganizerController_RegisterTransitionPlayer() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2956,7 +2958,7 @@ func newCmdAndroidWindowIWindowOrganizerController_RegisterTransitionPlayer() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -2980,7 +2982,7 @@ func newCmdAndroidWindowIWindowOrganizerController_RegisterTransitionPlayer() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3000,7 +3002,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTransitionMetricsReporter(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3011,7 +3013,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTransitionMetricsReporter(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -3025,7 +3027,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetTransitionMetricsReporter(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3043,7 +3045,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetApplyToken() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3054,7 +3056,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetApplyToken() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.window.IWindowOrganizerController")
 			}
 			if err != nil {
 				return err
@@ -3068,7 +3070,7 @@ func newCmdAndroidWindowIWindowOrganizerController_GetApplyToken() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

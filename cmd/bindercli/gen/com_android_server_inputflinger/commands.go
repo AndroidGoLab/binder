@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/input/common"
@@ -45,7 +47,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_IsEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_IsEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
 			}
 			if err != nil {
 				return err
@@ -70,7 +72,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_IsEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -88,7 +90,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -99,7 +101,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -161,7 +163,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyInputDevicesChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -172,7 +174,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyInputDevicesChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
 			}
 			if err != nil {
 				return err
@@ -197,7 +199,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyInputDevicesChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -217,7 +219,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyConfigurationChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -228,7 +230,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyConfigurationChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputFilter")
 			}
 			if err != nil {
 				return err
@@ -247,7 +249,7 @@ func newCmdComAndroidServerInputflingerIInputFilter_NotifyConfigurationChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -279,7 +281,7 @@ func newCmdComAndroidServerInputflingerIInputThread_Finish() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -290,7 +292,7 @@ func newCmdComAndroidServerInputflingerIInputThread_Finish() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputThread")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.server.inputflinger.IInputThread")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdComAndroidServerInputflingerIInputThread_Finish() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

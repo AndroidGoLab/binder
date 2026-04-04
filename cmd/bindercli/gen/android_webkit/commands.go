@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/webkit"
@@ -48,7 +50,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_NotifyRelroCreationCompleted() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_NotifyRelroCreationCompleted() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_NotifyRelroCreationCompleted() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_WaitForAndGetProvider() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_WaitForAndGetProvider() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -116,7 +118,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_WaitForAndGetProvider() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -134,7 +136,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_ChangeProviderAndSetting() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -145,7 +147,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_ChangeProviderAndSetting() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -164,7 +166,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_ChangeProviderAndSetting() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -184,7 +186,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetValidWebViewPackages() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -195,7 +197,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetValidWebViewPackages() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -209,7 +211,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetValidWebViewPackages() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -227,7 +229,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetAllWebViewPackages() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -238,7 +240,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetAllWebViewPackages() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -252,7 +254,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetAllWebViewPackages() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -270,7 +272,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackageName() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -281,7 +283,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackageName() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -295,7 +297,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackageName() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -338,7 +340,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetCurrentWebViewPackage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -356,7 +358,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_IsMultiProcessEnabled() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -367,7 +369,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_IsMultiProcessEnabled() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_IsMultiProcessEnabled() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -399,7 +401,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_EnableMultiProcess() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -410,7 +412,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_EnableMultiProcess() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -429,7 +431,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_EnableMultiProcess() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -449,7 +451,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetDefaultWebViewPackage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -460,7 +462,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetDefaultWebViewPackage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.webkit.IWebViewUpdateService")
 			}
 			if err != nil {
 				return err
@@ -474,7 +476,7 @@ func newCmdAndroidWebkitIWebViewUpdateService_GetDefaultWebViewPackage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/media/c2"
@@ -63,7 +65,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConfigureVideoTunnel() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -74,7 +76,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConfigureVideoTunnel() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -93,7 +95,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConfigureVideoTunnel() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -113,7 +115,7 @@ func newCmdAndroidHardwareMediaC2IComponent_DestroyBlockPool() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -124,7 +126,7 @@ func newCmdAndroidHardwareMediaC2IComponent_DestroyBlockPool() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -143,7 +145,7 @@ func newCmdAndroidHardwareMediaC2IComponent_DestroyBlockPool() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -163,7 +165,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Drain() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -174,7 +176,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Drain() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -193,7 +195,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Drain() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -213,7 +215,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -224,7 +226,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -238,7 +240,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -256,7 +258,7 @@ func newCmdAndroidHardwareMediaC2IComponent_GetInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -267,7 +269,7 @@ func newCmdAndroidHardwareMediaC2IComponent_GetInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -281,7 +283,7 @@ func newCmdAndroidHardwareMediaC2IComponent_GetInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -299,7 +301,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Queue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -310,7 +312,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Queue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Queue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -356,7 +358,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -367,7 +369,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -399,7 +401,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Reset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -410,7 +412,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Reset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Reset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -442,7 +444,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -453,7 +455,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -467,7 +469,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -485,7 +487,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -496,7 +498,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -510,7 +512,7 @@ func newCmdAndroidHardwareMediaC2IComponent_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConnectToInputSurface() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConnectToInputSurface() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -563,7 +565,7 @@ func newCmdAndroidHardwareMediaC2IComponent_ConnectToInputSurface() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -583,7 +585,7 @@ func newCmdAndroidHardwareMediaC2IComponent_AsInputSink() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -594,7 +596,7 @@ func newCmdAndroidHardwareMediaC2IComponent_AsInputSink() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponent")
 			}
 			if err != nil {
 				return err
@@ -608,7 +610,7 @@ func newCmdAndroidHardwareMediaC2IComponent_AsInputSink() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -637,7 +639,7 @@ func newCmdAndroidHardwareMediaC2IComponentInterface_GetConfigurable() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareMediaC2IComponentInterface_GetConfigurable() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentInterface")
 			}
 			if err != nil {
 				return err
@@ -662,7 +664,7 @@ func newCmdAndroidHardwareMediaC2IComponentInterface_GetConfigurable() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -693,7 +695,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -704,7 +706,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
 			}
 			if err != nil {
 				return err
@@ -726,7 +728,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -747,7 +749,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnTripped() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -758,7 +760,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnTripped() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
 			}
 			if err != nil {
 				return err
@@ -783,7 +785,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnTripped() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -803,7 +805,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnWorkDone() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -814,7 +816,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnWorkDone() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentListener")
 			}
 			if err != nil {
 				return err
@@ -840,7 +842,7 @@ func newCmdAndroidHardwareMediaC2IComponentListener_OnWorkDone() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -877,7 +879,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CopyBuffer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -888,7 +890,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CopyBuffer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CopyBuffer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -952,7 +954,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInterface() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -963,7 +965,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInterface() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -982,7 +984,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInterface() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1002,7 +1004,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetConfigurable() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1013,7 +1015,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetConfigurable() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -1027,7 +1029,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetConfigurable() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1045,7 +1047,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetPoolClientManager() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1056,7 +1058,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetPoolClientManager() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -1070,7 +1072,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetPoolClientManager() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1088,7 +1090,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetStructDescriptors() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1099,7 +1101,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetStructDescriptors() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -1128,7 +1130,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_GetStructDescriptors() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1148,7 +1150,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_ListComponents() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1159,7 +1161,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_ListComponents() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -1173,7 +1175,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_ListComponents() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1191,7 +1193,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInputSurface() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1202,7 +1204,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInputSurface() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IComponentStore")
 			}
 			if err != nil {
 				return err
@@ -1216,7 +1218,7 @@ func newCmdAndroidHardwareMediaC2IComponentStore_CreateInputSurface() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1250,7 +1252,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Config() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1261,7 +1263,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Config() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1289,7 +1291,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Config() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1310,7 +1312,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1321,7 +1323,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1335,7 +1337,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1353,7 +1355,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1364,7 +1366,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1378,7 +1380,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_GetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1396,7 +1398,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Query() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1407,7 +1409,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Query() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1441,7 +1443,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_Query() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1463,7 +1465,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedParams() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1474,7 +1476,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedParams() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1498,7 +1500,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedParams() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1520,7 +1522,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedValues() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1531,7 +1533,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedValues() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IConfigurable")
 			}
 			if err != nil {
 				return err
@@ -1561,7 +1563,7 @@ func newCmdAndroidHardwareMediaC2IConfigurable_QuerySupportedValues() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1595,7 +1597,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_Deallocate() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1606,7 +1608,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_Deallocate() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IGraphicBufferAllocator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IGraphicBufferAllocator")
 			}
 			if err != nil {
 				return err
@@ -1625,7 +1627,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_Deallocate() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1645,7 +1647,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_GetWaitableFd() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1656,7 +1658,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_GetWaitableFd() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IGraphicBufferAllocator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IGraphicBufferAllocator")
 			}
 			if err != nil {
 				return err
@@ -1670,7 +1672,7 @@ func newCmdAndroidHardwareMediaC2IGraphicBufferAllocator_GetWaitableFd() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1699,7 +1701,7 @@ func newCmdAndroidHardwareMediaC2IInputSink_Queue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1710,7 +1712,7 @@ func newCmdAndroidHardwareMediaC2IInputSink_Queue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSink")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSink")
 			}
 			if err != nil {
 				return err
@@ -1736,7 +1738,7 @@ func newCmdAndroidHardwareMediaC2IInputSink_Queue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1769,7 +1771,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetSurface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1780,7 +1782,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetSurface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
 			}
 			if err != nil {
 				return err
@@ -1794,7 +1796,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetSurface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1812,7 +1814,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetConfigurable() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1823,7 +1825,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetConfigurable() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
 			}
 			if err != nil {
 				return err
@@ -1837,7 +1839,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_GetConfigurable() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1855,7 +1857,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1866,7 +1868,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurface")
 			}
 			if err != nil {
 				return err
@@ -1890,7 +1892,7 @@ func newCmdAndroidHardwareMediaC2IInputSurface_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1922,7 +1924,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_Disconnect() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1933,7 +1935,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_Disconnect() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurfaceConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurfaceConnection")
 			}
 			if err != nil {
 				return err
@@ -1947,7 +1949,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_Disconnect() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1965,7 +1967,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_SignalEndOfStream() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1976,7 +1978,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_SignalEndOfStream() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurfaceConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IInputSurfaceConnection")
 			}
 			if err != nil {
 				return err
@@ -1990,7 +1992,7 @@ func newCmdAndroidHardwareMediaC2IInputSurfaceConnection_SignalEndOfStream() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2019,7 +2021,7 @@ func newCmdAndroidHardwareMediaC2IPooledGraphicBufferAllocator_Deallocate() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2030,7 +2032,7 @@ func newCmdAndroidHardwareMediaC2IPooledGraphicBufferAllocator_Deallocate() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IPooledGraphicBufferAllocator")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.media.c2.IPooledGraphicBufferAllocator")
 			}
 			if err != nil {
 				return err
@@ -2049,7 +2051,7 @@ func newCmdAndroidHardwareMediaC2IPooledGraphicBufferAllocator_Deallocate() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

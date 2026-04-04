@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/cas"
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareCasICas_CloseSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidHardwareCasICas_CloseSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -91,7 +93,7 @@ func newCmdAndroidHardwareCasICas_CloseSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -111,7 +113,7 @@ func newCmdAndroidHardwareCasICas_OpenSessionDefault() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -122,7 +124,7 @@ func newCmdAndroidHardwareCasICas_OpenSessionDefault() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdAndroidHardwareCasICas_OpenSessionDefault() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -154,7 +156,7 @@ func newCmdAndroidHardwareCasICas_OpenSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -165,7 +167,7 @@ func newCmdAndroidHardwareCasICas_OpenSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -191,7 +193,7 @@ func newCmdAndroidHardwareCasICas_OpenSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -213,7 +215,7 @@ func newCmdAndroidHardwareCasICas_ProcessEcm() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -224,7 +226,7 @@ func newCmdAndroidHardwareCasICas_ProcessEcm() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -256,7 +258,7 @@ func newCmdAndroidHardwareCasICas_ProcessEcm() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -278,7 +280,7 @@ func newCmdAndroidHardwareCasICas_ProcessEmm() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -289,7 +291,7 @@ func newCmdAndroidHardwareCasICas_ProcessEmm() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdAndroidHardwareCasICas_ProcessEmm() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -332,7 +334,7 @@ func newCmdAndroidHardwareCasICas_Provision() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -343,7 +345,7 @@ func newCmdAndroidHardwareCasICas_Provision() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -362,7 +364,7 @@ func newCmdAndroidHardwareCasICas_Provision() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -382,7 +384,7 @@ func newCmdAndroidHardwareCasICas_RefreshEntitlements() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -393,7 +395,7 @@ func newCmdAndroidHardwareCasICas_RefreshEntitlements() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -421,7 +423,7 @@ func newCmdAndroidHardwareCasICas_RefreshEntitlements() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -443,7 +445,7 @@ func newCmdAndroidHardwareCasICas_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -454,7 +456,7 @@ func newCmdAndroidHardwareCasICas_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -468,7 +470,7 @@ func newCmdAndroidHardwareCasICas_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -486,7 +488,7 @@ func newCmdAndroidHardwareCasICas_SendEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -497,7 +499,7 @@ func newCmdAndroidHardwareCasICas_SendEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -530,7 +532,7 @@ func newCmdAndroidHardwareCasICas_SendEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -554,7 +556,7 @@ func newCmdAndroidHardwareCasICas_SendSessionEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -565,7 +567,7 @@ func newCmdAndroidHardwareCasICas_SendSessionEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -607,7 +609,7 @@ func newCmdAndroidHardwareCasICas_SendSessionEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -633,7 +635,7 @@ func newCmdAndroidHardwareCasICas_SetPrivateData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -644,7 +646,7 @@ func newCmdAndroidHardwareCasICas_SetPrivateData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -667,7 +669,7 @@ func newCmdAndroidHardwareCasICas_SetPrivateData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -687,7 +689,7 @@ func newCmdAndroidHardwareCasICas_SetSessionPrivateData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -698,7 +700,7 @@ func newCmdAndroidHardwareCasICas_SetSessionPrivateData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICas")
 			}
 			if err != nil {
 				return err
@@ -730,7 +732,7 @@ func newCmdAndroidHardwareCasICas_SetSessionPrivateData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -765,7 +767,7 @@ func newCmdAndroidHardwareCasICasListener_OnEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -776,7 +778,7 @@ func newCmdAndroidHardwareCasICasListener_OnEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
 			}
 			if err != nil {
 				return err
@@ -809,7 +811,7 @@ func newCmdAndroidHardwareCasICasListener_OnEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -833,7 +835,7 @@ func newCmdAndroidHardwareCasICasListener_OnSessionEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -844,7 +846,7 @@ func newCmdAndroidHardwareCasICasListener_OnSessionEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
 			}
 			if err != nil {
 				return err
@@ -886,7 +888,7 @@ func newCmdAndroidHardwareCasICasListener_OnSessionEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -912,7 +914,7 @@ func newCmdAndroidHardwareCasICasListener_OnStatusUpdate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -923,7 +925,7 @@ func newCmdAndroidHardwareCasICasListener_OnStatusUpdate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.ICasListener")
 			}
 			if err != nil {
 				return err
@@ -948,7 +950,7 @@ func newCmdAndroidHardwareCasICasListener_OnStatusUpdate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -984,7 +986,7 @@ func newCmdAndroidHardwareCasIDescrambler_Descramble() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -995,7 +997,7 @@ func newCmdAndroidHardwareCasIDescrambler_Descramble() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -1066,7 +1068,7 @@ func newCmdAndroidHardwareCasIDescrambler_Descramble() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1102,7 +1104,7 @@ func newCmdAndroidHardwareCasIDescrambler_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1113,7 +1115,7 @@ func newCmdAndroidHardwareCasIDescrambler_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -1127,7 +1129,7 @@ func newCmdAndroidHardwareCasIDescrambler_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1145,7 +1147,7 @@ func newCmdAndroidHardwareCasIDescrambler_RequiresSecureDecoderComponent() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1156,7 +1158,7 @@ func newCmdAndroidHardwareCasIDescrambler_RequiresSecureDecoderComponent() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -1175,7 +1177,7 @@ func newCmdAndroidHardwareCasIDescrambler_RequiresSecureDecoderComponent() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1195,7 +1197,7 @@ func newCmdAndroidHardwareCasIDescrambler_SetMediaCasSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1206,7 +1208,7 @@ func newCmdAndroidHardwareCasIDescrambler_SetMediaCasSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IDescrambler")
 			}
 			if err != nil {
 				return err
@@ -1229,7 +1231,7 @@ func newCmdAndroidHardwareCasIDescrambler_SetMediaCasSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1264,7 +1266,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreateDescrambler() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1275,7 +1277,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreateDescrambler() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
 			}
 			if err != nil {
 				return err
@@ -1294,7 +1296,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreateDescrambler() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1314,7 +1316,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreatePlugin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1325,7 +1327,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreatePlugin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
 			}
 			if err != nil {
 				return err
@@ -1354,7 +1356,7 @@ func newCmdAndroidHardwareCasIMediaCasService_CreatePlugin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1376,7 +1378,7 @@ func newCmdAndroidHardwareCasIMediaCasService_EnumeratePlugins() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1387,7 +1389,7 @@ func newCmdAndroidHardwareCasIMediaCasService_EnumeratePlugins() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
 			}
 			if err != nil {
 				return err
@@ -1401,7 +1403,7 @@ func newCmdAndroidHardwareCasIMediaCasService_EnumeratePlugins() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1419,7 +1421,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsDescramblerSupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1430,7 +1432,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsDescramblerSupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
 			}
 			if err != nil {
 				return err
@@ -1449,7 +1451,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsDescramblerSupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1469,7 +1471,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsSystemIdSupported() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1480,7 +1482,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsSystemIdSupported() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.cas.IMediaCasService")
 			}
 			if err != nil {
 				return err
@@ -1499,7 +1501,7 @@ func newCmdAndroidHardwareCasIMediaCasService_IsSystemIdSupported() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

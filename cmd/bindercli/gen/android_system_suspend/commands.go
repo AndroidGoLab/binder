@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/system/suspend"
@@ -44,7 +46,7 @@ func newCmdAndroidSystemSuspendISuspendCallback_NotifyWakeup() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidSystemSuspendISuspendCallback_NotifyWakeup() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendCallback")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidSystemSuspendISuspendCallback_NotifyWakeup() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -117,7 +119,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterCallback() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterCallback() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendControlService")
 			}
 			if err != nil {
 				return err
@@ -152,7 +154,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterCallback() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -172,7 +174,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterWakelockCallback()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -183,7 +185,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterWakelockCallback()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendControlService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISuspendControlService")
 			}
 			if err != nil {
 				return err
@@ -212,7 +214,7 @@ func newCmdAndroidSystemSuspendISuspendControlService_RegisterWakelockCallback()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -245,7 +247,7 @@ func newCmdAndroidSystemSuspendISystemSuspend_AcquireWakeLock() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -256,7 +258,7 @@ func newCmdAndroidSystemSuspendISystemSuspend_AcquireWakeLock() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISystemSuspend")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.ISystemSuspend")
 			}
 			if err != nil {
 				return err
@@ -281,7 +283,7 @@ func newCmdAndroidSystemSuspendISystemSuspend_AcquireWakeLock() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -314,7 +316,7 @@ func newCmdAndroidSystemSuspendIWakeLock_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -325,7 +327,7 @@ func newCmdAndroidSystemSuspendIWakeLock_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakeLock")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakeLock")
 			}
 			if err != nil {
 				return err
@@ -339,7 +341,7 @@ func newCmdAndroidSystemSuspendIWakeLock_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -369,7 +371,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyAcquired() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -380,7 +382,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyAcquired() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakelockCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakelockCallback")
 			}
 			if err != nil {
 				return err
@@ -394,7 +396,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyAcquired() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -412,7 +414,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyReleased() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -423,7 +425,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyReleased() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakelockCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.suspend.IWakelockCallback")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidSystemSuspendIWakelockCallback_NotifyReleased() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

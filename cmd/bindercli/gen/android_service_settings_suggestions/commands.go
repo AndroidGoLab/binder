@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/settings/suggestions"
@@ -40,7 +42,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_GetSuggestions() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_GetSuggestions() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
 			}
 			if err != nil {
 				return err
@@ -65,7 +67,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_GetSuggestions() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -83,7 +85,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_DismissSuggestion
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -94,7 +96,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_DismissSuggestion
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
 			}
 			if err != nil {
 				return err
@@ -110,7 +112,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_DismissSuggestion
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -128,7 +130,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_LaunchSuggestion(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -139,7 +141,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_LaunchSuggestion(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.settings.suggestions.ISuggestionService")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidServiceSettingsSuggestionsISuggestionService_LaunchSuggestion(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

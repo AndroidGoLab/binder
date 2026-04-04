@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/ims/internal_/uce/common"
@@ -43,7 +45,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceListener_SetStatus() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceListener_SetStatus() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceListener")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceListener_SetStatus() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -117,7 +119,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StartService() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StartService() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -152,7 +154,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StartService() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -172,7 +174,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StopService() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -183,7 +185,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StopService() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -197,7 +199,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_StopService() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -215,7 +217,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_IsServiceStarted() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -226,7 +228,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_IsServiceStarted() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -240,7 +242,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_IsServiceStarted() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -258,7 +260,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsService() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -269,7 +271,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsService() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -295,7 +297,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsService() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -315,7 +317,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsServiceFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -326,7 +328,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsServiceFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -357,7 +359,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreateOptionsServiceFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -379,7 +381,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyOptionsService()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -390,7 +392,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyOptionsService()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -409,7 +411,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyOptionsService()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceService()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceService()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -466,7 +468,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceService()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -486,7 +488,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceServiceFo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -497,7 +499,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceServiceFo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -528,7 +530,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_CreatePresenceServiceFo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -550,7 +552,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyPresenceService(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -561,7 +563,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyPresenceService(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -580,7 +582,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_DestroyPresenceService(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -600,7 +602,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetServiceStatus() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -611,7 +613,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetServiceStatus() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -625,7 +627,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetServiceStatus() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -643,7 +645,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceService() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -654,7 +656,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceService() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -668,7 +670,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceService() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -686,7 +688,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceServiceForSu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -697,7 +699,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceServiceForSu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -716,7 +718,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetPresenceServiceForSu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -736,7 +738,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsService() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -747,7 +749,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsService() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -761,7 +763,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsService() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -779,7 +781,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsServiceForSub
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -790,7 +792,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsServiceForSub
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.ims.internal.uce.uceservice.IUceService")
 			}
 			if err != nil {
 				return err
@@ -809,7 +811,7 @@ func newCmdComAndroidImsInternalUceUceserviceIUceService_GetOptionsServiceForSub
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

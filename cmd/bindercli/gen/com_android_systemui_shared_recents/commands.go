@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -61,7 +63,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnActiveNavBarRegionCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -72,7 +74,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnActiveNavBarRegionCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -88,7 +90,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnActiveNavBarRegionCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnInitialize() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnInitialize() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -133,7 +135,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnInitialize() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -151,7 +153,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewToggle() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -162,7 +164,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewToggle() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -176,7 +178,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewToggle() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -194,7 +196,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewShown() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -205,7 +207,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewShown() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -224,7 +226,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewShown() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -244,7 +246,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewHidden() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -255,7 +257,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewHidden() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -279,7 +281,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnOverviewHidden() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -301,7 +303,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantAvailable() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -312,7 +314,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantAvailable() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantAvailable() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantVisibilityCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantVisibilityCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -388,7 +390,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantVisibilityCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -408,7 +410,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantOverrideInvo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -419,7 +421,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantOverrideInvo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -438,7 +440,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnAssistantOverrideInvo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -458,7 +460,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemUiStateChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -469,7 +471,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemUiStateChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -488,7 +490,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemUiStateChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -508,7 +510,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnRotationProposal() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -519,7 +521,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnRotationProposal() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -543,7 +545,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnRotationProposal() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -565,7 +567,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_Disable() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -576,7 +578,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_Disable() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -610,7 +612,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_Disable() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -636,7 +638,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemBarAttributesCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -647,7 +649,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemBarAttributesCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -671,7 +673,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnSystemBarAttributesCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -693,7 +695,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavButtonsDarkIntensi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -704,7 +706,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavButtonsDarkIntensi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -723,7 +725,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavButtonsDarkIntensi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -743,7 +745,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavigationBarLumaSamp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -754,7 +756,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavigationBarLumaSamp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -778,7 +780,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnNavigationBarLumaSamp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -800,7 +802,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_EnterStageSplitFromRunn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -811,7 +813,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_EnterStageSplitFromRunn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -830,7 +832,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_EnterStageSplitFromRunn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -850,7 +852,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnTaskbarToggled() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -861,7 +863,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnTaskbarToggled() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.IOverviewProxy")
 			}
 			if err != nil {
 				return err
@@ -875,7 +877,7 @@ func newCmdComAndroidSystemuiSharedRecentsIOverviewProxy_OnTaskbarToggled() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -924,7 +926,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartScreenPinning() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -935,7 +937,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartScreenPinning() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -954,7 +956,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartScreenPinning() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -974,7 +976,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnOverviewShown() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -985,7 +987,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnOverviewShown() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1004,7 +1006,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnOverviewShown() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1024,7 +1026,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTouchEvent()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1035,7 +1037,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTouchEvent()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1051,7 +1053,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTouchEvent()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1069,7 +1071,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantProgress() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1080,7 +1082,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantProgress() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1099,7 +1101,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantProgress() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1119,7 +1121,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantGestureCompl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1130,7 +1132,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantGestureCompl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1149,7 +1151,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnAssistantGestureCompl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1169,7 +1171,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartAssistant() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1180,7 +1182,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartAssistant() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1196,7 +1198,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StartAssistant() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1214,7 +1216,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetAssistantOverridesRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1225,7 +1227,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetAssistantOverridesRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1254,7 +1256,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetAssistantOverridesRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1274,7 +1276,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1285,7 +1287,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1304,7 +1306,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1324,7 +1326,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1335,7 +1337,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1349,7 +1351,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyAccessibilityButt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1367,7 +1369,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StopScreenPinning() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1378,7 +1380,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StopScreenPinning() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1392,7 +1394,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_StopScreenPinning() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1410,7 +1412,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyPrioritizedRotati
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1421,7 +1423,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyPrioritizedRotati
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1440,7 +1442,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyPrioritizedRotati
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1460,7 +1462,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ExpandNotificationPanel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1471,7 +1473,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ExpandNotificationPanel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1485,7 +1487,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ExpandNotificationPanel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1503,7 +1505,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnBackPressed() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1514,7 +1516,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnBackPressed() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1528,7 +1530,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnBackPressed() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1546,7 +1548,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetHomeRotationEnabled(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1557,7 +1559,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetHomeRotationEnabled(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1576,7 +1578,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_SetHomeRotationEnabled(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1596,7 +1598,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarStatus() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1607,7 +1609,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarStatus() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1631,7 +1633,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarStatus() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1653,7 +1655,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarAutohideSu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1664,7 +1666,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarAutohideSu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1683,7 +1685,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_NotifyTaskbarAutohideSu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1703,7 +1705,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnImeSwitcherPressed() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1714,7 +1716,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnImeSwitcherPressed() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1728,7 +1730,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnImeSwitcherPressed() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1746,7 +1748,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ToggleNotificationPanel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1757,7 +1759,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ToggleNotificationPanel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1771,7 +1773,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_ToggleNotificationPanel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1789,7 +1791,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_TakeScreenshot() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1800,7 +1802,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_TakeScreenshot() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1816,7 +1818,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_TakeScreenshot() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1834,7 +1836,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTrackpadEven
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1845,7 +1847,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTrackpadEven
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1861,7 +1863,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_OnStatusBarTrackpadEven
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1879,7 +1881,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_AnimateNavBarLongPress(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1890,7 +1892,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_AnimateNavBarLongPress(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.shared.recents.ISystemUiProxy")
 			}
 			if err != nil {
 				return err
@@ -1919,7 +1921,7 @@ func newCmdComAndroidSystemuiSharedRecentsISystemUiProxy_AnimateNavBarLongPress(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

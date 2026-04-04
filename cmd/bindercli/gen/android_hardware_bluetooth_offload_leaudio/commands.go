@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/bluetooth/offload/leaudio"
@@ -42,7 +44,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_RegisterCallbacks() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_RegisterCallbacks() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxy")
 			}
 			if err != nil {
 				return err
@@ -77,7 +79,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_RegisterCallbacks() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -97,7 +99,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_SendPacket() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -108,7 +110,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_SendPacket() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxy")
 			}
 			if err != nil {
 				return err
@@ -141,7 +143,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxy_SendPacket() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StartStream(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StartStream(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
 			}
 			if err != nil {
 				return err
@@ -215,7 +217,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StartStream(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -240,7 +242,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StopStream()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StopStream()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
 			}
 			if err != nil {
 				return err
@@ -270,7 +272,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_StopStream()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -290,7 +292,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_LinkFeedback
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -301,7 +303,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_LinkFeedback
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.bluetooth.offload.leaudio.IHciProxyCallbacks")
 			}
 			if err != nil {
 				return err
@@ -335,7 +337,7 @@ func newCmdAndroidHardwareBluetoothOffloadLeaudioIHciProxyCallbacks_LinkFeedback
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

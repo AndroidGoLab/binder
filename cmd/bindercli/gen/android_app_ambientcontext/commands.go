@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/ambientcontext"
@@ -47,7 +49,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_RegisterObserverWithCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_RegisterObserverWithCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
 			}
 			if err != nil {
 				return err
@@ -89,7 +91,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_RegisterObserverWithCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -111,7 +113,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_UnregisterObserver() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -122,7 +124,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_UnregisterObserver() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_UnregisterObserver() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -154,7 +156,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_QueryServiceStatus() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -165,7 +167,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_QueryServiceStatus() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
 			}
 			if err != nil {
 				return err
@@ -196,7 +198,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_QueryServiceStatus() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -216,7 +218,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_StartConsentActivity()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -227,7 +229,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_StartConsentActivity()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextManager")
 			}
 			if err != nil {
 				return err
@@ -256,7 +258,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextManager_StartConsentActivity()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -288,7 +290,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnEvents() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -299,7 +301,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnEvents() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextObserver")
 			}
 			if err != nil {
 				return err
@@ -324,7 +326,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnEvents() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -344,7 +346,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnRegistrationComplet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -355,7 +357,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnRegistrationComplet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.ambientcontext.IAmbientContextObserver")
 			}
 			if err != nil {
 				return err
@@ -374,7 +376,7 @@ func newCmdAndroidAppAmbientcontextIAmbientContextObserver_OnRegistrationComplet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

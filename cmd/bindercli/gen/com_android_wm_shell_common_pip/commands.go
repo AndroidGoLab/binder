@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -52,7 +54,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StartSwipePipToHome() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StartSwipePipToHome() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StartSwipePipToHome() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -110,7 +112,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StopSwipePipToHome() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -121,7 +123,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StopSwipePipToHome() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -150,7 +152,7 @@ func newCmdComAndroidWmShellCommonPipIPip_StopSwipePipToHome() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -170,7 +172,7 @@ func newCmdComAndroidWmShellCommonPipIPip_AbortSwipePipToHome() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -181,7 +183,7 @@ func newCmdComAndroidWmShellCommonPipIPip_AbortSwipePipToHome() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdComAndroidWmShellCommonPipIPip_AbortSwipePipToHome() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -222,7 +224,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationListener() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -233,7 +235,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationListener() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -257,7 +259,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationListener() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -277,7 +279,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetShelfHeight() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -288,7 +290,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetShelfHeight() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetShelfHeight() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationTypeToAlpha() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationTypeToAlpha() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -359,7 +361,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetPipAnimationTypeToAlpha() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -377,7 +379,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherKeepClearAreaHeight() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -388,7 +390,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherKeepClearAreaHeight() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -412,7 +414,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherKeepClearAreaHeight() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -434,7 +436,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherAppIconSize() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -445,7 +447,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherAppIconSize() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPip")
 			}
 			if err != nil {
 				return err
@@ -464,7 +466,7 @@ func newCmdComAndroidWmShellCommonPipIPip_SetLauncherAppIconSize() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -497,7 +499,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipAnimationStarted
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -508,7 +510,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipAnimationStarted
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
 			}
 			if err != nil {
 				return err
@@ -522,7 +524,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipAnimationStarted
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -540,7 +542,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipResourceDimensio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -551,7 +553,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipResourceDimensio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
 			}
 			if err != nil {
 				return err
@@ -575,7 +577,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnPipResourceDimensio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -597,7 +599,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnExpandPip() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -608,7 +610,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnExpandPip() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.common.pip.IPipAnimationListener")
 			}
 			if err != nil {
 				return err
@@ -622,7 +624,7 @@ func newCmdComAndroidWmShellCommonPipIPipAnimationListener_OnExpandPip() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

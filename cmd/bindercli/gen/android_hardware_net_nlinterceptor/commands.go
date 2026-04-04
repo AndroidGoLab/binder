@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/net/nlinterceptor"
@@ -42,7 +44,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CreateSocket() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -53,7 +55,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CreateSocket() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CreateSocket() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CloseSocket() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CloseSocket() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_CloseSocket() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -155,7 +157,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_SubscribeGroup() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -166,7 +168,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_SubscribeGroup() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
 			}
 			if err != nil {
 				return err
@@ -189,7 +191,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_SubscribeGroup() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -211,7 +213,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_UnsubscribeGroup() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -222,7 +224,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_UnsubscribeGroup() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.net.nlinterceptor.IInterceptor")
 			}
 			if err != nil {
 				return err
@@ -245,7 +247,7 @@ func newCmdAndroidHardwareNetNlinterceptorIInterceptor_UnsubscribeGroup() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

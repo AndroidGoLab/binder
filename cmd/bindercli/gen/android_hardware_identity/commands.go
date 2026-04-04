@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/identity"
@@ -61,7 +63,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredential() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -72,7 +74,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredential() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -86,7 +88,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredential() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -104,7 +106,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateEphemeralKeyPair() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -115,7 +117,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateEphemeralKeyPair() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -129,7 +131,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateEphemeralKeyPair() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -147,7 +149,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetReaderEphemeralPublicKe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -158,7 +160,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetReaderEphemeralPublicKe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -181,7 +183,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetReaderEphemeralPublicKe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -201,7 +203,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateAuthChallenge() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -212,7 +214,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateAuthChallenge() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -226,7 +228,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_CreateAuthChallenge() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -244,7 +246,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieval() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieval() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -346,7 +348,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieval() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -382,7 +384,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieveEntryValue() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -393,7 +395,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieveEntryValue() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -437,7 +439,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_StartRetrieveEntryValue() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -463,7 +465,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_RetrieveEntryValue() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -474,7 +476,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_RetrieveEntryValue() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -497,7 +499,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_RetrieveEntryValue() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -517,7 +519,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrieval() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -528,7 +530,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrieval() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -544,7 +546,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrieval() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -562,7 +564,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_GenerateSigningKeyPair() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -573,7 +575,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_GenerateSigningKeyPair() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -588,7 +590,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_GenerateSigningKeyPair() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetRequestedNamespaces() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -617,7 +619,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetRequestedNamespaces() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -642,7 +644,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetRequestedNamespaces() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -662,7 +664,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetVerificationToken() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -673,7 +675,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetVerificationToken() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -700,7 +702,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_SetVerificationToken() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -722,7 +724,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredentialWithChalle
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -733,7 +735,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredentialWithChalle
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_DeleteCredentialWithChalle
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -776,7 +778,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_ProveOwnership() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -787,7 +789,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_ProveOwnership() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -810,7 +812,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_ProveOwnership() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -830,7 +832,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_UpdateCredential() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -841,7 +843,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_UpdateCredential() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -855,7 +857,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_UpdateCredential() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -873,7 +875,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrievalWithSignatu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -884,7 +886,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrievalWithSignatu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -901,7 +903,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredential_FinishRetrievalWithSignatu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -934,7 +936,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetHardwareInformatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -945,7 +947,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetHardwareInformatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
 			}
 			if err != nil {
 				return err
@@ -959,7 +961,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetHardwareInformatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -977,7 +979,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreateCredential() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -988,7 +990,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreateCredential() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
 			}
 			if err != nil {
 				return err
@@ -1012,7 +1014,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreateCredential() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1034,7 +1036,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetCredential() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1045,7 +1047,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetCredential() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
 			}
 			if err != nil {
 				return err
@@ -1074,7 +1076,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetCredential() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1096,7 +1098,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreatePresentationSes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1107,7 +1109,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreatePresentationSes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
 			}
 			if err != nil {
 				return err
@@ -1127,7 +1129,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_CreatePresentationSes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1147,7 +1149,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetRemotelyProvisione
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1158,7 +1160,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetRemotelyProvisione
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IIdentityCredentialStore")
 			}
 			if err != nil {
 				return err
@@ -1172,7 +1174,7 @@ func newCmdAndroidHardwareIdentityIIdentityCredentialStore_GetRemotelyProvisione
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1205,7 +1207,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetEphemeralKeyPair() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1216,7 +1218,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetEphemeralKeyPair() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
 			}
 			if err != nil {
 				return err
@@ -1230,7 +1232,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetEphemeralKeyPair() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1248,7 +1250,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetAuthChallenge() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1259,7 +1261,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetAuthChallenge() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
 			}
 			if err != nil {
 				return err
@@ -1273,7 +1275,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetAuthChallenge() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1291,7 +1293,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetReaderEphemeralPublicK
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1302,7 +1304,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetReaderEphemeralPublicK
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
 			}
 			if err != nil {
 				return err
@@ -1325,7 +1327,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetReaderEphemeralPublicK
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1345,7 +1347,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetSessionTranscript() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1356,7 +1358,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetSessionTranscript() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
 			}
 			if err != nil {
 				return err
@@ -1379,7 +1381,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_SetSessionTranscript() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1399,7 +1401,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetCredential() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1410,7 +1412,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetCredential() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IPresentationSession")
 			}
 			if err != nil {
 				return err
@@ -1433,7 +1435,7 @@ func newCmdAndroidHardwareIdentityIPresentationSession_GetCredential() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1471,7 +1473,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_GetAttestationCert
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1482,7 +1484,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_GetAttestationCert
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1514,7 +1516,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_GetAttestationCert
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1536,7 +1538,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_StartPersonalizati
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1547,7 +1549,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_StartPersonalizati
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1581,7 +1583,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_StartPersonalizati
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1603,7 +1605,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddAccessControlPr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1614,7 +1616,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddAccessControlPr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1657,7 +1659,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddAccessControlPr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1684,7 +1686,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_BeginAddEntry() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1695,7 +1697,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_BeginAddEntry() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1739,7 +1741,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_BeginAddEntry() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1765,7 +1767,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddEntryValue() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1776,7 +1778,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddEntryValue() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1799,7 +1801,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_AddEntryValue() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1819,7 +1821,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_FinishAddingEntrie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1830,7 +1832,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_FinishAddingEntrie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1846,7 +1848,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_FinishAddingEntrie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1864,7 +1866,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetExpectedProofOf
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1875,7 +1877,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetExpectedProofOf
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1894,7 +1896,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetExpectedProofOf
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1914,7 +1916,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetRemotelyProvisi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1925,7 +1927,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetRemotelyProvisi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.identity.IWritableIdentityCredential")
 			}
 			if err != nil {
 				return err
@@ -1957,7 +1959,7 @@ func newCmdAndroidHardwareIdentityIWritableIdentityCredential_SetRemotelyProvisi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

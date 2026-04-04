@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/automotive/ivn"
@@ -44,7 +46,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyDeviceId() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyDeviceId() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyDeviceId() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -87,7 +89,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOtherDeviceIds() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -98,7 +100,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOtherDeviceIds() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -112,7 +114,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOtherDeviceIds() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetDeviceIdForOccupantZ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -141,7 +143,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetDeviceIdForOccupantZ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -160,7 +162,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetDeviceIdForOccupantZ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -180,7 +182,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOccupantZonesForDevi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -191,7 +193,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOccupantZonesForDevi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -210,7 +212,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetOccupantZonesForDevi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -230,7 +232,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyEndpointInfo() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -241,7 +243,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyEndpointInfo() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetMyEndpointInfo() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -273,7 +275,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetEndpointInfoForDevic
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -284,7 +286,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetEndpointInfoForDevic
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.automotive.ivn.IIvnAndroidDevice")
 			}
 			if err != nil {
 				return err
@@ -303,7 +305,7 @@ func newCmdAndroidHardwareAutomotiveIvnIIvnAndroidDevice_GetEndpointInfoForDevic
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -57,7 +59,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckDeviceIdentifierAccess
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -68,7 +70,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckDeviceIdentifierAccess
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -102,7 +104,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckDeviceIdentifierAccess
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -128,7 +130,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckPhoneNumberAccess() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -139,7 +141,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckPhoneNumberAccess() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -173,7 +175,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_CheckPhoneNumberAccess() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -199,7 +201,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -210,7 +212,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -233,7 +235,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -253,7 +255,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -264,7 +266,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -287,7 +289,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -341,7 +343,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToEn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -361,7 +363,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -372,7 +374,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -395,7 +397,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -415,7 +417,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToAc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -426,7 +428,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToAc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -445,7 +447,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToAc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -465,7 +467,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -476,7 +478,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -499,7 +501,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_RevokeDefaultPermissionsFro
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -519,7 +521,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToCa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -530,7 +532,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToCa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.ILegacyPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -549,7 +551,7 @@ func newCmdAndroidPermissionILegacyPermissionManager_GrantDefaultPermissionsToCa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -580,7 +582,7 @@ func newCmdAndroidPermissionIOnPermissionsChangeListener_OnPermissionsChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -591,7 +593,7 @@ func newCmdAndroidPermissionIOnPermissionsChangeListener_OnPermissionsChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IOnPermissionsChangeListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IOnPermissionsChangeListener")
 			}
 			if err != nil {
 				return err
@@ -615,7 +617,7 @@ func newCmdAndroidPermissionIOnPermissionsChangeListener_OnPermissionsChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -650,7 +652,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckPermission() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -661,7 +663,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckPermission() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
 			}
 			if err != nil {
 				return err
@@ -725,7 +727,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckPermission() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -763,7 +765,7 @@ func newCmdAndroidPermissionIPermissionChecker_FinishDataDelivery() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -774,7 +776,7 @@ func newCmdAndroidPermissionIPermissionChecker_FinishDataDelivery() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
 			}
 			if err != nil {
 				return err
@@ -818,7 +820,7 @@ func newCmdAndroidPermissionIPermissionChecker_FinishDataDelivery() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -848,7 +850,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckOp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -859,7 +861,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckOp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionChecker")
 			}
 			if err != nil {
 				return err
@@ -913,7 +915,7 @@ func newCmdAndroidPermissionIPermissionChecker_CheckOp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -975,7 +977,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermissions() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -986,7 +988,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermissions() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1019,7 +1021,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermissions() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1043,7 +1045,7 @@ func newCmdAndroidPermissionIPermissionController_GetRuntimePermissionBackup() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1054,7 +1056,7 @@ func newCmdAndroidPermissionIPermissionController_GetRuntimePermissionBackup() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1075,7 +1077,7 @@ func newCmdAndroidPermissionIPermissionController_GetRuntimePermissionBackup() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1095,7 +1097,7 @@ func newCmdAndroidPermissionIPermissionController_StageAndApplyRuntimePermission
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1106,7 +1108,7 @@ func newCmdAndroidPermissionIPermissionController_StageAndApplyRuntimePermission
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1127,7 +1129,7 @@ func newCmdAndroidPermissionIPermissionController_StageAndApplyRuntimePermission
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1147,7 +1149,7 @@ func newCmdAndroidPermissionIPermissionController_ApplyStagedRuntimePermissionBa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1158,7 +1160,7 @@ func newCmdAndroidPermissionIPermissionController_ApplyStagedRuntimePermissionBa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1181,7 +1183,7 @@ func newCmdAndroidPermissionIPermissionController_ApplyStagedRuntimePermissionBa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1201,7 +1203,7 @@ func newCmdAndroidPermissionIPermissionController_GetAppPermissions() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1212,7 +1214,7 @@ func newCmdAndroidPermissionIPermissionController_GetAppPermissions() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1233,7 +1235,7 @@ func newCmdAndroidPermissionIPermissionController_GetAppPermissions() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1253,7 +1255,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermission() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1264,7 +1266,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermission() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1288,7 +1290,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeRuntimePermission() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1310,7 +1312,7 @@ func newCmdAndroidPermissionIPermissionController_CountPermissionApps() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1321,7 +1323,7 @@ func newCmdAndroidPermissionIPermissionController_CountPermissionApps() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1351,7 +1353,7 @@ func newCmdAndroidPermissionIPermissionController_CountPermissionApps() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1373,7 +1375,7 @@ func newCmdAndroidPermissionIPermissionController_GetPermissionUsages() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1384,7 +1386,7 @@ func newCmdAndroidPermissionIPermissionController_GetPermissionUsages() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1410,7 +1412,7 @@ func newCmdAndroidPermissionIPermissionController_GetPermissionUsages() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1432,7 +1434,7 @@ func newCmdAndroidPermissionIPermissionController_SetRuntimePermissionGrantState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1443,7 +1445,7 @@ func newCmdAndroidPermissionIPermissionController_SetRuntimePermissionGrantState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1466,7 +1468,7 @@ func newCmdAndroidPermissionIPermissionController_SetRuntimePermissionGrantState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1486,7 +1488,7 @@ func newCmdAndroidPermissionIPermissionController_GrantOrUpgradeDefaultRuntimePe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1497,7 +1499,7 @@ func newCmdAndroidPermissionIPermissionController_GrantOrUpgradeDefaultRuntimePe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1513,7 +1515,7 @@ func newCmdAndroidPermissionIPermissionController_GrantOrUpgradeDefaultRuntimePe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1531,7 +1533,7 @@ func newCmdAndroidPermissionIPermissionController_NotifyOneTimePermissionSession
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1542,7 +1544,7 @@ func newCmdAndroidPermissionIPermissionController_NotifyOneTimePermissionSession
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1566,7 +1568,7 @@ func newCmdAndroidPermissionIPermissionController_NotifyOneTimePermissionSession
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1588,7 +1590,7 @@ func newCmdAndroidPermissionIPermissionController_UpdateUserSensitiveForApp() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1599,7 +1601,7 @@ func newCmdAndroidPermissionIPermissionController_UpdateUserSensitiveForApp() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1620,7 +1622,7 @@ func newCmdAndroidPermissionIPermissionController_UpdateUserSensitiveForApp() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1640,7 +1642,7 @@ func newCmdAndroidPermissionIPermissionController_GetPrivilegesDescriptionString
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1651,7 +1653,7 @@ func newCmdAndroidPermissionIPermissionController_GetPrivilegesDescriptionString
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1672,7 +1674,7 @@ func newCmdAndroidPermissionIPermissionController_GetPrivilegesDescriptionString
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1692,7 +1694,7 @@ func newCmdAndroidPermissionIPermissionController_GetPlatformPermissionsForGroup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1703,7 +1705,7 @@ func newCmdAndroidPermissionIPermissionController_GetPlatformPermissionsForGroup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1724,7 +1726,7 @@ func newCmdAndroidPermissionIPermissionController_GetPlatformPermissionsForGroup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1744,7 +1746,7 @@ func newCmdAndroidPermissionIPermissionController_GetGroupOfPlatformPermission()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1755,7 +1757,7 @@ func newCmdAndroidPermissionIPermissionController_GetGroupOfPlatformPermission()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1776,7 +1778,7 @@ func newCmdAndroidPermissionIPermissionController_GetGroupOfPlatformPermission()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1796,7 +1798,7 @@ func newCmdAndroidPermissionIPermissionController_GetUnusedAppCount() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1807,7 +1809,7 @@ func newCmdAndroidPermissionIPermissionController_GetUnusedAppCount() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1823,7 +1825,7 @@ func newCmdAndroidPermissionIPermissionController_GetUnusedAppCount() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1841,7 +1843,7 @@ func newCmdAndroidPermissionIPermissionController_GetHibernationEligibility() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1852,7 +1854,7 @@ func newCmdAndroidPermissionIPermissionController_GetHibernationEligibility() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1873,7 +1875,7 @@ func newCmdAndroidPermissionIPermissionController_GetHibernationEligibility() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1893,7 +1895,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeSelfPermissionsOnKill() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1904,7 +1906,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeSelfPermissionsOnKill() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionController")
 			}
 			if err != nil {
 				return err
@@ -1939,7 +1941,7 @@ func newCmdAndroidPermissionIPermissionController_RevokeSelfPermissionsOnKill() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2004,7 +2006,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionGroups() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2015,7 +2017,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionGroups() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2034,7 +2036,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionGroups() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2054,7 +2056,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionGroupInfo() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2065,7 +2067,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionGroupInfo() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2089,7 +2091,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionGroupInfo() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2111,7 +2113,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionInfo() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2122,7 +2124,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionInfo() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2151,7 +2153,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionInfo() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2175,7 +2177,7 @@ func newCmdAndroidPermissionIPermissionManager_QueryPermissionsByGroup() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2186,7 +2188,7 @@ func newCmdAndroidPermissionIPermissionManager_QueryPermissionsByGroup() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2210,7 +2212,7 @@ func newCmdAndroidPermissionIPermissionManager_QueryPermissionsByGroup() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2232,7 +2234,7 @@ func newCmdAndroidPermissionIPermissionManager_AddPermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2243,7 +2245,7 @@ func newCmdAndroidPermissionIPermissionManager_AddPermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2264,7 +2266,7 @@ func newCmdAndroidPermissionIPermissionManager_AddPermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2284,7 +2286,7 @@ func newCmdAndroidPermissionIPermissionManager_RemovePermission() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2295,7 +2297,7 @@ func newCmdAndroidPermissionIPermissionManager_RemovePermission() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2314,7 +2316,7 @@ func newCmdAndroidPermissionIPermissionManager_RemovePermission() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2334,7 +2336,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionFlags() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2345,7 +2347,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionFlags() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2374,7 +2376,7 @@ func newCmdAndroidPermissionIPermissionManager_GetPermissionFlags() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2398,7 +2400,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlags() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2409,7 +2411,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlags() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2453,7 +2455,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlags() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2483,7 +2485,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlagsForAllApps()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2494,7 +2496,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlagsForAllApps()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2518,7 +2520,7 @@ func newCmdAndroidPermissionIPermissionManager_UpdatePermissionFlagsForAllApps()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2540,7 +2542,7 @@ func newCmdAndroidPermissionIPermissionManager_AddOnPermissionsChangeListener() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2551,7 +2553,7 @@ func newCmdAndroidPermissionIPermissionManager_AddOnPermissionsChangeListener() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2575,7 +2577,7 @@ func newCmdAndroidPermissionIPermissionManager_AddOnPermissionsChangeListener() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2595,7 +2597,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveOnPermissionsChangeListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2606,7 +2608,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveOnPermissionsChangeListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2630,7 +2632,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveOnPermissionsChangeListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2650,7 +2652,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllowlistedRestrictedPermissio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2661,7 +2663,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllowlistedRestrictedPermissio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2685,7 +2687,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllowlistedRestrictedPermissio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2707,7 +2709,7 @@ func newCmdAndroidPermissionIPermissionManager_AddAllowlistedRestrictedPermissio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2718,7 +2720,7 @@ func newCmdAndroidPermissionIPermissionManager_AddAllowlistedRestrictedPermissio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2747,7 +2749,7 @@ func newCmdAndroidPermissionIPermissionManager_AddAllowlistedRestrictedPermissio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2771,7 +2773,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveAllowlistedRestrictedPermis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2782,7 +2784,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveAllowlistedRestrictedPermis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2811,7 +2813,7 @@ func newCmdAndroidPermissionIPermissionManager_RemoveAllowlistedRestrictedPermis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2835,7 +2837,7 @@ func newCmdAndroidPermissionIPermissionManager_GrantRuntimePermission() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2846,7 +2848,7 @@ func newCmdAndroidPermissionIPermissionManager_GrantRuntimePermission() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2875,7 +2877,7 @@ func newCmdAndroidPermissionIPermissionManager_GrantRuntimePermission() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2899,7 +2901,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokeRuntimePermission() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2910,7 +2912,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokeRuntimePermission() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -2944,7 +2946,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokeRuntimePermission() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2970,7 +2972,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokePostNotificationPermissionW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2981,7 +2983,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokePostNotificationPermissionW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3000,7 +3002,7 @@ func newCmdAndroidPermissionIPermissionManager_RevokePostNotificationPermissionW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3020,7 +3022,7 @@ func newCmdAndroidPermissionIPermissionManager_ShouldShowRequestPermissionRation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3031,7 +3033,7 @@ func newCmdAndroidPermissionIPermissionManager_ShouldShowRequestPermissionRation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3060,7 +3062,7 @@ func newCmdAndroidPermissionIPermissionManager_ShouldShowRequestPermissionRation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3084,7 +3086,7 @@ func newCmdAndroidPermissionIPermissionManager_IsPermissionRevokedByPolicy() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3095,7 +3097,7 @@ func newCmdAndroidPermissionIPermissionManager_IsPermissionRevokedByPolicy() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3124,7 +3126,7 @@ func newCmdAndroidPermissionIPermissionManager_IsPermissionRevokedByPolicy() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3148,7 +3150,7 @@ func newCmdAndroidPermissionIPermissionManager_GetSplitPermissions() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3159,7 +3161,7 @@ func newCmdAndroidPermissionIPermissionManager_GetSplitPermissions() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3173,7 +3175,7 @@ func newCmdAndroidPermissionIPermissionManager_GetSplitPermissions() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3191,7 +3193,7 @@ func newCmdAndroidPermissionIPermissionManager_StartOneTimePermissionSession() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3202,7 +3204,7 @@ func newCmdAndroidPermissionIPermissionManager_StartOneTimePermissionSession() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3236,7 +3238,7 @@ func newCmdAndroidPermissionIPermissionManager_StartOneTimePermissionSession() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3262,7 +3264,7 @@ func newCmdAndroidPermissionIPermissionManager_StopOneTimePermissionSession() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3273,7 +3275,7 @@ func newCmdAndroidPermissionIPermissionManager_StopOneTimePermissionSession() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3292,7 +3294,7 @@ func newCmdAndroidPermissionIPermissionManager_StopOneTimePermissionSession() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3312,7 +3314,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionRequestedPa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3323,7 +3325,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionRequestedPa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3337,7 +3339,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionRequestedPa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3355,7 +3357,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionGrantedPack
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3366,7 +3368,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionGrantedPack
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3380,7 +3382,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAutoRevokeExemptionGrantedPack
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3398,7 +3400,7 @@ func newCmdAndroidPermissionIPermissionManager_SetAutoRevokeExempted() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3409,7 +3411,7 @@ func newCmdAndroidPermissionIPermissionManager_SetAutoRevokeExempted() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3433,7 +3435,7 @@ func newCmdAndroidPermissionIPermissionManager_SetAutoRevokeExempted() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3455,7 +3457,7 @@ func newCmdAndroidPermissionIPermissionManager_IsAutoRevokeExempted() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3466,7 +3468,7 @@ func newCmdAndroidPermissionIPermissionManager_IsAutoRevokeExempted() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3485,7 +3487,7 @@ func newCmdAndroidPermissionIPermissionManager_IsAutoRevokeExempted() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3505,7 +3507,7 @@ func newCmdAndroidPermissionIPermissionManager_RegisterAttributionSource() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3516,7 +3518,7 @@ func newCmdAndroidPermissionIPermissionManager_RegisterAttributionSource() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3550,7 +3552,7 @@ func newCmdAndroidPermissionIPermissionManager_RegisterAttributionSource() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3576,7 +3578,7 @@ func newCmdAndroidPermissionIPermissionManager_IsRegisteredAttributionSource() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3587,7 +3589,7 @@ func newCmdAndroidPermissionIPermissionManager_IsRegisteredAttributionSource() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3621,7 +3623,7 @@ func newCmdAndroidPermissionIPermissionManager_IsRegisteredAttributionSource() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3647,7 +3649,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckPermission() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3658,7 +3660,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckPermission() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3687,7 +3689,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckPermission() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3711,7 +3713,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckUidPermission() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3722,7 +3724,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckUidPermission() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3751,7 +3753,7 @@ func newCmdAndroidPermissionIPermissionManager_CheckUidPermission() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3775,7 +3777,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionStates() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3786,7 +3788,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionStates() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.permission.IPermissionManager")
 			}
 			if err != nil {
 				return err
@@ -3810,7 +3812,7 @@ func newCmdAndroidPermissionIPermissionManager_GetAllPermissionStates() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

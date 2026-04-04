@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/tv/hdmi/cec"
@@ -52,7 +54,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_AddLogicalAddress() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_AddLogicalAddress() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_AddLogicalAddress() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_ClearLogicalAddress() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_ClearLogicalAddress() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -128,7 +130,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_ClearLogicalAddress() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -146,7 +148,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableAudioReturnChannel() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -157,7 +159,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableAudioReturnChannel() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -181,7 +183,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableAudioReturnChannel() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -203,7 +205,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetCecVersion() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -214,7 +216,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetCecVersion() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -228,7 +230,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetCecVersion() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetPhysicalAddress() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetPhysicalAddress() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -271,7 +273,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetPhysicalAddress() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -289,7 +291,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetVendorId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -300,7 +302,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetVendorId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -314,7 +316,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_GetVendorId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -332,7 +334,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SendMessage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -343,7 +345,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SendMessage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -370,7 +372,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SendMessage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -391,7 +393,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -402,7 +404,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -426,7 +428,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetLanguage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetLanguage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -476,7 +478,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_SetLanguage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -496,7 +498,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableWakeupByOtp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableWakeupByOtp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -526,7 +528,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableWakeupByOtp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -546,7 +548,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableCec() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -557,7 +559,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableCec() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -576,7 +578,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableCec() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -596,7 +598,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableSystemCecControl() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -607,7 +609,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableSystemCecControl() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCec")
 			}
 			if err != nil {
 				return err
@@ -626,7 +628,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCec_EnableSystemCecControl() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -657,7 +659,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCecCallback_OnCecMessage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -668,7 +670,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCecCallback_OnCecMessage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCecCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.tv.hdmi.cec.IHdmiCecCallback")
 			}
 			if err != nil {
 				return err
@@ -695,7 +697,7 @@ func newCmdAndroidHardwareTvHdmiCecIHdmiCecCallback_OnCecMessage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

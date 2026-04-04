@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/graphics/common"
@@ -44,7 +46,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_CreateClient() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_CreateClient() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposer")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_CreateClient() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -87,7 +89,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_GetCapabilities() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -98,7 +100,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_GetCapabilities() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposer")
 			}
 			if err != nil {
 				return err
@@ -112,7 +114,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposer_GetCapabilities() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplug() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplug() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -183,7 +185,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplug() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefresh() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefresh() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -235,7 +237,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefresh() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnSeamlessPossible(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -266,7 +268,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnSeamlessPossible(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -285,7 +287,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnSeamlessPossible(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsync() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -316,7 +318,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsync() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -345,7 +347,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsync() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncPeriodTiming
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -380,7 +382,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncPeriodTiming
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -404,7 +406,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncPeriodTiming
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -427,7 +429,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncIdle() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -438,7 +440,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncIdle() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -457,7 +459,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnVsyncIdle() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefreshRateChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefreshRateChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -507,7 +509,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnRefreshRateChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplugEvent() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplugEvent() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerCallback")
 			}
 			if err != nil {
 				return err
@@ -564,7 +566,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerCallback_OnHotplugEvent() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -640,7 +642,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_CreateLayer() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -651,7 +653,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_CreateLayer() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -675,7 +677,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_CreateLayer() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -697,7 +699,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyLayer() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -708,7 +710,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyLayer() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -732,7 +734,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyLayer() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -754,7 +756,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyVirtualDisplay
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -765,7 +767,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyVirtualDisplay
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -784,7 +786,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_DestroyVirtualDisplay
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -804,7 +806,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ExecuteCommands() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -815,7 +817,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ExecuteCommands() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -840,7 +842,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ExecuteCommands() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -860,7 +862,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetActiveConfig() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -871,7 +873,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetActiveConfig() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -890,7 +892,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetActiveConfig() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -910,7 +912,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetColorModes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -921,7 +923,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetColorModes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -940,7 +942,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetColorModes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -960,7 +962,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayAttribute()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -971,7 +973,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayAttribute()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1001,7 +1003,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayAttribute()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1025,7 +1027,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayCapabilitie
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1036,7 +1038,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayCapabilitie
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1055,7 +1057,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayCapabilitie
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1075,7 +1077,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigs() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1086,7 +1088,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigs() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1105,7 +1107,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigs() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1125,7 +1127,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConnectionT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1136,7 +1138,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConnectionT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1155,7 +1157,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConnectionT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1175,7 +1177,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayIdentificat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1186,7 +1188,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayIdentificat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1205,7 +1207,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayIdentificat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1225,7 +1227,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayName() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1236,7 +1238,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayName() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1255,7 +1257,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayName() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1275,7 +1277,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayVsyncPeriod
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1286,7 +1288,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayVsyncPeriod
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1305,7 +1307,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayVsyncPeriod
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1325,7 +1327,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1336,7 +1338,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1365,7 +1367,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1389,7 +1391,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1400,7 +1402,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1419,7 +1421,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayedContentSa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1439,7 +1441,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayPhysicalOri
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1450,7 +1452,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayPhysicalOri
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1469,7 +1471,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayPhysicalOri
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1489,7 +1491,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrCapabilities() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1500,7 +1502,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrCapabilities() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1519,7 +1521,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrCapabilities() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1539,7 +1541,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetMaxVirtualDisplayC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1550,7 +1552,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetMaxVirtualDisplayC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1564,7 +1566,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetMaxVirtualDisplayC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1582,7 +1584,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPerFrameMetadataKe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1593,7 +1595,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPerFrameMetadataKe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1612,7 +1614,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPerFrameMetadataKe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1632,7 +1634,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferAttr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1643,7 +1645,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferAttr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1662,7 +1664,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferAttr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1682,7 +1684,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferFenc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1693,7 +1695,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferFenc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1712,7 +1714,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetReadbackBufferFenc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1732,7 +1734,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetRenderIntents() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1743,7 +1745,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetRenderIntents() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1768,7 +1770,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetRenderIntents() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1790,7 +1792,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetSupportedContentTy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1801,7 +1803,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetSupportedContentTy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1820,7 +1822,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetSupportedContentTy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1840,7 +1842,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayDecorationS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1851,7 +1853,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayDecorationS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1870,7 +1872,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayDecorationS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1890,7 +1892,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_RegisterCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1901,7 +1903,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_RegisterCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1925,7 +1927,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_RegisterCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1945,7 +1947,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfig() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1956,7 +1958,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfig() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -1980,7 +1982,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfig() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2002,7 +2004,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfigWithCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2013,7 +2015,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfigWithCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2041,7 +2043,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetActiveConfigWithCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2065,7 +2067,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetBootDisplayConfig(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2076,7 +2078,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetBootDisplayConfig(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2100,7 +2102,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetBootDisplayConfig(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2122,7 +2124,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ClearBootDisplayConfi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2133,7 +2135,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ClearBootDisplayConfi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2152,7 +2154,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_ClearBootDisplayConfi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2172,7 +2174,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPreferredBootDispl
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2183,7 +2185,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPreferredBootDispl
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2202,7 +2204,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetPreferredBootDispl
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2222,7 +2224,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetAutoLowLatencyMode
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2233,7 +2235,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetAutoLowLatencyMode
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2257,7 +2259,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetAutoLowLatencyMode
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2279,7 +2281,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetClientTargetSlotCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2290,7 +2292,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetClientTargetSlotCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2314,7 +2316,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetClientTargetSlotCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2336,7 +2338,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetColorMode() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2347,7 +2349,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetColorMode() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2378,7 +2380,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetColorMode() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2402,7 +2404,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetContentType() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2413,7 +2415,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetContentType() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2438,7 +2440,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetContentType() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2460,7 +2462,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetDisplayedContentSa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2471,7 +2473,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetDisplayedContentSa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2506,7 +2508,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetDisplayedContentSa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2532,7 +2534,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetPowerMode() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2543,7 +2545,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetPowerMode() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2568,7 +2570,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetPowerMode() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2590,7 +2592,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetVsyncEnabled() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2601,7 +2603,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetVsyncEnabled() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2625,7 +2627,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetVsyncEnabled() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2647,7 +2649,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetIdleTimerEnabled()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2658,7 +2660,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetIdleTimerEnabled()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2682,7 +2684,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetIdleTimerEnabled()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2704,7 +2706,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetOverlaySupport() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2715,7 +2717,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetOverlaySupport() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2729,7 +2731,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetOverlaySupport() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2747,7 +2749,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrConversionCapab
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2758,7 +2760,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrConversionCapab
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2772,7 +2774,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetHdrConversionCapab
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2790,7 +2792,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetHdrConversionStrat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2801,7 +2803,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetHdrConversionStrat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2825,7 +2827,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetHdrConversionStrat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2846,7 +2848,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetRefreshRateChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2857,7 +2859,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetRefreshRateChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2881,7 +2883,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_SetRefreshRateChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2903,7 +2905,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigurati
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2914,7 +2916,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigurati
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2938,7 +2940,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_GetDisplayConfigurati
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2960,7 +2962,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_NotifyExpectedPresent
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2971,7 +2973,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_NotifyExpectedPresent
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.graphics.composer3.IComposerClient")
 			}
 			if err != nil {
 				return err
@@ -2998,7 +3000,7 @@ func newCmdAndroidHardwareGraphicsComposer3IComposerClient_NotifyExpectedPresent
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/tests/enforcepermission"
@@ -40,7 +42,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByAccessNetworkState() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -51,7 +53,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByAccessNetworkState() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.INested")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.INested")
 			}
 			if err != nil {
 				return err
@@ -65,7 +67,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByAccessNetworkState() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -83,7 +85,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByReadSyncSettings() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -94,7 +96,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByReadSyncSettings() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.INested")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.INested")
 			}
 			if err != nil {
 				return err
@@ -108,7 +110,7 @@ func newCmdAndroidTestsEnforcepermissionINested_ProtectedByReadSyncSettings() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternet() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternet() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -175,7 +177,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternet() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -193,7 +195,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByVibrate() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -204,7 +206,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByVibrate() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -218,7 +220,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByVibrate() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -236,7 +238,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -247,7 +249,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -261,7 +263,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -279,7 +281,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndAccessN
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -290,7 +292,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndAccessN
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -304,7 +306,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndAccessN
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -322,7 +324,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -333,7 +335,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -347,7 +349,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -365,7 +367,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByTurnScreenOn() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -376,7 +378,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByTurnScreenOn() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -390,7 +392,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByTurnScreenOn() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -408,7 +410,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadContacts() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -419,7 +421,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadContacts() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -433,7 +435,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadContacts() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -451,7 +453,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadCalendar() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -462,7 +464,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadCalendar() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -476,7 +478,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByReadCalendar() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -494,7 +496,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -505,7 +507,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -519,7 +521,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndVibrate
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -537,7 +539,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -548,7 +550,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -562,7 +564,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetAndReadSyn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -580,7 +582,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByAccessWifiStateOrV
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -591,7 +593,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByAccessWifiStateOrV
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -605,7 +607,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByAccessWifiStateOrV
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -623,7 +625,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetOrVibrate(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -634,7 +636,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetOrVibrate(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -648,7 +650,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ProtectedByInternetOrVibrate(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -666,7 +668,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_NotProtected() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -677,7 +679,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_NotProtected() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -691,7 +693,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_NotProtected() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -709,7 +711,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ManuallyProtected() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -720,7 +722,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ManuallyProtected() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.tests.enforcepermission.IProtected")
 			}
 			if err != nil {
 				return err
@@ -734,7 +736,7 @@ func newCmdAndroidTestsEnforcepermissionIProtected_ManuallyProtected() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

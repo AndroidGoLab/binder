@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/boot"
@@ -49,7 +51,7 @@ func newCmdAndroidHardwareBootIBootControl_GetActiveBootSlot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidHardwareBootIBootControl_GetActiveBootSlot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidHardwareBootIBootControl_GetActiveBootSlot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdAndroidHardwareBootIBootControl_GetCurrentSlot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdAndroidHardwareBootIBootControl_GetCurrentSlot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -117,7 +119,7 @@ func newCmdAndroidHardwareBootIBootControl_GetCurrentSlot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -135,7 +137,7 @@ func newCmdAndroidHardwareBootIBootControl_GetNumberSlots() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -146,7 +148,7 @@ func newCmdAndroidHardwareBootIBootControl_GetNumberSlots() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -160,7 +162,7 @@ func newCmdAndroidHardwareBootIBootControl_GetNumberSlots() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSnapshotMergeStatus() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSnapshotMergeStatus() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSnapshotMergeStatus() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSuffix() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSuffix() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareBootIBootControl_GetSuffix() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -271,7 +273,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotBootable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotBootable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -301,7 +303,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotBootable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -321,7 +323,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotMarkedSuccessful() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -332,7 +334,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotMarkedSuccessful() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -351,7 +353,7 @@ func newCmdAndroidHardwareBootIBootControl_IsSlotMarkedSuccessful() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -371,7 +373,7 @@ func newCmdAndroidHardwareBootIBootControl_MarkBootSuccessful() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -382,7 +384,7 @@ func newCmdAndroidHardwareBootIBootControl_MarkBootSuccessful() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidHardwareBootIBootControl_MarkBootSuccessful() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -414,7 +416,7 @@ func newCmdAndroidHardwareBootIBootControl_SetActiveBootSlot() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -425,7 +427,7 @@ func newCmdAndroidHardwareBootIBootControl_SetActiveBootSlot() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -444,7 +446,7 @@ func newCmdAndroidHardwareBootIBootControl_SetActiveBootSlot() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -464,7 +466,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSlotAsUnbootable() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -475,7 +477,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSlotAsUnbootable() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -494,7 +496,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSlotAsUnbootable() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -514,7 +516,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSnapshotMergeStatus() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -525,7 +527,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSnapshotMergeStatus() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.boot.IBootControl")
 			}
 			if err != nil {
 				return err
@@ -545,7 +547,7 @@ func newCmdAndroidHardwareBootIBootControl_SetSnapshotMergeStatus() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -45,7 +47,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnCanc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnCanc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
 			}
 			if err != nil {
 				return err
@@ -80,7 +82,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnCanc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -100,7 +102,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnSucc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -111,7 +113,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnSucc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
 			}
 			if err != nil {
 				return err
@@ -127,7 +129,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnSucc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -145,7 +147,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnFail
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -156,7 +158,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnFail
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
 			}
 			if err != nil {
 				return err
@@ -170,7 +172,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_OnFail
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -188,7 +190,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_IsComp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -199,7 +201,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_IsComp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
 			}
 			if err != nil {
 				return err
@@ -213,7 +215,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_IsComp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -231,7 +233,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_Cancel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -242,7 +244,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_Cancel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationCallback")
 			}
 			if err != nil {
 				return err
@@ -256,7 +258,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationCallback_Cancel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -287,7 +289,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnConne
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -298,7 +300,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnConne
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
 			}
 			if err != nil {
 				return err
@@ -322,7 +324,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnConne
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -344,7 +346,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnDisco
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -355,7 +357,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnDisco
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnDisco
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -387,7 +389,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnField
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -398,7 +400,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnField
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.assist.classification.IFieldClassificationService")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdAndroidServiceAssistClassificationIFieldClassificationService_OnField
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

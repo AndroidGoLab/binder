@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/graphics"
@@ -64,7 +66,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_UpdateS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -75,7 +77,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_UpdateS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -119,7 +121,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_UpdateS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -149,7 +151,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -160,7 +162,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -174,7 +176,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -192,7 +194,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -203,7 +205,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSession_FinishS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSessionCallback
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSessionCallback
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IAccessibilityInputMethodSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdComAndroidInternalInputmethodIAccessibilityInputMethodSessionCallback
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -319,7 +321,7 @@ func newCmdComAndroidInternalInputmethodIBooleanListener_OnResult() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -330,7 +332,7 @@ func newCmdComAndroidInternalInputmethodIBooleanListener_OnResult() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IBooleanListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IBooleanListener")
 			}
 			if err != nil {
 				return err
@@ -349,7 +351,7 @@ func newCmdComAndroidInternalInputmethodIBooleanListener_OnResult() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -381,7 +383,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnRes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -392,7 +394,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnRes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IConnectionlessHandwritingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IConnectionlessHandwritingCallback")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnRes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -431,7 +433,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnErr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -442,7 +444,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnErr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IConnectionlessHandwritingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IConnectionlessHandwritingCallback")
 			}
 			if err != nil {
 				return err
@@ -461,7 +463,7 @@ func newCmdComAndroidInternalInputmethodIConnectionlessHandwritingCallback_OnErr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -494,7 +496,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -505,7 +507,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
 			}
 			if err != nil {
 				return err
@@ -549,7 +551,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -579,7 +581,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnProgress() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -590,7 +592,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnProgress() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
 			}
 			if err != nil {
 				return err
@@ -618,7 +620,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_OnProgress() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -640,7 +642,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_HasPendingImeVisibilityReque
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -651,7 +653,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_HasPendingImeVisibilityReque
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IImeTracker")
 			}
 			if err != nil {
 				return err
@@ -665,7 +667,7 @@ func newCmdComAndroidInternalInputmethodIImeTracker_HasPendingImeVisibilityReque
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -700,7 +702,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -711,7 +713,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -725,7 +727,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -743,7 +745,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -754,7 +756,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -770,7 +772,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -788,7 +790,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -799,7 +801,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -818,7 +820,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -838,7 +840,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -849,7 +851,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -863,7 +865,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -881,7 +883,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -892,7 +894,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -906,7 +908,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -924,7 +926,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -935,7 +937,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -949,7 +951,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -967,7 +969,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -978,7 +980,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInlineSuggestionsRequestCallback")
 			}
 			if err != nil {
 				return err
@@ -992,7 +994,7 @@ func newCmdComAndroidInternalInputmethodIInlineSuggestionsRequestCallback_OnInli
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1022,7 +1024,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Take() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1033,7 +1035,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Take() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputContentUriToken")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputContentUriToken")
 			}
 			if err != nil {
 				return err
@@ -1047,7 +1049,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Take() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1065,7 +1067,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Release() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1076,7 +1078,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Release() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputContentUriToken")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputContentUriToken")
 			}
 			if err != nil {
 				return err
@@ -1090,7 +1092,7 @@ func newCmdComAndroidInternalInputmethodIInputContentUriToken_Release() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1131,7 +1133,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnCreateInlineSuggestionsRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1142,7 +1144,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnCreateInlineSuggestionsRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1168,7 +1170,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnCreateInlineSuggestionsRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1188,7 +1190,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UnbindInput() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1199,7 +1201,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UnbindInput() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1213,7 +1215,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UnbindInput() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1231,7 +1233,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnNavButtonFlagsChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1242,7 +1244,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnNavButtonFlagsChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1261,7 +1263,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_OnNavButtonFlagsChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1281,7 +1283,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CreateSession() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1292,7 +1294,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CreateSession() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1318,7 +1320,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CreateSession() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1338,7 +1340,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetSessionEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1349,7 +1351,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetSessionEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1378,7 +1380,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetSessionEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1400,7 +1402,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UpdateEditorToolType() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1411,7 +1413,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UpdateEditorToolType() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1430,7 +1432,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_UpdateEditorToolType() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1450,7 +1452,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_StartStylusHandwriting() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1461,7 +1463,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_StartStylusHandwriting() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1493,7 +1495,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_StartStylusHandwriting() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1515,7 +1517,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CommitHandwritingDelegation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1526,7 +1528,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CommitHandwritingDelegation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1540,7 +1542,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_CommitHandwritingDelegation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1558,7 +1560,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_DiscardHandwritingDelegatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1569,7 +1571,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_DiscardHandwritingDelegatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1583,7 +1585,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_DiscardHandwritingDelegatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1601,7 +1603,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_InitInkWindow() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1612,7 +1614,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_InitInkWindow() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1626,7 +1628,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_InitInkWindow() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1644,7 +1646,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_FinishStylusHandwriting() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1655,7 +1657,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_FinishStylusHandwriting() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1669,7 +1671,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_FinishStylusHandwriting() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1687,7 +1689,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_RemoveStylusHandwritingWind
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1698,7 +1700,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_RemoveStylusHandwritingWind
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1712,7 +1714,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_RemoveStylusHandwritingWind
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1730,7 +1732,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetStylusWindowIdleTimeoutF
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1741,7 +1743,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetStylusWindowIdleTimeoutF
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethod")
 			}
 			if err != nil {
 				return err
@@ -1760,7 +1762,7 @@ func newCmdComAndroidInternalInputmethodIInputMethod_SetStylusWindowIdleTimeoutF
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1801,7 +1803,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindMethod() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1812,7 +1814,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindMethod() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -1828,7 +1830,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindMethod() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1846,7 +1848,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnStartInputResult() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1857,7 +1859,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnStartInputResult() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -1878,7 +1880,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnStartInputResult() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1898,7 +1900,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindAccessibilitySe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1909,7 +1911,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindAccessibilitySe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -1930,7 +1932,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnBindAccessibilitySe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1950,7 +1952,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindMethod() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1961,7 +1963,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindMethod() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -1985,7 +1987,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindMethod() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2007,7 +2009,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindAccessibility
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2018,7 +2020,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindAccessibility
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2042,7 +2044,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_OnUnbindAccessibility
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2064,7 +2066,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetActive() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2075,7 +2077,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetActive() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2099,7 +2101,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetActive() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2121,7 +2123,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetInteractive() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2132,7 +2134,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetInteractive() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2156,7 +2158,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetInteractive() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2178,7 +2180,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ScheduleStartInputIfN
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2189,7 +2191,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ScheduleStartInputIfN
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2208,7 +2210,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ScheduleStartInputIfN
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2228,7 +2230,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ReportFullscreenMode(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2239,7 +2241,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ReportFullscreenMode(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2258,7 +2260,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ReportFullscreenMode(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2278,7 +2280,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetImeTraceEnabled() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2289,7 +2291,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetImeTraceEnabled() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2308,7 +2310,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_SetImeTraceEnabled() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2328,7 +2330,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ThrowExceptionFromSys
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2339,7 +2341,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ThrowExceptionFromSys
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodClient")
 			}
 			if err != nil {
 				return err
@@ -2358,7 +2360,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodClient_ThrowExceptionFromSys
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2401,7 +2403,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetImeW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2412,7 +2414,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetImeW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2436,7 +2438,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetImeW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2458,7 +2460,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2469,7 +2471,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2492,7 +2494,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2512,7 +2514,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_CreateI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2523,7 +2525,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_CreateI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2546,7 +2548,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_CreateI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2566,7 +2568,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportF
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2577,7 +2579,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportF
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2596,7 +2598,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ReportF
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2616,7 +2618,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetInpu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2627,7 +2629,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetInpu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2648,7 +2650,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SetInpu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2668,7 +2670,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_UpdateS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2679,7 +2681,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_UpdateS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2703,7 +2705,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_UpdateS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2725,7 +2727,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2736,7 +2738,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2752,7 +2754,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2770,7 +2772,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2781,7 +2783,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2802,7 +2804,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchT
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2822,7 +2824,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ShouldO
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2833,7 +2835,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ShouldO
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2849,7 +2851,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ShouldO
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2867,7 +2869,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_NotifyU
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2878,7 +2880,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_NotifyU
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2892,7 +2894,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_NotifyU
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2910,7 +2912,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_OnStylu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2921,7 +2923,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_OnStylu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2945,7 +2947,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_OnStylu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2967,7 +2969,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ResetSt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2978,7 +2980,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ResetSt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -2997,7 +2999,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_ResetSt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3017,7 +3019,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchK
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3028,7 +3030,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchK
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodPrivilegedOperations")
 			}
 			if err != nil {
 				return err
@@ -3047,7 +3049,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodPrivilegedOperations_SwitchK
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3084,7 +3086,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateSelection() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3095,7 +3097,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateSelection() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3139,7 +3141,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateSelection() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3169,7 +3171,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_ViewClicked() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3180,7 +3182,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_ViewClicked() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3199,7 +3201,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_ViewClicked() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3219,7 +3221,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateCursor() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3230,7 +3232,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateCursor() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3246,7 +3248,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_UpdateCursor() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3264,7 +3266,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_AppPrivateCommand() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3275,7 +3277,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_AppPrivateCommand() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3296,7 +3298,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_AppPrivateCommand() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3316,7 +3318,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishSession() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3327,7 +3329,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishSession() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3341,7 +3343,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishSession() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3359,7 +3361,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_RemoveImeSurface() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3370,7 +3372,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_RemoveImeSurface() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3384,7 +3386,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_RemoveImeSurface() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3402,7 +3404,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishInput() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3413,7 +3415,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishInput() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSession")
 			}
 			if err != nil {
 				return err
@@ -3427,7 +3429,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSession_FinishInput() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3456,7 +3458,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSessionCallback_SessionCreat
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3467,7 +3469,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSessionCallback_SessionCreat
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IInputMethodSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -3491,7 +3493,7 @@ func newCmdComAndroidInternalInputmethodIInputMethodSessionCallback_SessionCreat
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3530,7 +3532,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3541,7 +3543,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3569,7 +3571,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3591,7 +3593,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_SetS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3602,7 +3604,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_SetS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3628,7 +3630,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_SetS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3650,7 +3652,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetS
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3661,7 +3663,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetS
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3694,7 +3696,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetS
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3718,7 +3720,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Dele
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3729,7 +3731,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Dele
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3755,7 +3757,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Dele
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3777,7 +3779,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Send
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3788,7 +3790,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Send
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3821,7 +3823,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Send
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3852,7 +3854,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3863,7 +3865,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3884,7 +3886,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3904,7 +3906,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3915,7 +3917,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3936,7 +3938,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Perf
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3956,7 +3958,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3967,7 +3969,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -3990,7 +3992,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_GetC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4010,7 +4012,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Clea
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4021,7 +4023,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Clea
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteAccessibilityInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4042,7 +4044,7 @@ func newCmdComAndroidInternalInputmethodIRemoteAccessibilityInputConnection_Clea
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4098,7 +4100,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextBeforeCurs
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4109,7 +4111,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextBeforeCurs
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4137,7 +4139,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextBeforeCurs
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4159,7 +4161,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextAfterCurso
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4170,7 +4172,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextAfterCurso
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4198,7 +4200,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetTextAfterCurso
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4220,7 +4222,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetCursorCapsMode
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4231,7 +4233,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetCursorCapsMode
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4254,7 +4256,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetCursorCapsMode
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4274,7 +4276,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4285,7 +4287,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4311,7 +4313,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4333,7 +4335,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4344,7 +4346,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4370,7 +4372,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_DeleteSurrounding
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4392,7 +4394,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingText(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4403,7 +4405,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingText(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4429,7 +4431,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingText(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4451,7 +4453,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_FinishComposingTe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4462,7 +4464,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_FinishComposingTe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4478,7 +4480,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_FinishComposingTe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4496,7 +4498,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CommitText() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4507,7 +4509,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CommitText() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4533,7 +4535,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CommitText() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4555,7 +4557,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetSelection() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4566,7 +4568,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetSelection() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4592,7 +4594,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetSelection() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4614,7 +4616,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformEditorActi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4625,7 +4627,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformEditorActi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4646,7 +4648,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformEditorActi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4666,7 +4668,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformContextMen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4677,7 +4679,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformContextMen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4698,7 +4700,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformContextMen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4718,7 +4720,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_BeginBatchEdit() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4729,7 +4731,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_BeginBatchEdit() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4745,7 +4747,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_BeginBatchEdit() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4763,7 +4765,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_EndBatchEdit() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4774,7 +4776,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_EndBatchEdit() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4790,7 +4792,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_EndBatchEdit() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4808,7 +4810,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SendKeyEvent() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4819,7 +4821,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SendKeyEvent() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4852,7 +4854,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SendKeyEvent() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4883,7 +4885,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ClearMetaKeyState
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4894,7 +4896,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ClearMetaKeyState
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4915,7 +4917,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ClearMetaKeyState
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4935,7 +4937,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformSpellCheck
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4946,7 +4948,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformSpellCheck
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -4962,7 +4964,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformSpellCheck
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4980,7 +4982,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformPrivateCom
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4991,7 +4993,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformPrivateCom
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5014,7 +5016,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_PerformPrivateCom
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5034,7 +5036,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingRegio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5045,7 +5047,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingRegio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5071,7 +5073,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetComposingRegio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5093,7 +5095,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSelectedText()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5104,7 +5106,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSelectedText()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5127,7 +5129,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSelectedText()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5147,7 +5149,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5158,7 +5160,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5186,7 +5188,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5208,7 +5210,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5219,7 +5221,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5252,7 +5254,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestCursorUpda
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5276,7 +5278,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestTextBounds
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5287,7 +5289,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestTextBounds
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5307,7 +5309,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_RequestTextBounds
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5325,7 +5327,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSurroundingTex
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5336,7 +5338,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSurroundingTex
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5369,7 +5371,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_GetSurroundingTex
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5393,7 +5395,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetImeConsumesInp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5404,7 +5406,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetImeConsumesInp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5425,7 +5427,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_SetImeConsumesInp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5445,7 +5447,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CancelCancellatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5456,7 +5458,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CancelCancellatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5479,7 +5481,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_CancelCancellatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5499,7 +5501,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ForgetCancellatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5510,7 +5512,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ForgetCancellatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.inputmethod.IRemoteInputConnection")
 			}
 			if err != nil {
 				return err
@@ -5533,7 +5535,7 @@ func newCmdComAndroidInternalInputmethodIRemoteInputConnection_ForgetCancellatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

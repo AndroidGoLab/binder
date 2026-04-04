@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/view"
@@ -43,7 +45,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbedded() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbedded() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
 			}
 			if err != nil {
 				return err
@@ -97,7 +99,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbedded() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbeddedSurfaceCon
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbeddedSurfaceCon
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
 			}
 			if err != nil {
 				return err
@@ -157,7 +159,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_AttachEmbeddedSurfaceCon
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -177,7 +179,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_TearDownEmbeddedSurfaceC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -188,7 +190,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_TearDownEmbeddedSurfaceC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.test.viewembed.IAttachEmbeddedWindow")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdComAndroidTestViewembedIAttachEmbeddedWindow_TearDownEmbeddedSurfaceC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

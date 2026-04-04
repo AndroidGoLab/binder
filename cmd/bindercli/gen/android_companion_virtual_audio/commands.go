@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/companion/virtual/audio"
@@ -45,7 +47,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnPlaybackCon
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnPlaybackCon
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioConfigChangedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioConfigChangedCallback")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnPlaybackCon
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnRecordingCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnRecordingCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioConfigChangedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioConfigChangedCallback")
 			}
 			if err != nil {
 				return err
@@ -137,7 +139,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioConfigChangedCallback_OnRecordingCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -168,7 +170,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioRoutingCallback_OnAppsNeedingAudioR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -179,7 +181,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioRoutingCallback_OnAppsNeedingAudioR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioRoutingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.audio.IAudioRoutingCallback")
 			}
 			if err != nil {
 				return err
@@ -208,7 +210,7 @@ func newCmdAndroidCompanionVirtualAudioIAudioRoutingCallback_OnAppsNeedingAudioR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

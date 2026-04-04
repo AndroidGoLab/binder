@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/games"
@@ -46,7 +48,7 @@ func newCmdAndroidServiceGamesIGameService_Connected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidServiceGamesIGameService_Connected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidServiceGamesIGameService_Connected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdAndroidServiceGamesIGameService_Disconnected() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdAndroidServiceGamesIGameService_Disconnected() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
 			}
 			if err != nil {
 				return err
@@ -126,7 +128,7 @@ func newCmdAndroidServiceGamesIGameService_Disconnected() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -144,7 +146,7 @@ func newCmdAndroidServiceGamesIGameService_GameStarted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -155,7 +157,7 @@ func newCmdAndroidServiceGamesIGameService_GameStarted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameService")
 			}
 			if err != nil {
 				return err
@@ -171,7 +173,7 @@ func newCmdAndroidServiceGamesIGameService_GameStarted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -200,7 +202,7 @@ func newCmdAndroidServiceGamesIGameServiceController_CreateGameSession() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -211,7 +213,7 @@ func newCmdAndroidServiceGamesIGameServiceController_CreateGameSession() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameServiceController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameServiceController")
 			}
 			if err != nil {
 				return err
@@ -230,7 +232,7 @@ func newCmdAndroidServiceGamesIGameServiceController_CreateGameSession() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -263,7 +265,7 @@ func newCmdAndroidServiceGamesIGameSession_OnDestroyed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -274,7 +276,7 @@ func newCmdAndroidServiceGamesIGameSession_OnDestroyed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
 			}
 			if err != nil {
 				return err
@@ -288,7 +290,7 @@ func newCmdAndroidServiceGamesIGameSession_OnDestroyed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -306,7 +308,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTransientSystemBarVisibilityFromRev
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -317,7 +319,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTransientSystemBarVisibilityFromRev
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTransientSystemBarVisibilityFromRev
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -356,7 +358,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTaskFocusChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -367,7 +369,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTaskFocusChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSession")
 			}
 			if err != nil {
 				return err
@@ -386,7 +388,7 @@ func newCmdAndroidServiceGamesIGameSession_OnTaskFocusChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -418,7 +420,7 @@ func newCmdAndroidServiceGamesIGameSessionController_TakeScreenshot() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -429,7 +431,7 @@ func newCmdAndroidServiceGamesIGameSessionController_TakeScreenshot() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionController")
 			}
 			if err != nil {
 				return err
@@ -450,7 +452,7 @@ func newCmdAndroidServiceGamesIGameSessionController_TakeScreenshot() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -470,7 +472,7 @@ func newCmdAndroidServiceGamesIGameSessionController_RestartGame() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -481,7 +483,7 @@ func newCmdAndroidServiceGamesIGameSessionController_RestartGame() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionController")
 			}
 			if err != nil {
 				return err
@@ -500,7 +502,7 @@ func newCmdAndroidServiceGamesIGameSessionController_RestartGame() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -531,7 +533,7 @@ func newCmdAndroidServiceGamesIGameSessionService_Create() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -542,7 +544,7 @@ func newCmdAndroidServiceGamesIGameSessionService_Create() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.games.IGameSessionService")
 			}
 			if err != nil {
 				return err
@@ -572,7 +574,7 @@ func newCmdAndroidServiceGamesIGameSessionService_Create() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

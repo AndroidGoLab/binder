@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/media/audiopolicy"
@@ -46,7 +48,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusGrant() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusGrant() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusGrant() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -98,7 +100,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusLoss() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -109,7 +111,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusLoss() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusLoss() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusRequest()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusRequest()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -182,7 +184,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusRequest()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -202,7 +204,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusAbandon()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -213,7 +215,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusAbandon()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -229,7 +231,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyAudioFocusAbandon()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -247,7 +249,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyMixStateUpdate() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -258,7 +260,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyMixStateUpdate() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -282,7 +284,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyMixStateUpdate() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -304,7 +306,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyVolumeAdjust() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -315,7 +317,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyVolumeAdjust() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyVolumeAdjust() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -354,7 +356,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyUnregistration() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -365,7 +367,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyUnregistration() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.audiopolicy.IAudioPolicyCallback")
 			}
 			if err != nil {
 				return err
@@ -379,7 +381,7 @@ func newCmdAndroidMediaAudiopolicyIAudioPolicyCallback_NotifyUnregistration() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

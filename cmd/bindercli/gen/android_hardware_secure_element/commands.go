@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/secure_element"
@@ -48,7 +50,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_CloseChannel() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_CloseChannel() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_CloseChannel() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -98,7 +100,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_GetAtr() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -109,7 +111,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_GetAtr() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -123,7 +125,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_GetAtr() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -141,7 +143,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Init() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -152,7 +154,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Init() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -176,7 +178,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Init() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -196,7 +198,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_IsCardPresent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -207,7 +209,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_IsCardPresent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -221,7 +223,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_IsCardPresent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -239,7 +241,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenBasicChannel() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -250,7 +252,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenBasicChannel() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -278,7 +280,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenBasicChannel() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -300,7 +302,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenLogicalChannel() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -311,7 +313,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenLogicalChannel() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -339,7 +341,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_OpenLogicalChannel() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -361,7 +363,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Reset() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -372,7 +374,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Reset() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -386,7 +388,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Reset() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -404,7 +406,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Transmit() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -415,7 +417,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Transmit() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElement")
 			}
 			if err != nil {
 				return err
@@ -438,7 +440,7 @@ func newCmdAndroidHardwareSecure_elementISecureElement_Transmit() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -469,7 +471,7 @@ func newCmdAndroidHardwareSecure_elementISecureElementCallback_OnStateChange() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -480,7 +482,7 @@ func newCmdAndroidHardwareSecure_elementISecureElementCallback_OnStateChange() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElementCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.secure_element.ISecureElementCallback")
 			}
 			if err != nil {
 				return err
@@ -504,7 +506,7 @@ func newCmdAndroidHardwareSecure_elementISecureElementCallback_OnStateChange() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

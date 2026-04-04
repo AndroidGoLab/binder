@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/health"
@@ -55,7 +57,7 @@ func newCmdAndroidHardwareHealthIHealth_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -66,7 +68,7 @@ func newCmdAndroidHardwareHealthIHealth_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidHardwareHealthIHealth_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -110,7 +112,7 @@ func newCmdAndroidHardwareHealthIHealth_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -121,7 +123,7 @@ func newCmdAndroidHardwareHealthIHealth_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -145,7 +147,7 @@ func newCmdAndroidHardwareHealthIHealth_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -165,7 +167,7 @@ func newCmdAndroidHardwareHealthIHealth_Update() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -176,7 +178,7 @@ func newCmdAndroidHardwareHealthIHealth_Update() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -190,7 +192,7 @@ func newCmdAndroidHardwareHealthIHealth_Update() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -208,7 +210,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeCounterUah() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -219,7 +221,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeCounterUah() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -233,7 +235,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeCounterUah() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -251,7 +253,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentNowMicroamps() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -262,7 +264,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentNowMicroamps() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentNowMicroamps() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentAverageMicroamps() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentAverageMicroamps() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCurrentAverageMicroamps() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -337,7 +339,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCapacity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -348,7 +350,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCapacity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -362,7 +364,7 @@ func newCmdAndroidHardwareHealthIHealth_GetCapacity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -380,7 +382,7 @@ func newCmdAndroidHardwareHealthIHealth_GetEnergyCounterNwh() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -391,7 +393,7 @@ func newCmdAndroidHardwareHealthIHealth_GetEnergyCounterNwh() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -405,7 +407,7 @@ func newCmdAndroidHardwareHealthIHealth_GetEnergyCounterNwh() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -423,7 +425,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -434,7 +436,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -448,7 +450,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargeStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -466,7 +468,7 @@ func newCmdAndroidHardwareHealthIHealth_GetStorageInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -477,7 +479,7 @@ func newCmdAndroidHardwareHealthIHealth_GetStorageInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -491,7 +493,7 @@ func newCmdAndroidHardwareHealthIHealth_GetStorageInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -509,7 +511,7 @@ func newCmdAndroidHardwareHealthIHealth_GetDiskStats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -520,7 +522,7 @@ func newCmdAndroidHardwareHealthIHealth_GetDiskStats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -534,7 +536,7 @@ func newCmdAndroidHardwareHealthIHealth_GetDiskStats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -552,7 +554,7 @@ func newCmdAndroidHardwareHealthIHealth_GetHealthInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -563,7 +565,7 @@ func newCmdAndroidHardwareHealthIHealth_GetHealthInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -577,7 +579,7 @@ func newCmdAndroidHardwareHealthIHealth_GetHealthInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -595,7 +597,7 @@ func newCmdAndroidHardwareHealthIHealth_SetChargingPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareHealthIHealth_SetChargingPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -626,7 +628,7 @@ func newCmdAndroidHardwareHealthIHealth_SetChargingPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -646,7 +648,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargingPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -657,7 +659,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargingPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -671,7 +673,7 @@ func newCmdAndroidHardwareHealthIHealth_GetChargingPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -689,7 +691,7 @@ func newCmdAndroidHardwareHealthIHealth_GetBatteryHealthData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -700,7 +702,7 @@ func newCmdAndroidHardwareHealthIHealth_GetBatteryHealthData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealth")
 			}
 			if err != nil {
 				return err
@@ -714,7 +716,7 @@ func newCmdAndroidHardwareHealthIHealth_GetBatteryHealthData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -743,7 +745,7 @@ func newCmdAndroidHardwareHealthIHealthInfoCallback_HealthInfoChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -754,7 +756,7 @@ func newCmdAndroidHardwareHealthIHealthInfoCallback_HealthInfoChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealthInfoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.health.IHealthInfoCallback")
 			}
 			if err != nil {
 				return err
@@ -820,7 +822,7 @@ func newCmdAndroidHardwareHealthIHealthInfoCallback_HealthInfoChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

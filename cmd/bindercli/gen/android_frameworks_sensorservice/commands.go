@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/frameworks/sensorservice"
@@ -45,7 +47,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_DisableSensor() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_DisableSensor() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueue")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueue")
 			}
 			if err != nil {
 				return err
@@ -75,7 +77,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_DisableSensor() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -95,7 +97,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_EnableSensor() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -106,7 +108,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_EnableSensor() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueue")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueue")
 			}
 			if err != nil {
 				return err
@@ -135,7 +137,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueue_EnableSensor() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -170,7 +172,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueueCallback_OnEvent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -181,7 +183,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueueCallback_OnEvent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueueCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.IEventQueueCallback")
 			}
 			if err != nil {
 				return err
@@ -206,7 +208,7 @@ func newCmdAndroidFrameworksSensorserviceIEventQueueCallback_OnEvent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -243,7 +245,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateAshmemDirectChanne
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -254,7 +256,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateAshmemDirectChanne
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
 			}
 			if err != nil {
 				return err
@@ -277,7 +279,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateAshmemDirectChanne
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -299,7 +301,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateEventQueue() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -310,7 +312,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateEventQueue() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
 			}
 			if err != nil {
 				return err
@@ -334,7 +336,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateEventQueue() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -354,7 +356,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateGrallocDirectChann
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -365,7 +367,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateGrallocDirectChann
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
 			}
 			if err != nil {
 				return err
@@ -389,7 +391,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_CreateGrallocDirectChann
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -411,7 +413,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetDefaultSensor() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -422,7 +424,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetDefaultSensor() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
 			}
 			if err != nil {
 				return err
@@ -442,7 +444,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetDefaultSensor() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -462,7 +464,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetSensorList() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -473,7 +475,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetSensorList() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.sensorservice.ISensorManager")
 			}
 			if err != nil {
 				return err
@@ -487,7 +489,7 @@ func newCmdAndroidFrameworksSensorserviceISensorManager_GetSensorList() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

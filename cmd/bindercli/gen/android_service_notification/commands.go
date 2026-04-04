@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net"
@@ -46,7 +48,7 @@ func newCmdAndroidServiceNotificationIConditionListener_OnConditionsReceived() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidServiceNotificationIConditionListener_OnConditionsReceived() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionListener")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidServiceNotificationIConditionListener_OnConditionsReceived() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -115,7 +117,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnConnected() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -126,7 +128,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnConnected() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
 			}
 			if err != nil {
 				return err
@@ -140,7 +142,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnConnected() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -158,7 +160,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnSubscribe() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -169,7 +171,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnSubscribe() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
 			}
 			if err != nil {
 				return err
@@ -185,7 +187,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnSubscribe() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -203,7 +205,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnUnsubscribe() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -214,7 +216,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnUnsubscribe() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.IConditionProvider")
 			}
 			if err != nil {
 				return err
@@ -230,7 +232,7 @@ func newCmdAndroidServiceNotificationIConditionProvider_OnUnsubscribe() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -276,7 +278,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerConnected()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -287,7 +289,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerConnected()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -303,7 +305,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerConnected()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -321,7 +323,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationPosted(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -332,7 +334,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationPosted(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -358,7 +360,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationPosted(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -378,7 +380,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnStatusBarIconsBehav
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -389,7 +391,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnStatusBarIconsBehav
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -408,7 +410,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnStatusBarIconsBehav
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -428,7 +430,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRemoved
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -439,7 +441,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRemoved
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -472,7 +474,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRemoved
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -494,7 +496,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRanking
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -505,7 +507,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRanking
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -521,7 +523,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationRanking
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -539,7 +541,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerHintsChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -550,7 +552,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerHintsChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -569,7 +571,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnListenerHintsChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -589,7 +591,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnInterruptionFilterC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -600,7 +602,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnInterruptionFilterC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -619,7 +621,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnInterruptionFilterC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -639,7 +641,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationSnoozed
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -650,7 +652,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationSnoozed
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -679,7 +681,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationSnoozed
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -701,7 +703,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationsSeen()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -712,7 +714,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationsSeen()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -735,7 +737,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationsSeen()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -755,7 +757,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelRevealed() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -766,7 +768,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelRevealed() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -785,7 +787,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelRevealed() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -805,7 +807,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelHidden() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -816,7 +818,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelHidden() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -830,7 +832,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnPanelHidden() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -848,7 +850,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationVisibil
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -859,7 +861,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationVisibil
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -883,7 +885,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationVisibil
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -905,7 +907,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationExpansi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -916,7 +918,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationExpansi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -945,7 +947,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationExpansi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -969,7 +971,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationDirectR
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -980,7 +982,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationDirectR
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -999,7 +1001,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationDirectR
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1019,7 +1021,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnSuggestedReplySent(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1030,7 +1032,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnSuggestedReplySent(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -1059,7 +1061,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnSuggestedReplySent(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1083,7 +1085,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationClicked
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1094,7 +1096,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationClicked
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -1113,7 +1115,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationClicked
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1133,7 +1135,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnAllowedAdjustmentsC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1144,7 +1146,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnAllowedAdjustmentsC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -1158,7 +1160,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnAllowedAdjustmentsC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1176,7 +1178,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationFeedbac
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1187,7 +1189,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationFeedbac
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.INotificationListener")
 			}
 			if err != nil {
 				return err
@@ -1210,7 +1212,7 @@ func newCmdAndroidServiceNotificationINotificationListener_OnNotificationFeedbac
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1241,7 +1243,7 @@ func newCmdAndroidServiceNotificationIStatusBarNotificationHolder_Get() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1252,7 +1254,7 @@ func newCmdAndroidServiceNotificationIStatusBarNotificationHolder_Get() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.notification.IStatusBarNotificationHolder")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.notification.IStatusBarNotificationHolder")
 			}
 			if err != nil {
 				return err
@@ -1266,7 +1268,7 @@ func newCmdAndroidServiceNotificationIStatusBarNotificationHolder_Get() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

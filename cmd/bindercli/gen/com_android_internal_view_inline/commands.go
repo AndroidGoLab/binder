@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/view"
@@ -43,7 +45,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnContent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnContent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
 			}
 			if err != nil {
 				return err
@@ -80,7 +82,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnContent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnClick() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnClick() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
 			}
 			if err != nil {
 				return err
@@ -127,7 +129,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnClick() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -145,7 +147,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnLongClick() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -156,7 +158,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnLongClick() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentCallback")
 			}
 			if err != nil {
 				return err
@@ -170,7 +172,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentCallback_OnLongClick() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -201,7 +203,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_ProvideContent() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -212,7 +214,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_ProvideContent() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_ProvideContent() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -270,7 +272,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_RequestSurfacePack
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -281,7 +283,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_RequestSurfacePack
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
 			}
 			if err != nil {
 				return err
@@ -295,7 +297,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_RequestSurfacePack
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -313,7 +315,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_OnSurfacePackageRe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -324,7 +326,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_OnSurfacePackageRe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.view.inline.IInlineContentProvider")
 			}
 			if err != nil {
 				return err
@@ -338,7 +340,7 @@ func newCmdComAndroidInternalViewInlineIInlineContentProvider_OnSurfacePackageRe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

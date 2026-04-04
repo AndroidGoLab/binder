@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/pm/verify/domain"
@@ -49,7 +51,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_QueryValidVeri
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_QueryValidVeri
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_QueryValidVeri
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -92,7 +94,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -103,7 +105,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -122,7 +124,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -142,7 +144,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -153,7 +155,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -172,7 +174,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetDomainVerif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -192,7 +194,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetOwnersForDo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -203,7 +205,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetOwnersForDo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -222,7 +224,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetOwnersForDo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -242,7 +244,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -253,7 +255,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -279,7 +281,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -301,7 +303,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -312,7 +314,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -336,7 +338,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -395,7 +397,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetDomainVerif
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -417,7 +419,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetUriRelative
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -428,7 +430,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetUriRelative
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -449,7 +451,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_SetUriRelative
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -469,7 +471,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetUriRelative
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -480,7 +482,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetUriRelative
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.content.pm.verify.domain.IDomainVerificationManager")
 			}
 			if err != nil {
 				return err
@@ -508,7 +510,7 @@ func newCmdAndroidContentPmVerifyDomainIDomainVerificationManager_GetUriRelative
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

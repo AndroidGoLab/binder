@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -44,7 +46,7 @@ func newCmdAndroidServiceVrIPersistentVrStateCallbacks_OnPersistentVrStateChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidServiceVrIPersistentVrStateCallbacks_OnPersistentVrStateChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IPersistentVrStateCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IPersistentVrStateCallbacks")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidServiceVrIPersistentVrStateCallbacks_OnPersistentVrStateChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -105,7 +107,7 @@ func newCmdAndroidServiceVrIVrListener_FocusedActivityChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -116,7 +118,7 @@ func newCmdAndroidServiceVrIVrListener_FocusedActivityChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrListener")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdAndroidServiceVrIVrListener_FocusedActivityChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -185,7 +187,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -196,7 +198,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -220,7 +222,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -240,7 +242,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterListener() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -251,7 +253,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterListener() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -275,7 +277,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterListener() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -295,7 +297,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterPersistentVrStateListener() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -306,7 +308,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterPersistentVrStateListener() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -330,7 +332,7 @@ func newCmdAndroidServiceVrIVrManager_RegisterPersistentVrStateListener() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -350,7 +352,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterPersistentVrStateListener() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -361,7 +363,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterPersistentVrStateListener() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdAndroidServiceVrIVrManager_UnregisterPersistentVrStateListener() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -405,7 +407,7 @@ func newCmdAndroidServiceVrIVrManager_GetVrModeState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -416,7 +418,7 @@ func newCmdAndroidServiceVrIVrManager_GetVrModeState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -430,7 +432,7 @@ func newCmdAndroidServiceVrIVrManager_GetVrModeState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -448,7 +450,7 @@ func newCmdAndroidServiceVrIVrManager_GetPersistentVrModeEnabled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -459,7 +461,7 @@ func newCmdAndroidServiceVrIVrManager_GetPersistentVrModeEnabled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -473,7 +475,7 @@ func newCmdAndroidServiceVrIVrManager_GetPersistentVrModeEnabled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -491,7 +493,7 @@ func newCmdAndroidServiceVrIVrManager_SetPersistentVrModeEnabled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -502,7 +504,7 @@ func newCmdAndroidServiceVrIVrManager_SetPersistentVrModeEnabled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -521,7 +523,7 @@ func newCmdAndroidServiceVrIVrManager_SetPersistentVrModeEnabled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -541,7 +543,7 @@ func newCmdAndroidServiceVrIVrManager_SetVr2dDisplayProperties() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -552,7 +554,7 @@ func newCmdAndroidServiceVrIVrManager_SetVr2dDisplayProperties() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -568,7 +570,7 @@ func newCmdAndroidServiceVrIVrManager_SetVr2dDisplayProperties() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -586,7 +588,7 @@ func newCmdAndroidServiceVrIVrManager_GetVr2dDisplayId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -597,7 +599,7 @@ func newCmdAndroidServiceVrIVrManager_GetVr2dDisplayId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -611,7 +613,7 @@ func newCmdAndroidServiceVrIVrManager_GetVr2dDisplayId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -629,7 +631,7 @@ func newCmdAndroidServiceVrIVrManager_SetAndBindCompositor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -640,7 +642,7 @@ func newCmdAndroidServiceVrIVrManager_SetAndBindCompositor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -659,7 +661,7 @@ func newCmdAndroidServiceVrIVrManager_SetAndBindCompositor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -679,7 +681,7 @@ func newCmdAndroidServiceVrIVrManager_SetStandbyEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -690,7 +692,7 @@ func newCmdAndroidServiceVrIVrManager_SetStandbyEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrManager")
 			}
 			if err != nil {
 				return err
@@ -709,7 +711,7 @@ func newCmdAndroidServiceVrIVrManager_SetStandbyEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -740,7 +742,7 @@ func newCmdAndroidServiceVrIVrStateCallbacks_OnVrStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -751,7 +753,7 @@ func newCmdAndroidServiceVrIVrStateCallbacks_OnVrStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrStateCallbacks")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.vr.IVrStateCallbacks")
 			}
 			if err != nil {
 				return err
@@ -770,7 +772,7 @@ func newCmdAndroidServiceVrIVrStateCallbacks_OnVrStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

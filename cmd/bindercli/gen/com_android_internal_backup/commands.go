@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content/pm"
@@ -70,7 +72,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_Name() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -81,7 +83,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_Name() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -97,7 +99,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_Name() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -115,7 +117,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ConfigurationIntent() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -126,7 +128,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ConfigurationIntent() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -142,7 +144,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ConfigurationIntent() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -160,7 +162,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CurrentDestinationString() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -171,7 +173,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CurrentDestinationString() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -187,7 +189,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CurrentDestinationString() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntent() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntent() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -232,7 +234,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntent() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -250,7 +252,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntentLabel() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -261,7 +263,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntentLabel() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -277,7 +279,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_DataManagementIntentLabel() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -295,7 +297,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_TransportDirName() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -306,7 +308,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_TransportDirName() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -322,7 +324,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_TransportDirName() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -340,7 +342,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestBackupTime() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -351,7 +353,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestBackupTime() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -367,7 +369,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestBackupTime() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -385,7 +387,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_InitializeDevice() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -396,7 +398,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_InitializeDevice() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -420,7 +422,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_InitializeDevice() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -440,7 +442,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformBackup() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -451,7 +453,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformBackup() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -487,7 +489,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformBackup() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -511,7 +513,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ClearBackupData() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -522,7 +524,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ClearBackupData() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -548,7 +550,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_ClearBackupData() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -568,7 +570,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishBackup() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -579,7 +581,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishBackup() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -603,7 +605,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishBackup() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -623,7 +625,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetAvailableRestoreSets() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -634,7 +636,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetAvailableRestoreSets() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -650,7 +652,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetAvailableRestoreSets() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -668,7 +670,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetCurrentRestoreSet() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -679,7 +681,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetCurrentRestoreSet() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -695,7 +697,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetCurrentRestoreSet() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -713,7 +715,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_StartRestore() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -724,7 +726,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_StartRestore() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -764,7 +766,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_StartRestore() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -788,7 +790,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_NextRestorePackage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -799,7 +801,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_NextRestorePackage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -815,7 +817,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_NextRestorePackage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -833,7 +835,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetRestoreData() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -844,7 +846,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetRestoreData() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -873,7 +875,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetRestoreData() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -895,7 +897,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishRestore() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -906,7 +908,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishRestore() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_FinishRestore() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -950,7 +952,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestFullBackupTime() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -961,7 +963,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestFullBackupTime() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -977,7 +979,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_RequestFullBackupTime() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -995,7 +997,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformFullBackup() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1006,7 +1008,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformFullBackup() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1042,7 +1044,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_PerformFullBackup() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1066,7 +1068,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CheckFullBackupSize() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1077,7 +1079,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CheckFullBackupSize() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1106,7 +1108,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CheckFullBackupSize() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1128,7 +1130,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_SendBackupData() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1139,7 +1141,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_SendBackupData() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1168,7 +1170,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_SendBackupData() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1190,7 +1192,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CancelFullBackup() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1201,7 +1203,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CancelFullBackup() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1225,7 +1227,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_CancelFullBackup() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1245,7 +1247,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_IsAppEligibleForBackup() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1256,7 +1258,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_IsAppEligibleForBackup() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1279,7 +1281,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_IsAppEligibleForBackup() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1299,7 +1301,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupQuota() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1310,7 +1312,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupQuota() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1336,7 +1338,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupQuota() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1358,7 +1360,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetNextFullRestoreDataChunk(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1369,7 +1371,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetNextFullRestoreDataChunk(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1398,7 +1400,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetNextFullRestoreDataChunk(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1420,7 +1422,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_AbortFullRestore() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1431,7 +1433,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_AbortFullRestore() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1455,7 +1457,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_AbortFullRestore() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1475,7 +1477,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetTransportFlags() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1486,7 +1488,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetTransportFlags() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1502,7 +1504,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetTransportFlags() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1520,7 +1522,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupManagerMonitor() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1531,7 +1533,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupManagerMonitor() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.IBackupTransport")
 			}
 			if err != nil {
 				return err
@@ -1547,7 +1549,7 @@ func newCmdComAndroidInternalBackupIBackupTransport_GetBackupManagerMonitor() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1577,7 +1579,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationCompleteW
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1588,7 +1590,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationCompleteW
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.ITransportStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.ITransportStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -1607,7 +1609,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationCompleteW
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1627,7 +1629,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationComplete(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1638,7 +1640,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationComplete(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.ITransportStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.backup.ITransportStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -1652,7 +1654,7 @@ func newCmdComAndroidInternalBackupITransportStatusCallback_OnOperationComplete(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

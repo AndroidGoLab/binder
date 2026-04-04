@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -50,7 +52,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_AttachEngine() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -61,7 +63,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_AttachEngine() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
 			}
 			if err != nil {
 				return err
@@ -90,7 +92,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_AttachEngine() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -112,7 +114,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_EngineShown() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -123,7 +125,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_EngineShown() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
 			}
 			if err != nil {
 				return err
@@ -147,7 +149,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_EngineShown() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -167,7 +169,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_SetWallpaper() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -178,7 +180,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_SetWallpaper() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
 			}
 			if err != nil {
 				return err
@@ -197,7 +199,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_SetWallpaper() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -217,7 +219,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnWallpaperColorsChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -228,7 +230,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnWallpaperColorsChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
 			}
 			if err != nil {
 				return err
@@ -249,7 +251,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnWallpaperColorsChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -269,7 +271,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnLocalWallpaperColorsCha
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -280,7 +282,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnLocalWallpaperColorsCha
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperConnection")
 			}
 			if err != nil {
 				return err
@@ -303,7 +305,7 @@ func newCmdAndroidServiceWallpaperIWallpaperConnection_OnLocalWallpaperColorsCha
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -350,7 +352,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDesiredSize() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -361,7 +363,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDesiredSize() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDesiredSize() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDisplayPadding() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDisplayPadding() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -434,7 +436,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetDisplayPadding() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -452,7 +454,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetVisibility() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -463,7 +465,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetVisibility() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -482,7 +484,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetVisibility() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -502,7 +504,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurningOn() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -513,7 +515,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurningOn() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -527,7 +529,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurningOn() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -545,7 +547,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurnedOn() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -556,7 +558,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurnedOn() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -570,7 +572,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_OnScreenTurnedOn() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -588,7 +590,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetInAmbientMode() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -599,7 +601,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetInAmbientMode() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -623,7 +625,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetInAmbientMode() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -645,7 +647,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchPointer() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -656,7 +658,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchPointer() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -672,7 +674,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchPointer() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -690,7 +692,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchWallpaperCommand() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -701,7 +703,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchWallpaperCommand() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -737,7 +739,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_DispatchWallpaperCommand() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -763,7 +765,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RequestWallpaperColors() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -774,7 +776,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RequestWallpaperColors() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -788,7 +790,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RequestWallpaperColors() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -806,7 +808,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_Destroy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -817,7 +819,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_Destroy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -831,7 +833,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_Destroy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -849,7 +851,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetZoomOut() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -860,7 +862,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetZoomOut() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -879,7 +881,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetZoomOut() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -899,7 +901,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ResizePreview() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -910,7 +912,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ResizePreview() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -926,7 +928,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ResizePreview() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -944,7 +946,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RemoveLocalColorsAreas() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -955,7 +957,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RemoveLocalColorsAreas() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -980,7 +982,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_RemoveLocalColorsAreas() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1000,7 +1002,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_AddLocalColorsAreas() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1011,7 +1013,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_AddLocalColorsAreas() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -1036,7 +1038,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_AddLocalColorsAreas() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1056,7 +1058,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_MirrorSurfaceControl() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1067,7 +1069,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_MirrorSurfaceControl() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -1081,7 +1083,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_MirrorSurfaceControl() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1099,7 +1101,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ApplyDimming() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1110,7 +1112,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ApplyDimming() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -1129,7 +1131,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_ApplyDimming() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1149,7 +1151,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetWallpaperFlags() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1160,7 +1162,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetWallpaperFlags() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperEngine")
 			}
 			if err != nil {
 				return err
@@ -1179,7 +1181,7 @@ func newCmdAndroidServiceWallpaperIWallpaperEngine_SetWallpaperFlags() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1211,7 +1213,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Attach() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1222,7 +1224,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Attach() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperService")
 			}
 			if err != nil {
 				return err
@@ -1289,7 +1291,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Attach() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1323,7 +1325,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Detach() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1334,7 +1336,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Detach() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.wallpaper.IWallpaperService")
 			}
 			if err != nil {
 				return err
@@ -1357,7 +1359,7 @@ func newCmdAndroidServiceWallpaperIWallpaperService_Detach() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

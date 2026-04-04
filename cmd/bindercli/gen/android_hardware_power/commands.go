@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/power"
@@ -50,7 +52,7 @@ func newCmdAndroidHardwarePowerIPower_IsModeSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -61,7 +63,7 @@ func newCmdAndroidHardwarePowerIPower_IsModeSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidHardwarePowerIPower_IsModeSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdAndroidHardwarePowerIPower_SetBoost() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdAndroidHardwarePowerIPower_SetBoost() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -137,7 +139,7 @@ func newCmdAndroidHardwarePowerIPower_SetBoost() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdAndroidHardwarePowerIPower_IsBoostSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdAndroidHardwarePowerIPower_IsBoostSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -190,7 +192,7 @@ func newCmdAndroidHardwarePowerIPower_IsBoostSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -210,7 +212,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -221,7 +223,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -265,7 +267,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -291,7 +293,7 @@ func newCmdAndroidHardwarePowerIPower_GetHintSessionPreferredRate() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -302,7 +304,7 @@ func newCmdAndroidHardwarePowerIPower_GetHintSessionPreferredRate() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -316,7 +318,7 @@ func newCmdAndroidHardwarePowerIPower_GetHintSessionPreferredRate() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSessionWithConfig() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSessionWithConfig() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidHardwarePowerIPower_CreateHintSessionWithConfig() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -424,7 +426,7 @@ func newCmdAndroidHardwarePowerIPower_GetSessionChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -435,7 +437,7 @@ func newCmdAndroidHardwarePowerIPower_GetSessionChannel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -459,7 +461,7 @@ func newCmdAndroidHardwarePowerIPower_GetSessionChannel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -481,7 +483,7 @@ func newCmdAndroidHardwarePowerIPower_CloseSessionChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -492,7 +494,7 @@ func newCmdAndroidHardwarePowerIPower_CloseSessionChannel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPower")
 			}
 			if err != nil {
 				return err
@@ -516,7 +518,7 @@ func newCmdAndroidHardwarePowerIPower_CloseSessionChannel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -557,7 +559,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_UpdateTargetWorkDuration() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -568,7 +570,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_UpdateTargetWorkDuration() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -587,7 +589,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_UpdateTargetWorkDuration() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -607,7 +609,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_ReportActualWorkDuration() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -618,7 +620,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_ReportActualWorkDuration() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -643,7 +645,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_ReportActualWorkDuration() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -663,7 +665,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Pause() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -674,7 +676,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Pause() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -688,7 +690,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Pause() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -706,7 +708,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Resume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -717,7 +719,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Resume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -731,7 +733,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Resume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -749,7 +751,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -760,7 +762,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -774,7 +776,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -792,7 +794,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SendHint() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -803,7 +805,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SendHint() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -823,7 +825,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SendHint() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -843,7 +845,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetThreads() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -854,7 +856,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetThreads() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -883,7 +885,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetThreads() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -903,7 +905,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -914,7 +916,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -939,7 +941,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_SetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -961,7 +963,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_GetSessionConfig() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -972,7 +974,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_GetSessionConfig() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.power.IPowerHintSession")
 			}
 			if err != nil {
 				return err
@@ -986,7 +988,7 @@ func newCmdAndroidHardwarePowerIPowerHintSession_GetSessionConfig() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

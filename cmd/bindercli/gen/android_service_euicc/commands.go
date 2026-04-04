@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/euicc"
@@ -55,7 +57,7 @@ func newCmdAndroidServiceEuiccIDeleteSubscriptionCallback_OnComplete() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -66,7 +68,7 @@ func newCmdAndroidServiceEuiccIDeleteSubscriptionCallback_OnComplete() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IDeleteSubscriptionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IDeleteSubscriptionCallback")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidServiceEuiccIDeleteSubscriptionCallback_OnComplete() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -116,7 +118,7 @@ func newCmdAndroidServiceEuiccIDownloadSubscriptionCallback_OnComplete() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -127,7 +129,7 @@ func newCmdAndroidServiceEuiccIDownloadSubscriptionCallback_OnComplete() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IDownloadSubscriptionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IDownloadSubscriptionCallback")
 			}
 			if err != nil {
 				return err
@@ -143,7 +145,7 @@ func newCmdAndroidServiceEuiccIDownloadSubscriptionCallback_OnComplete() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -172,7 +174,7 @@ func newCmdAndroidServiceEuiccIEraseSubscriptionsCallback_OnComplete() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -183,7 +185,7 @@ func newCmdAndroidServiceEuiccIEraseSubscriptionsCallback_OnComplete() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEraseSubscriptionsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEraseSubscriptionsCallback")
 			}
 			if err != nil {
 				return err
@@ -202,7 +204,7 @@ func newCmdAndroidServiceEuiccIEraseSubscriptionsCallback_OnComplete() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -286,7 +288,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -308,7 +310,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetOtaStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -319,7 +321,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetOtaStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -348,7 +350,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetOtaStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -370,7 +372,7 @@ func newCmdAndroidServiceEuiccIEuiccService_StartOtaIfNecessary() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -381,7 +383,7 @@ func newCmdAndroidServiceEuiccIEuiccService_StartOtaIfNecessary() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -410,7 +412,7 @@ func newCmdAndroidServiceEuiccIEuiccService_StartOtaIfNecessary() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -432,7 +434,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccProfileInfoList() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -443,7 +445,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccProfileInfoList() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -472,7 +474,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccProfileInfoList() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -494,7 +496,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetDefaultDownloadableSubscriptionLi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -505,7 +507,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetDefaultDownloadableSubscriptionLi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -539,7 +541,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetDefaultDownloadableSubscriptionLi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -563,7 +565,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -574,7 +576,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -603,7 +605,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetEuiccInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -625,7 +627,7 @@ func newCmdAndroidServiceEuiccIEuiccService_DeleteSubscription() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -636,7 +638,7 @@ func newCmdAndroidServiceEuiccIEuiccService_DeleteSubscription() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -670,7 +672,7 @@ func newCmdAndroidServiceEuiccIEuiccService_DeleteSubscription() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -694,7 +696,7 @@ func newCmdAndroidServiceEuiccIEuiccService_SwitchToSubscription() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -705,7 +707,7 @@ func newCmdAndroidServiceEuiccIEuiccService_SwitchToSubscription() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -754,7 +756,7 @@ func newCmdAndroidServiceEuiccIEuiccService_SwitchToSubscription() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -784,7 +786,7 @@ func newCmdAndroidServiceEuiccIEuiccService_UpdateSubscriptionNickname() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -795,7 +797,7 @@ func newCmdAndroidServiceEuiccIEuiccService_UpdateSubscriptionNickname() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -834,7 +836,7 @@ func newCmdAndroidServiceEuiccIEuiccService_UpdateSubscriptionNickname() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -860,7 +862,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptions() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -871,7 +873,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptions() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -900,7 +902,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptions() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -922,7 +924,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptionsWithOptions() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -933,7 +935,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptionsWithOptions() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -967,7 +969,7 @@ func newCmdAndroidServiceEuiccIEuiccService_EraseSubscriptionsWithOptions() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -991,7 +993,7 @@ func newCmdAndroidServiceEuiccIEuiccService_RetainSubscriptionsForFactoryReset()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1002,7 +1004,7 @@ func newCmdAndroidServiceEuiccIEuiccService_RetainSubscriptionsForFactoryReset()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -1031,7 +1033,7 @@ func newCmdAndroidServiceEuiccIEuiccService_RetainSubscriptionsForFactoryReset()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1053,7 +1055,7 @@ func newCmdAndroidServiceEuiccIEuiccService_Dump() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1064,7 +1066,7 @@ func newCmdAndroidServiceEuiccIEuiccService_Dump() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -1088,7 +1090,7 @@ func newCmdAndroidServiceEuiccIEuiccService_Dump() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1108,7 +1110,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetAvailableMemoryInBytes() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1119,7 +1121,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetAvailableMemoryInBytes() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccService")
 			}
 			if err != nil {
 				return err
@@ -1148,7 +1150,7 @@ func newCmdAndroidServiceEuiccIEuiccService_GetAvailableMemoryInBytes() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1181,7 +1183,7 @@ func newCmdAndroidServiceEuiccIEuiccServiceDumpResultCallback_OnComplete() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1192,7 +1194,7 @@ func newCmdAndroidServiceEuiccIEuiccServiceDumpResultCallback_OnComplete() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccServiceDumpResultCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IEuiccServiceDumpResultCallback")
 			}
 			if err != nil {
 				return err
@@ -1211,7 +1213,7 @@ func newCmdAndroidServiceEuiccIEuiccServiceDumpResultCallback_OnComplete() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1243,7 +1245,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnSuccess() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1254,7 +1256,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnSuccess() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetAvailableMemoryInBytesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetAvailableMemoryInBytesCallback")
 			}
 			if err != nil {
 				return err
@@ -1273,7 +1275,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnSuccess() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1293,7 +1295,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnUnsupportedOp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1304,7 +1306,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnUnsupportedOp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetAvailableMemoryInBytesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetAvailableMemoryInBytesCallback")
 			}
 			if err != nil {
 				return err
@@ -1323,7 +1325,7 @@ func newCmdAndroidServiceEuiccIGetAvailableMemoryInBytesCallback_OnUnsupportedOp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1354,7 +1356,7 @@ func newCmdAndroidServiceEuiccIGetDefaultDownloadableSubscriptionListCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1365,7 +1367,7 @@ func newCmdAndroidServiceEuiccIGetDefaultDownloadableSubscriptionListCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetDefaultDownloadableSubscriptionListCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetDefaultDownloadableSubscriptionListCallback")
 			}
 			if err != nil {
 				return err
@@ -1381,7 +1383,7 @@ func newCmdAndroidServiceEuiccIGetDefaultDownloadableSubscriptionListCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1410,7 +1412,7 @@ func newCmdAndroidServiceEuiccIGetDownloadableSubscriptionMetadataCallback_OnCom
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1421,7 +1423,7 @@ func newCmdAndroidServiceEuiccIGetDownloadableSubscriptionMetadataCallback_OnCom
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetDownloadableSubscriptionMetadataCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetDownloadableSubscriptionMetadataCallback")
 			}
 			if err != nil {
 				return err
@@ -1437,7 +1439,7 @@ func newCmdAndroidServiceEuiccIGetDownloadableSubscriptionMetadataCallback_OnCom
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1466,7 +1468,7 @@ func newCmdAndroidServiceEuiccIGetEidCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1477,7 +1479,7 @@ func newCmdAndroidServiceEuiccIGetEidCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEidCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEidCallback")
 			}
 			if err != nil {
 				return err
@@ -1496,7 +1498,7 @@ func newCmdAndroidServiceEuiccIGetEidCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1527,7 +1529,7 @@ func newCmdAndroidServiceEuiccIGetEuiccInfoCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1538,7 +1540,7 @@ func newCmdAndroidServiceEuiccIGetEuiccInfoCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEuiccInfoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEuiccInfoCallback")
 			}
 			if err != nil {
 				return err
@@ -1554,7 +1556,7 @@ func newCmdAndroidServiceEuiccIGetEuiccInfoCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1583,7 +1585,7 @@ func newCmdAndroidServiceEuiccIGetEuiccProfileInfoListCallback_OnComplete() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1594,7 +1596,7 @@ func newCmdAndroidServiceEuiccIGetEuiccProfileInfoListCallback_OnComplete() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEuiccProfileInfoListCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetEuiccProfileInfoListCallback")
 			}
 			if err != nil {
 				return err
@@ -1610,7 +1612,7 @@ func newCmdAndroidServiceEuiccIGetEuiccProfileInfoListCallback_OnComplete() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1639,7 +1641,7 @@ func newCmdAndroidServiceEuiccIGetOtaStatusCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1650,7 +1652,7 @@ func newCmdAndroidServiceEuiccIGetOtaStatusCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetOtaStatusCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IGetOtaStatusCallback")
 			}
 			if err != nil {
 				return err
@@ -1669,7 +1671,7 @@ func newCmdAndroidServiceEuiccIGetOtaStatusCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1700,7 +1702,7 @@ func newCmdAndroidServiceEuiccIOtaStatusChangedCallback_OnOtaStatusChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1711,7 +1713,7 @@ func newCmdAndroidServiceEuiccIOtaStatusChangedCallback_OnOtaStatusChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IOtaStatusChangedCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IOtaStatusChangedCallback")
 			}
 			if err != nil {
 				return err
@@ -1730,7 +1732,7 @@ func newCmdAndroidServiceEuiccIOtaStatusChangedCallback_OnOtaStatusChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1761,7 +1763,7 @@ func newCmdAndroidServiceEuiccIRetainSubscriptionsForFactoryResetCallback_OnComp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1772,7 +1774,7 @@ func newCmdAndroidServiceEuiccIRetainSubscriptionsForFactoryResetCallback_OnComp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IRetainSubscriptionsForFactoryResetCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IRetainSubscriptionsForFactoryResetCallback")
 			}
 			if err != nil {
 				return err
@@ -1791,7 +1793,7 @@ func newCmdAndroidServiceEuiccIRetainSubscriptionsForFactoryResetCallback_OnComp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1822,7 +1824,7 @@ func newCmdAndroidServiceEuiccISwitchToSubscriptionCallback_OnComplete() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1833,7 +1835,7 @@ func newCmdAndroidServiceEuiccISwitchToSubscriptionCallback_OnComplete() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.ISwitchToSubscriptionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.ISwitchToSubscriptionCallback")
 			}
 			if err != nil {
 				return err
@@ -1852,7 +1854,7 @@ func newCmdAndroidServiceEuiccISwitchToSubscriptionCallback_OnComplete() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1883,7 +1885,7 @@ func newCmdAndroidServiceEuiccIUpdateSubscriptionNicknameCallback_OnComplete() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1894,7 +1896,7 @@ func newCmdAndroidServiceEuiccIUpdateSubscriptionNicknameCallback_OnComplete() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IUpdateSubscriptionNicknameCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.euicc.IUpdateSubscriptionNicknameCallback")
 			}
 			if err != nil {
 				return err
@@ -1913,7 +1915,7 @@ func newCmdAndroidServiceEuiccIUpdateSubscriptionNicknameCallback_OnComplete() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

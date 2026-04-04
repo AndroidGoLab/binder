@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	os2 "github.com/AndroidGoLab/binder/android/os"
@@ -43,7 +45,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnCancellable
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnCancellable
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
 			}
 			if err != nil {
 				return err
@@ -78,7 +80,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnCancellable
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -98,7 +100,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnSuccess() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -109,7 +111,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnSuccess() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
 			}
 			if err != nil {
 				return err
@@ -128,7 +130,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnSuccess() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnFailure() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnFailure() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverCallback")
 			}
 			if err != nil {
 				return err
@@ -178,7 +180,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverCallback_OnFailure() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -209,7 +211,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverService_ResolveRotatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -220,7 +222,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverService_ResolveRotatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.rotationresolver.IRotationResolverService")
 			}
 			if err != nil {
 				return err
@@ -246,7 +248,7 @@ func newCmdAndroidServiceRotationresolverIRotationResolverService_ResolveRotatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

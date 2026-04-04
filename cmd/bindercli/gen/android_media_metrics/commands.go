@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/media/metrics"
@@ -52,7 +54,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackMetrics() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackMetrics() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -84,7 +86,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackMetrics() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -104,7 +106,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetPlaybackSessionId() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -115,7 +117,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetPlaybackSessionId() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -129,7 +131,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetPlaybackSessionId() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -147,7 +149,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetRecordingSessionId() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -158,7 +160,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetRecordingSessionId() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -172,7 +174,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetRecordingSessionId() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -190,7 +192,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportNetworkEvent() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -201,7 +203,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportNetworkEvent() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -222,7 +224,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportNetworkEvent() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -242,7 +244,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackErrorEvent() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -253,7 +255,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackErrorEvent() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -274,7 +276,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackErrorEvent() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackStateEvent() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackStateEvent() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -326,7 +328,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportPlaybackStateEvent() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -346,7 +348,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportTrackChangeEvent() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -357,7 +359,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportTrackChangeEvent() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -378,7 +380,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportTrackChangeEvent() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -398,7 +400,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportEditingEndedEvent() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -409,7 +411,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportEditingEndedEvent() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -430,7 +432,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportEditingEndedEvent() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -450,7 +452,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetTranscodingSessionId() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -461,7 +463,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetTranscodingSessionId() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetTranscodingSessionId() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -493,7 +495,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetEditingSessionId() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -504,7 +506,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetEditingSessionId() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -518,7 +520,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetEditingSessionId() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -536,7 +538,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetBundleSessionId() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -547,7 +549,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetBundleSessionId() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -561,7 +563,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_GetBundleSessionId() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -579,7 +581,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportBundleMetrics() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -590,7 +592,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportBundleMetrics() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -611,7 +613,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReportBundleMetrics() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -631,7 +633,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReleaseSessionId() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -642,7 +644,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReleaseSessionId() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.metrics.IMediaMetricsManager")
 			}
 			if err != nil {
 				return err
@@ -661,7 +663,7 @@ func newCmdAndroidMediaMetricsIMediaMetricsManager_ReleaseSessionId() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

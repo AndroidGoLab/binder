@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/system/net/netd"
@@ -46,7 +48,7 @@ func newCmdAndroidSystemNetNetdINetd_AddInterfaceToOemNetwork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidSystemNetNetdINetd_AddInterfaceToOemNetwork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdAndroidSystemNetNetdINetd_AddInterfaceToOemNetwork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidSystemNetNetdINetd_AddRouteToOemNetwork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidSystemNetNetdINetd_AddRouteToOemNetwork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -148,7 +150,7 @@ func newCmdAndroidSystemNetNetdINetd_AddRouteToOemNetwork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -174,7 +176,7 @@ func newCmdAndroidSystemNetNetdINetd_CreateOemNetwork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -185,7 +187,7 @@ func newCmdAndroidSystemNetNetdINetd_CreateOemNetwork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -199,7 +201,7 @@ func newCmdAndroidSystemNetNetdINetd_CreateOemNetwork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -217,7 +219,7 @@ func newCmdAndroidSystemNetNetdINetd_DestroyOemNetwork() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -228,7 +230,7 @@ func newCmdAndroidSystemNetNetdINetd_DestroyOemNetwork() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -247,7 +249,7 @@ func newCmdAndroidSystemNetNetdINetd_DestroyOemNetwork() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -267,7 +269,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveInterfaceFromOemNetwork() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -278,7 +280,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveInterfaceFromOemNetwork() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -302,7 +304,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveInterfaceFromOemNetwork() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -324,7 +326,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveRouteFromOemNetwork() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -335,7 +337,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveRouteFromOemNetwork() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -369,7 +371,7 @@ func newCmdAndroidSystemNetNetdINetd_RemoveRouteFromOemNetwork() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -395,7 +397,7 @@ func newCmdAndroidSystemNetNetdINetd_SetForwardingBetweenInterfaces() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -406,7 +408,7 @@ func newCmdAndroidSystemNetNetdINetd_SetForwardingBetweenInterfaces() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -435,7 +437,7 @@ func newCmdAndroidSystemNetNetdINetd_SetForwardingBetweenInterfaces() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -459,7 +461,7 @@ func newCmdAndroidSystemNetNetdINetd_SetIpForwardEnable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -470,7 +472,7 @@ func newCmdAndroidSystemNetNetdINetd_SetIpForwardEnable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.system.net.netd.INetd")
 			}
 			if err != nil {
 				return err
@@ -489,7 +491,7 @@ func newCmdAndroidSystemNetNetdINetd_SetIpForwardEnable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

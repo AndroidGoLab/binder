@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -85,7 +87,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetAssociationId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -96,7 +98,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetAssociationId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -110,7 +112,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetAssociationId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -128,7 +130,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDeviceId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -139,7 +141,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDeviceId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -153,7 +155,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDeviceId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetPersistentDeviceId() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetPersistentDeviceId() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -196,7 +198,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetPersistentDeviceId() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -214,7 +216,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDisplayIds() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -225,7 +227,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDisplayIds() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -239,7 +241,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDisplayIds() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -257,7 +259,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDevicePolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -268,7 +270,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDevicePolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -287,7 +289,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetDevicePolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -307,7 +309,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -318,7 +320,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -332,7 +334,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -350,7 +352,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDevicePolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -361,7 +363,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDevicePolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -385,7 +387,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDevicePolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -407,7 +409,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_AddActivityPolicyExemption() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -418,7 +420,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_AddActivityPolicyExemption() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -434,7 +436,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_AddActivityPolicyExemption() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -452,7 +454,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RemoveActivityPolicyExemption()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -463,7 +465,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RemoveActivityPolicyExemption()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -479,7 +481,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RemoveActivityPolicyExemption()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -497,7 +499,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionStarting() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -508,7 +510,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionStarting() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -547,7 +549,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionStarting() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -571,7 +573,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionEnded() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -582,7 +584,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionEnded() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -596,7 +598,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_OnAudioSessionEnded() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -614,7 +616,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualDpad() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -625,7 +627,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualDpad() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -650,7 +652,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualDpad() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -670,7 +672,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualKeyboard() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -681,7 +683,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualKeyboard() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -706,7 +708,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualKeyboard() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -726,7 +728,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualMouse() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -737,7 +739,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualMouse() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -762,7 +764,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualMouse() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -782,7 +784,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualTouchscreen() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -793,7 +795,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualTouchscreen() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -818,7 +820,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualTouchscreen() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -838,7 +840,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualNavigationTouchpad
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -849,7 +851,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualNavigationTouchpad
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -874,7 +876,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualNavigationTouchpad
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -894,7 +896,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualStylus() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -905,7 +907,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualStylus() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_CreateVirtualStylus() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -950,7 +952,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterInputDevice() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -961,7 +963,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterInputDevice() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -984,7 +986,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterInputDevice() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1004,7 +1006,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetInputDeviceId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1015,7 +1017,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetInputDeviceId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1038,7 +1040,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetInputDeviceId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1058,7 +1060,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendDpadKeyEvent() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1069,7 +1071,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendDpadKeyEvent() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1094,7 +1096,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendDpadKeyEvent() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1114,7 +1116,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendKeyEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1125,7 +1127,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendKeyEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1150,7 +1152,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendKeyEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1170,7 +1172,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendButtonEvent() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1181,7 +1183,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendButtonEvent() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1206,7 +1208,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendButtonEvent() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1226,7 +1228,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendRelativeEvent() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1237,7 +1239,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendRelativeEvent() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1262,7 +1264,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendRelativeEvent() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1282,7 +1284,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendScrollEvent() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1293,7 +1295,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendScrollEvent() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1318,7 +1320,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendScrollEvent() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1338,7 +1340,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendTouchEvent() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1349,7 +1351,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendTouchEvent() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1374,7 +1376,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendTouchEvent() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1394,7 +1396,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusMotionEvent() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1405,7 +1407,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusMotionEvent() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1430,7 +1432,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusMotionEvent() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1450,7 +1452,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusButtonEvent() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1461,7 +1463,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusButtonEvent() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1486,7 +1488,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendStylusButtonEvent() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1506,7 +1508,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetVirtualSensorList() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1517,7 +1519,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetVirtualSensorList() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1531,7 +1533,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetVirtualSensorList() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1549,7 +1551,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendSensorEvent() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1560,7 +1562,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendSensorEvent() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1585,7 +1587,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SendSensorEvent() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1605,7 +1607,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_LaunchPendingIntent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1616,7 +1618,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_LaunchPendingIntent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1639,7 +1641,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_LaunchPendingIntent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1659,7 +1661,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetCursorPosition() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1670,7 +1672,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetCursorPosition() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1693,7 +1695,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_GetCursorPosition() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1713,7 +1715,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetShowPointerIcon() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1724,7 +1726,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetShowPointerIcon() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1743,7 +1745,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetShowPointerIcon() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1763,7 +1765,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDisplayImePolicy() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1774,7 +1776,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDisplayImePolicy() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1798,7 +1800,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_SetDisplayImePolicy() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1820,7 +1822,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RegisterIntentInterceptor() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1831,7 +1833,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RegisterIntentInterceptor() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1857,7 +1859,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_RegisterIntentInterceptor() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1877,7 +1879,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterIntentInterceptor() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1888,7 +1890,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterIntentInterceptor() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDevice")
 			}
 			if err != nil {
 				return err
@@ -1912,7 +1914,7 @@ func newCmdAndroidCompanionVirtualIVirtualDevice_UnregisterIntentInterceptor() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1944,7 +1946,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnTopActivityCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1955,7 +1957,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnTopActivityCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceActivityListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceActivityListener")
 			}
 			if err != nil {
 				return err
@@ -1976,7 +1978,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnTopActivityCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1996,7 +1998,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnDisplayEmpty(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2007,7 +2009,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnDisplayEmpty(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceActivityListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceActivityListener")
 			}
 			if err != nil {
 				return err
@@ -2026,7 +2028,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceActivityListener_OnDisplayEmpty(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2057,7 +2059,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceIntentInterceptor_OnIntentInterc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2068,7 +2070,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceIntentInterceptor_OnIntentInterc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceIntentInterceptor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceIntentInterceptor")
 			}
 			if err != nil {
 				return err
@@ -2084,7 +2086,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceIntentInterceptor_OnIntentInterc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2114,7 +2116,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceCreated(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2125,7 +2127,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceCreated(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceListener")
 			}
 			if err != nil {
 				return err
@@ -2144,7 +2146,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceCreated(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2164,7 +2166,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceClosed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2175,7 +2177,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceClosed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceListener")
 			}
 			if err != nil {
 				return err
@@ -2194,7 +2196,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceListener_OnVirtualDeviceClosed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2239,7 +2241,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDevice() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2250,7 +2252,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDevice() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2302,7 +2304,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDevice() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2328,7 +2330,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevices() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2339,7 +2341,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevices() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2353,7 +2355,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevices() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2371,7 +2373,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevice() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2382,7 +2384,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevice() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2401,7 +2403,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetVirtualDevice() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2421,7 +2423,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_RegisterVirtualDeviceLis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2432,7 +2434,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_RegisterVirtualDeviceLis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2456,7 +2458,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_RegisterVirtualDeviceLis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2476,7 +2478,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_UnregisterVirtualDeviceL
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2487,7 +2489,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_UnregisterVirtualDeviceL
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2511,7 +2513,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_UnregisterVirtualDeviceL
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2531,7 +2533,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDeviceIdForDisplayId(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2542,7 +2544,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDeviceIdForDisplayId(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2561,7 +2563,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDeviceIdForDisplayId(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2581,7 +2583,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDisplayNameForPersist
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2592,7 +2594,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDisplayNameForPersist
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2611,7 +2613,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDisplayNameForPersist
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2631,7 +2633,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsValidVirtualDeviceId()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2642,7 +2644,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsValidVirtualDeviceId()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2661,7 +2663,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsValidVirtualDeviceId()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2681,7 +2683,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDevicePolicy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2692,7 +2694,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDevicePolicy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2716,7 +2718,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetDevicePolicy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2738,7 +2740,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDisplay() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2749,7 +2751,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDisplay() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2790,7 +2792,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_CreateVirtualDisplay() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2814,7 +2816,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioPlaybackSessionI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2825,7 +2827,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioPlaybackSessionI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2844,7 +2846,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioPlaybackSessionI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2864,7 +2866,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioRecordingSession
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2875,7 +2877,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioRecordingSession
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2894,7 +2896,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAudioRecordingSession
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2914,7 +2916,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_PlaySoundEffect() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2925,7 +2927,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_PlaySoundEffect() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -2949,7 +2951,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_PlaySoundEffect() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2971,7 +2973,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsVirtualDeviceOwnedMirr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2982,7 +2984,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsVirtualDeviceOwnedMirr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -3001,7 +3003,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_IsVirtualDeviceOwnedMirr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3021,7 +3023,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAllPersistentDeviceId
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3032,7 +3034,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAllPersistentDeviceId
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceManager")
 			}
 			if err != nil {
 				return err
@@ -3046,7 +3048,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceManager_GetAllPersistentDeviceId
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3075,7 +3077,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceSoundEffectListener_OnPlaySoundE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3086,7 +3088,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceSoundEffectListener_OnPlaySoundE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceSoundEffectListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.companion.virtual.IVirtualDeviceSoundEffectListener")
 			}
 			if err != nil {
 				return err
@@ -3105,7 +3107,7 @@ func newCmdAndroidCompanionVirtualIVirtualDeviceSoundEffectListener_OnPlaySoundE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/bluetooth"
@@ -117,7 +119,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioDeviceVolumeDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioDeviceVolumeDispatcher")
 			}
 			if err != nil {
 				return err
@@ -146,7 +148,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -164,7 +166,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeAdjusted
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -175,7 +177,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeAdjusted
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioDeviceVolumeDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioDeviceVolumeDispatcher")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdAndroidMediaIAudioDeviceVolumeDispatcher_DispatchDeviceVolumeAdjusted
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -237,7 +239,7 @@ func newCmdAndroidMediaIAudioFlingerClient_IoConfigChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -248,7 +250,7 @@ func newCmdAndroidMediaIAudioFlingerClient_IoConfigChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerClient")
 			}
 			if err != nil {
 				return err
@@ -298,7 +300,7 @@ func newCmdAndroidMediaIAudioFlingerClient_IoConfigChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -336,7 +338,7 @@ func newCmdAndroidMediaIAudioFlingerClient_OnSupportedLatencyModesChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -347,7 +349,7 @@ func newCmdAndroidMediaIAudioFlingerClient_OnSupportedLatencyModesChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerClient")
 			}
 			if err != nil {
 				return err
@@ -377,7 +379,7 @@ func newCmdAndroidMediaIAudioFlingerClient_OnSupportedLatencyModesChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -483,7 +485,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateTrack() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -494,7 +496,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateTrack() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -583,7 +585,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateTrack() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -647,7 +649,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateRecord() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -658,7 +660,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateRecord() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -711,7 +713,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateRecord() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -754,7 +756,7 @@ func newCmdAndroidMediaIAudioFlingerService_SampleRate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -765,7 +767,7 @@ func newCmdAndroidMediaIAudioFlingerService_SampleRate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -784,7 +786,7 @@ func newCmdAndroidMediaIAudioFlingerService_SampleRate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -804,7 +806,7 @@ func newCmdAndroidMediaIAudioFlingerService_Format() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -815,7 +817,7 @@ func newCmdAndroidMediaIAudioFlingerService_Format() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -834,7 +836,7 @@ func newCmdAndroidMediaIAudioFlingerService_Format() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -854,7 +856,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCount() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -865,7 +867,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCount() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -884,7 +886,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCount() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -904,7 +906,7 @@ func newCmdAndroidMediaIAudioFlingerService_Latency() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -915,7 +917,7 @@ func newCmdAndroidMediaIAudioFlingerService_Latency() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -934,7 +936,7 @@ func newCmdAndroidMediaIAudioFlingerService_Latency() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -954,7 +956,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -965,7 +967,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -984,7 +986,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1004,7 +1006,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1015,7 +1017,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1034,7 +1036,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1054,7 +1056,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1065,7 +1067,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1079,7 +1081,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1097,7 +1099,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1108,7 +1110,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1122,7 +1124,7 @@ func newCmdAndroidMediaIAudioFlingerService_MasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1140,7 +1142,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterBalance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1151,7 +1153,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterBalance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1170,7 +1172,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMasterBalance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1190,7 +1192,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMasterBalance() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1201,7 +1203,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMasterBalance() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1215,7 +1217,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMasterBalance() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1233,7 +1235,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1244,7 +1246,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1274,7 +1276,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1298,7 +1300,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1309,7 +1311,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1334,7 +1336,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetStreamMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1356,7 +1358,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1367,7 +1369,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1392,7 +1394,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1414,7 +1416,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1425,7 +1427,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1445,7 +1447,7 @@ func newCmdAndroidMediaIAudioFlingerService_StreamMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1465,7 +1467,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1476,7 +1478,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1496,7 +1498,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1516,7 +1518,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMicMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1527,7 +1529,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMicMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1546,7 +1548,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetMicMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1566,7 +1568,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1577,7 +1579,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1591,7 +1593,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1609,7 +1611,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRecordSilenced() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1620,7 +1622,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRecordSilenced() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1644,7 +1646,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRecordSilenced() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1666,7 +1668,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1677,7 +1679,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1701,7 +1703,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1723,7 +1725,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1734,7 +1736,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1758,7 +1760,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1780,7 +1782,7 @@ func newCmdAndroidMediaIAudioFlingerService_RegisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1791,7 +1793,7 @@ func newCmdAndroidMediaIAudioFlingerService_RegisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1815,7 +1817,7 @@ func newCmdAndroidMediaIAudioFlingerService_RegisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1835,7 +1837,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputBufferSize() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1846,7 +1848,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputBufferSize() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -1879,7 +1881,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputBufferSize() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1907,7 +1909,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1918,7 +1920,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2051,7 +2053,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2125,7 +2127,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenDuplicateOutput() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2136,7 +2138,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenDuplicateOutput() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2160,7 +2162,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenDuplicateOutput() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2182,7 +2184,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2193,7 +2195,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2212,7 +2214,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2232,7 +2234,7 @@ func newCmdAndroidMediaIAudioFlingerService_SuspendOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2243,7 +2245,7 @@ func newCmdAndroidMediaIAudioFlingerService_SuspendOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2262,7 +2264,7 @@ func newCmdAndroidMediaIAudioFlingerService_SuspendOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2282,7 +2284,7 @@ func newCmdAndroidMediaIAudioFlingerService_RestoreOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2293,7 +2295,7 @@ func newCmdAndroidMediaIAudioFlingerService_RestoreOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2312,7 +2314,7 @@ func newCmdAndroidMediaIAudioFlingerService_RestoreOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2332,7 +2334,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenInput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2343,7 +2345,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenInput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2437,7 +2439,7 @@ func newCmdAndroidMediaIAudioFlingerService_OpenInput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2490,7 +2492,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseInput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2501,7 +2503,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseInput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2520,7 +2522,7 @@ func newCmdAndroidMediaIAudioFlingerService_CloseInput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2540,7 +2542,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVoiceVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2551,7 +2553,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVoiceVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2570,7 +2572,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVoiceVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2590,7 +2592,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetRenderPosition() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2601,7 +2603,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetRenderPosition() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2620,7 +2622,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetRenderPosition() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2640,7 +2642,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputFramesLost() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2651,7 +2653,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputFramesLost() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2670,7 +2672,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetInputFramesLost() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2690,7 +2692,7 @@ func newCmdAndroidMediaIAudioFlingerService_NewAudioUniqueId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2701,7 +2703,7 @@ func newCmdAndroidMediaIAudioFlingerService_NewAudioUniqueId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2721,7 +2723,7 @@ func newCmdAndroidMediaIAudioFlingerService_NewAudioUniqueId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2741,7 +2743,7 @@ func newCmdAndroidMediaIAudioFlingerService_AcquireAudioSessionId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2752,7 +2754,7 @@ func newCmdAndroidMediaIAudioFlingerService_AcquireAudioSessionId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2781,7 +2783,7 @@ func newCmdAndroidMediaIAudioFlingerService_AcquireAudioSessionId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2805,7 +2807,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioSessionId() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2816,7 +2818,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioSessionId() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2840,7 +2842,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioSessionId() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2862,7 +2864,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryNumberEffects() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2873,7 +2875,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryNumberEffects() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2887,7 +2889,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryNumberEffects() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2905,7 +2907,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2916,7 +2918,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -2935,7 +2937,7 @@ func newCmdAndroidMediaIAudioFlingerService_QueryEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2955,7 +2957,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetEffectDescriptor() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2966,7 +2968,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetEffectDescriptor() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3011,7 +3013,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetEffectDescriptor() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3041,7 +3043,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3052,7 +3054,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3160,7 +3162,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3215,7 +3217,7 @@ func newCmdAndroidMediaIAudioFlingerService_MoveEffects() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3226,7 +3228,7 @@ func newCmdAndroidMediaIAudioFlingerService_MoveEffects() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3255,7 +3257,7 @@ func newCmdAndroidMediaIAudioFlingerService_MoveEffects() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3279,7 +3281,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetEffectSuspended() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3290,7 +3292,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetEffectSuspended() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3319,7 +3321,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetEffectSuspended() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3343,7 +3345,7 @@ func newCmdAndroidMediaIAudioFlingerService_LoadHwModule() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3354,7 +3356,7 @@ func newCmdAndroidMediaIAudioFlingerService_LoadHwModule() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3373,7 +3375,7 @@ func newCmdAndroidMediaIAudioFlingerService_LoadHwModule() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3393,7 +3395,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputSamplingRate() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3404,7 +3406,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputSamplingRate() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3418,7 +3420,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputSamplingRate() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3436,7 +3438,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputFrameCount() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3447,7 +3449,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputFrameCount() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3461,7 +3463,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetPrimaryOutputFrameCount() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3479,7 +3481,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetLowRamDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3490,7 +3492,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetLowRamDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3514,7 +3516,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetLowRamDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3536,7 +3538,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3547,7 +3549,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3665,7 +3667,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3721,7 +3723,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3732,7 +3734,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3759,7 +3761,7 @@ func newCmdAndroidMediaIAudioFlingerService_CreateAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3780,7 +3782,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3791,7 +3793,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3810,7 +3812,7 @@ func newCmdAndroidMediaIAudioFlingerService_ReleaseAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3830,7 +3832,7 @@ func newCmdAndroidMediaIAudioFlingerService_ListAudioPatches() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3841,7 +3843,7 @@ func newCmdAndroidMediaIAudioFlingerService_ListAudioPatches() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3860,7 +3862,7 @@ func newCmdAndroidMediaIAudioFlingerService_ListAudioPatches() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3880,7 +3882,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioPortConfig() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3891,7 +3893,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioPortConfig() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -3971,7 +3973,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioPortConfig() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4029,7 +4031,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioHwSyncForSession() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4040,7 +4042,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioHwSyncForSession() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4059,7 +4061,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioHwSyncForSession() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4079,7 +4081,7 @@ func newCmdAndroidMediaIAudioFlingerService_SystemReady() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4090,7 +4092,7 @@ func newCmdAndroidMediaIAudioFlingerService_SystemReady() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4104,7 +4106,7 @@ func newCmdAndroidMediaIAudioFlingerService_SystemReady() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4122,7 +4124,7 @@ func newCmdAndroidMediaIAudioFlingerService_AudioPolicyReady() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4133,7 +4135,7 @@ func newCmdAndroidMediaIAudioFlingerService_AudioPolicyReady() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4147,7 +4149,7 @@ func newCmdAndroidMediaIAudioFlingerService_AudioPolicyReady() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4165,7 +4167,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCountHAL() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4176,7 +4178,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCountHAL() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4195,7 +4197,7 @@ func newCmdAndroidMediaIAudioFlingerService_FrameCountHAL() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4215,7 +4217,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicrophones() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4226,7 +4228,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicrophones() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4240,7 +4242,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMicrophones() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4258,7 +4260,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioHalPids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4269,7 +4271,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioHalPids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4298,7 +4300,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetAudioHalPids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4318,7 +4320,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVibratorInfos() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4329,7 +4331,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVibratorInfos() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4354,7 +4356,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetVibratorInfos() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4374,7 +4376,7 @@ func newCmdAndroidMediaIAudioFlingerService_UpdateSecondaryOutputs() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4385,7 +4387,7 @@ func newCmdAndroidMediaIAudioFlingerService_UpdateSecondaryOutputs() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4410,7 +4412,7 @@ func newCmdAndroidMediaIAudioFlingerService_UpdateSecondaryOutputs() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4430,7 +4432,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMmapPolicyInfos() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4441,7 +4443,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMmapPolicyInfos() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4461,7 +4463,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetMmapPolicyInfos() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4481,7 +4483,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioMixerBurstCount() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4492,7 +4494,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioMixerBurstCount() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4506,7 +4508,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioMixerBurstCount() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4524,7 +4526,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioHardwareBurstMinUsec() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4535,7 +4537,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioHardwareBurstMinUsec() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4549,7 +4551,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAAudioHardwareBurstMinUsec() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4567,7 +4569,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetDeviceConnectedState() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4578,7 +4580,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetDeviceConnectedState() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4702,7 +4704,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetDeviceConnectedState() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4760,7 +4762,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetSimulateDeviceConnections() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4771,7 +4773,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetSimulateDeviceConnections() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4790,7 +4792,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetSimulateDeviceConnections() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4810,7 +4812,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRequestedLatencyMode() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4821,7 +4823,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRequestedLatencyMode() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4846,7 +4848,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetRequestedLatencyMode() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4868,7 +4870,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSupportedLatencyModes() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4879,7 +4881,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSupportedLatencyModes() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4898,7 +4900,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSupportedLatencyModes() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4918,7 +4920,7 @@ func newCmdAndroidMediaIAudioFlingerService_SupportsBluetoothVariableLatency() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4929,7 +4931,7 @@ func newCmdAndroidMediaIAudioFlingerService_SupportsBluetoothVariableLatency() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4943,7 +4945,7 @@ func newCmdAndroidMediaIAudioFlingerService_SupportsBluetoothVariableLatency() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4961,7 +4963,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetBluetoothVariableLatencyEnabled()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4972,7 +4974,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetBluetoothVariableLatencyEnabled()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -4991,7 +4993,7 @@ func newCmdAndroidMediaIAudioFlingerService_SetBluetoothVariableLatencyEnabled()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5011,7 +5013,7 @@ func newCmdAndroidMediaIAudioFlingerService_IsBluetoothVariableLatencyEnabled() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5022,7 +5024,7 @@ func newCmdAndroidMediaIAudioFlingerService_IsBluetoothVariableLatencyEnabled() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -5036,7 +5038,7 @@ func newCmdAndroidMediaIAudioFlingerService_IsBluetoothVariableLatencyEnabled() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5054,7 +5056,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSoundDoseInterface() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5065,7 +5067,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSoundDoseInterface() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -5089,7 +5091,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetSoundDoseInterface() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5109,7 +5111,7 @@ func newCmdAndroidMediaIAudioFlingerService_InvalidateTracks() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5120,7 +5122,7 @@ func newCmdAndroidMediaIAudioFlingerService_InvalidateTracks() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -5149,7 +5151,7 @@ func newCmdAndroidMediaIAudioFlingerService_InvalidateTracks() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5169,7 +5171,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPolicyConfig() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5180,7 +5182,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPolicyConfig() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -5194,7 +5196,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioPolicyConfig() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5212,7 +5214,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioMixPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5223,7 +5225,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioMixPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFlingerService")
 			}
 			if err != nil {
 				return err
@@ -5445,7 +5447,7 @@ func newCmdAndroidMediaIAudioFlingerService_GetAudioMixPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5551,7 +5553,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchAudioFocusChange() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5562,7 +5564,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchAudioFocusChange() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFocusDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFocusDispatcher")
 			}
 			if err != nil {
 				return err
@@ -5586,7 +5588,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchAudioFocusChange() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5608,7 +5610,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchFocusResultFromExtPolicy() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5619,7 +5621,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchFocusResultFromExtPolicy() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFocusDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioFocusDispatcher")
 			}
 			if err != nil {
 				return err
@@ -5643,7 +5645,7 @@ func newCmdAndroidMediaIAudioFocusDispatcher_DispatchFocusResultFromExtPolicy() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5676,7 +5678,7 @@ func newCmdAndroidMediaIAudioModeDispatcher_DispatchAudioModeChanged() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5687,7 +5689,7 @@ func newCmdAndroidMediaIAudioModeDispatcher_DispatchAudioModeChanged() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioModeDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioModeDispatcher")
 			}
 			if err != nil {
 				return err
@@ -5706,7 +5708,7 @@ func newCmdAndroidMediaIAudioModeDispatcher_DispatchAudioModeChanged() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5837,7 +5839,7 @@ func newCmdAndroidMediaIAudioPolicyService_OnNewAudioModulesAvailable() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5848,7 +5850,7 @@ func newCmdAndroidMediaIAudioPolicyService_OnNewAudioModulesAvailable() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -5862,7 +5864,7 @@ func newCmdAndroidMediaIAudioPolicyService_OnNewAudioModulesAvailable() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5880,7 +5882,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDeviceConnectionState() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5891,7 +5893,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDeviceConnectionState() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -5943,7 +5945,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDeviceConnectionState() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5968,7 +5970,7 @@ func newCmdAndroidMediaIAudioPolicyService_HandleDeviceConfigChange() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5979,7 +5981,7 @@ func newCmdAndroidMediaIAudioPolicyService_HandleDeviceConfigChange() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6043,7 +6045,7 @@ func newCmdAndroidMediaIAudioPolicyService_HandleDeviceConfigChange() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6073,7 +6075,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPhoneState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6084,7 +6086,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPhoneState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6109,7 +6111,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPhoneState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6131,7 +6133,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetForceUse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6142,7 +6144,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetForceUse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6168,7 +6170,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetForceUse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6190,7 +6192,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetForceUse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6201,7 +6203,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetForceUse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6221,7 +6223,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetForceUse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6241,7 +6243,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6252,7 +6254,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6272,7 +6274,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6292,7 +6294,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForAttr() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6303,7 +6305,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForAttr() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6393,7 +6395,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForAttr() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6455,7 +6457,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6466,7 +6468,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6485,7 +6487,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6505,7 +6507,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6516,7 +6518,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6535,7 +6537,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6555,7 +6557,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6566,7 +6568,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6585,7 +6587,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6605,7 +6607,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetInputForAttr() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6616,7 +6618,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetInputForAttr() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6690,7 +6692,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetInputForAttr() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6735,7 +6737,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartInput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6746,7 +6748,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartInput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6765,7 +6767,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartInput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6785,7 +6787,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopInput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6796,7 +6798,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopInput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6815,7 +6817,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopInput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6835,7 +6837,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseInput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6846,7 +6848,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseInput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6865,7 +6867,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseInput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6885,7 +6887,7 @@ func newCmdAndroidMediaIAudioPolicyService_InitStreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6896,7 +6898,7 @@ func newCmdAndroidMediaIAudioPolicyService_InitStreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6926,7 +6928,7 @@ func newCmdAndroidMediaIAudioPolicyService_InitStreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6950,7 +6952,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetStreamVolumeIndex() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6961,7 +6963,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetStreamVolumeIndex() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -6991,7 +6993,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetStreamVolumeIndex() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7015,7 +7017,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeIndex() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7026,7 +7028,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeIndex() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7051,7 +7053,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeIndex() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7073,7 +7075,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetVolumeIndexForAttributes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7084,7 +7086,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetVolumeIndexForAttributes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7110,7 +7112,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetVolumeIndexForAttributes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7132,7 +7134,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeIndexForAttributes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7143,7 +7145,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeIndexForAttributes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7164,7 +7166,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeIndexForAttributes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7184,7 +7186,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMaxVolumeIndexForAttributes() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7195,7 +7197,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMaxVolumeIndexForAttributes() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7211,7 +7213,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMaxVolumeIndexForAttributes() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7229,7 +7231,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMinVolumeIndexForAttributes() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7240,7 +7242,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMinVolumeIndexForAttributes() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7256,7 +7258,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMinVolumeIndexForAttributes() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7274,7 +7276,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStrategyForStream() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7285,7 +7287,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStrategyForStream() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7305,7 +7307,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStrategyForStream() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7325,7 +7327,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForAttributes() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7336,7 +7338,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForAttributes() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7357,7 +7359,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForAttributes() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7377,7 +7379,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7388,7 +7390,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7432,7 +7434,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOutputForEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7466,7 +7468,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7477,7 +7479,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7541,7 +7543,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7583,7 +7585,7 @@ func newCmdAndroidMediaIAudioPolicyService_UnregisterEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7594,7 +7596,7 @@ func newCmdAndroidMediaIAudioPolicyService_UnregisterEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7613,7 +7615,7 @@ func newCmdAndroidMediaIAudioPolicyService_UnregisterEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7633,7 +7635,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetEffectEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7644,7 +7646,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetEffectEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7668,7 +7670,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetEffectEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7690,7 +7692,7 @@ func newCmdAndroidMediaIAudioPolicyService_MoveEffectsToIo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7701,7 +7703,7 @@ func newCmdAndroidMediaIAudioPolicyService_MoveEffectsToIo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7735,7 +7737,7 @@ func newCmdAndroidMediaIAudioPolicyService_MoveEffectsToIo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -7757,7 +7759,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7768,7 +7770,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7793,7 +7795,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7815,7 +7817,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActiveRemotely() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7826,7 +7828,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActiveRemotely() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7851,7 +7853,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsStreamActiveRemotely() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7873,7 +7875,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsSourceActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7884,7 +7886,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsSourceActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7904,7 +7906,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsSourceActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7924,7 +7926,7 @@ func newCmdAndroidMediaIAudioPolicyService_QueryDefaultPreProcessing() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7935,7 +7937,7 @@ func newCmdAndroidMediaIAudioPolicyService_QueryDefaultPreProcessing() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -7957,7 +7959,7 @@ func newCmdAndroidMediaIAudioPolicyService_QueryDefaultPreProcessing() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -7978,7 +7980,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddSourceDefaultEffect() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7989,7 +7991,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddSourceDefaultEffect() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8040,7 +8042,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddSourceDefaultEffect() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8072,7 +8074,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddStreamDefaultEffect() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8083,7 +8085,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddStreamDefaultEffect() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8134,7 +8136,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddStreamDefaultEffect() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8166,7 +8168,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveSourceDefaultEffect() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8177,7 +8179,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveSourceDefaultEffect() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8196,7 +8198,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveSourceDefaultEffect() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8216,7 +8218,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveStreamDefaultEffect() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8227,7 +8229,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveStreamDefaultEffect() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8246,7 +8248,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveStreamDefaultEffect() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8266,7 +8268,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSupportedSystemUsages() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8277,7 +8279,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSupportedSystemUsages() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8302,7 +8304,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSupportedSystemUsages() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8322,7 +8324,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAllowedCapturePolicy() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8333,7 +8335,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAllowedCapturePolicy() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8357,7 +8359,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAllowedCapturePolicy() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8379,7 +8381,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOffloadSupport() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8390,7 +8392,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOffloadSupport() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8431,7 +8433,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetOffloadSupport() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8469,7 +8471,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsDirectOutputSupported() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8480,7 +8482,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsDirectOutputSupported() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8509,7 +8511,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsDirectOutputSupported() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8536,7 +8538,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPorts() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8547,7 +8549,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPorts() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8577,7 +8579,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPorts() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8600,7 +8602,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListDeclaredDevicePorts() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8611,7 +8613,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListDeclaredDevicePorts() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8631,7 +8633,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListDeclaredDevicePorts() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8651,7 +8653,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetAudioPort() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8662,7 +8664,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetAudioPort() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8681,7 +8683,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetAudioPort() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8701,7 +8703,7 @@ func newCmdAndroidMediaIAudioPolicyService_CreateAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8712,7 +8714,7 @@ func newCmdAndroidMediaIAudioPolicyService_CreateAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8744,7 +8746,7 @@ func newCmdAndroidMediaIAudioPolicyService_CreateAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8767,7 +8769,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseAudioPatch() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8778,7 +8780,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseAudioPatch() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8797,7 +8799,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseAudioPatch() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -8817,7 +8819,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPatches() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8828,7 +8830,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPatches() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8846,7 +8848,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioPatches() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -8865,7 +8867,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -8876,7 +8878,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -8956,7 +8958,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9014,7 +9016,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9025,7 +9027,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9049,7 +9051,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9069,7 +9071,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortCallbacksEnabled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9080,7 +9082,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortCallbacksEnabled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9099,7 +9101,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioPortCallbacksEnabled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9119,7 +9121,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioVolumeGroupCallbacksEnabled()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9130,7 +9132,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioVolumeGroupCallbacksEnabled()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9149,7 +9151,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAudioVolumeGroupCallbacksEnabled()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9169,7 +9171,7 @@ func newCmdAndroidMediaIAudioPolicyService_AcquireSoundTriggerSession() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9180,7 +9182,7 @@ func newCmdAndroidMediaIAudioPolicyService_AcquireSoundTriggerSession() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9194,7 +9196,7 @@ func newCmdAndroidMediaIAudioPolicyService_AcquireSoundTriggerSession() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9212,7 +9214,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseSoundTriggerSession() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9223,7 +9225,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseSoundTriggerSession() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9242,7 +9244,7 @@ func newCmdAndroidMediaIAudioPolicyService_ReleaseSoundTriggerSession() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9262,7 +9264,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPhoneState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9273,7 +9275,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPhoneState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9287,7 +9289,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPhoneState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9305,7 +9307,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterPolicyMixes() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9316,7 +9318,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterPolicyMixes() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9346,7 +9348,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterPolicyMixes() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9368,7 +9370,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetRegisteredPolicyMixes() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9379,7 +9381,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetRegisteredPolicyMixes() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9393,7 +9395,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetRegisteredPolicyMixes() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9411,7 +9413,7 @@ func newCmdAndroidMediaIAudioPolicyService_UpdatePolicyMixes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9422,7 +9424,7 @@ func newCmdAndroidMediaIAudioPolicyService_UpdatePolicyMixes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9447,7 +9449,7 @@ func newCmdAndroidMediaIAudioPolicyService_UpdatePolicyMixes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9467,7 +9469,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUidDeviceAffinities() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9478,7 +9480,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUidDeviceAffinities() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9508,7 +9510,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUidDeviceAffinities() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9530,7 +9532,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUidDeviceAffinities() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9541,7 +9543,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUidDeviceAffinities() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9560,7 +9562,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUidDeviceAffinities() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9580,7 +9582,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUserIdDeviceAffinities() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9591,7 +9593,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUserIdDeviceAffinities() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9616,7 +9618,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetUserIdDeviceAffinities() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9636,7 +9638,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUserIdDeviceAffinities() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9647,7 +9649,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUserIdDeviceAffinities() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9661,7 +9663,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveUserIdDeviceAffinities() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9679,7 +9681,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartAudioSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9690,7 +9692,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartAudioSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9772,7 +9774,7 @@ func newCmdAndroidMediaIAudioPolicyService_StartAudioSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9830,7 +9832,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopAudioSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9841,7 +9843,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopAudioSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9860,7 +9862,7 @@ func newCmdAndroidMediaIAudioPolicyService_StopAudioSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9880,7 +9882,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetMasterMono() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9891,7 +9893,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetMasterMono() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9910,7 +9912,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetMasterMono() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -9930,7 +9932,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMasterMono() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9941,7 +9943,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMasterMono() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -9955,7 +9957,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetMasterMono() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -9973,7 +9975,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeDB() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -9984,7 +9986,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeDB() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10014,7 +10016,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetStreamVolumeDB() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10038,7 +10040,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSurroundFormats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10049,7 +10051,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSurroundFormats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10068,7 +10070,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSurroundFormats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10087,7 +10089,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetReportedSurroundFormats() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10098,7 +10100,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetReportedSurroundFormats() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10116,7 +10118,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetReportedSurroundFormats() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10135,7 +10137,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetHwOffloadFormatsSupportedForBlueto
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10146,7 +10148,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetHwOffloadFormatsSupportedForBlueto
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10165,7 +10167,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetHwOffloadFormatsSupportedForBlueto
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10185,7 +10187,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSurroundFormatEnabled() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10196,7 +10198,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSurroundFormatEnabled() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10222,7 +10224,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetSurroundFormatEnabled() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10245,7 +10247,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAssistantServicesUids() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10256,7 +10258,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAssistantServicesUids() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10285,7 +10287,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetAssistantServicesUids() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10305,7 +10307,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetActiveAssistantServicesUids() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10316,7 +10318,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetActiveAssistantServicesUids() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10345,7 +10347,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetActiveAssistantServicesUids() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10365,7 +10367,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetA11yServicesUids() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10376,7 +10378,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetA11yServicesUids() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10405,7 +10407,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetA11yServicesUids() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10425,7 +10427,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetCurrentImeUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10436,7 +10438,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetCurrentImeUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10455,7 +10457,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetCurrentImeUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10475,7 +10477,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHapticPlaybackSupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10486,7 +10488,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHapticPlaybackSupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10500,7 +10502,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHapticPlaybackSupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10518,7 +10520,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsUltrasoundSupported() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10529,7 +10531,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsUltrasoundSupported() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10543,7 +10545,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsUltrasoundSupported() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10561,7 +10563,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHotwordStreamSupported() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10572,7 +10574,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHotwordStreamSupported() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10591,7 +10593,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsHotwordStreamSupported() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10611,7 +10613,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioProductStrategies() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10622,7 +10624,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioProductStrategies() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10636,7 +10638,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioProductStrategies() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10654,7 +10656,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetProductStrategyFromAudioAttributes
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10665,7 +10667,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetProductStrategyFromAudioAttributes
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10686,7 +10688,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetProductStrategyFromAudioAttributes
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10706,7 +10708,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioVolumeGroups() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10717,7 +10719,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioVolumeGroups() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10731,7 +10733,7 @@ func newCmdAndroidMediaIAudioPolicyService_ListAudioVolumeGroups() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10749,7 +10751,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeGroupFromAudioAttributes() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10760,7 +10762,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeGroupFromAudioAttributes() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10781,7 +10783,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetVolumeGroupFromAudioAttributes() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10801,7 +10803,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetRttEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10812,7 +10814,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetRttEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10831,7 +10833,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetRttEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10851,7 +10853,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsCallScreenModeSupported() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10862,7 +10864,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsCallScreenModeSupported() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10876,7 +10878,7 @@ func newCmdAndroidMediaIAudioPolicyService_IsCallScreenModeSupported() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -10894,7 +10896,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForStrategy() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10905,7 +10907,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForStrategy() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -10941,7 +10943,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForStrategy() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -10965,7 +10967,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForStrategy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -10976,7 +10978,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForStrategy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11012,7 +11014,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForStrategy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11036,7 +11038,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForStrategy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11047,7 +11049,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForStrategy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11072,7 +11074,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForStrategy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11094,7 +11096,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndStrategy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11105,7 +11107,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndStrategy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11130,7 +11132,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndStrategy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11152,7 +11154,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForCapturePreset() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11163,7 +11165,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForCapturePreset() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11200,7 +11202,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetDevicesRoleForCapturePreset() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11224,7 +11226,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddDevicesRoleForCapturePreset() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11235,7 +11237,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddDevicesRoleForCapturePreset() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11272,7 +11274,7 @@ func newCmdAndroidMediaIAudioPolicyService_AddDevicesRoleForCapturePreset() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11296,7 +11298,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForCapturePreset() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11307,7 +11309,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForCapturePreset() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11344,7 +11346,7 @@ func newCmdAndroidMediaIAudioPolicyService_RemoveDevicesRoleForCapturePreset() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11368,7 +11370,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForCapturePreset() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11379,7 +11381,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForCapturePreset() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11405,7 +11407,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearDevicesRoleForCapturePreset() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -11427,7 +11429,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndCapturePreset() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11438,7 +11440,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndCapturePreset() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11464,7 +11466,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDevicesForRoleAndCapturePreset() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11486,7 +11488,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterSoundTriggerCaptureStateListe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11497,7 +11499,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterSoundTriggerCaptureStateListe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11521,7 +11523,7 @@ func newCmdAndroidMediaIAudioPolicyService_RegisterSoundTriggerCaptureStateListe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11541,7 +11543,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSpatializer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11552,7 +11554,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSpatializer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11576,7 +11578,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSpatializer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11596,7 +11598,7 @@ func newCmdAndroidMediaIAudioPolicyService_CanBeSpatialized() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11607,7 +11609,7 @@ func newCmdAndroidMediaIAudioPolicyService_CanBeSpatialized() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11675,7 +11677,7 @@ func newCmdAndroidMediaIAudioPolicyService_CanBeSpatialized() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11725,7 +11727,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectPlaybackSupport() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11736,7 +11738,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectPlaybackSupport() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11791,7 +11793,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectPlaybackSupport() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11839,7 +11841,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectProfilesForAttributes() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11850,7 +11852,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectProfilesForAttributes() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11866,7 +11868,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetDirectProfilesForAttributes() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11884,7 +11886,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSupportedMixerAttributes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11895,7 +11897,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSupportedMixerAttributes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11914,7 +11916,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetSupportedMixerAttributes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -11934,7 +11936,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPreferredMixerAttributes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -11945,7 +11947,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPreferredMixerAttributes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -11986,7 +11988,7 @@ func newCmdAndroidMediaIAudioPolicyService_SetPreferredMixerAttributes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12018,7 +12020,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPreferredMixerAttributes() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12029,7 +12031,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPreferredMixerAttributes() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -12050,7 +12052,7 @@ func newCmdAndroidMediaIAudioPolicyService_GetPreferredMixerAttributes() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -12070,7 +12072,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearPreferredMixerAttributes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12081,7 +12083,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearPreferredMixerAttributes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyService")
 			}
 			if err != nil {
 				return err
@@ -12107,7 +12109,7 @@ func newCmdAndroidMediaIAudioPolicyService_ClearPreferredMixerAttributes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12146,7 +12148,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioVolumeGroupChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12157,7 +12159,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioVolumeGroupChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12181,7 +12183,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioVolumeGroupChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12203,7 +12205,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPortListUpdate() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12214,7 +12216,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPortListUpdate() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12228,7 +12230,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPortListUpdate() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12246,7 +12248,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPatchListUpdate() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12257,7 +12259,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPatchListUpdate() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12271,7 +12273,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnAudioPatchListUpdate() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12289,7 +12291,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnDynamicPolicyMixStateUpdate()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12300,7 +12302,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnDynamicPolicyMixStateUpdate()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12324,7 +12326,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnDynamicPolicyMixStateUpdate()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12346,7 +12348,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRecordingConfigurationUpdate(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12357,7 +12359,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRecordingConfigurationUpdate(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12444,7 +12446,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRecordingConfigurationUpdate(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12496,7 +12498,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRoutingUpdated() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12507,7 +12509,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRoutingUpdated() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12521,7 +12523,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnRoutingUpdated() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12539,7 +12541,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnVolumeRangeInitRequest() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12550,7 +12552,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnVolumeRangeInitRequest() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioPolicyServiceClient")
 			}
 			if err != nil {
 				return err
@@ -12564,7 +12566,7 @@ func newCmdAndroidMediaIAudioPolicyServiceClient_OnVolumeRangeInitRequest() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12598,7 +12600,7 @@ func newCmdAndroidMediaIAudioRecord_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12609,7 +12611,7 @@ func newCmdAndroidMediaIAudioRecord_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12633,7 +12635,7 @@ func newCmdAndroidMediaIAudioRecord_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12655,7 +12657,7 @@ func newCmdAndroidMediaIAudioRecord_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12666,7 +12668,7 @@ func newCmdAndroidMediaIAudioRecord_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12680,7 +12682,7 @@ func newCmdAndroidMediaIAudioRecord_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12698,7 +12700,7 @@ func newCmdAndroidMediaIAudioRecord_GetActiveMicrophones() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12709,7 +12711,7 @@ func newCmdAndroidMediaIAudioRecord_GetActiveMicrophones() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12724,7 +12726,7 @@ func newCmdAndroidMediaIAudioRecord_GetActiveMicrophones() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12742,7 +12744,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneDirection() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12753,7 +12755,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneDirection() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12772,7 +12774,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneDirection() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12792,7 +12794,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneFieldDimension() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12803,7 +12805,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneFieldDimension() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12822,7 +12824,7 @@ func newCmdAndroidMediaIAudioRecord_SetPreferredMicrophoneFieldDimension() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12842,7 +12844,7 @@ func newCmdAndroidMediaIAudioRecord_ShareAudioHistory() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12853,7 +12855,7 @@ func newCmdAndroidMediaIAudioRecord_ShareAudioHistory() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRecord")
 			}
 			if err != nil {
 				return err
@@ -12877,7 +12879,7 @@ func newCmdAndroidMediaIAudioRecord_ShareAudioHistory() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12910,7 +12912,7 @@ func newCmdAndroidMediaIAudioRoutesObserver_DispatchAudioRoutesChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12921,7 +12923,7 @@ func newCmdAndroidMediaIAudioRoutesObserver_DispatchAudioRoutesChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRoutesObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioRoutesObserver")
 			}
 			if err != nil {
 				return err
@@ -12937,7 +12939,7 @@ func newCmdAndroidMediaIAudioRoutesObserver_DispatchAudioRoutesChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -12966,7 +12968,7 @@ func newCmdAndroidMediaIAudioServerStateDispatcher_DispatchAudioServerStateChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -12977,7 +12979,7 @@ func newCmdAndroidMediaIAudioServerStateDispatcher_DispatchAudioServerStateChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioServerStateDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioServerStateDispatcher")
 			}
 			if err != nil {
 				return err
@@ -12996,7 +12998,7 @@ func newCmdAndroidMediaIAudioServerStateDispatcher_DispatchAudioServerStateChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13288,7 +13290,7 @@ func newCmdAndroidMediaIAudioService_TrackPlayer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13299,7 +13301,7 @@ func newCmdAndroidMediaIAudioService_TrackPlayer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13315,7 +13317,7 @@ func newCmdAndroidMediaIAudioService_TrackPlayer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13333,7 +13335,7 @@ func newCmdAndroidMediaIAudioService_PlayerAttributes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13344,7 +13346,7 @@ func newCmdAndroidMediaIAudioService_PlayerAttributes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13365,7 +13367,7 @@ func newCmdAndroidMediaIAudioService_PlayerAttributes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13385,7 +13387,7 @@ func newCmdAndroidMediaIAudioService_PlayerEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13396,7 +13398,7 @@ func newCmdAndroidMediaIAudioService_PlayerEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13425,7 +13427,7 @@ func newCmdAndroidMediaIAudioService_PlayerEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13449,7 +13451,7 @@ func newCmdAndroidMediaIAudioService_ReleasePlayer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13460,7 +13462,7 @@ func newCmdAndroidMediaIAudioService_ReleasePlayer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13479,7 +13481,7 @@ func newCmdAndroidMediaIAudioService_ReleasePlayer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13499,7 +13501,7 @@ func newCmdAndroidMediaIAudioService_TrackRecorder() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13510,7 +13512,7 @@ func newCmdAndroidMediaIAudioService_TrackRecorder() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13533,7 +13535,7 @@ func newCmdAndroidMediaIAudioService_TrackRecorder() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -13553,7 +13555,7 @@ func newCmdAndroidMediaIAudioService_RecorderEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13564,7 +13566,7 @@ func newCmdAndroidMediaIAudioService_RecorderEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13588,7 +13590,7 @@ func newCmdAndroidMediaIAudioService_RecorderEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13610,7 +13612,7 @@ func newCmdAndroidMediaIAudioService_ReleaseRecorder() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13621,7 +13623,7 @@ func newCmdAndroidMediaIAudioService_ReleaseRecorder() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13640,7 +13642,7 @@ func newCmdAndroidMediaIAudioService_ReleaseRecorder() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13660,7 +13662,7 @@ func newCmdAndroidMediaIAudioService_PlayerSessionId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13671,7 +13673,7 @@ func newCmdAndroidMediaIAudioService_PlayerSessionId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13695,7 +13697,7 @@ func newCmdAndroidMediaIAudioService_PlayerSessionId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13717,7 +13719,7 @@ func newCmdAndroidMediaIAudioService_PortEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13728,7 +13730,7 @@ func newCmdAndroidMediaIAudioService_PortEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13755,7 +13757,7 @@ func newCmdAndroidMediaIAudioService_PortEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13777,7 +13779,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13788,7 +13790,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13817,7 +13819,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13841,7 +13843,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeWithAttribution() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13852,7 +13854,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeWithAttribution() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13881,7 +13883,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeWithAttribution() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13905,7 +13907,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13916,7 +13918,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -13945,7 +13947,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -13969,7 +13971,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeWithAttribution() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -13980,7 +13982,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeWithAttribution() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14009,7 +14011,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeWithAttribution() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14033,7 +14035,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14044,7 +14046,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14062,7 +14064,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14080,7 +14082,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14091,7 +14093,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14109,7 +14111,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14127,7 +14129,7 @@ func newCmdAndroidMediaIAudioService_HandleVolumeKey() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14138,7 +14140,7 @@ func newCmdAndroidMediaIAudioService_HandleVolumeKey() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14164,7 +14166,7 @@ func newCmdAndroidMediaIAudioService_HandleVolumeKey() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14186,7 +14188,7 @@ func newCmdAndroidMediaIAudioService_IsStreamMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14197,7 +14199,7 @@ func newCmdAndroidMediaIAudioService_IsStreamMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14216,7 +14218,7 @@ func newCmdAndroidMediaIAudioService_IsStreamMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14236,7 +14238,7 @@ func newCmdAndroidMediaIAudioService_ForceRemoteSubmixFullVolume() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14247,7 +14249,7 @@ func newCmdAndroidMediaIAudioService_ForceRemoteSubmixFullVolume() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14275,7 +14277,7 @@ func newCmdAndroidMediaIAudioService_ForceRemoteSubmixFullVolume() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14297,7 +14299,7 @@ func newCmdAndroidMediaIAudioService_IsMasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14308,7 +14310,7 @@ func newCmdAndroidMediaIAudioService_IsMasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14322,7 +14324,7 @@ func newCmdAndroidMediaIAudioService_IsMasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14340,7 +14342,7 @@ func newCmdAndroidMediaIAudioService_SetMasterMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14351,7 +14353,7 @@ func newCmdAndroidMediaIAudioService_SetMasterMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14375,7 +14377,7 @@ func newCmdAndroidMediaIAudioService_SetMasterMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14397,7 +14399,7 @@ func newCmdAndroidMediaIAudioService_GetStreamVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14408,7 +14410,7 @@ func newCmdAndroidMediaIAudioService_GetStreamVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14427,7 +14429,7 @@ func newCmdAndroidMediaIAudioService_GetStreamVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14447,7 +14449,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMinVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14458,7 +14460,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMinVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14477,7 +14479,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMinVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14497,7 +14499,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMaxVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14508,7 +14510,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMaxVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14527,7 +14529,7 @@ func newCmdAndroidMediaIAudioService_GetStreamMaxVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14547,7 +14549,7 @@ func newCmdAndroidMediaIAudioService_GetAudioVolumeGroups() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14558,7 +14560,7 @@ func newCmdAndroidMediaIAudioService_GetAudioVolumeGroups() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14572,7 +14574,7 @@ func newCmdAndroidMediaIAudioService_GetAudioVolumeGroups() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14590,7 +14592,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeGroupVolumeIndex() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14601,7 +14603,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeGroupVolumeIndex() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14630,7 +14632,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeGroupVolumeIndex() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14654,7 +14656,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupVolumeIndex() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14665,7 +14667,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupVolumeIndex() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14684,7 +14686,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupVolumeIndex() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14704,7 +14706,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMaxVolumeIndex() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14715,7 +14717,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMaxVolumeIndex() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14734,7 +14736,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMaxVolumeIndex() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14754,7 +14756,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMinVolumeIndex() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14765,7 +14767,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMinVolumeIndex() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14784,7 +14786,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeGroupMinVolumeIndex() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14804,7 +14806,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleVolumeForVolumeGroup() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14815,7 +14817,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleVolumeForVolumeGroup() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14834,7 +14836,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleVolumeForVolumeGroup() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14854,7 +14856,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeGroupMuted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14865,7 +14867,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeGroupMuted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14884,7 +14886,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeGroupMuted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -14904,7 +14906,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolumeGroupVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14915,7 +14917,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolumeGroupVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14944,7 +14946,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolumeGroupVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -14968,7 +14970,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleStreamVolume() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -14979,7 +14981,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleStreamVolume() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -14998,7 +15000,7 @@ func newCmdAndroidMediaIAudioService_GetLastAudibleStreamVolume() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15018,7 +15020,7 @@ func newCmdAndroidMediaIAudioService_SetSupportedSystemUsages() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15029,7 +15031,7 @@ func newCmdAndroidMediaIAudioService_SetSupportedSystemUsages() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15058,7 +15060,7 @@ func newCmdAndroidMediaIAudioService_SetSupportedSystemUsages() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15078,7 +15080,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedSystemUsages() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15089,7 +15091,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedSystemUsages() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15103,7 +15105,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedSystemUsages() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15121,7 +15123,7 @@ func newCmdAndroidMediaIAudioService_GetAudioProductStrategies() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15132,7 +15134,7 @@ func newCmdAndroidMediaIAudioService_GetAudioProductStrategies() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15146,7 +15148,7 @@ func newCmdAndroidMediaIAudioService_GetAudioProductStrategies() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15164,7 +15166,7 @@ func newCmdAndroidMediaIAudioService_IsMicrophoneMuted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15175,7 +15177,7 @@ func newCmdAndroidMediaIAudioService_IsMicrophoneMuted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15189,7 +15191,7 @@ func newCmdAndroidMediaIAudioService_IsMicrophoneMuted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15207,7 +15209,7 @@ func newCmdAndroidMediaIAudioService_IsUltrasoundSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15218,7 +15220,7 @@ func newCmdAndroidMediaIAudioService_IsUltrasoundSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15232,7 +15234,7 @@ func newCmdAndroidMediaIAudioService_IsUltrasoundSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15250,7 +15252,7 @@ func newCmdAndroidMediaIAudioService_IsHotwordStreamSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15261,7 +15263,7 @@ func newCmdAndroidMediaIAudioService_IsHotwordStreamSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15280,7 +15282,7 @@ func newCmdAndroidMediaIAudioService_IsHotwordStreamSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15300,7 +15302,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15311,7 +15313,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15330,7 +15332,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15350,7 +15352,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMuteFromSwitch() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15361,7 +15363,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMuteFromSwitch() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15380,7 +15382,7 @@ func newCmdAndroidMediaIAudioService_SetMicrophoneMuteFromSwitch() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15400,7 +15402,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeExternal() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15411,7 +15413,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeExternal() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15435,7 +15437,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeExternal() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15457,7 +15459,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeInternal() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15468,7 +15470,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeInternal() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15492,7 +15494,7 @@ func newCmdAndroidMediaIAudioService_SetRingerModeInternal() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15514,7 +15516,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeExternal() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15525,7 +15527,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeExternal() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15539,7 +15541,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeExternal() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15557,7 +15559,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeInternal() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15568,7 +15570,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeInternal() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15582,7 +15584,7 @@ func newCmdAndroidMediaIAudioService_GetRingerModeInternal() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15600,7 +15602,7 @@ func newCmdAndroidMediaIAudioService_IsValidRingerMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15611,7 +15613,7 @@ func newCmdAndroidMediaIAudioService_IsValidRingerMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15630,7 +15632,7 @@ func newCmdAndroidMediaIAudioService_IsValidRingerMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15650,7 +15652,7 @@ func newCmdAndroidMediaIAudioService_SetVibrateSetting() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15661,7 +15663,7 @@ func newCmdAndroidMediaIAudioService_SetVibrateSetting() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15685,7 +15687,7 @@ func newCmdAndroidMediaIAudioService_SetVibrateSetting() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15707,7 +15709,7 @@ func newCmdAndroidMediaIAudioService_GetVibrateSetting() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15718,7 +15720,7 @@ func newCmdAndroidMediaIAudioService_GetVibrateSetting() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15737,7 +15739,7 @@ func newCmdAndroidMediaIAudioService_GetVibrateSetting() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15757,7 +15759,7 @@ func newCmdAndroidMediaIAudioService_ShouldVibrate() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15768,7 +15770,7 @@ func newCmdAndroidMediaIAudioService_ShouldVibrate() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15787,7 +15789,7 @@ func newCmdAndroidMediaIAudioService_ShouldVibrate() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15807,7 +15809,7 @@ func newCmdAndroidMediaIAudioService_SetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15818,7 +15820,7 @@ func newCmdAndroidMediaIAudioService_SetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15846,7 +15848,7 @@ func newCmdAndroidMediaIAudioService_SetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15868,7 +15870,7 @@ func newCmdAndroidMediaIAudioService_GetMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15879,7 +15881,7 @@ func newCmdAndroidMediaIAudioService_GetMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15893,7 +15895,7 @@ func newCmdAndroidMediaIAudioService_GetMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -15911,7 +15913,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15922,7 +15924,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15941,7 +15943,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -15961,7 +15963,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffectVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -15972,7 +15974,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffectVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -15996,7 +15998,7 @@ func newCmdAndroidMediaIAudioService_PlaySoundEffectVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16018,7 +16020,7 @@ func newCmdAndroidMediaIAudioService_LoadSoundEffects() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16029,7 +16031,7 @@ func newCmdAndroidMediaIAudioService_LoadSoundEffects() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16043,7 +16045,7 @@ func newCmdAndroidMediaIAudioService_LoadSoundEffects() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16061,7 +16063,7 @@ func newCmdAndroidMediaIAudioService_UnloadSoundEffects() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16072,7 +16074,7 @@ func newCmdAndroidMediaIAudioService_UnloadSoundEffects() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16086,7 +16088,7 @@ func newCmdAndroidMediaIAudioService_UnloadSoundEffects() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16104,7 +16106,7 @@ func newCmdAndroidMediaIAudioService_ReloadAudioSettings() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16115,7 +16117,7 @@ func newCmdAndroidMediaIAudioService_ReloadAudioSettings() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16129,7 +16131,7 @@ func newCmdAndroidMediaIAudioService_ReloadAudioSettings() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16147,7 +16149,7 @@ func newCmdAndroidMediaIAudioService_GetSurroundFormats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16158,7 +16160,7 @@ func newCmdAndroidMediaIAudioService_GetSurroundFormats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16172,7 +16174,7 @@ func newCmdAndroidMediaIAudioService_GetSurroundFormats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16190,7 +16192,7 @@ func newCmdAndroidMediaIAudioService_GetReportedSurroundFormats() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16201,7 +16203,7 @@ func newCmdAndroidMediaIAudioService_GetReportedSurroundFormats() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16215,7 +16217,7 @@ func newCmdAndroidMediaIAudioService_GetReportedSurroundFormats() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16233,7 +16235,7 @@ func newCmdAndroidMediaIAudioService_SetSurroundFormatEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16244,7 +16246,7 @@ func newCmdAndroidMediaIAudioService_SetSurroundFormatEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16268,7 +16270,7 @@ func newCmdAndroidMediaIAudioService_SetSurroundFormatEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16290,7 +16292,7 @@ func newCmdAndroidMediaIAudioService_IsSurroundFormatEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16301,7 +16303,7 @@ func newCmdAndroidMediaIAudioService_IsSurroundFormatEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16320,7 +16322,7 @@ func newCmdAndroidMediaIAudioService_IsSurroundFormatEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16340,7 +16342,7 @@ func newCmdAndroidMediaIAudioService_SetEncodedSurroundMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16351,7 +16353,7 @@ func newCmdAndroidMediaIAudioService_SetEncodedSurroundMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16370,7 +16372,7 @@ func newCmdAndroidMediaIAudioService_SetEncodedSurroundMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16390,7 +16392,7 @@ func newCmdAndroidMediaIAudioService_GetEncodedSurroundMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16401,7 +16403,7 @@ func newCmdAndroidMediaIAudioService_GetEncodedSurroundMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16420,7 +16422,7 @@ func newCmdAndroidMediaIAudioService_GetEncodedSurroundMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16440,7 +16442,7 @@ func newCmdAndroidMediaIAudioService_SetSpeakerphoneOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16451,7 +16453,7 @@ func newCmdAndroidMediaIAudioService_SetSpeakerphoneOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16479,7 +16481,7 @@ func newCmdAndroidMediaIAudioService_SetSpeakerphoneOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16501,7 +16503,7 @@ func newCmdAndroidMediaIAudioService_IsSpeakerphoneOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16512,7 +16514,7 @@ func newCmdAndroidMediaIAudioService_IsSpeakerphoneOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16526,7 +16528,7 @@ func newCmdAndroidMediaIAudioService_IsSpeakerphoneOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16544,7 +16546,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothScoOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16555,7 +16557,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothScoOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16574,7 +16576,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothScoOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16594,7 +16596,7 @@ func newCmdAndroidMediaIAudioService_SetA2dpSuspended() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16605,7 +16607,7 @@ func newCmdAndroidMediaIAudioService_SetA2dpSuspended() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16624,7 +16626,7 @@ func newCmdAndroidMediaIAudioService_SetA2dpSuspended() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16644,7 +16646,7 @@ func newCmdAndroidMediaIAudioService_SetLeAudioSuspended() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16655,7 +16657,7 @@ func newCmdAndroidMediaIAudioService_SetLeAudioSuspended() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16674,7 +16676,7 @@ func newCmdAndroidMediaIAudioService_SetLeAudioSuspended() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16694,7 +16696,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothScoOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16705,7 +16707,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothScoOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16719,7 +16721,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothScoOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16737,7 +16739,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothA2dpOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16748,7 +16750,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothA2dpOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16767,7 +16769,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothA2dpOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -16787,7 +16789,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothA2dpOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16798,7 +16800,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothA2dpOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16812,7 +16814,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothA2dpOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16830,7 +16832,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16841,7 +16843,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16911,7 +16913,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -16945,7 +16947,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -16956,7 +16958,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -16992,7 +16994,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17016,7 +17018,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioFocusClient() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17027,7 +17029,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioFocusClient() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17046,7 +17048,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioFocusClient() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17066,7 +17068,7 @@ func newCmdAndroidMediaIAudioService_GetCurrentAudioFocus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17077,7 +17079,7 @@ func newCmdAndroidMediaIAudioService_GetCurrentAudioFocus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17091,7 +17093,7 @@ func newCmdAndroidMediaIAudioService_GetCurrentAudioFocus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17109,7 +17111,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothSco() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17120,7 +17122,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothSco() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17148,7 +17150,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothSco() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17170,7 +17172,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothScoVirtualCall() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17181,7 +17183,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothScoVirtualCall() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17204,7 +17206,7 @@ func newCmdAndroidMediaIAudioService_StartBluetoothScoVirtualCall() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17224,7 +17226,7 @@ func newCmdAndroidMediaIAudioService_StopBluetoothSco() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17235,7 +17237,7 @@ func newCmdAndroidMediaIAudioService_StopBluetoothSco() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17258,7 +17260,7 @@ func newCmdAndroidMediaIAudioService_StopBluetoothSco() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17278,7 +17280,7 @@ func newCmdAndroidMediaIAudioService_ForceVolumeControlStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17289,7 +17291,7 @@ func newCmdAndroidMediaIAudioService_ForceVolumeControlStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17317,7 +17319,7 @@ func newCmdAndroidMediaIAudioService_ForceVolumeControlStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17339,7 +17341,7 @@ func newCmdAndroidMediaIAudioService_SetRingtonePlayer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17350,7 +17352,7 @@ func newCmdAndroidMediaIAudioService_SetRingtonePlayer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17374,7 +17376,7 @@ func newCmdAndroidMediaIAudioService_SetRingtonePlayer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17394,7 +17396,7 @@ func newCmdAndroidMediaIAudioService_GetRingtonePlayer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17405,7 +17407,7 @@ func newCmdAndroidMediaIAudioService_GetRingtonePlayer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17419,7 +17421,7 @@ func newCmdAndroidMediaIAudioService_GetRingtonePlayer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17437,7 +17439,7 @@ func newCmdAndroidMediaIAudioService_GetUiSoundsStreamType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17448,7 +17450,7 @@ func newCmdAndroidMediaIAudioService_GetUiSoundsStreamType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17462,7 +17464,7 @@ func newCmdAndroidMediaIAudioService_GetUiSoundsStreamType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17480,7 +17482,7 @@ func newCmdAndroidMediaIAudioService_GetIndependentStreamTypes() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17491,7 +17493,7 @@ func newCmdAndroidMediaIAudioService_GetIndependentStreamTypes() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17505,7 +17507,7 @@ func newCmdAndroidMediaIAudioService_GetIndependentStreamTypes() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17523,7 +17525,7 @@ func newCmdAndroidMediaIAudioService_GetStreamTypeAlias() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17534,7 +17536,7 @@ func newCmdAndroidMediaIAudioService_GetStreamTypeAlias() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17553,7 +17555,7 @@ func newCmdAndroidMediaIAudioService_GetStreamTypeAlias() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17573,7 +17575,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeControlUsingVolumeGroups() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17584,7 +17586,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeControlUsingVolumeGroups() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17598,7 +17600,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeControlUsingVolumeGroups() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17616,7 +17618,7 @@ func newCmdAndroidMediaIAudioService_RegisterStreamAliasingDispatcher() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17627,7 +17629,7 @@ func newCmdAndroidMediaIAudioService_RegisterStreamAliasingDispatcher() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17656,7 +17658,7 @@ func newCmdAndroidMediaIAudioService_RegisterStreamAliasingDispatcher() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17678,7 +17680,7 @@ func newCmdAndroidMediaIAudioService_SetNotifAliasRingForTest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17689,7 +17691,7 @@ func newCmdAndroidMediaIAudioService_SetNotifAliasRingForTest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17708,7 +17710,7 @@ func newCmdAndroidMediaIAudioService_SetNotifAliasRingForTest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17728,7 +17730,7 @@ func newCmdAndroidMediaIAudioService_SetWiredDeviceConnectionState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17739,7 +17741,7 @@ func newCmdAndroidMediaIAudioService_SetWiredDeviceConnectionState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17765,7 +17767,7 @@ func newCmdAndroidMediaIAudioService_SetWiredDeviceConnectionState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17787,7 +17789,7 @@ func newCmdAndroidMediaIAudioService_StartWatchingRoutes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17798,7 +17800,7 @@ func newCmdAndroidMediaIAudioService_StartWatchingRoutes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17822,7 +17824,7 @@ func newCmdAndroidMediaIAudioService_StartWatchingRoutes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17842,7 +17844,7 @@ func newCmdAndroidMediaIAudioService_IsCameraSoundForced() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17853,7 +17855,7 @@ func newCmdAndroidMediaIAudioService_IsCameraSoundForced() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17867,7 +17869,7 @@ func newCmdAndroidMediaIAudioService_IsCameraSoundForced() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17885,7 +17887,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeController() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17896,7 +17898,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeController() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17920,7 +17922,7 @@ func newCmdAndroidMediaIAudioService_SetVolumeController() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -17940,7 +17942,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeController() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17951,7 +17953,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeController() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -17965,7 +17967,7 @@ func newCmdAndroidMediaIAudioService_GetVolumeController() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -17983,7 +17985,7 @@ func newCmdAndroidMediaIAudioService_NotifyVolumeControllerVisible() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -17994,7 +17996,7 @@ func newCmdAndroidMediaIAudioService_NotifyVolumeControllerVisible() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18023,7 +18025,7 @@ func newCmdAndroidMediaIAudioService_NotifyVolumeControllerVisible() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18045,7 +18047,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByRingerMode() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18056,7 +18058,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByRingerMode() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18075,7 +18077,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByRingerMode() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18095,7 +18097,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByMute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18106,7 +18108,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByMute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18125,7 +18127,7 @@ func newCmdAndroidMediaIAudioService_IsStreamAffectedByMute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18145,7 +18147,7 @@ func newCmdAndroidMediaIAudioService_DisableSafeMediaVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18156,7 +18158,7 @@ func newCmdAndroidMediaIAudioService_DisableSafeMediaVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18170,7 +18172,7 @@ func newCmdAndroidMediaIAudioService_DisableSafeMediaVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18188,7 +18190,7 @@ func newCmdAndroidMediaIAudioService_LowerVolumeToRs1() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18199,7 +18201,7 @@ func newCmdAndroidMediaIAudioService_LowerVolumeToRs1() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18213,7 +18215,7 @@ func newCmdAndroidMediaIAudioService_LowerVolumeToRs1() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18231,7 +18233,7 @@ func newCmdAndroidMediaIAudioService_GetOutputRs2UpperBound() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18242,7 +18244,7 @@ func newCmdAndroidMediaIAudioService_GetOutputRs2UpperBound() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18256,7 +18258,7 @@ func newCmdAndroidMediaIAudioService_GetOutputRs2UpperBound() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18274,7 +18276,7 @@ func newCmdAndroidMediaIAudioService_SetOutputRs2UpperBound() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18285,7 +18287,7 @@ func newCmdAndroidMediaIAudioService_SetOutputRs2UpperBound() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18304,7 +18306,7 @@ func newCmdAndroidMediaIAudioService_SetOutputRs2UpperBound() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18324,7 +18326,7 @@ func newCmdAndroidMediaIAudioService_GetCsd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18335,7 +18337,7 @@ func newCmdAndroidMediaIAudioService_GetCsd() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18349,7 +18351,7 @@ func newCmdAndroidMediaIAudioService_GetCsd() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18367,7 +18369,7 @@ func newCmdAndroidMediaIAudioService_SetCsd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18378,7 +18380,7 @@ func newCmdAndroidMediaIAudioService_SetCsd() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18397,7 +18399,7 @@ func newCmdAndroidMediaIAudioService_SetCsd() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18417,7 +18419,7 @@ func newCmdAndroidMediaIAudioService_ForceUseFrameworkMel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18428,7 +18430,7 @@ func newCmdAndroidMediaIAudioService_ForceUseFrameworkMel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18447,7 +18449,7 @@ func newCmdAndroidMediaIAudioService_ForceUseFrameworkMel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18467,7 +18469,7 @@ func newCmdAndroidMediaIAudioService_ForceComputeCsdOnAllDevices() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18478,7 +18480,7 @@ func newCmdAndroidMediaIAudioService_ForceComputeCsdOnAllDevices() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18497,7 +18499,7 @@ func newCmdAndroidMediaIAudioService_ForceComputeCsdOnAllDevices() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18517,7 +18519,7 @@ func newCmdAndroidMediaIAudioService_IsCsdEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18528,7 +18530,7 @@ func newCmdAndroidMediaIAudioService_IsCsdEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18542,7 +18544,7 @@ func newCmdAndroidMediaIAudioService_IsCsdEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18560,7 +18562,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureAvailable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18571,7 +18573,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureAvailable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18585,7 +18587,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureAvailable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18603,7 +18605,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18614,7 +18616,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18628,7 +18630,7 @@ func newCmdAndroidMediaIAudioService_IsCsdAsAFeatureEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18646,7 +18648,7 @@ func newCmdAndroidMediaIAudioService_SetCsdAsAFeatureEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18657,7 +18659,7 @@ func newCmdAndroidMediaIAudioService_SetCsdAsAFeatureEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18676,7 +18678,7 @@ func newCmdAndroidMediaIAudioService_SetCsdAsAFeatureEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18696,7 +18698,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory_legacy() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18707,7 +18709,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory_legacy() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18736,7 +18738,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory_legacy() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -18760,7 +18762,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory_legacy() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18771,7 +18773,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory_legacy() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18795,7 +18797,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory_legacy() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18817,7 +18819,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18828,7 +18830,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18852,7 +18854,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothAudioDeviceCategory() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18874,7 +18876,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18885,7 +18887,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18904,7 +18906,7 @@ func newCmdAndroidMediaIAudioService_GetBluetoothAudioDeviceCategory() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18924,7 +18926,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothAudioDeviceCategoryFixed() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18935,7 +18937,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothAudioDeviceCategoryFixed() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -18954,7 +18956,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothAudioDeviceCategoryFixed() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -18974,7 +18976,7 @@ func newCmdAndroidMediaIAudioService_SetHdmiSystemAudioSupported() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -18985,7 +18987,7 @@ func newCmdAndroidMediaIAudioService_SetHdmiSystemAudioSupported() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19004,7 +19006,7 @@ func newCmdAndroidMediaIAudioService_SetHdmiSystemAudioSupported() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19024,7 +19026,7 @@ func newCmdAndroidMediaIAudioService_IsHdmiSystemAudioSupported() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19035,7 +19037,7 @@ func newCmdAndroidMediaIAudioService_IsHdmiSystemAudioSupported() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19049,7 +19051,7 @@ func newCmdAndroidMediaIAudioService_IsHdmiSystemAudioSupported() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19067,7 +19069,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicyAsync() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19078,7 +19080,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicyAsync() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19102,7 +19104,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicyAsync() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19122,7 +19124,7 @@ func newCmdAndroidMediaIAudioService_GetRegisteredPolicyMixes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19133,7 +19135,7 @@ func newCmdAndroidMediaIAudioService_GetRegisteredPolicyMixes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19147,7 +19149,7 @@ func newCmdAndroidMediaIAudioService_GetRegisteredPolicyMixes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19165,7 +19167,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19176,7 +19178,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19200,7 +19202,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19220,7 +19222,7 @@ func newCmdAndroidMediaIAudioService_AddMixForPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19231,7 +19233,7 @@ func newCmdAndroidMediaIAudioService_AddMixForPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19288,7 +19290,7 @@ func newCmdAndroidMediaIAudioService_AddMixForPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19315,7 +19317,7 @@ func newCmdAndroidMediaIAudioService_RemoveMixForPolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19326,7 +19328,7 @@ func newCmdAndroidMediaIAudioService_RemoveMixForPolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19383,7 +19385,7 @@ func newCmdAndroidMediaIAudioService_RemoveMixForPolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19410,7 +19412,7 @@ func newCmdAndroidMediaIAudioService_UpdateMixingRulesForPolicy() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19421,7 +19423,7 @@ func newCmdAndroidMediaIAudioService_UpdateMixingRulesForPolicy() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19467,7 +19469,7 @@ func newCmdAndroidMediaIAudioService_UpdateMixingRulesForPolicy() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19491,7 +19493,7 @@ func newCmdAndroidMediaIAudioService_SetFocusPropertiesForPolicy() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19502,7 +19504,7 @@ func newCmdAndroidMediaIAudioService_SetFocusPropertiesForPolicy() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19531,7 +19533,7 @@ func newCmdAndroidMediaIAudioService_SetFocusPropertiesForPolicy() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19553,7 +19555,7 @@ func newCmdAndroidMediaIAudioService_SetVolumePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19564,7 +19566,7 @@ func newCmdAndroidMediaIAudioService_SetVolumePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19580,7 +19582,7 @@ func newCmdAndroidMediaIAudioService_SetVolumePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19598,7 +19600,7 @@ func newCmdAndroidMediaIAudioService_HasRegisteredDynamicPolicy() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19609,7 +19611,7 @@ func newCmdAndroidMediaIAudioService_HasRegisteredDynamicPolicy() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19623,7 +19625,7 @@ func newCmdAndroidMediaIAudioService_HasRegisteredDynamicPolicy() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19641,7 +19643,7 @@ func newCmdAndroidMediaIAudioService_RegisterRecordingCallback() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19652,7 +19654,7 @@ func newCmdAndroidMediaIAudioService_RegisterRecordingCallback() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19676,7 +19678,7 @@ func newCmdAndroidMediaIAudioService_RegisterRecordingCallback() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19696,7 +19698,7 @@ func newCmdAndroidMediaIAudioService_UnregisterRecordingCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19707,7 +19709,7 @@ func newCmdAndroidMediaIAudioService_UnregisterRecordingCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19731,7 +19733,7 @@ func newCmdAndroidMediaIAudioService_UnregisterRecordingCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19751,7 +19753,7 @@ func newCmdAndroidMediaIAudioService_GetActiveRecordingConfigurations() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19762,7 +19764,7 @@ func newCmdAndroidMediaIAudioService_GetActiveRecordingConfigurations() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19776,7 +19778,7 @@ func newCmdAndroidMediaIAudioService_GetActiveRecordingConfigurations() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19794,7 +19796,7 @@ func newCmdAndroidMediaIAudioService_RegisterPlaybackCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19805,7 +19807,7 @@ func newCmdAndroidMediaIAudioService_RegisterPlaybackCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19829,7 +19831,7 @@ func newCmdAndroidMediaIAudioService_RegisterPlaybackCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19849,7 +19851,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPlaybackCallback() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19860,7 +19862,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPlaybackCallback() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19884,7 +19886,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPlaybackCallback() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -19904,7 +19906,7 @@ func newCmdAndroidMediaIAudioService_GetActivePlaybackConfigurations() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19915,7 +19917,7 @@ func newCmdAndroidMediaIAudioService_GetActivePlaybackConfigurations() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19929,7 +19931,7 @@ func newCmdAndroidMediaIAudioService_GetActivePlaybackConfigurations() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19947,7 +19949,7 @@ func newCmdAndroidMediaIAudioService_GetFocusRampTimeMs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -19958,7 +19960,7 @@ func newCmdAndroidMediaIAudioService_GetFocusRampTimeMs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -19979,7 +19981,7 @@ func newCmdAndroidMediaIAudioService_GetFocusRampTimeMs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -19999,7 +20001,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChange() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20010,7 +20012,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChange() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20041,7 +20043,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChange() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20063,7 +20065,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChangeWithFade() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20074,7 +20076,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChangeWithFade() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20118,7 +20120,7 @@ func newCmdAndroidMediaIAudioService_DispatchFocusChangeWithFade() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20142,7 +20144,7 @@ func newCmdAndroidMediaIAudioService_PlayerHasOpPlayAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20153,7 +20155,7 @@ func newCmdAndroidMediaIAudioService_PlayerHasOpPlayAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20177,7 +20179,7 @@ func newCmdAndroidMediaIAudioService_PlayerHasOpPlayAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20199,7 +20201,7 @@ func newCmdAndroidMediaIAudioService_HandleBluetoothActiveDeviceChanged() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20210,7 +20212,7 @@ func newCmdAndroidMediaIAudioService_HandleBluetoothActiveDeviceChanged() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20230,7 +20232,7 @@ func newCmdAndroidMediaIAudioService_HandleBluetoothActiveDeviceChanged() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20248,7 +20250,7 @@ func newCmdAndroidMediaIAudioService_SetFocusRequestResultFromExtPolicy() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20259,7 +20261,7 @@ func newCmdAndroidMediaIAudioService_SetFocusRequestResultFromExtPolicy() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20290,7 +20292,7 @@ func newCmdAndroidMediaIAudioService_SetFocusRequestResultFromExtPolicy() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20312,7 +20314,7 @@ func newCmdAndroidMediaIAudioService_RegisterAudioServerStateDispatcher() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20323,7 +20325,7 @@ func newCmdAndroidMediaIAudioService_RegisterAudioServerStateDispatcher() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20347,7 +20349,7 @@ func newCmdAndroidMediaIAudioService_RegisterAudioServerStateDispatcher() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20367,7 +20369,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioServerStateDispatcher() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20378,7 +20380,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioServerStateDispatcher() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20402,7 +20404,7 @@ func newCmdAndroidMediaIAudioService_UnregisterAudioServerStateDispatcher() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -20422,7 +20424,7 @@ func newCmdAndroidMediaIAudioService_IsAudioServerRunning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20433,7 +20435,7 @@ func newCmdAndroidMediaIAudioService_IsAudioServerRunning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20447,7 +20449,7 @@ func newCmdAndroidMediaIAudioService_IsAudioServerRunning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20465,7 +20467,7 @@ func newCmdAndroidMediaIAudioService_SetUidDeviceAffinity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20476,7 +20478,7 @@ func newCmdAndroidMediaIAudioService_SetUidDeviceAffinity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20529,7 +20531,7 @@ func newCmdAndroidMediaIAudioService_SetUidDeviceAffinity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20555,7 +20557,7 @@ func newCmdAndroidMediaIAudioService_RemoveUidDeviceAffinity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20566,7 +20568,7 @@ func newCmdAndroidMediaIAudioService_RemoveUidDeviceAffinity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20595,7 +20597,7 @@ func newCmdAndroidMediaIAudioService_RemoveUidDeviceAffinity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20617,7 +20619,7 @@ func newCmdAndroidMediaIAudioService_SetUserIdDeviceAffinity() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20628,7 +20630,7 @@ func newCmdAndroidMediaIAudioService_SetUserIdDeviceAffinity() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20676,7 +20678,7 @@ func newCmdAndroidMediaIAudioService_SetUserIdDeviceAffinity() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20700,7 +20702,7 @@ func newCmdAndroidMediaIAudioService_RemoveUserIdDeviceAffinity() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20711,7 +20713,7 @@ func newCmdAndroidMediaIAudioService_RemoveUserIdDeviceAffinity() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20735,7 +20737,7 @@ func newCmdAndroidMediaIAudioService_RemoveUserIdDeviceAffinity() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20755,7 +20757,7 @@ func newCmdAndroidMediaIAudioService_HasHapticChannels() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20766,7 +20768,7 @@ func newCmdAndroidMediaIAudioService_HasHapticChannels() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20782,7 +20784,7 @@ func newCmdAndroidMediaIAudioService_HasHapticChannels() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20800,7 +20802,7 @@ func newCmdAndroidMediaIAudioService_IsCallScreeningModeSupported() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20811,7 +20813,7 @@ func newCmdAndroidMediaIAudioService_IsCallScreeningModeSupported() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20825,7 +20827,7 @@ func newCmdAndroidMediaIAudioService_IsCallScreeningModeSupported() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20843,7 +20845,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForStrategy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20854,7 +20856,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForStrategy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20884,7 +20886,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForStrategy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20906,7 +20908,7 @@ func newCmdAndroidMediaIAudioService_RemovePreferredDevicesForStrategy() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20917,7 +20919,7 @@ func newCmdAndroidMediaIAudioService_RemovePreferredDevicesForStrategy() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20936,7 +20938,7 @@ func newCmdAndroidMediaIAudioService_RemovePreferredDevicesForStrategy() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -20956,7 +20958,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForStrategy() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -20967,7 +20969,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForStrategy() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -20986,7 +20988,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForStrategy() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21006,7 +21008,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceAsNonDefaultForStrategy() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21017,7 +21019,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceAsNonDefaultForStrategy() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21038,7 +21040,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceAsNonDefaultForStrategy() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21058,7 +21060,7 @@ func newCmdAndroidMediaIAudioService_RemoveDeviceAsNonDefaultForStrategy() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21069,7 +21071,7 @@ func newCmdAndroidMediaIAudioService_RemoveDeviceAsNonDefaultForStrategy() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21090,7 +21092,7 @@ func newCmdAndroidMediaIAudioService_RemoveDeviceAsNonDefaultForStrategy() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21110,7 +21112,7 @@ func newCmdAndroidMediaIAudioService_GetNonDefaultDevicesForStrategy() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21121,7 +21123,7 @@ func newCmdAndroidMediaIAudioService_GetNonDefaultDevicesForStrategy() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21140,7 +21142,7 @@ func newCmdAndroidMediaIAudioService_GetNonDefaultDevicesForStrategy() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21160,7 +21162,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21171,7 +21173,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21187,7 +21189,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21205,7 +21207,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributesUnprotected() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21216,7 +21218,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributesUnprotected() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21232,7 +21234,7 @@ func newCmdAndroidMediaIAudioService_GetDevicesForAttributesUnprotected() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21250,7 +21252,7 @@ func newCmdAndroidMediaIAudioService_AddOnDevicesForAttributesChangedListener() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21261,7 +21263,7 @@ func newCmdAndroidMediaIAudioService_AddOnDevicesForAttributesChangedListener() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21287,7 +21289,7 @@ func newCmdAndroidMediaIAudioService_AddOnDevicesForAttributesChangedListener() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21307,7 +21309,7 @@ func newCmdAndroidMediaIAudioService_RemoveOnDevicesForAttributesChangedListener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21318,7 +21320,7 @@ func newCmdAndroidMediaIAudioService_RemoveOnDevicesForAttributesChangedListener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21342,7 +21344,7 @@ func newCmdAndroidMediaIAudioService_RemoveOnDevicesForAttributesChangedListener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21362,7 +21364,7 @@ func newCmdAndroidMediaIAudioService_SetAllowedCapturePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21373,7 +21375,7 @@ func newCmdAndroidMediaIAudioService_SetAllowedCapturePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21392,7 +21394,7 @@ func newCmdAndroidMediaIAudioService_SetAllowedCapturePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21412,7 +21414,7 @@ func newCmdAndroidMediaIAudioService_GetAllowedCapturePolicy() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21423,7 +21425,7 @@ func newCmdAndroidMediaIAudioService_GetAllowedCapturePolicy() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21437,7 +21439,7 @@ func newCmdAndroidMediaIAudioService_GetAllowedCapturePolicy() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21455,7 +21457,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyPreferredDevicesDispatcher(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21466,7 +21468,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyPreferredDevicesDispatcher(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21490,7 +21492,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyPreferredDevicesDispatcher(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21510,7 +21512,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyPreferredDevicesDispatche
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21521,7 +21523,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyPreferredDevicesDispatche
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21545,7 +21547,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyPreferredDevicesDispatche
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21565,7 +21567,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyNonDefaultDevicesDispatcher
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21576,7 +21578,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyNonDefaultDevicesDispatcher
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21600,7 +21602,7 @@ func newCmdAndroidMediaIAudioService_RegisterStrategyNonDefaultDevicesDispatcher
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21620,7 +21622,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyNonDefaultDevicesDispatch
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21631,7 +21633,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyNonDefaultDevicesDispatch
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21655,7 +21657,7 @@ func newCmdAndroidMediaIAudioService_UnregisterStrategyNonDefaultDevicesDispatch
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21675,7 +21677,7 @@ func newCmdAndroidMediaIAudioService_SetRttEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21686,7 +21688,7 @@ func newCmdAndroidMediaIAudioService_SetRttEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21705,7 +21707,7 @@ func newCmdAndroidMediaIAudioService_SetRttEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21725,7 +21727,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolumeBehavior() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21736,7 +21738,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolumeBehavior() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21762,7 +21764,7 @@ func newCmdAndroidMediaIAudioService_SetDeviceVolumeBehavior() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21784,7 +21786,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolumeBehavior() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21795,7 +21797,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolumeBehavior() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21811,7 +21813,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceVolumeBehavior() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21829,7 +21831,7 @@ func newCmdAndroidMediaIAudioService_SetMultiAudioFocusEnabled() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21840,7 +21842,7 @@ func newCmdAndroidMediaIAudioService_SetMultiAudioFocusEnabled() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21859,7 +21861,7 @@ func newCmdAndroidMediaIAudioService_SetMultiAudioFocusEnabled() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -21879,7 +21881,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForCapturePreset() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21890,7 +21892,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForCapturePreset() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21920,7 +21922,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredDevicesForCapturePreset() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21942,7 +21944,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredDevicesForCapturePreset() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -21953,7 +21955,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredDevicesForCapturePreset() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -21972,7 +21974,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredDevicesForCapturePreset() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -21992,7 +21994,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForCapturePreset() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22003,7 +22005,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForCapturePreset() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22022,7 +22024,7 @@ func newCmdAndroidMediaIAudioService_GetPreferredDevicesForCapturePreset() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22042,7 +22044,7 @@ func newCmdAndroidMediaIAudioService_RegisterCapturePresetDevicesRoleDispatcher(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22053,7 +22055,7 @@ func newCmdAndroidMediaIAudioService_RegisterCapturePresetDevicesRoleDispatcher(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22077,7 +22079,7 @@ func newCmdAndroidMediaIAudioService_RegisterCapturePresetDevicesRoleDispatcher(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22097,7 +22099,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCapturePresetDevicesRoleDispatche
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22108,7 +22110,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCapturePresetDevicesRoleDispatche
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22132,7 +22134,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCapturePresetDevicesRoleDispatche
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22152,7 +22154,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeForUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22163,7 +22165,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeForUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22214,7 +22216,7 @@ func newCmdAndroidMediaIAudioService_AdjustStreamVolumeForUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22246,7 +22248,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolumeForUid() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22257,7 +22259,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolumeForUid() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22308,7 +22310,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolumeForUid() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22340,7 +22342,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeForUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22351,7 +22353,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeForUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22402,7 +22404,7 @@ func newCmdAndroidMediaIAudioService_SetStreamVolumeForUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22434,7 +22436,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22445,7 +22447,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22469,7 +22471,7 @@ func newCmdAndroidMediaIAudioService_AdjustVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22491,7 +22493,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolume() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22502,7 +22504,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolume() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22531,7 +22533,7 @@ func newCmdAndroidMediaIAudioService_AdjustSuggestedStreamVolume() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22555,7 +22557,7 @@ func newCmdAndroidMediaIAudioService_IsMusicActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22566,7 +22568,7 @@ func newCmdAndroidMediaIAudioService_IsMusicActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22585,7 +22587,7 @@ func newCmdAndroidMediaIAudioService_IsMusicActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22605,7 +22607,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceMaskForStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22616,7 +22618,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceMaskForStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22635,7 +22637,7 @@ func newCmdAndroidMediaIAudioService_GetDeviceMaskForStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22655,7 +22657,7 @@ func newCmdAndroidMediaIAudioService_GetAvailableCommunicationDeviceIds() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22666,7 +22668,7 @@ func newCmdAndroidMediaIAudioService_GetAvailableCommunicationDeviceIds() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22680,7 +22682,7 @@ func newCmdAndroidMediaIAudioService_GetAvailableCommunicationDeviceIds() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22698,7 +22700,7 @@ func newCmdAndroidMediaIAudioService_SetCommunicationDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22709,7 +22711,7 @@ func newCmdAndroidMediaIAudioService_SetCommunicationDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22737,7 +22739,7 @@ func newCmdAndroidMediaIAudioService_SetCommunicationDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22759,7 +22761,7 @@ func newCmdAndroidMediaIAudioService_GetCommunicationDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22770,7 +22772,7 @@ func newCmdAndroidMediaIAudioService_GetCommunicationDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22784,7 +22786,7 @@ func newCmdAndroidMediaIAudioService_GetCommunicationDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22802,7 +22804,7 @@ func newCmdAndroidMediaIAudioService_RegisterCommunicationDeviceDispatcher() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22813,7 +22815,7 @@ func newCmdAndroidMediaIAudioService_RegisterCommunicationDeviceDispatcher() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22837,7 +22839,7 @@ func newCmdAndroidMediaIAudioService_RegisterCommunicationDeviceDispatcher() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22857,7 +22859,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCommunicationDeviceDispatcher() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22868,7 +22870,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCommunicationDeviceDispatcher() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22892,7 +22894,7 @@ func newCmdAndroidMediaIAudioService_UnregisterCommunicationDeviceDispatcher() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -22912,7 +22914,7 @@ func newCmdAndroidMediaIAudioService_AreNavigationRepeatSoundEffectsEnabled() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22923,7 +22925,7 @@ func newCmdAndroidMediaIAudioService_AreNavigationRepeatSoundEffectsEnabled() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22937,7 +22939,7 @@ func newCmdAndroidMediaIAudioService_AreNavigationRepeatSoundEffectsEnabled() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -22955,7 +22957,7 @@ func newCmdAndroidMediaIAudioService_SetNavigationRepeatSoundEffectsEnabled() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -22966,7 +22968,7 @@ func newCmdAndroidMediaIAudioService_SetNavigationRepeatSoundEffectsEnabled() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -22985,7 +22987,7 @@ func newCmdAndroidMediaIAudioService_SetNavigationRepeatSoundEffectsEnabled() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23005,7 +23007,7 @@ func newCmdAndroidMediaIAudioService_IsHomeSoundEffectEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23016,7 +23018,7 @@ func newCmdAndroidMediaIAudioService_IsHomeSoundEffectEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23030,7 +23032,7 @@ func newCmdAndroidMediaIAudioService_IsHomeSoundEffectEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23048,7 +23050,7 @@ func newCmdAndroidMediaIAudioService_SetHomeSoundEffectEnabled() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23059,7 +23061,7 @@ func newCmdAndroidMediaIAudioService_SetHomeSoundEffectEnabled() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23078,7 +23080,7 @@ func newCmdAndroidMediaIAudioService_SetHomeSoundEffectEnabled() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23098,7 +23100,7 @@ func newCmdAndroidMediaIAudioService_SetAdditionalOutputDeviceDelay() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23109,7 +23111,7 @@ func newCmdAndroidMediaIAudioService_SetAdditionalOutputDeviceDelay() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23130,7 +23132,7 @@ func newCmdAndroidMediaIAudioService_SetAdditionalOutputDeviceDelay() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23150,7 +23152,7 @@ func newCmdAndroidMediaIAudioService_GetAdditionalOutputDeviceDelay() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23161,7 +23163,7 @@ func newCmdAndroidMediaIAudioService_GetAdditionalOutputDeviceDelay() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23177,7 +23179,7 @@ func newCmdAndroidMediaIAudioService_GetAdditionalOutputDeviceDelay() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23195,7 +23197,7 @@ func newCmdAndroidMediaIAudioService_GetMaxAdditionalOutputDeviceDelay() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23206,7 +23208,7 @@ func newCmdAndroidMediaIAudioService_GetMaxAdditionalOutputDeviceDelay() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23222,7 +23224,7 @@ func newCmdAndroidMediaIAudioService_GetMaxAdditionalOutputDeviceDelay() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23240,7 +23242,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocusForTest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23251,7 +23253,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocusForTest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23316,7 +23318,7 @@ func newCmdAndroidMediaIAudioService_RequestAudioFocusForTest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23350,7 +23352,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocusForTest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23361,7 +23363,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocusForTest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23397,7 +23399,7 @@ func newCmdAndroidMediaIAudioService_AbandonAudioFocusForTest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23421,7 +23423,7 @@ func newCmdAndroidMediaIAudioService_GetFadeOutDurationOnFocusLossMillis() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23432,7 +23434,7 @@ func newCmdAndroidMediaIAudioService_GetFadeOutDurationOnFocusLossMillis() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23448,7 +23450,7 @@ func newCmdAndroidMediaIAudioService_GetFadeOutDurationOnFocusLossMillis() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23466,7 +23468,7 @@ func newCmdAndroidMediaIAudioService_GetFocusDuckedUidsForTest() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23477,7 +23479,7 @@ func newCmdAndroidMediaIAudioService_GetFocusDuckedUidsForTest() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23491,7 +23493,7 @@ func newCmdAndroidMediaIAudioService_GetFocusDuckedUidsForTest() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23509,7 +23511,7 @@ func newCmdAndroidMediaIAudioService_GetFocusFadeOutDurationForTest() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23520,7 +23522,7 @@ func newCmdAndroidMediaIAudioService_GetFocusFadeOutDurationForTest() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23534,7 +23536,7 @@ func newCmdAndroidMediaIAudioService_GetFocusFadeOutDurationForTest() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23552,7 +23554,7 @@ func newCmdAndroidMediaIAudioService_GetFocusUnmuteDelayAfterFadeOutForTest() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23563,7 +23565,7 @@ func newCmdAndroidMediaIAudioService_GetFocusUnmuteDelayAfterFadeOutForTest() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23577,7 +23579,7 @@ func newCmdAndroidMediaIAudioService_GetFocusUnmuteDelayAfterFadeOutForTest() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23595,7 +23597,7 @@ func newCmdAndroidMediaIAudioService_EnterAudioFocusFreezeForTest() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23606,7 +23608,7 @@ func newCmdAndroidMediaIAudioService_EnterAudioFocusFreezeForTest() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23644,7 +23646,7 @@ func newCmdAndroidMediaIAudioService_EnterAudioFocusFreezeForTest() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23666,7 +23668,7 @@ func newCmdAndroidMediaIAudioService_ExitAudioFocusFreezeForTest() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23677,7 +23679,7 @@ func newCmdAndroidMediaIAudioService_ExitAudioFocusFreezeForTest() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23700,7 +23702,7 @@ func newCmdAndroidMediaIAudioService_ExitAudioFocusFreezeForTest() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23720,7 +23722,7 @@ func newCmdAndroidMediaIAudioService_RegisterModeDispatcher() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23731,7 +23733,7 @@ func newCmdAndroidMediaIAudioService_RegisterModeDispatcher() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23755,7 +23757,7 @@ func newCmdAndroidMediaIAudioService_RegisterModeDispatcher() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23775,7 +23777,7 @@ func newCmdAndroidMediaIAudioService_UnregisterModeDispatcher() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23786,7 +23788,7 @@ func newCmdAndroidMediaIAudioService_UnregisterModeDispatcher() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23810,7 +23812,7 @@ func newCmdAndroidMediaIAudioService_UnregisterModeDispatcher() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -23830,7 +23832,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerImmersiveAudioLevel() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23841,7 +23843,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerImmersiveAudioLevel() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23855,7 +23857,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerImmersiveAudioLevel() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23873,7 +23875,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23884,7 +23886,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23898,7 +23900,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23916,7 +23918,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23927,7 +23929,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23941,7 +23943,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -23959,7 +23961,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailableForDevice() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -23970,7 +23972,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailableForDevice() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -23986,7 +23988,7 @@ func newCmdAndroidMediaIAudioService_IsSpatializerAvailableForDevice() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24004,7 +24006,7 @@ func newCmdAndroidMediaIAudioService_HasHeadTracker() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24015,7 +24017,7 @@ func newCmdAndroidMediaIAudioService_HasHeadTracker() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24031,7 +24033,7 @@ func newCmdAndroidMediaIAudioService_HasHeadTracker() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24049,7 +24051,7 @@ func newCmdAndroidMediaIAudioService_SetHeadTrackerEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24060,7 +24062,7 @@ func newCmdAndroidMediaIAudioService_SetHeadTrackerEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24081,7 +24083,7 @@ func newCmdAndroidMediaIAudioService_SetHeadTrackerEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24101,7 +24103,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24112,7 +24114,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24128,7 +24130,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24146,7 +24148,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerAvailable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24157,7 +24159,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerAvailable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24171,7 +24173,7 @@ func newCmdAndroidMediaIAudioService_IsHeadTrackerAvailable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24189,7 +24191,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackerAvailableCall
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24200,7 +24202,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackerAvailableCall
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24229,7 +24231,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackerAvailableCall
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24251,7 +24253,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24262,7 +24264,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24281,7 +24283,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24301,7 +24303,7 @@ func newCmdAndroidMediaIAudioService_CanBeSpatialized() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24312,7 +24314,7 @@ func newCmdAndroidMediaIAudioService_CanBeSpatialized() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24330,7 +24332,7 @@ func newCmdAndroidMediaIAudioService_CanBeSpatialized() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24348,7 +24350,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24359,7 +24361,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24383,7 +24385,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24403,7 +24405,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerCallback() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24414,7 +24416,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerCallback() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24438,7 +24440,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerCallback() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24458,7 +24460,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackingCallback() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24469,7 +24471,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackingCallback() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24493,7 +24495,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerHeadTrackingCallback() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24513,7 +24515,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerHeadTrackingCallback()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24524,7 +24526,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerHeadTrackingCallback()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24548,7 +24550,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerHeadTrackingCallback()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24568,7 +24570,7 @@ func newCmdAndroidMediaIAudioService_RegisterHeadToSoundstagePoseCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24579,7 +24581,7 @@ func newCmdAndroidMediaIAudioService_RegisterHeadToSoundstagePoseCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24603,7 +24605,7 @@ func newCmdAndroidMediaIAudioService_RegisterHeadToSoundstagePoseCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24623,7 +24625,7 @@ func newCmdAndroidMediaIAudioService_UnregisterHeadToSoundstagePoseCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24634,7 +24636,7 @@ func newCmdAndroidMediaIAudioService_UnregisterHeadToSoundstagePoseCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24658,7 +24660,7 @@ func newCmdAndroidMediaIAudioService_UnregisterHeadToSoundstagePoseCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24678,7 +24680,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerCompatibleAudioDevices() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24689,7 +24691,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerCompatibleAudioDevices() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24703,7 +24705,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerCompatibleAudioDevices() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24721,7 +24723,7 @@ func newCmdAndroidMediaIAudioService_AddSpatializerCompatibleAudioDevice() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24732,7 +24734,7 @@ func newCmdAndroidMediaIAudioService_AddSpatializerCompatibleAudioDevice() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24748,7 +24750,7 @@ func newCmdAndroidMediaIAudioService_AddSpatializerCompatibleAudioDevice() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24766,7 +24768,7 @@ func newCmdAndroidMediaIAudioService_RemoveSpatializerCompatibleAudioDevice() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24777,7 +24779,7 @@ func newCmdAndroidMediaIAudioService_RemoveSpatializerCompatibleAudioDevice() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24793,7 +24795,7 @@ func newCmdAndroidMediaIAudioService_RemoveSpatializerCompatibleAudioDevice() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -24811,7 +24813,7 @@ func newCmdAndroidMediaIAudioService_GetDesiredHeadTrackingMode() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24822,7 +24824,7 @@ func newCmdAndroidMediaIAudioService_GetDesiredHeadTrackingMode() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24836,7 +24838,7 @@ func newCmdAndroidMediaIAudioService_GetDesiredHeadTrackingMode() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24854,7 +24856,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedHeadTrackingModes() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24865,7 +24867,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedHeadTrackingModes() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24879,7 +24881,7 @@ func newCmdAndroidMediaIAudioService_GetSupportedHeadTrackingModes() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24897,7 +24899,7 @@ func newCmdAndroidMediaIAudioService_GetActualHeadTrackingMode() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24908,7 +24910,7 @@ func newCmdAndroidMediaIAudioService_GetActualHeadTrackingMode() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24922,7 +24924,7 @@ func newCmdAndroidMediaIAudioService_GetActualHeadTrackingMode() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -24940,7 +24942,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerGlobalTransform() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -24951,7 +24953,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerGlobalTransform() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -24980,7 +24982,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerGlobalTransform() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25000,7 +25002,7 @@ func newCmdAndroidMediaIAudioService_RecenterHeadTracker() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25011,7 +25013,7 @@ func newCmdAndroidMediaIAudioService_RecenterHeadTracker() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25025,7 +25027,7 @@ func newCmdAndroidMediaIAudioService_RecenterHeadTracker() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25043,7 +25045,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25054,7 +25056,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25082,7 +25084,7 @@ func newCmdAndroidMediaIAudioService_SetSpatializerParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25104,7 +25106,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25115,7 +25117,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25143,7 +25145,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25165,7 +25167,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25176,7 +25178,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25190,7 +25192,7 @@ func newCmdAndroidMediaIAudioService_GetSpatializerOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25208,7 +25210,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerOutputCallback() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25219,7 +25221,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerOutputCallback() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25243,7 +25245,7 @@ func newCmdAndroidMediaIAudioService_RegisterSpatializerOutputCallback() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25263,7 +25265,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerOutputCallback() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25274,7 +25276,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerOutputCallback() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25298,7 +25300,7 @@ func newCmdAndroidMediaIAudioService_UnregisterSpatializerOutputCallback() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25318,7 +25320,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeFixed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25329,7 +25331,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeFixed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25343,7 +25345,7 @@ func newCmdAndroidMediaIAudioService_IsVolumeFixed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25361,7 +25363,7 @@ func newCmdAndroidMediaIAudioService_GetDefaultVolumeInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25372,7 +25374,7 @@ func newCmdAndroidMediaIAudioService_GetDefaultVolumeInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25386,7 +25388,7 @@ func newCmdAndroidMediaIAudioService_GetDefaultVolumeInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25404,7 +25406,7 @@ func newCmdAndroidMediaIAudioService_IsPstnCallAudioInterceptable() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25415,7 +25417,7 @@ func newCmdAndroidMediaIAudioService_IsPstnCallAudioInterceptable() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25429,7 +25431,7 @@ func newCmdAndroidMediaIAudioService_IsPstnCallAudioInterceptable() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25447,7 +25449,7 @@ func newCmdAndroidMediaIAudioService_MuteAwaitConnection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25458,7 +25460,7 @@ func newCmdAndroidMediaIAudioService_MuteAwaitConnection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25494,7 +25496,7 @@ func newCmdAndroidMediaIAudioService_MuteAwaitConnection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25516,7 +25518,7 @@ func newCmdAndroidMediaIAudioService_CancelMuteAwaitConnection() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25527,7 +25529,7 @@ func newCmdAndroidMediaIAudioService_CancelMuteAwaitConnection() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25543,7 +25545,7 @@ func newCmdAndroidMediaIAudioService_CancelMuteAwaitConnection() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25561,7 +25563,7 @@ func newCmdAndroidMediaIAudioService_GetMutingExpectedDevice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25572,7 +25574,7 @@ func newCmdAndroidMediaIAudioService_GetMutingExpectedDevice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25586,7 +25588,7 @@ func newCmdAndroidMediaIAudioService_GetMutingExpectedDevice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25604,7 +25606,7 @@ func newCmdAndroidMediaIAudioService_RegisterMuteAwaitConnectionDispatcher() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25615,7 +25617,7 @@ func newCmdAndroidMediaIAudioService_RegisterMuteAwaitConnectionDispatcher() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25644,7 +25646,7 @@ func newCmdAndroidMediaIAudioService_RegisterMuteAwaitConnectionDispatcher() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25666,7 +25668,7 @@ func newCmdAndroidMediaIAudioService_SetTestDeviceConnectionState() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25677,7 +25679,7 @@ func newCmdAndroidMediaIAudioService_SetTestDeviceConnectionState() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25698,7 +25700,7 @@ func newCmdAndroidMediaIAudioService_SetTestDeviceConnectionState() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25718,7 +25720,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeBehaviorDispatcher() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25729,7 +25731,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeBehaviorDispatcher() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25758,7 +25760,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeBehaviorDispatcher() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25780,7 +25782,7 @@ func newCmdAndroidMediaIAudioService_GetFocusStack() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25791,7 +25793,7 @@ func newCmdAndroidMediaIAudioService_GetFocusStack() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25805,7 +25807,7 @@ func newCmdAndroidMediaIAudioService_GetFocusStack() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25823,7 +25825,7 @@ func newCmdAndroidMediaIAudioService_SendFocusLoss() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25834,7 +25836,7 @@ func newCmdAndroidMediaIAudioService_SendFocusLoss() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25860,7 +25862,7 @@ func newCmdAndroidMediaIAudioService_SendFocusLoss() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -25880,7 +25882,7 @@ func newCmdAndroidMediaIAudioService_AddAssistantServicesUids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25891,7 +25893,7 @@ func newCmdAndroidMediaIAudioService_AddAssistantServicesUids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25920,7 +25922,7 @@ func newCmdAndroidMediaIAudioService_AddAssistantServicesUids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -25940,7 +25942,7 @@ func newCmdAndroidMediaIAudioService_RemoveAssistantServicesUids() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -25951,7 +25953,7 @@ func newCmdAndroidMediaIAudioService_RemoveAssistantServicesUids() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -25980,7 +25982,7 @@ func newCmdAndroidMediaIAudioService_RemoveAssistantServicesUids() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26000,7 +26002,7 @@ func newCmdAndroidMediaIAudioService_SetActiveAssistantServiceUids() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26011,7 +26013,7 @@ func newCmdAndroidMediaIAudioService_SetActiveAssistantServiceUids() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26040,7 +26042,7 @@ func newCmdAndroidMediaIAudioService_SetActiveAssistantServiceUids() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26060,7 +26062,7 @@ func newCmdAndroidMediaIAudioService_GetAssistantServicesUids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26071,7 +26073,7 @@ func newCmdAndroidMediaIAudioService_GetAssistantServicesUids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26085,7 +26087,7 @@ func newCmdAndroidMediaIAudioService_GetAssistantServicesUids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26103,7 +26105,7 @@ func newCmdAndroidMediaIAudioService_GetActiveAssistantServiceUids() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26114,7 +26116,7 @@ func newCmdAndroidMediaIAudioService_GetActiveAssistantServiceUids() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26128,7 +26130,7 @@ func newCmdAndroidMediaIAudioService_GetActiveAssistantServiceUids() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26146,7 +26148,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeDispatcherForAbsoluteVo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26157,7 +26159,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeDispatcherForAbsoluteVo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26214,7 +26216,7 @@ func newCmdAndroidMediaIAudioService_RegisterDeviceVolumeDispatcherForAbsoluteVo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26244,7 +26246,7 @@ func newCmdAndroidMediaIAudioService_GetHalVersion() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26255,7 +26257,7 @@ func newCmdAndroidMediaIAudioService_GetHalVersion() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26269,7 +26271,7 @@ func newCmdAndroidMediaIAudioService_GetHalVersion() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26287,7 +26289,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredMixerAttributes() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26298,7 +26300,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredMixerAttributes() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26321,7 +26323,7 @@ func newCmdAndroidMediaIAudioService_SetPreferredMixerAttributes() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26341,7 +26343,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredMixerAttributes() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26352,7 +26354,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredMixerAttributes() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26373,7 +26375,7 @@ func newCmdAndroidMediaIAudioService_ClearPreferredMixerAttributes() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26393,7 +26395,7 @@ func newCmdAndroidMediaIAudioService_RegisterPreferredMixerAttributesDispatcher(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26404,7 +26406,7 @@ func newCmdAndroidMediaIAudioService_RegisterPreferredMixerAttributesDispatcher(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26428,7 +26430,7 @@ func newCmdAndroidMediaIAudioService_RegisterPreferredMixerAttributesDispatcher(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26448,7 +26450,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPreferredMixerAttributesDispatche
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26459,7 +26461,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPreferredMixerAttributesDispatche
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26483,7 +26485,7 @@ func newCmdAndroidMediaIAudioService_UnregisterPreferredMixerAttributesDispatche
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26503,7 +26505,7 @@ func newCmdAndroidMediaIAudioService_SupportsBluetoothVariableLatency() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26514,7 +26516,7 @@ func newCmdAndroidMediaIAudioService_SupportsBluetoothVariableLatency() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26528,7 +26530,7 @@ func newCmdAndroidMediaIAudioService_SupportsBluetoothVariableLatency() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26546,7 +26548,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothVariableLatencyEnabled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26557,7 +26559,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothVariableLatencyEnabled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26576,7 +26578,7 @@ func newCmdAndroidMediaIAudioService_SetBluetoothVariableLatencyEnabled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26596,7 +26598,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothVariableLatencyEnabled() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26607,7 +26609,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothVariableLatencyEnabled() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26621,7 +26623,7 @@ func newCmdAndroidMediaIAudioService_IsBluetoothVariableLatencyEnabled() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -26639,7 +26641,7 @@ func newCmdAndroidMediaIAudioService_RegisterLoudnessCodecUpdatesDispatcher() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26650,7 +26652,7 @@ func newCmdAndroidMediaIAudioService_RegisterLoudnessCodecUpdatesDispatcher() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26674,7 +26676,7 @@ func newCmdAndroidMediaIAudioService_RegisterLoudnessCodecUpdatesDispatcher() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26694,7 +26696,7 @@ func newCmdAndroidMediaIAudioService_UnregisterLoudnessCodecUpdatesDispatcher() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26705,7 +26707,7 @@ func newCmdAndroidMediaIAudioService_UnregisterLoudnessCodecUpdatesDispatcher() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26729,7 +26731,7 @@ func newCmdAndroidMediaIAudioService_UnregisterLoudnessCodecUpdatesDispatcher() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26749,7 +26751,7 @@ func newCmdAndroidMediaIAudioService_StartLoudnessCodecUpdates() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26760,7 +26762,7 @@ func newCmdAndroidMediaIAudioService_StartLoudnessCodecUpdates() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26779,7 +26781,7 @@ func newCmdAndroidMediaIAudioService_StartLoudnessCodecUpdates() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26799,7 +26801,7 @@ func newCmdAndroidMediaIAudioService_StopLoudnessCodecUpdates() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26810,7 +26812,7 @@ func newCmdAndroidMediaIAudioService_StopLoudnessCodecUpdates() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26829,7 +26831,7 @@ func newCmdAndroidMediaIAudioService_StopLoudnessCodecUpdates() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26849,7 +26851,7 @@ func newCmdAndroidMediaIAudioService_AddLoudnessCodecInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26860,7 +26862,7 @@ func newCmdAndroidMediaIAudioService_AddLoudnessCodecInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26892,7 +26894,7 @@ func newCmdAndroidMediaIAudioService_AddLoudnessCodecInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26916,7 +26918,7 @@ func newCmdAndroidMediaIAudioService_RemoveLoudnessCodecInfo() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26927,7 +26929,7 @@ func newCmdAndroidMediaIAudioService_RemoveLoudnessCodecInfo() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -26954,7 +26956,7 @@ func newCmdAndroidMediaIAudioService_RemoveLoudnessCodecInfo() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -26976,7 +26978,7 @@ func newCmdAndroidMediaIAudioService_GetLoudnessParams() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -26987,7 +26989,7 @@ func newCmdAndroidMediaIAudioService_GetLoudnessParams() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -27009,7 +27011,7 @@ func newCmdAndroidMediaIAudioService_GetLoudnessParams() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27029,7 +27031,7 @@ func newCmdAndroidMediaIAudioService_SetFadeManagerConfigurationForFocusLoss() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27040,7 +27042,7 @@ func newCmdAndroidMediaIAudioService_SetFadeManagerConfigurationForFocusLoss() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -27056,7 +27058,7 @@ func newCmdAndroidMediaIAudioService_SetFadeManagerConfigurationForFocusLoss() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27074,7 +27076,7 @@ func newCmdAndroidMediaIAudioService_ClearFadeManagerConfigurationForFocusLoss()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27085,7 +27087,7 @@ func newCmdAndroidMediaIAudioService_ClearFadeManagerConfigurationForFocusLoss()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -27099,7 +27101,7 @@ func newCmdAndroidMediaIAudioService_ClearFadeManagerConfigurationForFocusLoss()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27117,7 +27119,7 @@ func newCmdAndroidMediaIAudioService_GetFadeManagerConfigurationForFocusLoss() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27128,7 +27130,7 @@ func newCmdAndroidMediaIAudioService_GetFadeManagerConfigurationForFocusLoss() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -27142,7 +27144,7 @@ func newCmdAndroidMediaIAudioService_GetFadeManagerConfigurationForFocusLoss() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27160,7 +27162,7 @@ func newCmdAndroidMediaIAudioService_ShouldNotificationSoundPlay() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27171,7 +27173,7 @@ func newCmdAndroidMediaIAudioService_ShouldNotificationSoundPlay() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioService")
 			}
 			if err != nil {
 				return err
@@ -27187,7 +27189,7 @@ func newCmdAndroidMediaIAudioService_ShouldNotificationSoundPlay() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27233,7 +27235,7 @@ func newCmdAndroidMediaIAudioTrack_GetCblk() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27244,7 +27246,7 @@ func newCmdAndroidMediaIAudioTrack_GetCblk() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27258,7 +27260,7 @@ func newCmdAndroidMediaIAudioTrack_GetCblk() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27276,7 +27278,7 @@ func newCmdAndroidMediaIAudioTrack_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27287,7 +27289,7 @@ func newCmdAndroidMediaIAudioTrack_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27301,7 +27303,7 @@ func newCmdAndroidMediaIAudioTrack_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27319,7 +27321,7 @@ func newCmdAndroidMediaIAudioTrack_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27330,7 +27332,7 @@ func newCmdAndroidMediaIAudioTrack_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27344,7 +27346,7 @@ func newCmdAndroidMediaIAudioTrack_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27362,7 +27364,7 @@ func newCmdAndroidMediaIAudioTrack_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27373,7 +27375,7 @@ func newCmdAndroidMediaIAudioTrack_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27387,7 +27389,7 @@ func newCmdAndroidMediaIAudioTrack_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27405,7 +27407,7 @@ func newCmdAndroidMediaIAudioTrack_Pause() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27416,7 +27418,7 @@ func newCmdAndroidMediaIAudioTrack_Pause() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27430,7 +27432,7 @@ func newCmdAndroidMediaIAudioTrack_Pause() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27448,7 +27450,7 @@ func newCmdAndroidMediaIAudioTrack_AttachAuxEffect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27459,7 +27461,7 @@ func newCmdAndroidMediaIAudioTrack_AttachAuxEffect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27478,7 +27480,7 @@ func newCmdAndroidMediaIAudioTrack_AttachAuxEffect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27498,7 +27500,7 @@ func newCmdAndroidMediaIAudioTrack_SetParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27509,7 +27511,7 @@ func newCmdAndroidMediaIAudioTrack_SetParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27528,7 +27530,7 @@ func newCmdAndroidMediaIAudioTrack_SetParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27548,7 +27550,7 @@ func newCmdAndroidMediaIAudioTrack_SelectPresentation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27559,7 +27561,7 @@ func newCmdAndroidMediaIAudioTrack_SelectPresentation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27583,7 +27585,7 @@ func newCmdAndroidMediaIAudioTrack_SelectPresentation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27605,7 +27607,7 @@ func newCmdAndroidMediaIAudioTrack_GetTimestamp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27616,7 +27618,7 @@ func newCmdAndroidMediaIAudioTrack_GetTimestamp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27631,7 +27633,7 @@ func newCmdAndroidMediaIAudioTrack_GetTimestamp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27649,7 +27651,7 @@ func newCmdAndroidMediaIAudioTrack_Signal() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27660,7 +27662,7 @@ func newCmdAndroidMediaIAudioTrack_Signal() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27674,7 +27676,7 @@ func newCmdAndroidMediaIAudioTrack_Signal() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27692,7 +27694,7 @@ func newCmdAndroidMediaIAudioTrack_ApplyVolumeShaper() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27703,7 +27705,7 @@ func newCmdAndroidMediaIAudioTrack_ApplyVolumeShaper() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27742,7 +27744,7 @@ func newCmdAndroidMediaIAudioTrack_ApplyVolumeShaper() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27771,7 +27773,7 @@ func newCmdAndroidMediaIAudioTrack_GetVolumeShaperState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27782,7 +27784,7 @@ func newCmdAndroidMediaIAudioTrack_GetVolumeShaperState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27801,7 +27803,7 @@ func newCmdAndroidMediaIAudioTrack_GetVolumeShaperState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27821,7 +27823,7 @@ func newCmdAndroidMediaIAudioTrack_GetDualMonoMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27832,7 +27834,7 @@ func newCmdAndroidMediaIAudioTrack_GetDualMonoMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27846,7 +27848,7 @@ func newCmdAndroidMediaIAudioTrack_GetDualMonoMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27864,7 +27866,7 @@ func newCmdAndroidMediaIAudioTrack_SetDualMonoMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27875,7 +27877,7 @@ func newCmdAndroidMediaIAudioTrack_SetDualMonoMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27895,7 +27897,7 @@ func newCmdAndroidMediaIAudioTrack_SetDualMonoMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -27915,7 +27917,7 @@ func newCmdAndroidMediaIAudioTrack_GetAudioDescriptionMixLevel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27926,7 +27928,7 @@ func newCmdAndroidMediaIAudioTrack_GetAudioDescriptionMixLevel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27940,7 +27942,7 @@ func newCmdAndroidMediaIAudioTrack_GetAudioDescriptionMixLevel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -27958,7 +27960,7 @@ func newCmdAndroidMediaIAudioTrack_SetAudioDescriptionMixLevel() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -27969,7 +27971,7 @@ func newCmdAndroidMediaIAudioTrack_SetAudioDescriptionMixLevel() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -27988,7 +27990,7 @@ func newCmdAndroidMediaIAudioTrack_SetAudioDescriptionMixLevel() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28008,7 +28010,7 @@ func newCmdAndroidMediaIAudioTrack_GetPlaybackRateParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28019,7 +28021,7 @@ func newCmdAndroidMediaIAudioTrack_GetPlaybackRateParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -28033,7 +28035,7 @@ func newCmdAndroidMediaIAudioTrack_GetPlaybackRateParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28051,7 +28053,7 @@ func newCmdAndroidMediaIAudioTrack_SetPlaybackRateParameters() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28062,7 +28064,7 @@ func newCmdAndroidMediaIAudioTrack_SetPlaybackRateParameters() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrack")
 			}
 			if err != nil {
 				return err
@@ -28090,7 +28092,7 @@ func newCmdAndroidMediaIAudioTrack_SetPlaybackRateParameters() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28123,7 +28125,7 @@ func newCmdAndroidMediaIAudioTrackCallback_OnCodecFormatChanged() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28134,7 +28136,7 @@ func newCmdAndroidMediaIAudioTrackCallback_OnCodecFormatChanged() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrackCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IAudioTrackCallback")
 			}
 			if err != nil {
 				return err
@@ -28157,7 +28159,7 @@ func newCmdAndroidMediaIAudioTrackCallback_OnCodecFormatChanged() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28188,7 +28190,7 @@ func newCmdAndroidMediaICapturePresetDevicesRoleDispatcher_DispatchDevicesRoleCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28199,7 +28201,7 @@ func newCmdAndroidMediaICapturePresetDevicesRoleDispatcher_DispatchDevicesRoleCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ICapturePresetDevicesRoleDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ICapturePresetDevicesRoleDispatcher")
 			}
 			if err != nil {
 				return err
@@ -28234,7 +28236,7 @@ func newCmdAndroidMediaICapturePresetDevicesRoleDispatcher_DispatchDevicesRoleCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28269,7 +28271,7 @@ func newCmdAndroidMediaICaptureStateListener_SetCaptureState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28280,7 +28282,7 @@ func newCmdAndroidMediaICaptureStateListener_SetCaptureState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ICaptureStateListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ICaptureStateListener")
 			}
 			if err != nil {
 				return err
@@ -28299,7 +28301,7 @@ func newCmdAndroidMediaICaptureStateListener_SetCaptureState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28330,7 +28332,7 @@ func newCmdAndroidMediaICommunicationDeviceDispatcher_DispatchCommunicationDevic
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28341,7 +28343,7 @@ func newCmdAndroidMediaICommunicationDeviceDispatcher_DispatchCommunicationDevic
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ICommunicationDeviceDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ICommunicationDeviceDispatcher")
 			}
 			if err != nil {
 				return err
@@ -28360,7 +28362,7 @@ func newCmdAndroidMediaICommunicationDeviceDispatcher_DispatchCommunicationDevic
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28391,7 +28393,7 @@ func newCmdAndroidMediaIDeviceVolumeBehaviorDispatcher_DispatchDeviceVolumeBehav
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28402,7 +28404,7 @@ func newCmdAndroidMediaIDeviceVolumeBehaviorDispatcher_DispatchDeviceVolumeBehav
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IDeviceVolumeBehaviorDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IDeviceVolumeBehaviorDispatcher")
 			}
 			if err != nil {
 				return err
@@ -28423,7 +28425,7 @@ func newCmdAndroidMediaIDeviceVolumeBehaviorDispatcher_DispatchDeviceVolumeBehav
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28454,7 +28456,7 @@ func newCmdAndroidMediaIDevicesForAttributesCallback_OnDevicesForAttributesChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28465,7 +28467,7 @@ func newCmdAndroidMediaIDevicesForAttributesCallback_OnDevicesForAttributesChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IDevicesForAttributesCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IDevicesForAttributesCallback")
 			}
 			if err != nil {
 				return err
@@ -28497,7 +28499,7 @@ func newCmdAndroidMediaIDevicesForAttributesCallback_OnDevicesForAttributesChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28535,7 +28537,7 @@ func newCmdAndroidMediaIEffect_Enable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28546,7 +28548,7 @@ func newCmdAndroidMediaIEffect_Enable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28560,7 +28562,7 @@ func newCmdAndroidMediaIEffect_Enable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28578,7 +28580,7 @@ func newCmdAndroidMediaIEffect_Disable() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28589,7 +28591,7 @@ func newCmdAndroidMediaIEffect_Disable() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28603,7 +28605,7 @@ func newCmdAndroidMediaIEffect_Disable() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28621,7 +28623,7 @@ func newCmdAndroidMediaIEffect_Command() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28632,7 +28634,7 @@ func newCmdAndroidMediaIEffect_Command() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28666,7 +28668,7 @@ func newCmdAndroidMediaIEffect_Command() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28690,7 +28692,7 @@ func newCmdAndroidMediaIEffect_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28701,7 +28703,7 @@ func newCmdAndroidMediaIEffect_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28715,7 +28717,7 @@ func newCmdAndroidMediaIEffect_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28733,7 +28735,7 @@ func newCmdAndroidMediaIEffect_GetCblk() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28744,7 +28746,7 @@ func newCmdAndroidMediaIEffect_GetCblk() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28758,7 +28760,7 @@ func newCmdAndroidMediaIEffect_GetCblk() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28776,7 +28778,7 @@ func newCmdAndroidMediaIEffect_GetConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28787,7 +28789,7 @@ func newCmdAndroidMediaIEffect_GetConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffect")
 			}
 			if err != nil {
 				return err
@@ -28802,7 +28804,7 @@ func newCmdAndroidMediaIEffect_GetConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -28834,7 +28836,7 @@ func newCmdAndroidMediaIEffectClient_ControlStatusChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28845,7 +28847,7 @@ func newCmdAndroidMediaIEffectClient_ControlStatusChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
 			}
 			if err != nil {
 				return err
@@ -28864,7 +28866,7 @@ func newCmdAndroidMediaIEffectClient_ControlStatusChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28884,7 +28886,7 @@ func newCmdAndroidMediaIEffectClient_EnableStatusChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28895,7 +28897,7 @@ func newCmdAndroidMediaIEffectClient_EnableStatusChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
 			}
 			if err != nil {
 				return err
@@ -28914,7 +28916,7 @@ func newCmdAndroidMediaIEffectClient_EnableStatusChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -28934,7 +28936,7 @@ func newCmdAndroidMediaIEffectClient_CommandExecuted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -28945,7 +28947,7 @@ func newCmdAndroidMediaIEffectClient_CommandExecuted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
 			}
 			if err != nil {
 				return err
@@ -28982,7 +28984,7 @@ func newCmdAndroidMediaIEffectClient_CommandExecuted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29006,7 +29008,7 @@ func newCmdAndroidMediaIEffectClient_FramesProcessed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29017,7 +29019,7 @@ func newCmdAndroidMediaIEffectClient_FramesProcessed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IEffectClient")
 			}
 			if err != nil {
 				return err
@@ -29036,7 +29038,7 @@ func newCmdAndroidMediaIEffectClient_FramesProcessed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29067,7 +29069,7 @@ func newCmdAndroidMediaILoudnessCodecUpdatesDispatcher_DispatchLoudnessCodecPara
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29078,7 +29080,7 @@ func newCmdAndroidMediaILoudnessCodecUpdatesDispatcher_DispatchLoudnessCodecPara
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ILoudnessCodecUpdatesDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ILoudnessCodecUpdatesDispatcher")
 			}
 			if err != nil {
 				return err
@@ -29099,7 +29101,7 @@ func newCmdAndroidMediaILoudnessCodecUpdatesDispatcher_DispatchLoudnessCodecPara
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29135,7 +29137,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29146,7 +29148,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29170,7 +29172,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29192,7 +29194,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29203,7 +29205,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29217,7 +29219,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29235,7 +29237,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_ReadAt() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29246,7 +29248,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_ReadAt() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29270,7 +29272,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_ReadAt() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29292,7 +29294,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29303,7 +29305,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29317,7 +29319,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29335,7 +29337,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetMIMEType() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29346,7 +29348,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetMIMEType() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29360,7 +29362,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetMIMEType() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29378,7 +29380,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetUri() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29389,7 +29391,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetUri() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPConnection")
 			}
 			if err != nil {
 				return err
@@ -29403,7 +29405,7 @@ func newCmdAndroidMediaIMediaHTTPConnection_GetUri() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29432,7 +29434,7 @@ func newCmdAndroidMediaIMediaHTTPService_MakeHTTPConnection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29443,7 +29445,7 @@ func newCmdAndroidMediaIMediaHTTPService_MakeHTTPConnection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaHTTPService")
 			}
 			if err != nil {
 				return err
@@ -29457,7 +29459,7 @@ func newCmdAndroidMediaIMediaHTTPService_MakeHTTPConnection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -29486,7 +29488,7 @@ func newCmdAndroidMediaIMediaMetricsService_SubmitBuffer() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29497,7 +29499,7 @@ func newCmdAndroidMediaIMediaMetricsService_SubmitBuffer() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaMetricsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaMetricsService")
 			}
 			if err != nil {
 				return err
@@ -29520,7 +29522,7 @@ func newCmdAndroidMediaIMediaMetricsService_SubmitBuffer() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29551,7 +29553,7 @@ func newCmdAndroidMediaIMediaResourceMonitor_NotifyResourceGranted() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29562,7 +29564,7 @@ func newCmdAndroidMediaIMediaResourceMonitor_NotifyResourceGranted() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaResourceMonitor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaResourceMonitor")
 			}
 			if err != nil {
 				return err
@@ -29586,7 +29588,7 @@ func newCmdAndroidMediaIMediaResourceMonitor_NotifyResourceGranted() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29626,7 +29628,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_UpdateDiscoveryPreference() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29637,7 +29639,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_UpdateDiscoveryPreference() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29653,7 +29655,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_UpdateDiscoveryPreference() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29671,7 +29673,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetRouteVolume() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29682,7 +29684,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetRouteVolume() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29711,7 +29713,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetRouteVolume() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29735,7 +29737,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_RequestCreateSession() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29746,7 +29748,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_RequestCreateSession() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29778,7 +29780,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_RequestCreateSession() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29802,7 +29804,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SelectRoute() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29813,7 +29815,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SelectRoute() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29842,7 +29844,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SelectRoute() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29866,7 +29868,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_DeselectRoute() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29877,7 +29879,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_DeselectRoute() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29906,7 +29908,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_DeselectRoute() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29930,7 +29932,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_TransferToRoute() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -29941,7 +29943,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_TransferToRoute() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -29970,7 +29972,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_TransferToRoute() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -29994,7 +29996,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetSessionVolume() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30005,7 +30007,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetSessionVolume() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -30034,7 +30036,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_SetSessionVolume() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30058,7 +30060,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_ReleaseSession() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30069,7 +30071,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_ReleaseSession() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderService")
 			}
 			if err != nil {
 				return err
@@ -30093,7 +30095,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderService_ReleaseSession() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30130,7 +30132,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyProviderUpdated
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30141,7 +30143,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyProviderUpdated
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -30157,7 +30159,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyProviderUpdated
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30175,7 +30177,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionCreated(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30186,7 +30188,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionCreated(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -30207,7 +30209,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionCreated(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30227,7 +30229,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionsUpdated
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30238,7 +30240,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionsUpdated
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -30263,7 +30265,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionsUpdated
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30283,7 +30285,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionReleased
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30294,7 +30296,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionReleased
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -30310,7 +30312,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifySessionReleased
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30328,7 +30330,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyRequestFailed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30339,7 +30341,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyRequestFailed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRoute2ProviderServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -30363,7 +30365,7 @@ func newCmdAndroidMediaIMediaRoute2ProviderServiceCallback_NotifyRequestFailed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30401,7 +30403,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRouterRegistered() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30412,7 +30414,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRouterRegistered() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30439,7 +30441,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRouterRegistered() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30459,7 +30461,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRoutesUpdated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30470,7 +30472,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRoutesUpdated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30495,7 +30497,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifyRoutesUpdated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30515,7 +30517,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionCreated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30526,7 +30528,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionCreated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30548,7 +30550,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionCreated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30568,7 +30570,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionInfoChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30579,7 +30581,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionInfoChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30595,7 +30597,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionInfoChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30613,7 +30615,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionReleased() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30624,7 +30626,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionReleased() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30640,7 +30642,7 @@ func newCmdAndroidMediaIMediaRouter2_NotifySessionReleased() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30658,7 +30660,7 @@ func newCmdAndroidMediaIMediaRouter2_RequestCreateSessionByManager() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30669,7 +30671,7 @@ func newCmdAndroidMediaIMediaRouter2_RequestCreateSessionByManager() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2")
 			}
 			if err != nil {
 				return err
@@ -30699,7 +30701,7 @@ func newCmdAndroidMediaIMediaRouter2_RequestCreateSessionByManager() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30738,7 +30740,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionCreated() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30749,7 +30751,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionCreated() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -30770,7 +30772,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionCreated() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30790,7 +30792,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionUpdated() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30801,7 +30803,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionUpdated() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -30817,7 +30819,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionUpdated() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30835,7 +30837,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionReleased() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30846,7 +30848,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionReleased() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -30862,7 +30864,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifySessionReleased() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30880,7 +30882,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyDiscoveryPreferenceChanged() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30891,7 +30893,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyDiscoveryPreferenceChanged() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -30912,7 +30914,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyDiscoveryPreferenceChanged() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30932,7 +30934,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRouteListingPreferenceChange()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30943,7 +30945,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRouteListingPreferenceChange()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -30965,7 +30967,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRouteListingPreferenceChange()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -30985,7 +30987,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRoutesUpdated() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -30996,7 +30998,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRoutesUpdated() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -31021,7 +31023,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRoutesUpdated() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31041,7 +31043,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRequestFailed() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31052,7 +31054,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRequestFailed() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouter2Manager")
 			}
 			if err != nil {
 				return err
@@ -31076,7 +31078,7 @@ func newCmdAndroidMediaIMediaRouter2Manager_NotifyRequestFailed() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31111,7 +31113,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31122,7 +31124,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
 			}
 			if err != nil {
 				return err
@@ -31136,7 +31138,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31154,7 +31156,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnRestoreRoute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31165,7 +31167,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnRestoreRoute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
 			}
 			if err != nil {
 				return err
@@ -31179,7 +31181,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnRestoreRoute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31197,7 +31199,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnGroupRouteSelected() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31208,7 +31210,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnGroupRouteSelected() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterClient")
 			}
 			if err != nil {
 				return err
@@ -31227,7 +31229,7 @@ func newCmdAndroidMediaIMediaRouterClient_OnGroupRouteSelected() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31295,7 +31297,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientAsUser() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31306,7 +31308,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientAsUser() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31335,7 +31337,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientAsUser() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31357,7 +31359,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31368,7 +31370,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31392,7 +31394,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31412,7 +31414,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientGroupId() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31423,7 +31425,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientGroupId() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31452,7 +31454,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterClientGroupId() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31474,7 +31476,7 @@ func newCmdAndroidMediaIMediaRouterService_GetState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31485,7 +31487,7 @@ func newCmdAndroidMediaIMediaRouterService_GetState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31509,7 +31511,7 @@ func newCmdAndroidMediaIMediaRouterService_GetState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31529,7 +31531,7 @@ func newCmdAndroidMediaIMediaRouterService_IsPlaybackActive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31540,7 +31542,7 @@ func newCmdAndroidMediaIMediaRouterService_IsPlaybackActive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31564,7 +31566,7 @@ func newCmdAndroidMediaIMediaRouterService_IsPlaybackActive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31584,7 +31586,7 @@ func newCmdAndroidMediaIMediaRouterService_SetBluetoothA2dpOn() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31595,7 +31597,7 @@ func newCmdAndroidMediaIMediaRouterService_SetBluetoothA2dpOn() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31624,7 +31626,7 @@ func newCmdAndroidMediaIMediaRouterService_SetBluetoothA2dpOn() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31646,7 +31648,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequest() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31657,7 +31659,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequest() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31691,7 +31693,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequest() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31715,7 +31717,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSelectedRoute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31726,7 +31728,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSelectedRoute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31760,7 +31762,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSelectedRoute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31784,7 +31786,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestSetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31795,7 +31797,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestSetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31829,7 +31831,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestSetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31853,7 +31855,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestUpdateVolume() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31864,7 +31866,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestUpdateVolume() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31898,7 +31900,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestUpdateVolume() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -31922,7 +31924,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemRoutes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31933,7 +31935,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemRoutes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31947,7 +31949,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemRoutes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -31965,7 +31967,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -31976,7 +31978,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -31990,7 +31992,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32008,7 +32010,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterRouter2() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32019,7 +32021,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterRouter2() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32048,7 +32050,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterRouter2() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32070,7 +32072,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterRouter2() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32081,7 +32083,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterRouter2() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32105,7 +32107,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterRouter2() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32125,7 +32127,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningStateWithRouter2() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32136,7 +32138,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningStateWithRouter2() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32165,7 +32167,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningStateWithRouter2() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32187,7 +32189,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequestWithRouter2() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32198,7 +32200,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequestWithRouter2() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32224,7 +32226,7 @@ func newCmdAndroidMediaIMediaRouterService_SetDiscoveryRequestWithRouter2() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32244,7 +32246,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteListingPreference() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32255,7 +32257,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteListingPreference() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32282,7 +32284,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteListingPreference() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32302,7 +32304,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithRouter2() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32313,7 +32315,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithRouter2() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32344,7 +32346,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithRouter2() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32366,7 +32368,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithRouter2() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32377,7 +32379,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithRouter2() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32425,7 +32427,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithRouter2() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32451,7 +32453,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithRouter2() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32462,7 +32464,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithRouter2() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32493,7 +32495,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithRouter2() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32515,7 +32517,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithRouter2() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32526,7 +32528,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithRouter2() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32557,7 +32559,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithRouter2() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32579,7 +32581,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithRouter2() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32590,7 +32592,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithRouter2() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32621,7 +32623,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithRouter2() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32643,7 +32645,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithRouter2() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32654,7 +32656,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithRouter2() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32688,7 +32690,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithRouter2() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32712,7 +32714,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithRouter2() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32723,7 +32725,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithRouter2() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32752,7 +32754,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithRouter2() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32774,7 +32776,7 @@ func newCmdAndroidMediaIMediaRouterService_GetRemoteSessions() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32785,7 +32787,7 @@ func newCmdAndroidMediaIMediaRouterService_GetRemoteSessions() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32809,7 +32811,7 @@ func newCmdAndroidMediaIMediaRouterService_GetRemoteSessions() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32829,7 +32831,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfoForPackage() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32840,7 +32842,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfoForPackage() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32859,7 +32861,7 @@ func newCmdAndroidMediaIMediaRouterService_GetSystemSessionInfoForPackage() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -32879,7 +32881,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterManager() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32890,7 +32892,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterManager() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32919,7 +32921,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterManager() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -32941,7 +32943,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterProxyRouter() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -32952,7 +32954,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterProxyRouter() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -32988,7 +32990,7 @@ func newCmdAndroidMediaIMediaRouterService_RegisterProxyRouter() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33012,7 +33014,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterManager() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33023,7 +33025,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterManager() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33047,7 +33049,7 @@ func newCmdAndroidMediaIMediaRouterService_UnregisterManager() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33067,7 +33069,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithManager() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33078,7 +33080,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithManager() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33114,7 +33116,7 @@ func newCmdAndroidMediaIMediaRouterService_SetRouteVolumeWithManager() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33138,7 +33140,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningState() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33149,7 +33151,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningState() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33178,7 +33180,7 @@ func newCmdAndroidMediaIMediaRouterService_UpdateScanningState() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33200,7 +33202,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithManager() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33211,7 +33213,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithManager() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33252,7 +33254,7 @@ func newCmdAndroidMediaIMediaRouterService_RequestCreateSessionWithManager() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33276,7 +33278,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithManager() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33287,7 +33289,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithManager() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33323,7 +33325,7 @@ func newCmdAndroidMediaIMediaRouterService_SelectRouteWithManager() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33347,7 +33349,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithManager() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33358,7 +33360,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithManager() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33394,7 +33396,7 @@ func newCmdAndroidMediaIMediaRouterService_DeselectRouteWithManager() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33418,7 +33420,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithManager() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33429,7 +33431,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithManager() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33472,7 +33474,7 @@ func newCmdAndroidMediaIMediaRouterService_TransferToRouteWithManager() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33498,7 +33500,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithManager() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33509,7 +33511,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithManager() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33548,7 +33550,7 @@ func newCmdAndroidMediaIMediaRouterService_SetSessionVolumeWithManager() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33574,7 +33576,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithManager() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33585,7 +33587,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithManager() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33619,7 +33621,7 @@ func newCmdAndroidMediaIMediaRouterService_ReleaseSessionWithManager() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33643,7 +33645,7 @@ func newCmdAndroidMediaIMediaRouterService_ShowMediaOutputSwitcher() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33654,7 +33656,7 @@ func newCmdAndroidMediaIMediaRouterService_ShowMediaOutputSwitcher() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaRouterService")
 			}
 			if err != nil {
 				return err
@@ -33673,7 +33675,7 @@ func newCmdAndroidMediaIMediaRouterService_ShowMediaOutputSwitcher() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -33704,7 +33706,7 @@ func newCmdAndroidMediaIMediaScannerListener_ScanCompleted() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33715,7 +33717,7 @@ func newCmdAndroidMediaIMediaScannerListener_ScanCompleted() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerListener")
 			}
 			if err != nil {
 				return err
@@ -33736,7 +33738,7 @@ func newCmdAndroidMediaIMediaScannerListener_ScanCompleted() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33768,7 +33770,7 @@ func newCmdAndroidMediaIMediaScannerService_RequestScanFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33779,7 +33781,7 @@ func newCmdAndroidMediaIMediaScannerService_RequestScanFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerService")
 			}
 			if err != nil {
 				return err
@@ -33813,7 +33815,7 @@ func newCmdAndroidMediaIMediaScannerService_RequestScanFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33837,7 +33839,7 @@ func newCmdAndroidMediaIMediaScannerService_ScanFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33848,7 +33850,7 @@ func newCmdAndroidMediaIMediaScannerService_ScanFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaScannerService")
 			}
 			if err != nil {
 				return err
@@ -33872,7 +33874,7 @@ func newCmdAndroidMediaIMediaScannerService_ScanFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -33906,7 +33908,7 @@ func newCmdAndroidMediaIMediaTranscodingService_RegisterClient() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33917,7 +33919,7 @@ func newCmdAndroidMediaIMediaTranscodingService_RegisterClient() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaTranscodingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaTranscodingService")
 			}
 			if err != nil {
 				return err
@@ -33946,7 +33948,7 @@ func newCmdAndroidMediaIMediaTranscodingService_RegisterClient() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -33968,7 +33970,7 @@ func newCmdAndroidMediaIMediaTranscodingService_GetNumOfClients() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -33979,7 +33981,7 @@ func newCmdAndroidMediaIMediaTranscodingService_GetNumOfClients() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMediaTranscodingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMediaTranscodingService")
 			}
 			if err != nil {
 				return err
@@ -33993,7 +33995,7 @@ func newCmdAndroidMediaIMediaTranscodingService_GetNumOfClients() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -34023,7 +34025,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnMutedUntilConnecti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34034,7 +34036,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnMutedUntilConnecti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMuteAwaitConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMuteAwaitConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -34065,7 +34067,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnMutedUntilConnecti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34085,7 +34087,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnUnmutedEvent() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34096,7 +34098,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnUnmutedEvent() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IMuteAwaitConnectionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IMuteAwaitConnectionCallback")
 			}
 			if err != nil {
 				return err
@@ -34132,7 +34134,7 @@ func newCmdAndroidMediaIMuteAwaitConnectionCallback_DispatchOnUnmutedEvent() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34166,7 +34168,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnLevelChanged() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34177,7 +34179,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnLevelChanged() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.INativeSpatializerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.INativeSpatializerCallback")
 			}
 			if err != nil {
 				return err
@@ -34197,7 +34199,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnLevelChanged() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34217,7 +34219,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnOutputChanged() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34228,7 +34230,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnOutputChanged() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.INativeSpatializerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.INativeSpatializerCallback")
 			}
 			if err != nil {
 				return err
@@ -34247,7 +34249,7 @@ func newCmdAndroidMediaINativeSpatializerCallback_OnOutputChanged() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34279,7 +34281,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_RegisterNearbyDevicesCallback
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34290,7 +34292,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_RegisterNearbyDevicesCallback
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesProvider")
 			}
 			if err != nil {
 				return err
@@ -34314,7 +34316,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_RegisterNearbyDevicesCallback
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34334,7 +34336,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_UnregisterNearbyDevicesCallba
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34345,7 +34347,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_UnregisterNearbyDevicesCallba
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesProvider")
 			}
 			if err != nil {
 				return err
@@ -34369,7 +34371,7 @@ func newCmdAndroidMediaINearbyMediaDevicesProvider_UnregisterNearbyDevicesCallba
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34400,7 +34402,7 @@ func newCmdAndroidMediaINearbyMediaDevicesUpdateCallback_OnDevicesUpdated() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34411,7 +34413,7 @@ func newCmdAndroidMediaINearbyMediaDevicesUpdateCallback_OnDevicesUpdated() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesUpdateCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.INearbyMediaDevicesUpdateCallback")
 			}
 			if err != nil {
 				return err
@@ -34436,7 +34438,7 @@ func newCmdAndroidMediaINearbyMediaDevicesUpdateCallback_OnDevicesUpdated() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34467,7 +34469,7 @@ func newCmdAndroidMediaIPlaybackConfigDispatcher_DispatchPlaybackConfigChange() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34478,7 +34480,7 @@ func newCmdAndroidMediaIPlaybackConfigDispatcher_DispatchPlaybackConfigChange() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlaybackConfigDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlaybackConfigDispatcher")
 			}
 			if err != nil {
 				return err
@@ -34508,7 +34510,7 @@ func newCmdAndroidMediaIPlaybackConfigDispatcher_DispatchPlaybackConfigChange() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34547,7 +34549,7 @@ func newCmdAndroidMediaIPlayer_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34558,7 +34560,7 @@ func newCmdAndroidMediaIPlayer_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34572,7 +34574,7 @@ func newCmdAndroidMediaIPlayer_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34590,7 +34592,7 @@ func newCmdAndroidMediaIPlayer_Pause() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34601,7 +34603,7 @@ func newCmdAndroidMediaIPlayer_Pause() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34615,7 +34617,7 @@ func newCmdAndroidMediaIPlayer_Pause() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34633,7 +34635,7 @@ func newCmdAndroidMediaIPlayer_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34644,7 +34646,7 @@ func newCmdAndroidMediaIPlayer_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34658,7 +34660,7 @@ func newCmdAndroidMediaIPlayer_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34676,7 +34678,7 @@ func newCmdAndroidMediaIPlayer_SetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34687,7 +34689,7 @@ func newCmdAndroidMediaIPlayer_SetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34706,7 +34708,7 @@ func newCmdAndroidMediaIPlayer_SetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34726,7 +34728,7 @@ func newCmdAndroidMediaIPlayer_SetPan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34737,7 +34739,7 @@ func newCmdAndroidMediaIPlayer_SetPan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34756,7 +34758,7 @@ func newCmdAndroidMediaIPlayer_SetPan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34776,7 +34778,7 @@ func newCmdAndroidMediaIPlayer_SetStartDelayMs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34787,7 +34789,7 @@ func newCmdAndroidMediaIPlayer_SetStartDelayMs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34806,7 +34808,7 @@ func newCmdAndroidMediaIPlayer_SetStartDelayMs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34826,7 +34828,7 @@ func newCmdAndroidMediaIPlayer_ApplyVolumeShaper() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34837,7 +34839,7 @@ func newCmdAndroidMediaIPlayer_ApplyVolumeShaper() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPlayer")
 			}
 			if err != nil {
 				return err
@@ -34876,7 +34878,7 @@ func newCmdAndroidMediaIPlayer_ApplyVolumeShaper() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34916,7 +34918,7 @@ func newCmdAndroidMediaIPreferredMixerAttributesDispatcher_DispatchPrefMixerAttr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34927,7 +34929,7 @@ func newCmdAndroidMediaIPreferredMixerAttributesDispatcher_DispatchPrefMixerAttr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IPreferredMixerAttributesDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IPreferredMixerAttributesDispatcher")
 			}
 			if err != nil {
 				return err
@@ -34951,7 +34953,7 @@ func newCmdAndroidMediaIPreferredMixerAttributesDispatcher_DispatchPrefMixerAttr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -34982,7 +34984,7 @@ func newCmdAndroidMediaIRecordingConfigDispatcher_DispatchRecordingConfigChange(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -34993,7 +34995,7 @@ func newCmdAndroidMediaIRecordingConfigDispatcher_DispatchRecordingConfigChange(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRecordingConfigDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRecordingConfigDispatcher")
 			}
 			if err != nil {
 				return err
@@ -35018,7 +35020,7 @@ func newCmdAndroidMediaIRecordingConfigDispatcher_DispatchRecordingConfigChange(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35049,7 +35051,7 @@ func newCmdAndroidMediaIRemoteDisplayCallback_OnStateChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35060,7 +35062,7 @@ func newCmdAndroidMediaIRemoteDisplayCallback_OnStateChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayCallback")
 			}
 			if err != nil {
 				return err
@@ -35076,7 +35078,7 @@ func newCmdAndroidMediaIRemoteDisplayCallback_OnStateChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35110,7 +35112,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35121,7 +35123,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35145,7 +35147,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35165,7 +35167,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetDiscoveryMode() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35176,7 +35178,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetDiscoveryMode() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35195,7 +35197,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetDiscoveryMode() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35215,7 +35217,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Connect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35226,7 +35228,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Connect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35245,7 +35247,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Connect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35265,7 +35267,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35276,7 +35278,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35295,7 +35297,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35315,7 +35317,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35326,7 +35328,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35350,7 +35352,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_SetVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35372,7 +35374,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_AdjustVolume() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35383,7 +35385,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_AdjustVolume() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteDisplayProvider")
 			}
 			if err != nil {
 				return err
@@ -35407,7 +35409,7 @@ func newCmdAndroidMediaIRemoteDisplayProvider_AdjustVolume() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35441,7 +35443,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnVolumeChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35452,7 +35454,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnVolumeChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -35473,7 +35475,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnVolumeChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35493,7 +35495,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnSessionChanged() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35504,7 +35506,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnSessionChanged() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -35520,7 +35522,7 @@ func newCmdAndroidMediaIRemoteSessionCallback_OnSessionChanged() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35549,7 +35551,7 @@ func newCmdAndroidMediaIRemoteVolumeObserver_DispatchRemoteVolumeUpdate() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35560,7 +35562,7 @@ func newCmdAndroidMediaIRemoteVolumeObserver_DispatchRemoteVolumeUpdate() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteVolumeObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRemoteVolumeObserver")
 			}
 			if err != nil {
 				return err
@@ -35584,7 +35586,7 @@ func newCmdAndroidMediaIRemoteVolumeObserver_DispatchRemoteVolumeUpdate() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35618,7 +35620,7 @@ func newCmdAndroidMediaIResourceManagerClient_ReclaimResource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35629,7 +35631,7 @@ func newCmdAndroidMediaIResourceManagerClient_ReclaimResource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerClient")
 			}
 			if err != nil {
 				return err
@@ -35643,7 +35645,7 @@ func newCmdAndroidMediaIResourceManagerClient_ReclaimResource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -35661,7 +35663,7 @@ func newCmdAndroidMediaIResourceManagerClient_GetName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35672,7 +35674,7 @@ func newCmdAndroidMediaIResourceManagerClient_GetName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerClient")
 			}
 			if err != nil {
 				return err
@@ -35686,7 +35688,7 @@ func newCmdAndroidMediaIResourceManagerClient_GetName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -35727,7 +35729,7 @@ func newCmdAndroidMediaIResourceManagerService_Config() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35738,7 +35740,7 @@ func newCmdAndroidMediaIResourceManagerService_Config() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -35763,7 +35765,7 @@ func newCmdAndroidMediaIResourceManagerService_Config() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35783,7 +35785,7 @@ func newCmdAndroidMediaIResourceManagerService_AddResource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35794,7 +35796,7 @@ func newCmdAndroidMediaIResourceManagerService_AddResource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -35836,7 +35838,7 @@ func newCmdAndroidMediaIResourceManagerService_AddResource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35863,7 +35865,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveResource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35874,7 +35876,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveResource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -35906,7 +35908,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveResource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35931,7 +35933,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35942,7 +35944,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -35963,7 +35965,7 @@ func newCmdAndroidMediaIResourceManagerService_RemoveClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -35986,7 +35988,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResource() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -35997,7 +35999,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResource() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36029,7 +36031,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResource() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -36054,7 +36056,7 @@ func newCmdAndroidMediaIResourceManagerService_OverridePid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36065,7 +36067,7 @@ func newCmdAndroidMediaIResourceManagerService_OverridePid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36089,7 +36091,7 @@ func newCmdAndroidMediaIResourceManagerService_OverridePid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36111,7 +36113,7 @@ func newCmdAndroidMediaIResourceManagerService_OverrideProcessInfo() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36122,7 +36124,7 @@ func newCmdAndroidMediaIResourceManagerService_OverrideProcessInfo() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36161,7 +36163,7 @@ func newCmdAndroidMediaIResourceManagerService_OverrideProcessInfo() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36187,7 +36189,7 @@ func newCmdAndroidMediaIResourceManagerService_MarkClientForPendingRemoval() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36198,7 +36200,7 @@ func newCmdAndroidMediaIResourceManagerService_MarkClientForPendingRemoval() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36219,7 +36221,7 @@ func newCmdAndroidMediaIResourceManagerService_MarkClientForPendingRemoval() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36242,7 +36244,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResourcesFromClientsPendin
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36253,7 +36255,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResourcesFromClientsPendin
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36272,7 +36274,7 @@ func newCmdAndroidMediaIResourceManagerService_ReclaimResourcesFromClientsPendin
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36292,7 +36294,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientCreated() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36303,7 +36305,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientCreated() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36324,7 +36326,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientCreated() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36347,7 +36349,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStarted() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36358,7 +36360,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStarted() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36386,7 +36388,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStarted() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36415,7 +36417,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStopped() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36426,7 +36428,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStopped() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36454,7 +36456,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientStopped() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36483,7 +36485,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientConfigChanged() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36494,7 +36496,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientConfigChanged() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceManagerService")
 			}
 			if err != nil {
 				return err
@@ -36522,7 +36524,7 @@ func newCmdAndroidMediaIResourceManagerService_NotifyClientConfigChanged() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36562,7 +36564,7 @@ func newCmdAndroidMediaIResourceObserver_OnStatusChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36573,7 +36575,7 @@ func newCmdAndroidMediaIResourceObserver_OnStatusChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserver")
 			}
 			if err != nil {
 				return err
@@ -36614,7 +36616,7 @@ func newCmdAndroidMediaIResourceObserver_OnStatusChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36652,7 +36654,7 @@ func newCmdAndroidMediaIResourceObserverService_RegisterObserver() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36663,7 +36665,7 @@ func newCmdAndroidMediaIResourceObserverService_RegisterObserver() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserverService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserverService")
 			}
 			if err != nil {
 				return err
@@ -36698,7 +36700,7 @@ func newCmdAndroidMediaIResourceObserverService_RegisterObserver() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36720,7 +36722,7 @@ func newCmdAndroidMediaIResourceObserverService_UnregisterObserver() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36731,7 +36733,7 @@ func newCmdAndroidMediaIResourceObserverService_UnregisterObserver() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserverService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IResourceObserverService")
 			}
 			if err != nil {
 				return err
@@ -36755,7 +36757,7 @@ func newCmdAndroidMediaIResourceObserverService_UnregisterObserver() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36794,7 +36796,7 @@ func newCmdAndroidMediaIRingtonePlayer_Play() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36805,7 +36807,7 @@ func newCmdAndroidMediaIRingtonePlayer_Play() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -36842,7 +36844,7 @@ func newCmdAndroidMediaIRingtonePlayer_Play() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36866,7 +36868,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayWithVolumeShaping() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36877,7 +36879,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayWithVolumeShaping() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -36935,7 +36937,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayWithVolumeShaping() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -36967,7 +36969,7 @@ func newCmdAndroidMediaIRingtonePlayer_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -36978,7 +36980,7 @@ func newCmdAndroidMediaIRingtonePlayer_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37001,7 +37003,7 @@ func newCmdAndroidMediaIRingtonePlayer_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37021,7 +37023,7 @@ func newCmdAndroidMediaIRingtonePlayer_IsPlaying() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37032,7 +37034,7 @@ func newCmdAndroidMediaIRingtonePlayer_IsPlaying() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37055,7 +37057,7 @@ func newCmdAndroidMediaIRingtonePlayer_IsPlaying() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37075,7 +37077,7 @@ func newCmdAndroidMediaIRingtonePlayer_SetPlaybackProperties() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37086,7 +37088,7 @@ func newCmdAndroidMediaIRingtonePlayer_SetPlaybackProperties() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37124,7 +37126,7 @@ func newCmdAndroidMediaIRingtonePlayer_SetPlaybackProperties() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37150,7 +37152,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayAsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37161,7 +37163,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayAsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37191,7 +37193,7 @@ func newCmdAndroidMediaIRingtonePlayer_PlayAsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37213,7 +37215,7 @@ func newCmdAndroidMediaIRingtonePlayer_StopAsync() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37224,7 +37226,7 @@ func newCmdAndroidMediaIRingtonePlayer_StopAsync() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37238,7 +37240,7 @@ func newCmdAndroidMediaIRingtonePlayer_StopAsync() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37256,7 +37258,7 @@ func newCmdAndroidMediaIRingtonePlayer_GetTitle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37267,7 +37269,7 @@ func newCmdAndroidMediaIRingtonePlayer_GetTitle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37283,7 +37285,7 @@ func newCmdAndroidMediaIRingtonePlayer_GetTitle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37301,7 +37303,7 @@ func newCmdAndroidMediaIRingtonePlayer_OpenRingtone() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37312,7 +37314,7 @@ func newCmdAndroidMediaIRingtonePlayer_OpenRingtone() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IRingtonePlayer")
 			}
 			if err != nil {
 				return err
@@ -37328,7 +37330,7 @@ func newCmdAndroidMediaIRingtonePlayer_OpenRingtone() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37365,7 +37367,7 @@ func newCmdAndroidMediaISoundDose_SetOutputRs2UpperBound() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37376,7 +37378,7 @@ func newCmdAndroidMediaISoundDose_SetOutputRs2UpperBound() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37395,7 +37397,7 @@ func newCmdAndroidMediaISoundDose_SetOutputRs2UpperBound() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37415,7 +37417,7 @@ func newCmdAndroidMediaISoundDose_ResetCsd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37426,7 +37428,7 @@ func newCmdAndroidMediaISoundDose_ResetCsd() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37456,7 +37458,7 @@ func newCmdAndroidMediaISoundDose_ResetCsd() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37478,7 +37480,7 @@ func newCmdAndroidMediaISoundDose_UpdateAttenuation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37489,7 +37491,7 @@ func newCmdAndroidMediaISoundDose_UpdateAttenuation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37513,7 +37515,7 @@ func newCmdAndroidMediaISoundDose_UpdateAttenuation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37535,7 +37537,7 @@ func newCmdAndroidMediaISoundDose_SetCsdEnabled() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37546,7 +37548,7 @@ func newCmdAndroidMediaISoundDose_SetCsdEnabled() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37565,7 +37567,7 @@ func newCmdAndroidMediaISoundDose_SetCsdEnabled() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37585,7 +37587,7 @@ func newCmdAndroidMediaISoundDose_GetOutputRs2UpperBound() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37596,7 +37598,7 @@ func newCmdAndroidMediaISoundDose_GetOutputRs2UpperBound() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37610,7 +37612,7 @@ func newCmdAndroidMediaISoundDose_GetOutputRs2UpperBound() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37628,7 +37630,7 @@ func newCmdAndroidMediaISoundDose_GetCsd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37639,7 +37641,7 @@ func newCmdAndroidMediaISoundDose_GetCsd() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37653,7 +37655,7 @@ func newCmdAndroidMediaISoundDose_GetCsd() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37671,7 +37673,7 @@ func newCmdAndroidMediaISoundDose_IsSoundDoseHalSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37682,7 +37684,7 @@ func newCmdAndroidMediaISoundDose_IsSoundDoseHalSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37696,7 +37698,7 @@ func newCmdAndroidMediaISoundDose_IsSoundDoseHalSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -37714,7 +37716,7 @@ func newCmdAndroidMediaISoundDose_ForceUseFrameworkMel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37725,7 +37727,7 @@ func newCmdAndroidMediaISoundDose_ForceUseFrameworkMel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37744,7 +37746,7 @@ func newCmdAndroidMediaISoundDose_ForceUseFrameworkMel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37764,7 +37766,7 @@ func newCmdAndroidMediaISoundDose_ForceComputeCsdOnAllDevices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37775,7 +37777,7 @@ func newCmdAndroidMediaISoundDose_ForceComputeCsdOnAllDevices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDose")
 			}
 			if err != nil {
 				return err
@@ -37794,7 +37796,7 @@ func newCmdAndroidMediaISoundDose_ForceComputeCsdOnAllDevices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37826,7 +37828,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnMomentaryExposure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37837,7 +37839,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnMomentaryExposure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDoseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDoseCallback")
 			}
 			if err != nil {
 				return err
@@ -37861,7 +37863,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnMomentaryExposure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37883,7 +37885,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnNewCsdValue() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37894,7 +37896,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnNewCsdValue() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDoseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISoundDoseCallback")
 			}
 			if err != nil {
 				return err
@@ -37924,7 +37926,7 @@ func newCmdAndroidMediaISoundDoseCallback_OnNewCsdValue() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -37976,7 +37978,7 @@ func newCmdAndroidMediaISpatializer_Release() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -37987,7 +37989,7 @@ func newCmdAndroidMediaISpatializer_Release() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38001,7 +38003,7 @@ func newCmdAndroidMediaISpatializer_Release() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38019,7 +38021,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedLevels() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38030,7 +38032,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedLevels() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38044,7 +38046,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedLevels() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38062,7 +38064,7 @@ func newCmdAndroidMediaISpatializer_SetLevel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38073,7 +38075,7 @@ func newCmdAndroidMediaISpatializer_SetLevel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38093,7 +38095,7 @@ func newCmdAndroidMediaISpatializer_SetLevel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38113,7 +38115,7 @@ func newCmdAndroidMediaISpatializer_GetLevel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38124,7 +38126,7 @@ func newCmdAndroidMediaISpatializer_GetLevel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38138,7 +38140,7 @@ func newCmdAndroidMediaISpatializer_GetLevel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38156,7 +38158,7 @@ func newCmdAndroidMediaISpatializer_IsHeadTrackingSupported() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38167,7 +38169,7 @@ func newCmdAndroidMediaISpatializer_IsHeadTrackingSupported() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38181,7 +38183,7 @@ func newCmdAndroidMediaISpatializer_IsHeadTrackingSupported() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38199,7 +38201,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedHeadTrackingModes() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38210,7 +38212,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedHeadTrackingModes() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38224,7 +38226,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedHeadTrackingModes() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38242,7 +38244,7 @@ func newCmdAndroidMediaISpatializer_SetDesiredHeadTrackingMode() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38253,7 +38255,7 @@ func newCmdAndroidMediaISpatializer_SetDesiredHeadTrackingMode() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38273,7 +38275,7 @@ func newCmdAndroidMediaISpatializer_SetDesiredHeadTrackingMode() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38293,7 +38295,7 @@ func newCmdAndroidMediaISpatializer_GetActualHeadTrackingMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38304,7 +38306,7 @@ func newCmdAndroidMediaISpatializer_GetActualHeadTrackingMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38318,7 +38320,7 @@ func newCmdAndroidMediaISpatializer_GetActualHeadTrackingMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38336,7 +38338,7 @@ func newCmdAndroidMediaISpatializer_RecenterHeadTracker() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38347,7 +38349,7 @@ func newCmdAndroidMediaISpatializer_RecenterHeadTracker() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38361,7 +38363,7 @@ func newCmdAndroidMediaISpatializer_RecenterHeadTracker() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38379,7 +38381,7 @@ func newCmdAndroidMediaISpatializer_SetGlobalTransform() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38390,7 +38392,7 @@ func newCmdAndroidMediaISpatializer_SetGlobalTransform() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38419,7 +38421,7 @@ func newCmdAndroidMediaISpatializer_SetGlobalTransform() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38439,7 +38441,7 @@ func newCmdAndroidMediaISpatializer_SetHeadSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38450,7 +38452,7 @@ func newCmdAndroidMediaISpatializer_SetHeadSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38469,7 +38471,7 @@ func newCmdAndroidMediaISpatializer_SetHeadSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38489,7 +38491,7 @@ func newCmdAndroidMediaISpatializer_SetScreenSensor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38500,7 +38502,7 @@ func newCmdAndroidMediaISpatializer_SetScreenSensor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38519,7 +38521,7 @@ func newCmdAndroidMediaISpatializer_SetScreenSensor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38539,7 +38541,7 @@ func newCmdAndroidMediaISpatializer_SetDisplayOrientation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38550,7 +38552,7 @@ func newCmdAndroidMediaISpatializer_SetDisplayOrientation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38569,7 +38571,7 @@ func newCmdAndroidMediaISpatializer_SetDisplayOrientation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38589,7 +38591,7 @@ func newCmdAndroidMediaISpatializer_SetHingeAngle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38600,7 +38602,7 @@ func newCmdAndroidMediaISpatializer_SetHingeAngle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38619,7 +38621,7 @@ func newCmdAndroidMediaISpatializer_SetHingeAngle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38639,7 +38641,7 @@ func newCmdAndroidMediaISpatializer_SetFoldState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38650,7 +38652,7 @@ func newCmdAndroidMediaISpatializer_SetFoldState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38669,7 +38671,7 @@ func newCmdAndroidMediaISpatializer_SetFoldState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38689,7 +38691,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedModes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38700,7 +38702,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedModes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38714,7 +38716,7 @@ func newCmdAndroidMediaISpatializer_GetSupportedModes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38732,7 +38734,7 @@ func newCmdAndroidMediaISpatializer_RegisterHeadTrackingCallback() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38743,7 +38745,7 @@ func newCmdAndroidMediaISpatializer_RegisterHeadTrackingCallback() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38767,7 +38769,7 @@ func newCmdAndroidMediaISpatializer_RegisterHeadTrackingCallback() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38787,7 +38789,7 @@ func newCmdAndroidMediaISpatializer_SetParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38798,7 +38800,7 @@ func newCmdAndroidMediaISpatializer_SetParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38826,7 +38828,7 @@ func newCmdAndroidMediaISpatializer_SetParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38848,7 +38850,7 @@ func newCmdAndroidMediaISpatializer_GetParameter() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38859,7 +38861,7 @@ func newCmdAndroidMediaISpatializer_GetParameter() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38887,7 +38889,7 @@ func newCmdAndroidMediaISpatializer_GetParameter() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -38909,7 +38911,7 @@ func newCmdAndroidMediaISpatializer_GetOutput() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38920,7 +38922,7 @@ func newCmdAndroidMediaISpatializer_GetOutput() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializer")
 			}
 			if err != nil {
 				return err
@@ -38934,7 +38936,7 @@ func newCmdAndroidMediaISpatializer_GetOutput() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -38964,7 +38966,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerEnabledChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -38975,7 +38977,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerEnabledChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerCallback")
 			}
 			if err != nil {
 				return err
@@ -38994,7 +38996,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerEnabledChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39014,7 +39016,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerAvailableChanged(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39025,7 +39027,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerAvailableChanged(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerCallback")
 			}
 			if err != nil {
 				return err
@@ -39044,7 +39046,7 @@ func newCmdAndroidMediaISpatializerCallback_DispatchSpatializerAvailableChanged(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39075,7 +39077,7 @@ func newCmdAndroidMediaISpatializerHeadToSoundStagePoseCallback_DispatchPoseChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39086,7 +39088,7 @@ func newCmdAndroidMediaISpatializerHeadToSoundStagePoseCallback_DispatchPoseChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadToSoundStagePoseCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadToSoundStagePoseCallback")
 			}
 			if err != nil {
 				return err
@@ -39115,7 +39117,7 @@ func newCmdAndroidMediaISpatializerHeadToSoundStagePoseCallback_DispatchPoseChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39146,7 +39148,7 @@ func newCmdAndroidMediaISpatializerHeadTrackerAvailableCallback_DispatchSpatiali
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39157,7 +39159,7 @@ func newCmdAndroidMediaISpatializerHeadTrackerAvailableCallback_DispatchSpatiali
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackerAvailableCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackerAvailableCallback")
 			}
 			if err != nil {
 				return err
@@ -39176,7 +39178,7 @@ func newCmdAndroidMediaISpatializerHeadTrackerAvailableCallback_DispatchSpatiali
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39208,7 +39210,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadTrackingModeChange
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39219,7 +39221,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadTrackingModeChange
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingCallback")
 			}
 			if err != nil {
 				return err
@@ -39239,7 +39241,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadTrackingModeChange
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39259,7 +39261,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadToSoundStagePoseUp
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39270,7 +39272,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadToSoundStagePoseUp
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingCallback")
 			}
 			if err != nil {
 				return err
@@ -39299,7 +39301,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingCallback_OnHeadToSoundStagePoseUp
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39331,7 +39333,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39342,7 +39344,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingModeCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingModeCallback")
 			}
 			if err != nil {
 				return err
@@ -39361,7 +39363,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39381,7 +39383,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerD
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39392,7 +39394,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerD
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingModeCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerHeadTrackingModeCallback")
 			}
 			if err != nil {
 				return err
@@ -39411,7 +39413,7 @@ func newCmdAndroidMediaISpatializerHeadTrackingModeCallback_DispatchSpatializerD
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39442,7 +39444,7 @@ func newCmdAndroidMediaISpatializerOutputCallback_DispatchSpatializerOutputChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39453,7 +39455,7 @@ func newCmdAndroidMediaISpatializerOutputCallback_DispatchSpatializerOutputChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerOutputCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ISpatializerOutputCallback")
 			}
 			if err != nil {
 				return err
@@ -39472,7 +39474,7 @@ func newCmdAndroidMediaISpatializerOutputCallback_DispatchSpatializerOutputChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39503,7 +39505,7 @@ func newCmdAndroidMediaIStrategyNonDefaultDevicesDispatcher_DispatchNonDefDevice
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39514,7 +39516,7 @@ func newCmdAndroidMediaIStrategyNonDefaultDevicesDispatcher_DispatchNonDefDevice
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IStrategyNonDefaultDevicesDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IStrategyNonDefaultDevicesDispatcher")
 			}
 			if err != nil {
 				return err
@@ -39544,7 +39546,7 @@ func newCmdAndroidMediaIStrategyNonDefaultDevicesDispatcher_DispatchNonDefDevice
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39577,7 +39579,7 @@ func newCmdAndroidMediaIStrategyPreferredDevicesDispatcher_DispatchPrefDevicesCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39588,7 +39590,7 @@ func newCmdAndroidMediaIStrategyPreferredDevicesDispatcher_DispatchPrefDevicesCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IStrategyPreferredDevicesDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IStrategyPreferredDevicesDispatcher")
 			}
 			if err != nil {
 				return err
@@ -39618,7 +39620,7 @@ func newCmdAndroidMediaIStrategyPreferredDevicesDispatcher_DispatchPrefDevicesCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39651,7 +39653,7 @@ func newCmdAndroidMediaIStreamAliasingDispatcher_DispatchStreamAliasingChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39662,7 +39664,7 @@ func newCmdAndroidMediaIStreamAliasingDispatcher_DispatchStreamAliasingChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IStreamAliasingDispatcher")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IStreamAliasingDispatcher")
 			}
 			if err != nil {
 				return err
@@ -39676,7 +39678,7 @@ func newCmdAndroidMediaIStreamAliasingDispatcher_DispatchStreamAliasingChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -39710,7 +39712,7 @@ func newCmdAndroidMediaITranscodingClient_SubmitRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39721,7 +39723,7 @@ func newCmdAndroidMediaITranscodingClient_SubmitRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -39764,7 +39766,7 @@ func newCmdAndroidMediaITranscodingClient_SubmitRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -39805,7 +39807,7 @@ func newCmdAndroidMediaITranscodingClient_CancelSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39816,7 +39818,7 @@ func newCmdAndroidMediaITranscodingClient_CancelSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -39835,7 +39837,7 @@ func newCmdAndroidMediaITranscodingClient_CancelSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -39855,7 +39857,7 @@ func newCmdAndroidMediaITranscodingClient_GetSessionWithId() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39866,7 +39868,7 @@ func newCmdAndroidMediaITranscodingClient_GetSessionWithId() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -39886,7 +39888,7 @@ func newCmdAndroidMediaITranscodingClient_GetSessionWithId() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -39906,7 +39908,7 @@ func newCmdAndroidMediaITranscodingClient_AddClientUid() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39917,7 +39919,7 @@ func newCmdAndroidMediaITranscodingClient_AddClientUid() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -39941,7 +39943,7 @@ func newCmdAndroidMediaITranscodingClient_AddClientUid() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -39963,7 +39965,7 @@ func newCmdAndroidMediaITranscodingClient_GetClientUids() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -39974,7 +39976,7 @@ func newCmdAndroidMediaITranscodingClient_GetClientUids() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -39993,7 +39995,7 @@ func newCmdAndroidMediaITranscodingClient_GetClientUids() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -40013,7 +40015,7 @@ func newCmdAndroidMediaITranscodingClient_Unregister() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40024,7 +40026,7 @@ func newCmdAndroidMediaITranscodingClient_Unregister() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClient")
 			}
 			if err != nil {
 				return err
@@ -40038,7 +40040,7 @@ func newCmdAndroidMediaITranscodingClient_Unregister() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40074,7 +40076,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OpenFileDescriptor() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40085,7 +40087,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OpenFileDescriptor() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40109,7 +40111,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OpenFileDescriptor() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -40131,7 +40133,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingStarted() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40142,7 +40144,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingStarted() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40161,7 +40163,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingStarted() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40181,7 +40183,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingPaused() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40192,7 +40194,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingPaused() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40211,7 +40213,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingPaused() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40231,7 +40233,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingResumed() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40242,7 +40244,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingResumed() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40261,7 +40263,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingResumed() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40281,7 +40283,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFinished() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40292,7 +40294,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFinished() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40319,7 +40321,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFinished() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40345,7 +40347,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFailed() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40356,7 +40358,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFailed() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40381,7 +40383,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnTranscodingFailed() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40403,7 +40405,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnAwaitNumberOfSessionsChanged
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40414,7 +40416,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnAwaitNumberOfSessionsChanged
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40443,7 +40445,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnAwaitNumberOfSessionsChanged
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40467,7 +40469,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnProgressUpdate() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40478,7 +40480,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnProgressUpdate() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.ITranscodingClientCallback")
 			}
 			if err != nil {
 				return err
@@ -40502,7 +40504,7 @@ func newCmdAndroidMediaITranscodingClientCallback_OnProgressUpdate() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40541,7 +40543,7 @@ func newCmdAndroidMediaIVolumeController_DisplaySafeVolumeWarning() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40552,7 +40554,7 @@ func newCmdAndroidMediaIVolumeController_DisplaySafeVolumeWarning() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40571,7 +40573,7 @@ func newCmdAndroidMediaIVolumeController_DisplaySafeVolumeWarning() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40591,7 +40593,7 @@ func newCmdAndroidMediaIVolumeController_VolumeChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40602,7 +40604,7 @@ func newCmdAndroidMediaIVolumeController_VolumeChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40626,7 +40628,7 @@ func newCmdAndroidMediaIVolumeController_VolumeChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40648,7 +40650,7 @@ func newCmdAndroidMediaIVolumeController_MasterMuteChanged() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40659,7 +40661,7 @@ func newCmdAndroidMediaIVolumeController_MasterMuteChanged() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40678,7 +40680,7 @@ func newCmdAndroidMediaIVolumeController_MasterMuteChanged() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40698,7 +40700,7 @@ func newCmdAndroidMediaIVolumeController_SetLayoutDirection() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40709,7 +40711,7 @@ func newCmdAndroidMediaIVolumeController_SetLayoutDirection() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40728,7 +40730,7 @@ func newCmdAndroidMediaIVolumeController_SetLayoutDirection() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40748,7 +40750,7 @@ func newCmdAndroidMediaIVolumeController_Dismiss() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40759,7 +40761,7 @@ func newCmdAndroidMediaIVolumeController_Dismiss() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40773,7 +40775,7 @@ func newCmdAndroidMediaIVolumeController_Dismiss() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40791,7 +40793,7 @@ func newCmdAndroidMediaIVolumeController_SetA11yMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40802,7 +40804,7 @@ func newCmdAndroidMediaIVolumeController_SetA11yMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40821,7 +40823,7 @@ func newCmdAndroidMediaIVolumeController_SetA11yMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -40841,7 +40843,7 @@ func newCmdAndroidMediaIVolumeController_DisplayCsdWarning() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -40852,7 +40854,7 @@ func newCmdAndroidMediaIVolumeController_DisplayCsdWarning() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.IVolumeController")
 			}
 			if err != nil {
 				return err
@@ -40876,7 +40878,7 @@ func newCmdAndroidMediaIVolumeController_DisplayCsdWarning() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

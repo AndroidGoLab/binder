@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/slice"
@@ -44,7 +46,7 @@ func newCmdAndroidAppSliceISliceListener_OnSliceUpdated() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidAppSliceISliceListener_OnSliceUpdated() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceListener")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidAppSliceISliceListener_OnSliceUpdated() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -110,7 +112,7 @@ func newCmdAndroidAppSliceISliceManager_PinSlice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -121,7 +123,7 @@ func newCmdAndroidAppSliceISliceManager_PinSlice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -162,7 +164,7 @@ func newCmdAndroidAppSliceISliceManager_PinSlice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -186,7 +188,7 @@ func newCmdAndroidAppSliceISliceManager_UnpinSlice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -197,7 +199,7 @@ func newCmdAndroidAppSliceISliceManager_UnpinSlice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -227,7 +229,7 @@ func newCmdAndroidAppSliceISliceManager_UnpinSlice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -249,7 +251,7 @@ func newCmdAndroidAppSliceISliceManager_HasSliceAccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -260,7 +262,7 @@ func newCmdAndroidAppSliceISliceManager_HasSliceAccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -279,7 +281,7 @@ func newCmdAndroidAppSliceISliceManager_HasSliceAccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -299,7 +301,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSpecs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -310,7 +312,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSpecs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -331,7 +333,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSpecs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -351,7 +353,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSlices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -362,7 +364,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSlices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -381,7 +383,7 @@ func newCmdAndroidAppSliceISliceManager_GetPinnedSlices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -401,7 +403,7 @@ func newCmdAndroidAppSliceISliceManager_GetBackupPayload() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -412,7 +414,7 @@ func newCmdAndroidAppSliceISliceManager_GetBackupPayload() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -431,7 +433,7 @@ func newCmdAndroidAppSliceISliceManager_GetBackupPayload() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -451,7 +453,7 @@ func newCmdAndroidAppSliceISliceManager_ApplyRestore() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -462,7 +464,7 @@ func newCmdAndroidAppSliceISliceManager_ApplyRestore() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -490,7 +492,7 @@ func newCmdAndroidAppSliceISliceManager_ApplyRestore() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -512,7 +514,7 @@ func newCmdAndroidAppSliceISliceManager_GrantSlicePermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -523,7 +525,7 @@ func newCmdAndroidAppSliceISliceManager_GrantSlicePermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -549,7 +551,7 @@ func newCmdAndroidAppSliceISliceManager_GrantSlicePermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -571,7 +573,7 @@ func newCmdAndroidAppSliceISliceManager_RevokeSlicePermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -582,7 +584,7 @@ func newCmdAndroidAppSliceISliceManager_RevokeSlicePermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -608,7 +610,7 @@ func newCmdAndroidAppSliceISliceManager_RevokeSlicePermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -630,7 +632,7 @@ func newCmdAndroidAppSliceISliceManager_CheckSlicePermission() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -641,7 +643,7 @@ func newCmdAndroidAppSliceISliceManager_CheckSlicePermission() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -681,7 +683,7 @@ func newCmdAndroidAppSliceISliceManager_CheckSlicePermission() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -707,7 +709,7 @@ func newCmdAndroidAppSliceISliceManager_GrantPermissionFromUser() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -718,7 +720,7 @@ func newCmdAndroidAppSliceISliceManager_GrantPermissionFromUser() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.slice.ISliceManager")
 			}
 			if err != nil {
 				return err
@@ -749,7 +751,7 @@ func newCmdAndroidAppSliceISliceManager_GrantPermissionFromUser() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/print"
@@ -46,7 +48,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_OpenDocument() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_OpenDocument() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
 			}
 			if err != nil {
 				return err
@@ -76,7 +78,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_OpenDocument() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -96,7 +98,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_RemovePages() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -107,7 +109,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_RemovePages() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_RemovePages() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_ApplyPrintAttributes() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_ApplyPrintAttributes() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
 			}
 			if err != nil {
 				return err
@@ -179,7 +181,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_ApplyPrintAttributes() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -197,7 +199,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_Write() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -208,7 +210,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_Write() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
 			}
 			if err != nil {
 				return err
@@ -227,7 +229,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_Write() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -247,7 +249,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_CloseDocument() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -258,7 +260,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_CloseDocument() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfEditor")
 			}
 			if err != nil {
 				return err
@@ -272,7 +274,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfEditor_CloseDocument() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -303,7 +305,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_OpenDocument() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -314,7 +316,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_OpenDocument() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
 			}
 			if err != nil {
 				return err
@@ -333,7 +335,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_OpenDocument() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -353,7 +355,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_RenderPage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -364,7 +366,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_RenderPage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
 			}
 			if err != nil {
 				return err
@@ -400,7 +402,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_RenderPage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -426,7 +428,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_CloseDocument() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -437,7 +439,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_CloseDocument() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.printspooler.renderer.IPdfRenderer")
 			}
 			if err != nil {
 				return err
@@ -451,7 +453,7 @@ func newCmdComAndroidPrintspoolerRendererIPdfRenderer_CloseDocument() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

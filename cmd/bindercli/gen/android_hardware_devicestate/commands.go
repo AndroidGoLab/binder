@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/devicestate"
@@ -46,7 +48,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_GetDeviceStateInfo() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_GetDeviceStateInfo() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_GetDeviceStateInfo() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -89,7 +91,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RegisterCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -100,7 +102,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RegisterCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -124,7 +126,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RegisterCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -144,7 +146,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestState() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -155,7 +157,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestState() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -188,7 +190,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestState() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -212,7 +214,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelStateRequest() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -223,7 +225,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelStateRequest() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -237,7 +239,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelStateRequest() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -255,7 +257,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestBaseStateOverrid
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -266,7 +268,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestBaseStateOverrid
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -299,7 +301,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_RequestBaseStateOverrid
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -323,7 +325,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelBaseStateOverride
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -334,7 +336,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelBaseStateOverride
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -348,7 +350,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_CancelBaseStateOverride
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -366,7 +368,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_OnStateRequestOverlayDi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -377,7 +379,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_OnStateRequestOverlayDi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManager")
 			}
 			if err != nil {
 				return err
@@ -396,7 +398,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManager_OnStateRequestOverlayDi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -429,7 +431,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnDeviceStateIn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -440,7 +442,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnDeviceStateIn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -456,7 +458,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnDeviceStateIn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -474,7 +476,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestActive
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -485,7 +487,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestActive
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -508,7 +510,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestActive
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -528,7 +530,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestCancel
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -539,7 +541,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestCancel
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.devicestate.IDeviceStateManagerCallback")
 			}
 			if err != nil {
 				return err
@@ -562,7 +564,7 @@ func newCmdAndroidHardwareDevicestateIDeviceStateManagerCallback_OnRequestCancel
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

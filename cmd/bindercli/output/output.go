@@ -1,4 +1,4 @@
-package cliutil
+package output
 
 import (
 	"encoding/json"

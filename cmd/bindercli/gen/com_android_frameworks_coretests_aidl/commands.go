@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/frameworks/coretests/aidl"
@@ -46,7 +48,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Register
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Register
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBinderProxyCountingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBinderProxyCountingService")
 			}
 			if err != nil {
 				return err
@@ -81,7 +83,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Register
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -101,7 +103,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Unregist
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -112,7 +114,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Unregist
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBinderProxyCountingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBinderProxyCountingService")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBinderProxyCountingService_Unregist
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -167,7 +169,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcCallbackObserver_OnCallback() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -178,7 +180,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcCallbackObserver_OnCallback() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcCallbackObserver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcCallbackObserver")
 			}
 			if err != nil {
 				return err
@@ -197,7 +199,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcCallbackObserver_OnCallback() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -234,7 +236,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateSystemBi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -245,7 +247,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateSystemBi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -264,7 +266,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateSystemBi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -284,7 +286,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseSystemB
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -295,7 +297,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseSystemB
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -314,7 +316,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseSystemB
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -334,7 +336,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateTestBind
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -345,7 +347,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateTestBind
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -364,7 +366,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_CreateTestBind
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -384,7 +386,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseTestBin
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -395,7 +397,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseTestBin
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -414,7 +416,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseTestBin
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -434,7 +436,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseAllBind
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -445,7 +447,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseAllBind
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -459,7 +461,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_ReleaseAllBind
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -477,7 +479,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_BindToTestServ
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -488,7 +490,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_BindToTestServ
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -502,7 +504,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_BindToTestServ
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -520,7 +522,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_UnbindFromTest
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -531,7 +533,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_UnbindFromTest
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestAppCmdService")
 			}
 			if err != nil {
 				return err
@@ -545,7 +547,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestAppCmdService_UnbindFromTest
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -578,7 +580,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_ForceGc() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -589,7 +591,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_ForceGc() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
 			}
 			if err != nil {
 				return err
@@ -603,7 +605,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_ForceGc() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -621,7 +623,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_GetBinderP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -632,7 +634,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_GetBinderP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
 			}
 			if err != nil {
 				return err
@@ -651,7 +653,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_GetBinderP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -671,7 +673,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -682,7 +684,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
 			}
 			if err != nil {
 				return err
@@ -706,7 +708,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -728,7 +730,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_EnableBind
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -739,7 +741,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_EnableBind
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
 			}
 			if err != nil {
 				return err
@@ -758,7 +760,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_EnableBind
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -778,7 +780,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -789,7 +791,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService")
 			}
 			if err != nil {
 				return err
@@ -813,7 +815,7 @@ func newCmdComAndroidFrameworksCoretestsAidlIBpcTestServiceCmdService_SetBinderP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -844,7 +846,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdCallback_OnLaunched() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -855,7 +857,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdCallback_OnLaunched() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdCallback")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdCallback_OnLaunched() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -911,7 +913,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_DoSomeWork() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -922,7 +924,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_DoSomeWork() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
 			}
 			if err != nil {
 				return err
@@ -941,7 +943,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_DoSomeWork() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -961,7 +963,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_ShowApplicationOverlay(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -972,7 +974,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_ShowApplicationOverlay(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
 			}
 			if err != nil {
 				return err
@@ -986,7 +988,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_ShowApplicationOverlay(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1004,7 +1006,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_FinishHost() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1015,7 +1017,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_FinishHost() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ICmdReceiver")
 			}
 			if err != nil {
 				return err
@@ -1029,7 +1031,7 @@ func newCmdComAndroidFrameworksCoretestsAidlICmdReceiver_FinishHost() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1058,7 +1060,7 @@ func newCmdComAndroidFrameworksCoretestsAidlITestServiceConnectorService_CrashPr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1069,7 +1071,7 @@ func newCmdComAndroidFrameworksCoretestsAidlITestServiceConnectorService_CrashPr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ITestServiceConnectorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.frameworks.coretests.aidl.ITestServiceConnectorService")
 			}
 			if err != nil {
 				return err
@@ -1083,7 +1085,7 @@ func newCmdComAndroidFrameworksCoretestsAidlITestServiceConnectorService_CrashPr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

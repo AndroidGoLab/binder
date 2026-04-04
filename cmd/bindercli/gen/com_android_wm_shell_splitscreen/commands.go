@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -68,7 +70,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitScreenListener(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -79,7 +81,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitScreenListener(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -103,7 +105,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitScreenListener(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -123,7 +125,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitScreenListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -134,7 +136,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitScreenListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -158,7 +160,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitScreenListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -178,7 +180,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitSelectListener(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -189,7 +191,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitSelectListener(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -213,7 +215,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RegisterSplitSelectListener(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -233,7 +235,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitSelectListene
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -244,7 +246,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitSelectListene
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -268,7 +270,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_UnregisterSplitSelectListene
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -288,7 +290,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RemoveFromSideStage() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -299,7 +301,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RemoveFromSideStage() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -318,7 +320,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_RemoveFromSideStage() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -338,7 +340,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreen() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -349,7 +351,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreen() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -368,7 +370,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreen() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -388,7 +390,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreenOnHide() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -399,7 +401,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreenOnHide() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -418,7 +420,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_ExitSplitScreenOnHide() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -438,7 +440,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTask() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -449,7 +451,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTask() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTask() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -497,7 +499,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcut() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -508,7 +510,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcut() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -543,7 +545,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcut() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -567,7 +569,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntent() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -578,7 +580,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntent() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -605,7 +607,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntent() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -625,7 +627,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasks() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -636,7 +638,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasks() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -678,7 +680,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasks() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -704,7 +706,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTask() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -715,7 +717,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTask() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -759,7 +761,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTask() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -785,7 +787,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTask() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -796,7 +798,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTask() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -835,7 +837,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTask() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -859,7 +861,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasksWithLegacyTransiti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -870,7 +872,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasksWithLegacyTransiti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -912,7 +914,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartTasksWithLegacyTransiti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -938,7 +940,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTaskWithLegacy
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -949,7 +951,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTaskWithLegacy
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -993,7 +995,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentAndTaskWithLegacy
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1019,7 +1021,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTaskWithLega
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1030,7 +1032,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTaskWithLega
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1069,7 +1071,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartShortcutAndTaskWithLega
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1093,7 +1095,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentsWithLegacyTransi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1104,7 +1106,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentsWithLegacyTransi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1154,7 +1156,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntentsWithLegacyTransi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1180,7 +1182,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntents() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1191,7 +1193,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntents() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1241,7 +1243,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_StartIntents() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1267,7 +1269,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnGoingToRecentsLegacy() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1278,7 +1280,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnGoingToRecentsLegacy() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1303,7 +1305,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnGoingToRecentsLegacy() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1323,7 +1325,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnStartingSplitLegacy() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1334,7 +1336,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnStartingSplitLegacy() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1359,7 +1361,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_OnStartingSplitLegacy() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1379,7 +1381,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_SwitchSplitPosition() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1390,7 +1392,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_SwitchSplitPosition() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreen")
 			}
 			if err != nil {
 				return err
@@ -1404,7 +1406,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreen_SwitchSplitPosition() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1434,7 +1436,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnStagePositionChang
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1445,7 +1447,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnStagePositionChang
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreenListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreenListener")
 			}
 			if err != nil {
 				return err
@@ -1469,7 +1471,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnStagePositionChang
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1491,7 +1493,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnTaskStageChanged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1502,7 +1504,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnTaskStageChanged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreenListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.wm.shell.splitscreen.ISplitScreenListener")
 			}
 			if err != nil {
 				return err
@@ -1531,7 +1533,7 @@ func newCmdComAndroidWmShellSplitscreenISplitScreenListener_OnTaskStageChanged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

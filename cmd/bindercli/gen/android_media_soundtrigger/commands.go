@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/media/soundtrigger"
@@ -44,7 +46,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_SetClient() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_SetClient() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_SetClient() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_RemoveClient() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_RemoveClient() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_RemoveClient() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnError() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnError() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
 			}
 			if err != nil {
 				return err
@@ -185,7 +187,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnError() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -207,7 +209,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnStopOperation
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -218,7 +220,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnStopOperation
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionService")
 			}
 			if err != nil {
 				return err
@@ -239,7 +241,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionService_OnStopOperation
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -270,7 +272,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionServiceClient_OnOpFinis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -281,7 +283,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionServiceClient_OnOpFinis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionServiceClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.media.soundtrigger.ISoundTriggerDetectionServiceClient")
 			}
 			if err != nil {
 				return err
@@ -300,7 +302,7 @@ func newCmdAndroidMediaSoundtriggerISoundTriggerDetectionServiceClient_OnOpFinis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

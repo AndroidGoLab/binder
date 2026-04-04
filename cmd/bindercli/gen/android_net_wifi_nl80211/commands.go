@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net/wifi/nl80211"
@@ -49,7 +51,7 @@ func newCmdAndroidNetWifiNl80211IApInterface_GetInterfaceName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidNetWifiNl80211IApInterface_GetInterfaceName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterface")
 			}
 			if err != nil {
 				return err
@@ -74,7 +76,7 @@ func newCmdAndroidNetWifiNl80211IApInterface_GetInterfaceName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -104,7 +106,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnConnectedClientsChan
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -115,7 +117,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnConnectedClientsChan
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -136,7 +138,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnConnectedClientsChan
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -156,7 +158,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnSoftApChannelSwitche
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -167,7 +169,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnSoftApChannelSwitche
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IApInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -191,7 +193,7 @@ func newCmdAndroidNetWifiNl80211IApInterfaceEventCallback_OnSoftApChannelSwitche
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -229,7 +231,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetPacketCounters() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -240,7 +242,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetPacketCounters() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -254,7 +256,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetPacketCounters() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -272,7 +274,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SignalPoll() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -283,7 +285,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SignalPoll() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -297,7 +299,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SignalPoll() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -315,7 +317,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetMacAddress() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -326,7 +328,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetMacAddress() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -340,7 +342,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetMacAddress() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetInterfaceName() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetInterfaceName() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -383,7 +385,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetInterfaceName() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -401,7 +403,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetWifiScannerImpl() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -412,7 +414,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetWifiScannerImpl() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -426,7 +428,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_GetWifiScannerImpl() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -444,7 +446,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SendMgmtFrame() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -455,7 +457,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SendMgmtFrame() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IClientInterface")
 			}
 			if err != nil {
 				return err
@@ -493,7 +495,7 @@ func newCmdAndroidNetWifiNl80211IClientInterface_SendMgmtFrame() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -531,7 +533,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientInterfaceReady()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -542,7 +544,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientInterfaceReady()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -566,7 +568,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientInterfaceReady()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -586,7 +588,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApInterfaceReady() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -597,7 +599,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApInterfaceReady() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -621,7 +623,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApInterfaceReady() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -641,7 +643,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientTorndownEvent() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -652,7 +654,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientTorndownEvent() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -676,7 +678,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnClientTorndownEvent() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -696,7 +698,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApTorndownEvent() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -707,7 +709,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApTorndownEvent() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IInterfaceEventCallback")
 			}
 			if err != nil {
 				return err
@@ -731,7 +733,7 @@ func newCmdAndroidNetWifiNl80211IInterfaceEventCallback_OnApTorndownEvent() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -763,7 +765,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoNetworkFound() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -774,7 +776,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoNetworkFound() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IPnoScanEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IPnoScanEvent")
 			}
 			if err != nil {
 				return err
@@ -788,7 +790,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoNetworkFound() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -806,7 +808,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoScanFailed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -817,7 +819,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoScanFailed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IPnoScanEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IPnoScanEvent")
 			}
 			if err != nil {
 				return err
@@ -831,7 +833,7 @@ func newCmdAndroidNetWifiNl80211IPnoScanEvent_OnPnoScanFailed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -862,7 +864,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanResultReady() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -873,7 +875,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanResultReady() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
 			}
 			if err != nil {
 				return err
@@ -887,7 +889,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanResultReady() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -905,7 +907,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanFailed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -916,7 +918,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanFailed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
 			}
 			if err != nil {
 				return err
@@ -930,7 +932,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanFailed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -948,7 +950,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanRequestFailed() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -959,7 +961,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanRequestFailed() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IScanEvent")
 			}
 			if err != nil {
 				return err
@@ -978,7 +980,7 @@ func newCmdAndroidNetWifiNl80211IScanEvent_OnScanRequestFailed() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1010,7 +1012,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnAck() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1021,7 +1023,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnAck() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.ISendMgmtFrameEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.ISendMgmtFrameEvent")
 			}
 			if err != nil {
 				return err
@@ -1040,7 +1042,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnAck() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1060,7 +1062,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnFailure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1071,7 +1073,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnFailure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.ISendMgmtFrameEvent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.ISendMgmtFrameEvent")
 			}
 			if err != nil {
 				return err
@@ -1090,7 +1092,7 @@ func newCmdAndroidNetWifiNl80211ISendMgmtFrameEvent_OnFailure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1132,7 +1134,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetScanResults() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1143,7 +1145,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetScanResults() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1157,7 +1159,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetScanResults() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1175,7 +1177,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetPnoScanResults() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1186,7 +1188,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetPnoScanResults() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1200,7 +1202,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetPnoScanResults() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1218,7 +1220,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetMaxSsidsPerScan() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1229,7 +1231,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetMaxSsidsPerScan() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1243,7 +1245,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_GetMaxSsidsPerScan() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1261,7 +1263,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_Scan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1272,7 +1274,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_Scan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1288,7 +1290,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_Scan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1306,7 +1308,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_ScanRequest() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1317,7 +1319,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_ScanRequest() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1333,7 +1335,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_ScanRequest() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1351,7 +1353,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribeScanEvents() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1362,7 +1364,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribeScanEvents() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1386,7 +1388,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribeScanEvents() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1406,7 +1408,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribeScanEvents() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1417,7 +1419,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribeScanEvents() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1431,7 +1433,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribeScanEvents() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1449,7 +1451,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribePnoScanEvents() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1460,7 +1462,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribePnoScanEvents() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1484,7 +1486,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_SubscribePnoScanEvents() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1504,7 +1506,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribePnoScanEvents() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1515,7 +1517,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribePnoScanEvents() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1529,7 +1531,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_UnsubscribePnoScanEvents() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1547,7 +1549,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StartPnoScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1558,7 +1560,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StartPnoScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1574,7 +1576,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StartPnoScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1592,7 +1594,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StopPnoScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1603,7 +1605,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StopPnoScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1617,7 +1619,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_StopPnoScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1635,7 +1637,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_AbortScan() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1646,7 +1648,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_AbortScan() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWifiScannerImpl")
 			}
 			if err != nil {
 				return err
@@ -1660,7 +1662,7 @@ func newCmdAndroidNetWifiNl80211IWifiScannerImpl_AbortScan() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1706,7 +1708,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateApInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1717,7 +1719,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateApInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1736,7 +1738,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateApInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1756,7 +1758,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateClientInterface() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1767,7 +1769,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateClientInterface() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1786,7 +1788,7 @@ func newCmdAndroidNetWifiNl80211IWificond_CreateClientInterface() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1806,7 +1808,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownApInterface() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1817,7 +1819,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownApInterface() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1836,7 +1838,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownApInterface() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1856,7 +1858,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownClientInterface() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1867,7 +1869,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownClientInterface() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1886,7 +1888,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownClientInterface() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1906,7 +1908,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownInterfaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1917,7 +1919,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownInterfaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1931,7 +1933,7 @@ func newCmdAndroidNetWifiNl80211IWificond_TearDownInterfaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1949,7 +1951,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetClientInterfaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1960,7 +1962,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetClientInterfaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -1974,7 +1976,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetClientInterfaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1992,7 +1994,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetApInterfaces() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2003,7 +2005,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetApInterfaces() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2017,7 +2019,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetApInterfaces() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2035,7 +2037,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable2gChannels() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2046,7 +2048,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable2gChannels() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2060,7 +2062,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable2gChannels() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2078,7 +2080,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable5gNonDFSChannels() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2089,7 +2091,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable5gNonDFSChannels() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2103,7 +2105,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable5gNonDFSChannels() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2121,7 +2123,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailableDFSChannels() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2132,7 +2134,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailableDFSChannels() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2146,7 +2148,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailableDFSChannels() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2164,7 +2166,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable6gChannels() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2175,7 +2177,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable6gChannels() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2189,7 +2191,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable6gChannels() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2207,7 +2209,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable60gChannels() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2218,7 +2220,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable60gChannels() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2232,7 +2234,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetAvailable60gChannels() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2250,7 +2252,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2261,7 +2263,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2285,7 +2287,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2305,7 +2307,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2316,7 +2318,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2340,7 +2342,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2360,7 +2362,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterWificondEventCallback() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2371,7 +2373,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterWificondEventCallback() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2395,7 +2397,7 @@ func newCmdAndroidNetWifiNl80211IWificond_RegisterWificondEventCallback() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2415,7 +2417,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterWificondEventCallback() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2426,7 +2428,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterWificondEventCallback() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2450,7 +2452,7 @@ func newCmdAndroidNetWifiNl80211IWificond_UnregisterWificondEventCallback() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2470,7 +2472,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetDeviceWiphyCapabilities() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2481,7 +2483,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetDeviceWiphyCapabilities() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2500,7 +2502,7 @@ func newCmdAndroidNetWifiNl80211IWificond_GetDeviceWiphyCapabilities() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2520,7 +2522,7 @@ func newCmdAndroidNetWifiNl80211IWificond_NotifyCountryCodeChanged() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2531,7 +2533,7 @@ func newCmdAndroidNetWifiNl80211IWificond_NotifyCountryCodeChanged() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificond")
 			}
 			if err != nil {
 				return err
@@ -2545,7 +2547,7 @@ func newCmdAndroidNetWifiNl80211IWificond_NotifyCountryCodeChanged() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2574,7 +2576,7 @@ func newCmdAndroidNetWifiNl80211IWificondEventCallback_OnRegDomainChanged() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2585,7 +2587,7 @@ func newCmdAndroidNetWifiNl80211IWificondEventCallback_OnRegDomainChanged() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificondEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.nl80211.IWificondEventCallback")
 			}
 			if err != nil {
 				return err
@@ -2604,7 +2606,7 @@ func newCmdAndroidNetWifiNl80211IWificondEventCallback_OnRegDomainChanged() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

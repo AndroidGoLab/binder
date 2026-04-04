@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/frameworks/automotive/display"
@@ -44,7 +46,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayIdList()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayIdList()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -69,7 +71,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayIdList()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -87,7 +89,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayInfo() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -98,7 +100,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayInfo() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -117,7 +119,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetDisplayInfo() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -137,7 +139,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetHGraphicBufferP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -148,7 +150,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetHGraphicBufferP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -167,7 +169,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetHGraphicBufferP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -187,7 +189,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_HideWindow() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -198,7 +200,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_HideWindow() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -217,7 +219,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_HideWindow() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -237,7 +239,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_ShowWindow() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -248,7 +250,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_ShowWindow() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -267,7 +269,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_ShowWindow() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -287,7 +289,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetSurface() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -298,7 +300,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetSurface() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.frameworks.automotive.display.ICarDisplayProxy")
 			}
 			if err != nil {
 				return err
@@ -317,7 +319,7 @@ func newCmdAndroidFrameworksAutomotiveDisplayICarDisplayProxy_GetSurface() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app/usage"
@@ -45,7 +47,7 @@ func newCmdAndroidAppUsageICacheQuotaService_ComputeCacheQuotaHints() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -56,7 +58,7 @@ func newCmdAndroidAppUsageICacheQuotaService_ComputeCacheQuotaHints() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.ICacheQuotaService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.ICacheQuotaService")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidAppUsageICacheQuotaService_ComputeCacheQuotaHints() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -126,7 +128,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsQuotaSupported() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -137,7 +139,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsQuotaSupported() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -156,7 +158,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsQuotaSupported() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -176,7 +178,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsReservedSupported() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -187,7 +189,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsReservedSupported() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -206,7 +208,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_IsReservedSupported() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -226,7 +228,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetTotalBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -237,7 +239,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetTotalBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -256,7 +258,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetTotalBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -276,7 +278,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetFreeBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -287,7 +289,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetFreeBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -306,7 +308,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetFreeBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -326,7 +328,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheBytes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -337,7 +339,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheBytes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -356,7 +358,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheBytes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -376,7 +378,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheQuotaBytes() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -387,7 +389,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheQuotaBytes() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_GetCacheQuotaBytes() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -433,7 +435,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForPackage() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -444,7 +446,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForPackage() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -468,7 +470,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForPackage() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -490,7 +492,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUid() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -501,7 +503,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUid() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -525,7 +527,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUid() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -547,7 +549,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUser() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -558,7 +560,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUser() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -577,7 +579,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryStatsForUser() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -597,7 +599,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryExternalStatsForUser() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -608,7 +610,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryExternalStatsForUser() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -627,7 +629,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryExternalStatsForUser() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -647,7 +649,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForPackage() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -658,7 +660,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForPackage() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -682,7 +684,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForPackage() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -704,7 +706,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUid() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -715,7 +717,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUid() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -739,7 +741,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUid() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -761,7 +763,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUser() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -772,7 +774,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUser() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IStorageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -791,7 +793,7 @@ func newCmdAndroidAppUsageIStorageStatsManager_QueryCratesForUser() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -857,7 +859,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryUsageStats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -868,7 +870,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryUsageStats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -897,7 +899,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryUsageStats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -921,7 +923,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryConfigurationStats() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -932,7 +934,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryConfigurationStats() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -961,7 +963,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryConfigurationStats() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -985,7 +987,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventStats() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -996,7 +998,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventStats() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1025,7 +1027,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventStats() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1049,7 +1051,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEvents() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1060,7 +1062,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEvents() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1084,7 +1086,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEvents() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1106,7 +1108,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackage() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1117,7 +1119,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackage() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1141,7 +1143,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackage() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1163,7 +1165,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForUser() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1174,7 +1176,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForUser() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1198,7 +1200,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForUser() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1220,7 +1222,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackageForUser() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1231,7 +1233,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackageForUser() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1260,7 +1262,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsForPackageForUser() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1284,7 +1286,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsWithFilter() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1295,7 +1297,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsWithFilter() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1311,7 +1313,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryEventsWithFilter() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1329,7 +1331,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppInactive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1340,7 +1342,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppInactive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1364,7 +1366,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppInactive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1386,7 +1388,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppStandbyEnabled() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1397,7 +1399,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppStandbyEnabled() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1411,7 +1413,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppStandbyEnabled() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1429,7 +1431,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppInactive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1440,7 +1442,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppInactive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1459,7 +1461,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsAppInactive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1479,7 +1481,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_OnCarrierPrivilegedAppsChanged() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1490,7 +1492,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_OnCarrierPrivilegedAppsChanged() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1504,7 +1506,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_OnCarrierPrivilegedAppsChanged() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1522,7 +1524,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportChooserSelection() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1533,7 +1535,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportChooserSelection() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1571,7 +1573,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportChooserSelection() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1597,7 +1599,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBucket() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1608,7 +1610,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBucket() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1627,7 +1629,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBucket() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1647,7 +1649,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBucket() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1658,7 +1660,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBucket() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1682,7 +1684,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBucket() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1704,7 +1706,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBuckets() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1715,7 +1717,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBuckets() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1729,7 +1731,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyBuckets() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1747,7 +1749,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBuckets() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1758,7 +1760,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBuckets() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1774,7 +1776,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetAppStandbyBuckets() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1792,7 +1794,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppMinStandbyBucket() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1803,7 +1805,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppMinStandbyBucket() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1822,7 +1824,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppMinStandbyBucket() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1842,7 +1844,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTime() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1853,7 +1855,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTime() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1877,7 +1879,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTime() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1899,7 +1901,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTimes() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1910,7 +1912,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTimes() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1926,7 +1928,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_SetEstimatedLaunchTimes() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1944,7 +1946,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageObserver() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1955,7 +1957,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageObserver() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -1974,7 +1976,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageObserver() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1994,7 +1996,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterUsageSessionObserver() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2005,7 +2007,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterUsageSessionObserver() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2024,7 +2026,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterUsageSessionObserver() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2044,7 +2046,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageLimitObserver() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2055,7 +2057,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageLimitObserver() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2074,7 +2076,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_UnregisterAppUsageLimitObserver() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2094,7 +2096,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2105,7 +2107,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2133,7 +2135,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2155,7 +2157,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportPastUsageStart() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2166,7 +2168,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportPastUsageStart() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2199,7 +2201,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportPastUsageStart() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2223,7 +2225,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2234,7 +2236,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2262,7 +2264,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUsageStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2284,7 +2286,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteraction() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2295,7 +2297,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteraction() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2314,7 +2316,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteraction() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2334,7 +2336,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteractionWithBundle() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2345,7 +2347,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteractionWithBundle() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2366,7 +2368,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ReportUserInteractionWithBundle() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2386,7 +2388,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetUsageSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2397,7 +2399,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetUsageSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2411,7 +2413,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetUsageSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2429,7 +2431,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ForceUsageSourceSettingRead() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2440,7 +2442,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ForceUsageSourceSettingRead() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2454,7 +2456,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ForceUsageSourceSettingRead() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2472,7 +2474,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetLastTimeAnyComponentUsed() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2483,7 +2485,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetLastTimeAnyComponentUsed() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2502,7 +2504,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetLastTimeAnyComponentUsed() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2522,7 +2524,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryBroadcastResponseStats() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2533,7 +2535,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryBroadcastResponseStats() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2557,7 +2559,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_QueryBroadcastResponseStats() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2579,7 +2581,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastResponseStats() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2590,7 +2592,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastResponseStats() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2614,7 +2616,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastResponseStats() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2636,7 +2638,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastEvents() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2647,7 +2649,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastEvents() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2661,7 +2663,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_ClearBroadcastEvents() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2679,7 +2681,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsPackageExemptedFromBroadcastRespo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2690,7 +2692,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsPackageExemptedFromBroadcastRespo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2709,7 +2711,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_IsPackageExemptedFromBroadcastRespo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2729,7 +2731,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyConstant() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2740,7 +2742,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyConstant() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.app.usage.IUsageStatsManager")
 			}
 			if err != nil {
 				return err
@@ -2759,7 +2761,7 @@ func newCmdAndroidAppUsageIUsageStatsManager_GetAppStandbyConstant() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

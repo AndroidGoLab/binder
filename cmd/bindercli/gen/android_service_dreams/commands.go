@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -63,7 +65,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Dream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -74,7 +76,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Dream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -88,7 +90,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Dream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -106,7 +108,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Awaken() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -117,7 +119,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Awaken() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -131,7 +133,7 @@ func newCmdAndroidServiceDreamsIDreamManager_Awaken() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -149,7 +151,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponents() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -160,7 +162,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponents() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -185,7 +187,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponents() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -205,7 +207,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponents() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -216,7 +218,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponents() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -230,7 +232,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponents() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -248,7 +250,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDefaultDreamComponentForUser() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -259,7 +261,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDefaultDreamComponentForUser() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -273,7 +275,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDefaultDreamComponentForUser() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -291,7 +293,7 @@ func newCmdAndroidServiceDreamsIDreamManager_TestDream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -302,7 +304,7 @@ func newCmdAndroidServiceDreamsIDreamManager_TestDream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -318,7 +320,7 @@ func newCmdAndroidServiceDreamsIDreamManager_TestDream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -336,7 +338,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreaming() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -347,7 +349,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreaming() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -361,7 +363,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreaming() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -379,7 +381,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreamingOrInPreview() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -390,7 +392,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreamingOrInPreview() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -404,7 +406,7 @@ func newCmdAndroidServiceDreamsIDreamManager_IsDreamingOrInPreview() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -422,7 +424,7 @@ func newCmdAndroidServiceDreamsIDreamManager_FinishSelf() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -433,7 +435,7 @@ func newCmdAndroidServiceDreamsIDreamManager_FinishSelf() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -461,7 +463,7 @@ func newCmdAndroidServiceDreamsIDreamManager_FinishSelf() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -483,7 +485,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDozing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -494,7 +496,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDozing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -527,7 +529,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDozing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -551,7 +553,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StopDozing() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -562,7 +564,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StopDozing() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -585,7 +587,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StopDozing() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -605,7 +607,7 @@ func newCmdAndroidServiceDreamsIDreamManager_ForceAmbientDisplayEnabled() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -616,7 +618,7 @@ func newCmdAndroidServiceDreamsIDreamManager_ForceAmbientDisplayEnabled() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -635,7 +637,7 @@ func newCmdAndroidServiceDreamsIDreamManager_ForceAmbientDisplayEnabled() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -655,7 +657,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponentsForUser() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -666,7 +668,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponentsForUser() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -680,7 +682,7 @@ func newCmdAndroidServiceDreamsIDreamManager_GetDreamComponentsForUser() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -698,7 +700,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponentsForUser() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -709,7 +711,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponentsForUser() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -734,7 +736,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetDreamComponentsForUser() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -754,7 +756,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetSystemDreamComponent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -765,7 +767,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetSystemDreamComponent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -781,7 +783,7 @@ func newCmdAndroidServiceDreamsIDreamManager_SetSystemDreamComponent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -799,7 +801,7 @@ func newCmdAndroidServiceDreamsIDreamManager_RegisterDreamOverlayService() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -810,7 +812,7 @@ func newCmdAndroidServiceDreamsIDreamManager_RegisterDreamOverlayService() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -826,7 +828,7 @@ func newCmdAndroidServiceDreamsIDreamManager_RegisterDreamOverlayService() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -844,7 +846,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDreamActivity() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -855,7 +857,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDreamActivity() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamManager")
 			}
 			if err != nil {
 				return err
@@ -871,7 +873,7 @@ func newCmdAndroidServiceDreamsIDreamManager_StartDreamActivity() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -900,7 +902,7 @@ func newCmdAndroidServiceDreamsIDreamOverlay_GetClient() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -911,7 +913,7 @@ func newCmdAndroidServiceDreamsIDreamOverlay_GetClient() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlay")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlay")
 			}
 			if err != nil {
 				return err
@@ -935,7 +937,7 @@ func newCmdAndroidServiceDreamsIDreamOverlay_GetClient() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -966,7 +968,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayCallback_OnExitRequested() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -977,7 +979,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayCallback_OnExitRequested() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayCallback")
 			}
 			if err != nil {
 				return err
@@ -991,7 +993,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayCallback_OnExitRequested() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1021,7 +1023,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_WakeUp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1032,7 +1034,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_WakeUp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClient")
 			}
 			if err != nil {
 				return err
@@ -1046,7 +1048,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_WakeUp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1064,7 +1066,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_EndDream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1075,7 +1077,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_EndDream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClient")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClient")
 			}
 			if err != nil {
 				return err
@@ -1089,7 +1091,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClient_EndDream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1118,7 +1120,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClientCallback_OnDreamOverlayClient(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1129,7 +1131,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClientCallback_OnDreamOverlayClient(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClientCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamOverlayClientCallback")
 			}
 			if err != nil {
 				return err
@@ -1153,7 +1155,7 @@ func newCmdAndroidServiceDreamsIDreamOverlayClientCallback_OnDreamOverlayClient(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1186,7 +1188,7 @@ func newCmdAndroidServiceDreamsIDreamService_Attach() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1197,7 +1199,7 @@ func newCmdAndroidServiceDreamsIDreamService_Attach() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
 			}
 			if err != nil {
 				return err
@@ -1240,7 +1242,7 @@ func newCmdAndroidServiceDreamsIDreamService_Attach() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1266,7 +1268,7 @@ func newCmdAndroidServiceDreamsIDreamService_Detach() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1277,7 +1279,7 @@ func newCmdAndroidServiceDreamsIDreamService_Detach() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
 			}
 			if err != nil {
 				return err
@@ -1291,7 +1293,7 @@ func newCmdAndroidServiceDreamsIDreamService_Detach() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1309,7 +1311,7 @@ func newCmdAndroidServiceDreamsIDreamService_WakeUp() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1320,7 +1322,7 @@ func newCmdAndroidServiceDreamsIDreamService_WakeUp() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.dreams.IDreamService")
 			}
 			if err != nil {
 				return err
@@ -1334,7 +1336,7 @@ func newCmdAndroidServiceDreamsIDreamService_WakeUp() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/os/incremental"
@@ -65,7 +67,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OpenStorage() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -76,7 +78,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OpenStorage() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -95,7 +97,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OpenStorage() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -115,7 +117,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_CreateLinkedStorage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -126,7 +128,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_CreateLinkedStorage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -155,7 +157,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_CreateLinkedStorage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -179,7 +181,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OnInstallationComplete() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -190,7 +192,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OnInstallationComplete() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -209,7 +211,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_OnInstallationComplete() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -229,7 +231,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeBindMount() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -240,7 +242,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeBindMount() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -274,7 +276,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeBindMount() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -300,7 +302,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteBindMount() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -311,7 +313,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteBindMount() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -335,7 +337,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteBindMount() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -357,7 +359,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectory() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -368,7 +370,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectory() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -392,7 +394,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectory() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -414,7 +416,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectories() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -425,7 +427,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectories() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -449,7 +451,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeDirectories() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -471,7 +473,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFile() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -482,7 +484,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFile() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -544,7 +546,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFile() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -574,7 +576,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFileFromRange() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -585,7 +587,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFileFromRange() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -624,7 +626,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeFileFromRange() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -652,7 +654,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeLink() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -663,7 +665,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeLink() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -697,7 +699,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_MakeLink() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -723,7 +725,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_Unlink() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -734,7 +736,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_Unlink() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -758,7 +760,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_Unlink() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -780,7 +782,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFileFullyLoaded() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -791,7 +793,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFileFullyLoaded() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -815,7 +817,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFileFullyLoaded() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -837,7 +839,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFullyLoaded() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -848,7 +850,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFullyLoaded() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -867,7 +869,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_IsFullyLoaded() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -887,7 +889,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetLoadingProgress() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -898,7 +900,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetLoadingProgress() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -917,7 +919,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetLoadingProgress() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -937,7 +939,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataByPath() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -948,7 +950,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataByPath() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -972,7 +974,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataByPath() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -994,7 +996,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataById() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1005,7 +1007,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataById() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1033,7 +1035,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetadataById() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1055,7 +1057,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteStorage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1066,7 +1068,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteStorage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1085,7 +1087,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DeleteStorage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1105,7 +1107,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DisallowReadLogs() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1116,7 +1118,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DisallowReadLogs() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1135,7 +1137,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_DisallowReadLogs() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1155,7 +1157,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_ConfigureNativeBinaries() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1166,7 +1168,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_ConfigureNativeBinaries() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1205,7 +1207,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_ConfigureNativeBinaries() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1233,7 +1235,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_WaitForNativeBinariesExtracti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1244,7 +1246,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_WaitForNativeBinariesExtracti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1263,7 +1265,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_WaitForNativeBinariesExtracti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1283,7 +1285,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_RegisterLoadingProgressListen
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1294,7 +1296,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_RegisterLoadingProgressListen
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1323,7 +1325,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_RegisterLoadingProgressListen
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1345,7 +1347,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_UnregisterLoadingProgressList
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1356,7 +1358,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_UnregisterLoadingProgressList
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1375,7 +1377,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_UnregisterLoadingProgressList
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1395,7 +1397,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetrics() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1406,7 +1408,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetrics() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalService")
 			}
 			if err != nil {
 				return err
@@ -1425,7 +1427,7 @@ func newCmdAndroidOsIncrementalIIncrementalService_GetMetrics() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1456,7 +1458,7 @@ func newCmdAndroidOsIncrementalIIncrementalServiceConnector_SetStorageParams() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1467,7 +1469,7 @@ func newCmdAndroidOsIncrementalIIncrementalServiceConnector_SetStorageParams() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalServiceConnector")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IIncrementalServiceConnector")
 			}
 			if err != nil {
 				return err
@@ -1486,7 +1488,7 @@ func newCmdAndroidOsIncrementalIIncrementalServiceConnector_SetStorageParams() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1517,7 +1519,7 @@ func newCmdAndroidOsIncrementalIStorageHealthListener_OnHealthStatus() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1528,7 +1530,7 @@ func newCmdAndroidOsIncrementalIStorageHealthListener_OnHealthStatus() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IStorageHealthListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IStorageHealthListener")
 			}
 			if err != nil {
 				return err
@@ -1552,7 +1554,7 @@ func newCmdAndroidOsIncrementalIStorageHealthListener_OnHealthStatus() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1585,7 +1587,7 @@ func newCmdAndroidOsIncrementalIStorageLoadingProgressListener_OnStorageLoadingP
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1596,7 +1598,7 @@ func newCmdAndroidOsIncrementalIStorageLoadingProgressListener_OnStorageLoadingP
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IStorageLoadingProgressListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.os.incremental.IStorageLoadingProgressListener")
 			}
 			if err != nil {
 				return err
@@ -1620,7 +1622,7 @@ func newCmdAndroidOsIncrementalIStorageLoadingProgressListener_OnStorageLoadingP
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

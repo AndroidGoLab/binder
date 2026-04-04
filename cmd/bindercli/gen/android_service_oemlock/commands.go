@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/oemlock"
@@ -46,7 +48,7 @@ func newCmdAndroidServiceOemlockIOemLockService_GetLockName() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -57,7 +59,7 @@ func newCmdAndroidServiceOemlockIOemLockService_GetLockName() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -71,7 +73,7 @@ func newCmdAndroidServiceOemlockIOemLockService_GetLockName() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -89,7 +91,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByCarrier() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -100,7 +102,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByCarrier() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -128,7 +130,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByCarrier() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -150,7 +152,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByCarrier() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -161,7 +163,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByCarrier() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -175,7 +177,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByCarrier() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -193,7 +195,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByUser() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -204,7 +206,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByUser() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -223,7 +225,7 @@ func newCmdAndroidServiceOemlockIOemLockService_SetOemUnlockAllowedByUser() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -243,7 +245,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByUser() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -254,7 +256,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByUser() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -268,7 +270,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowedByUser() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -286,7 +288,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowed() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -297,7 +299,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowed() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -311,7 +313,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsOemUnlockAllowed() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -329,7 +331,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsDeviceOemUnlocked() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -340,7 +342,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsDeviceOemUnlocked() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.oemlock.IOemLockService")
 			}
 			if err != nil {
 				return err
@@ -354,7 +356,7 @@ func newCmdAndroidServiceOemlockIOemLockService_IsDeviceOemUnlocked() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

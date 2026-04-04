@@ -1857,9 +1857,17 @@ func writeRegistryGen(
 // ---- Generation: gen/<aidl_pkg>/commands.go (one package per AIDL package) ----
 
 const (
-	// cliutilImportPath is the import path of the shared CLI utility
+	// connImportPath is the import path of the connection management
 	// package that generated subpackages import.
-	cliutilImportPath = modulePath + "/cmd/bindercli/cliutil"
+	connImportPath = modulePath + "/cmd/bindercli/conn"
+
+	// outputImportPath is the import path of the output formatting
+	// package that generated subpackages import.
+	outputImportPath = modulePath + "/cmd/bindercli/output"
+
+	// discoveryImportPath is the import path of the service discovery
+	// package that generated subpackages import.
+	discoveryImportPath = modulePath + "/cmd/bindercli/discovery"
 )
 
 type commandableIface struct {
@@ -2032,7 +2040,9 @@ func writeGenPackage(
 		"os":      1,
 		"cobra":   1,
 		"binder":  1,
-		"cliutil": 1,
+		"conn":      1,
+		"output":    1,
+		"discovery": 1,
 		"hex":     1,
 		"json":    1,
 		"strconv": 1,
@@ -2144,7 +2154,9 @@ func writeSubpackageImports(
 	if bodyUsesAlias(bodyStr, "binder") {
 		buf.WriteString("\t\"github.com/AndroidGoLab/binder/binder\"\n")
 	}
-	buf.WriteString("\t\"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil\"\n")
+	fmt.Fprintf(buf, "\t%q\n", connImportPath)
+	fmt.Fprintf(buf, "\t%q\n", discoveryImportPath)
+	fmt.Fprintf(buf, "\t%q\n", outputImportPath)
 
 	type importEntry struct {
 		path  string
@@ -2180,7 +2192,7 @@ func writeSubpackageImports(
 
 // writeRegisterGen writes register_gen.go in the bindercli package
 // that imports all gen subpackages and calls their Register functions.
-// It also initializes the cliutil.KnownServiceNames map.
+// It also initializes the discovery.KnownServiceNames map.
 func writeRegisterGen(
 	outDir string,
 	genPkgs []genPackageInfo,
@@ -2192,7 +2204,7 @@ func writeRegisterGen(
 
 	buf.WriteString("import (\n")
 	buf.WriteString("\t\"github.com/spf13/cobra\"\n\n")
-	buf.WriteString("\t\"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil\"\n")
+	fmt.Fprintf(&buf, "\t%q\n", discoveryImportPath)
 	for _, pkg := range genPkgs {
 		fmt.Fprintf(&buf, "\t%s %q\n", pkg.GoPackageName, pkg.ImportPath)
 	}
@@ -2200,7 +2212,7 @@ func writeRegisterGen(
 
 	// Write init that populates knownServiceNames.
 	buf.WriteString("func init() {\n")
-	buf.WriteString("\tcliutil.KnownServiceNames = map[string]string{\n")
+	buf.WriteString("\tdiscovery.KnownServiceNames = map[string]string{\n")
 	keys := make([]string, 0, len(knownServiceNames))
 	for k := range knownServiceNames {
 		keys = append(keys, k)
@@ -2369,7 +2381,7 @@ func writeMethodCmd(
 
 	buf.WriteString("\t\tRunE: func(cmd *cobra.Command, args []string) error {\n")
 	buf.WriteString("\t\t\tctx := context.Background()\n\n")
-	buf.WriteString("\t\t\tconn, err := cliutil.OpenConn(ctx, cmd)\n")
+	buf.WriteString("\t\t\tconn, err := conn.Open(ctx, cmd)\n")
 	buf.WriteString("\t\t\tif err != nil {\n")
 	buf.WriteString("\t\t\t\treturn err\n")
 	buf.WriteString("\t\t\t}\n")
@@ -2380,7 +2392,7 @@ func writeMethodCmd(
 	buf.WriteString("\t\t\tif serviceName != \"\" {\n")
 	buf.WriteString("\t\t\t\tsvc, err = conn.GetService(ctx, serviceName)\n")
 	buf.WriteString("\t\t\t} else {\n")
-	fmt.Fprintf(buf, "\t\t\t\tsvc, err = cliutil.FindServiceByDescriptor(ctx, conn, %q)\n", iface.Descriptor)
+	fmt.Fprintf(buf, "\t\t\t\tsvc, err = discovery.FindServiceByDescriptor(ctx, conn, %q)\n", iface.Descriptor)
 	buf.WriteString("\t\t\t}\n")
 	buf.WriteString("\t\t\tif err != nil {\n")
 	buf.WriteString("\t\t\t\treturn err\n")
@@ -2412,7 +2424,7 @@ func writeMethodCmd(
 	buf.WriteString("\t\t\t}\n\n")
 
 	buf.WriteString("\t\t\tmode, _ := cmd.Root().PersistentFlags().GetString(\"format\")\n")
-	buf.WriteString("\t\t\tf := cliutil.NewFormatter(mode, os.Stdout)\n")
+	buf.WriteString("\t\t\tf := output.NewFormatter(mode, os.Stdout)\n")
 	if m.ReturnType != "" {
 		buf.WriteString("\t\t\tf.Value(\"result\", result)\n")
 	} else {

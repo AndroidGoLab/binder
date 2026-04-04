@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/radio/sap"
@@ -49,7 +51,7 @@ func newCmdAndroidHardwareRadioSapISap_ApduReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -60,7 +62,7 @@ func newCmdAndroidHardwareRadioSapISap_ApduReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -94,7 +96,7 @@ func newCmdAndroidHardwareRadioSapISap_ApduReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -118,7 +120,7 @@ func newCmdAndroidHardwareRadioSapISap_ConnectReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -129,7 +131,7 @@ func newCmdAndroidHardwareRadioSapISap_ConnectReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -153,7 +155,7 @@ func newCmdAndroidHardwareRadioSapISap_ConnectReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -175,7 +177,7 @@ func newCmdAndroidHardwareRadioSapISap_DisconnectReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -186,7 +188,7 @@ func newCmdAndroidHardwareRadioSapISap_DisconnectReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -205,7 +207,7 @@ func newCmdAndroidHardwareRadioSapISap_DisconnectReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -225,7 +227,7 @@ func newCmdAndroidHardwareRadioSapISap_PowerReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -236,7 +238,7 @@ func newCmdAndroidHardwareRadioSapISap_PowerReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -260,7 +262,7 @@ func newCmdAndroidHardwareRadioSapISap_PowerReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareRadioSapISap_ResetSimReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -293,7 +295,7 @@ func newCmdAndroidHardwareRadioSapISap_ResetSimReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -312,7 +314,7 @@ func newCmdAndroidHardwareRadioSapISap_ResetSimReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -332,7 +334,7 @@ func newCmdAndroidHardwareRadioSapISap_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -343,7 +345,7 @@ func newCmdAndroidHardwareRadioSapISap_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -367,7 +369,7 @@ func newCmdAndroidHardwareRadioSapISap_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -387,7 +389,7 @@ func newCmdAndroidHardwareRadioSapISap_SetTransferProtocolReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -398,7 +400,7 @@ func newCmdAndroidHardwareRadioSapISap_SetTransferProtocolReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -423,7 +425,7 @@ func newCmdAndroidHardwareRadioSapISap_SetTransferProtocolReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -445,7 +447,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferAtrReq() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -456,7 +458,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferAtrReq() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -475,7 +477,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferAtrReq() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -495,7 +497,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferCardReaderStatusReq() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -506,7 +508,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferCardReaderStatusReq() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISap")
 			}
 			if err != nil {
 				return err
@@ -525,7 +527,7 @@ func newCmdAndroidHardwareRadioSapISap_TransferCardReaderStatusReq() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -566,7 +568,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ApduResponse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -577,7 +579,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ApduResponse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -611,7 +613,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ApduResponse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -635,7 +637,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ConnectResponse() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -646,7 +648,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ConnectResponse() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -676,7 +678,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ConnectResponse() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -700,7 +702,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectIndication() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -711,7 +713,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectIndication() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -736,7 +738,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectIndication() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -758,7 +760,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectResponse() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -769,7 +771,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectResponse() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -788,7 +790,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_DisconnectResponse() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -808,7 +810,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ErrorResponse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -819,7 +821,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ErrorResponse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -838,7 +840,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ErrorResponse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -858,7 +860,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_PowerResponse() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -869,7 +871,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_PowerResponse() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -894,7 +896,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_PowerResponse() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -916,7 +918,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ResetSimResponse() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -927,7 +929,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ResetSimResponse() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -952,7 +954,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_ResetSimResponse() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -974,7 +976,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_StatusIndication() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -985,7 +987,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_StatusIndication() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -1010,7 +1012,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_StatusIndication() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1032,7 +1034,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferAtrResponse() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1043,7 +1045,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferAtrResponse() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -1077,7 +1079,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferAtrResponse() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1101,7 +1103,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferCardReaderStatusResponse(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1112,7 +1114,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferCardReaderStatusResponse(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -1142,7 +1144,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferCardReaderStatusResponse(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1166,7 +1168,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferProtocolResponse() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1177,7 +1179,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferProtocolResponse() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.radio.sap.ISapCallback")
 			}
 			if err != nil {
 				return err
@@ -1202,7 +1204,7 @@ func newCmdAndroidHardwareRadioSapISapCallback_TransferProtocolResponse() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

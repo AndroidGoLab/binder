@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/biometrics/common"
@@ -48,7 +50,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_GetSensorProps() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -59,7 +61,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_GetSensorProps() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.IFingerprint")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.IFingerprint")
 			}
 			if err != nil {
 				return err
@@ -73,7 +75,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_GetSensorProps() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -91,7 +93,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_CreateSession() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -102,7 +104,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_CreateSession() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.IFingerprint")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.IFingerprint")
 			}
 			if err != nil {
 				return err
@@ -131,7 +133,7 @@ func newCmdAndroidHardwareBiometricsFingerprintIFingerprint_CreateSession() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -185,7 +187,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GenerateChallenge() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -196,7 +198,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GenerateChallenge() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -210,7 +212,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GenerateChallenge() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -228,7 +230,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RevokeChallenge() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -239,7 +241,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RevokeChallenge() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -258,7 +260,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RevokeChallenge() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -278,7 +280,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Enroll() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -289,7 +291,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Enroll() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -318,7 +320,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Enroll() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -342,7 +344,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Authenticate() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -353,7 +355,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Authenticate() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -372,7 +374,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Authenticate() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -392,7 +394,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteraction() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -403,7 +405,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteraction() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -417,7 +419,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteraction() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -435,7 +437,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnumerateEnrollments() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -446,7 +448,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnumerateEnrollments() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -460,7 +462,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnumerateEnrollments() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -478,7 +480,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RemoveEnrollments() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -489,7 +491,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RemoveEnrollments() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -518,7 +520,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_RemoveEnrollments() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -538,7 +540,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GetAuthenticatorId() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -549,7 +551,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GetAuthenticatorId() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -563,7 +565,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_GetAuthenticatorId() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -581,7 +583,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_InvalidateAuthenticatorI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -592,7 +594,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_InvalidateAuthenticatorI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -606,7 +608,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_InvalidateAuthenticatorI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -624,7 +626,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_ResetLockout() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -635,7 +637,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_ResetLockout() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -664,7 +666,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_ResetLockout() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -688,7 +690,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -699,7 +701,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -713,7 +715,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -731,7 +733,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDown() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -742,7 +744,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDown() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -781,7 +783,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDown() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -809,7 +811,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUp() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -820,7 +822,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUp() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -839,7 +841,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUp() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -859,7 +861,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnUiReady() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -870,7 +872,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnUiReady() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -884,7 +886,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnUiReady() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -902,7 +904,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_AuthenticateWithContext(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -913,7 +915,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_AuthenticateWithContext(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -965,7 +967,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_AuthenticateWithContext(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -998,7 +1000,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnrollWithContext() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1009,7 +1011,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnrollWithContext() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1071,7 +1073,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_EnrollWithContext() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1108,7 +1110,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteractionWithCon
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1119,7 +1121,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteractionWithCon
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1166,7 +1168,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_DetectInteractionWithCon
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1197,7 +1199,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDownWithContext
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1208,7 +1210,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDownWithContext
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1233,7 +1235,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerDownWithContext
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1260,7 +1262,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUpWithContext()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1271,7 +1273,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUpWithContext()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1296,7 +1298,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerUpWithContext()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1323,7 +1325,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnContextChanged() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1334,7 +1336,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnContextChanged() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1381,7 +1383,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnContextChanged() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1412,7 +1414,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerCancelWithConte
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1423,7 +1425,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerCancelWithConte
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1448,7 +1450,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_OnPointerCancelWithConte
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1475,7 +1477,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_SetIgnoreDisplayTouches(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1486,7 +1488,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_SetIgnoreDisplayTouches(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISession")
 			}
 			if err != nil {
 				return err
@@ -1505,7 +1507,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISession_SetIgnoreDisplayTouches(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1551,7 +1553,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeGener
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1562,7 +1564,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeGener
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1581,7 +1583,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeGener
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1601,7 +1603,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeRevok
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1612,7 +1614,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeRevok
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1631,7 +1633,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnChallengeRevok
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1651,7 +1653,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAcquired() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1662,7 +1664,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAcquired() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1687,7 +1689,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAcquired() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1709,7 +1711,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnError() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1720,7 +1722,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnError() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1745,7 +1747,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnError() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1767,7 +1769,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentProg
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1778,7 +1780,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentProg
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1802,7 +1804,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentProg
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1824,7 +1826,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1835,7 +1837,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1869,7 +1871,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1895,7 +1897,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1906,7 +1908,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1920,7 +1922,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthentication
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1938,7 +1940,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutTimed()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1949,7 +1951,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutTimed()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1968,7 +1970,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutTimed()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1988,7 +1990,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutPermane
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1999,7 +2001,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutPermane
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2013,7 +2015,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutPermane
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2031,7 +2033,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutCleared
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2042,7 +2044,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutCleared
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2056,7 +2058,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnLockoutCleared
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2074,7 +2076,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnInteractionDet
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2085,7 +2087,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnInteractionDet
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2099,7 +2101,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnInteractionDet
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2117,7 +2119,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsEnu
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2128,7 +2130,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsEnu
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2157,7 +2159,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsEnu
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2177,7 +2179,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsRem
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2188,7 +2190,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsRem
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2217,7 +2219,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnEnrollmentsRem
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2237,7 +2239,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2248,7 +2250,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2267,7 +2269,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2287,7 +2289,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2298,7 +2300,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2317,7 +2319,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnAuthenticatorI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2337,7 +2339,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnSessionClosed(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2348,7 +2350,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnSessionClosed(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.biometrics.fingerprint.ISessionCallback")
 			}
 			if err != nil {
 				return err
@@ -2362,7 +2364,7 @@ func newCmdAndroidHardwareBiometricsFingerprintISessionCallback_OnSessionClosed(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

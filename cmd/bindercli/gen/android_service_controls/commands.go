@@ -11,7 +11,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/controls"
@@ -44,7 +46,7 @@ func newCmdAndroidServiceControlsIControlsActionCallback_Accept() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdAndroidServiceControlsIControlsActionCallback_Accept() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsActionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsActionCallback")
 			}
 			if err != nil {
 				return err
@@ -88,7 +90,7 @@ func newCmdAndroidServiceControlsIControlsActionCallback_Accept() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -126,7 +128,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Load() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -137,7 +139,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Load() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
 			}
 			if err != nil {
 				return err
@@ -161,7 +163,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Load() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -181,7 +183,7 @@ func newCmdAndroidServiceControlsIControlsProvider_LoadSuggested() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -192,7 +194,7 @@ func newCmdAndroidServiceControlsIControlsProvider_LoadSuggested() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
 			}
 			if err != nil {
 				return err
@@ -216,7 +218,7 @@ func newCmdAndroidServiceControlsIControlsProvider_LoadSuggested() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -236,7 +238,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Subscribe() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -247,7 +249,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Subscribe() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
 			}
 			if err != nil {
 				return err
@@ -280,7 +282,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Subscribe() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -302,7 +304,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Action() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -313,7 +315,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Action() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsProvider")
 			}
 			if err != nil {
 				return err
@@ -344,7 +346,7 @@ func newCmdAndroidServiceControlsIControlsProvider_Action() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -380,7 +382,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnSubscribe() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -391,7 +393,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnSubscribe() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
 			}
 			if err != nil {
 				return err
@@ -424,7 +426,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnSubscribe() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -446,7 +448,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnNext() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -457,7 +459,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnNext() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
 			}
 			if err != nil {
 				return err
@@ -482,7 +484,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnNext() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -502,7 +504,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -513,7 +515,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
 			}
 			if err != nil {
 				return err
@@ -541,7 +543,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -563,7 +565,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnComplete() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -574,7 +576,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnComplete() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscriber")
 			}
 			if err != nil {
 				return err
@@ -597,7 +599,7 @@ func newCmdAndroidServiceControlsIControlsSubscriber_OnComplete() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -629,7 +631,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Request() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -640,7 +642,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Request() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscription")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscription")
 			}
 			if err != nil {
 				return err
@@ -659,7 +661,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Request() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -679,7 +681,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Cancel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -690,7 +692,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Cancel() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscription")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.service.controls.IControlsSubscription")
 			}
 			if err != nil {
 				return err
@@ -704,7 +706,7 @@ func newCmdAndroidServiceControlsIControlsSubscription_Cancel() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

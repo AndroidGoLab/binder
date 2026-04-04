@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/content"
@@ -67,7 +69,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetInactive() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -78,7 +80,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetInactive() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
 			}
 			if err != nil {
 				return err
@@ -99,7 +101,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetInactive() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -119,7 +121,7 @@ func newCmdComAndroidInternalTelecomICallControl_StartCallStreaming() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -130,7 +132,7 @@ func newCmdComAndroidInternalTelecomICallControl_StartCallStreaming() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
 			}
 			if err != nil {
 				return err
@@ -151,7 +153,7 @@ func newCmdComAndroidInternalTelecomICallControl_StartCallStreaming() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -171,7 +173,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetMuteState() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -182,7 +184,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetMuteState() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
 			}
 			if err != nil {
 				return err
@@ -203,7 +205,7 @@ func newCmdComAndroidInternalTelecomICallControl_SetMuteState() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -223,7 +225,7 @@ func newCmdComAndroidInternalTelecomICallControl_SendEvent() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -234,7 +236,7 @@ func newCmdComAndroidInternalTelecomICallControl_SendEvent() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
 			}
 			if err != nil {
 				return err
@@ -260,7 +262,7 @@ func newCmdComAndroidInternalTelecomICallControl_SendEvent() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -282,7 +284,7 @@ func newCmdComAndroidInternalTelecomICallControl_RequestVideoState() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -293,7 +295,7 @@ func newCmdComAndroidInternalTelecomICallControl_RequestVideoState() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallControl")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdComAndroidInternalTelecomICallControl_RequestVideoState() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -355,7 +357,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_SetAdapter() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -366,7 +368,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_SetAdapter() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
 			}
 			if err != nil {
 				return err
@@ -390,7 +392,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_SetAdapter() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -410,7 +412,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_RemoveDiagnosticCall(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -421,7 +423,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_RemoveDiagnosticCall(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
 			}
 			if err != nil {
 				return err
@@ -440,7 +442,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_RemoveDiagnosticCall(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -460,7 +462,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_ReceiveDeviceToDevice
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -471,7 +473,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_ReceiveDeviceToDevice
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
 			}
 			if err != nil {
 				return err
@@ -500,7 +502,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_ReceiveDeviceToDevice
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -524,7 +526,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_CallQualityChanged() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -535,7 +537,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_CallQualityChanged() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticService")
 			}
 			if err != nil {
 				return err
@@ -556,7 +558,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticService_CallQualityChanged() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -590,7 +592,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_DisplayDiagnos
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -601,7 +603,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_DisplayDiagnos
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
 			}
 			if err != nil {
 				return err
@@ -630,7 +632,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_DisplayDiagnos
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -654,7 +656,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_ClearDiagnosti
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -665,7 +667,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_ClearDiagnosti
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
 			}
 			if err != nil {
 				return err
@@ -689,7 +691,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_ClearDiagnosti
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -711,7 +713,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_SendDeviceToDe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -722,7 +724,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_SendDeviceToDe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
 			}
 			if err != nil {
 				return err
@@ -751,7 +753,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_SendDeviceToDe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -775,7 +777,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_OverrideDiscon
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -786,7 +788,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_OverrideDiscon
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallDiagnosticServiceAdapter")
 			}
 			if err != nil {
 				return err
@@ -810,7 +812,7 @@ func newCmdComAndroidInternalTelecomICallDiagnosticServiceAdapter_OverrideDiscon
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -850,7 +852,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetActive() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -861,7 +863,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetActive() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -882,7 +884,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetActive() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -902,7 +904,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetInactive() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -913,7 +915,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetInactive() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -934,7 +936,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnSetInactive() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -954,7 +956,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnAnswer() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -965,7 +967,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnAnswer() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -991,7 +993,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnAnswer() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1013,7 +1015,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingStarted() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1024,7 +1026,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingStarted() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -1045,7 +1047,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingStarted() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1065,7 +1067,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingFailed() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1076,7 +1078,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingFailed() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -1100,7 +1102,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnCallStreamingFailed() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1122,7 +1124,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnVideoStateChanged() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1133,7 +1135,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnVideoStateChanged() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -1157,7 +1159,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnVideoStateChanged() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1179,7 +1181,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnEvent() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1190,7 +1192,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnEvent() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -1216,7 +1218,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_OnEvent() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1238,7 +1240,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_RemoveCallFromTransaction
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1249,7 +1251,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_RemoveCallFromTransaction
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallEventCallback")
 			}
 			if err != nil {
 				return err
@@ -1268,7 +1270,7 @@ func newCmdComAndroidInternalTelecomICallEventCallback_RemoveCallFromTransaction
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1300,7 +1302,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_CancelCall() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1311,7 +1313,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_CancelCall() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionAdapter")
 			}
 			if err != nil {
 				return err
@@ -1325,7 +1327,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_CancelCall() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1343,7 +1345,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_PlaceCallUnmodified(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1354,7 +1356,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_PlaceCallUnmodified(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionAdapter")
 			}
 			if err != nil {
 				return err
@@ -1368,7 +1370,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionAdapter_PlaceCallUnmodified(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1398,7 +1400,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_PlaceCall() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1409,7 +1411,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_PlaceCall() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionService")
 			}
 			if err != nil {
 				return err
@@ -1442,7 +1444,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_PlaceCall() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1464,7 +1466,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_NotifyTimeout() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1475,7 +1477,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_NotifyTimeout() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallRedirectionService")
 			}
 			if err != nil {
 				return err
@@ -1489,7 +1491,7 @@ func newCmdComAndroidInternalTelecomICallRedirectionService_NotifyTimeout() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1520,7 +1522,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_SetStreamingCallAdapte
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1531,7 +1533,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_SetStreamingCallAdapte
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
 			}
 			if err != nil {
 				return err
@@ -1555,7 +1557,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_SetStreamingCallAdapte
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1575,7 +1577,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStopped
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1586,7 +1588,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStopped
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
 			}
 			if err != nil {
 				return err
@@ -1600,7 +1602,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStopped
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1618,7 +1620,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStateCh
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1629,7 +1631,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStateCh
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ICallStreamingService")
 			}
 			if err != nil {
 				return err
@@ -1648,7 +1650,7 @@ func newCmdComAndroidInternalTelecomICallStreamingService_OnCallStreamingStateCh
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1679,7 +1681,7 @@ func newCmdComAndroidInternalTelecomIDeviceIdleControllerAdapter_ExemptAppTempor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1690,7 +1692,7 @@ func newCmdComAndroidInternalTelecomIDeviceIdleControllerAdapter_ExemptAppTempor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IDeviceIdleControllerAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IDeviceIdleControllerAdapter")
 			}
 			if err != nil {
 				return err
@@ -1719,7 +1721,7 @@ func newCmdComAndroidInternalTelecomIDeviceIdleControllerAdapter_ExemptAppTempor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1770,7 +1772,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_AnswerCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1781,7 +1783,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_AnswerCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -1805,7 +1807,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_AnswerCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1827,7 +1829,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DeflectCall() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1838,7 +1840,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DeflectCall() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -1859,7 +1861,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DeflectCall() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1879,7 +1881,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1890,7 +1892,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -1919,7 +1921,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1943,7 +1945,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCallWithReason() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1954,7 +1956,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCallWithReason() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -1978,7 +1980,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RejectCallWithReason() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2000,7 +2002,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TransferCall() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2011,7 +2013,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TransferCall() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2037,7 +2039,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TransferCall() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2059,7 +2061,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DisconnectCall() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2070,7 +2072,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DisconnectCall() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2089,7 +2091,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_DisconnectCall() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2109,7 +2111,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_HoldCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2120,7 +2122,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_HoldCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2139,7 +2141,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_HoldCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2159,7 +2161,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_UnholdCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2170,7 +2172,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_UnholdCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2189,7 +2191,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_UnholdCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2209,7 +2211,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_Mute() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2220,7 +2222,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_Mute() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2239,7 +2241,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_Mute() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2259,7 +2261,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_EnterBackgroundAudioProcessin
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2270,7 +2272,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_EnterBackgroundAudioProcessin
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2289,7 +2291,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_EnterBackgroundAudioProcessin
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2309,7 +2311,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_ExitBackgroundAudioProcessing
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2320,7 +2322,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_ExitBackgroundAudioProcessing
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2344,7 +2346,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_ExitBackgroundAudioProcessing
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2366,7 +2368,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_PostDialContinue() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2377,7 +2379,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_PostDialContinue() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2401,7 +2403,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_PostDialContinue() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2423,7 +2425,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOnProximitySensor() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2434,7 +2436,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOnProximitySensor() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2448,7 +2450,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOnProximitySensor() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2466,7 +2468,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOffProximitySensor() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2477,7 +2479,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOffProximitySensor() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2496,7 +2498,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_TurnOffProximitySensor() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2516,7 +2518,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SendRttRequest() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2527,7 +2529,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SendRttRequest() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2546,7 +2548,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SendRttRequest() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2566,7 +2568,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RespondToRttRequest() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2577,7 +2579,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RespondToRttRequest() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2606,7 +2608,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_RespondToRttRequest() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2630,7 +2632,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SetRttMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2641,7 +2643,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SetRttMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -2665,7 +2667,7 @@ func newCmdComAndroidInternalTelecomIInCallAdapter_SetRttMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2707,7 +2709,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetInCallAdapter() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2718,7 +2720,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetInCallAdapter() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -2742,7 +2744,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetInCallAdapter() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2762,7 +2764,7 @@ func newCmdComAndroidInternalTelecomIInCallService_AddCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2773,7 +2775,7 @@ func newCmdComAndroidInternalTelecomIInCallService_AddCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -2789,7 +2791,7 @@ func newCmdComAndroidInternalTelecomIInCallService_AddCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2807,7 +2809,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDial() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2818,7 +2820,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDial() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -2842,7 +2844,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDial() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2864,7 +2866,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDialWait() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2875,7 +2877,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDialWait() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -2899,7 +2901,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SetPostDialWait() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2921,7 +2923,7 @@ func newCmdComAndroidInternalTelecomIInCallService_BringToForeground() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2932,7 +2934,7 @@ func newCmdComAndroidInternalTelecomIInCallService_BringToForeground() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -2951,7 +2953,7 @@ func newCmdComAndroidInternalTelecomIInCallService_BringToForeground() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2971,7 +2973,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnCanAddCallChanged() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2982,7 +2984,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnCanAddCallChanged() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -3001,7 +3003,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnCanAddCallChanged() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3021,7 +3023,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SilenceRinger() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3032,7 +3034,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SilenceRinger() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -3046,7 +3048,7 @@ func newCmdComAndroidInternalTelecomIInCallService_SilenceRinger() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3064,7 +3066,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnRttUpgradeRequest() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3075,7 +3077,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnRttUpgradeRequest() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -3099,7 +3101,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnRttUpgradeRequest() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3121,7 +3123,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverFailed() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3132,7 +3134,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverFailed() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -3156,7 +3158,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverFailed() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3178,7 +3180,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverComplete() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3189,7 +3191,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverComplete() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInCallService")
 			}
 			if err != nil {
 				return err
@@ -3208,7 +3210,7 @@ func newCmdComAndroidInternalTelecomIInCallService_OnHandoverComplete() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3239,7 +3241,7 @@ func newCmdComAndroidInternalTelecomIInternalServiceRetriever_GetDeviceIdleContr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3250,7 +3252,7 @@ func newCmdComAndroidInternalTelecomIInternalServiceRetriever_GetDeviceIdleContr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInternalServiceRetriever")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IInternalServiceRetriever")
 			}
 			if err != nil {
 				return err
@@ -3264,7 +3266,7 @@ func newCmdComAndroidInternalTelecomIInternalServiceRetriever_GetDeviceIdleContr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3293,7 +3295,7 @@ func newCmdComAndroidInternalTelecomIPhoneAccountSuggestionService_OnAccountSugg
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3304,7 +3306,7 @@ func newCmdComAndroidInternalTelecomIPhoneAccountSuggestionService_OnAccountSugg
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IPhoneAccountSuggestionService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IPhoneAccountSuggestionService")
 			}
 			if err != nil {
 				return err
@@ -3333,7 +3335,7 @@ func newCmdComAndroidInternalTelecomIPhoneAccountSuggestionService_OnAccountSugg
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3366,7 +3368,7 @@ func newCmdComAndroidInternalTelecomIStreamingCallAdapter_SetStreamingState() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3377,7 +3379,7 @@ func newCmdComAndroidInternalTelecomIStreamingCallAdapter_SetStreamingState() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IStreamingCallAdapter")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IStreamingCallAdapter")
 			}
 			if err != nil {
 				return err
@@ -3396,7 +3398,7 @@ func newCmdComAndroidInternalTelecomIStreamingCallAdapter_SetStreamingState() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3427,7 +3429,7 @@ func newCmdComAndroidInternalTelecomITelecomLoader_CreateTelecomService() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3438,7 +3440,7 @@ func newCmdComAndroidInternalTelecomITelecomLoader_CreateTelecomService() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomLoader")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomLoader")
 			}
 			if err != nil {
 				return err
@@ -3462,7 +3464,7 @@ func newCmdComAndroidInternalTelecomITelecomLoader_CreateTelecomService() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3549,7 +3551,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ShowInCallScreen() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3560,7 +3562,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ShowInCallScreen() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3579,7 +3581,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ShowInCallScreen() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3599,7 +3601,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultOutgoingPhoneAccou
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3610,7 +3612,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultOutgoingPhoneAccou
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3629,7 +3631,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultOutgoingPhoneAccou
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3649,7 +3651,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetUserSelectedOutgoingPhone
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3660,7 +3662,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetUserSelectedOutgoingPhone
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3674,7 +3676,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetUserSelectedOutgoingPhone
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3692,7 +3694,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallCapablePhoneAccounts(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3703,7 +3705,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallCapablePhoneAccounts(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3727,7 +3729,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallCapablePhoneAccounts(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3749,7 +3751,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSelfManagedPhoneAccounts(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3760,7 +3762,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSelfManagedPhoneAccounts(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3774,7 +3776,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSelfManagedPhoneAccounts(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3792,7 +3794,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetOwnSelfManagedPhoneAccoun
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3803,7 +3805,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetOwnSelfManagedPhoneAccoun
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3817,7 +3819,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetOwnSelfManagedPhoneAccoun
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3835,7 +3837,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsSupportingSc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3846,7 +3848,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsSupportingSc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3865,7 +3867,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsSupportingSc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3885,7 +3887,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsForPackage()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3896,7 +3898,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsForPackage()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3915,7 +3917,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetPhoneAccountsForPackage()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3935,7 +3937,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetRegisteredPhoneAccounts()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3946,7 +3948,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetRegisteredPhoneAccounts()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -3960,7 +3962,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetRegisteredPhoneAccounts()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -3978,7 +3980,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountsCount() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3989,7 +3991,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountsCount() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4003,7 +4005,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountsCount() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4021,7 +4023,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccounts() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4032,7 +4034,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccounts() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4046,7 +4048,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccounts() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4064,7 +4066,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountHandles() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4075,7 +4077,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountHandles() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4089,7 +4091,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetAllPhoneAccountHandles() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4107,7 +4109,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManager() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4118,7 +4120,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManager() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4137,7 +4139,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManager() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4157,7 +4159,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManagerForUser() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4168,7 +4170,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManagerForUser() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4182,7 +4184,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSimCallManagerForUser() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4200,7 +4202,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ClearAccounts() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4211,7 +4213,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ClearAccounts() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4230,7 +4232,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ClearAccounts() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4250,7 +4252,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultPhoneApp() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4261,7 +4263,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultPhoneApp() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4275,7 +4277,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultPhoneApp() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4293,7 +4295,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackage() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4304,7 +4306,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackage() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4318,7 +4320,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackage() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4336,7 +4338,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackageForUs
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4347,7 +4349,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackageForUs
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4361,7 +4363,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetDefaultDialerPackageForUs
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4379,7 +4381,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSystemDialerPackage() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4390,7 +4392,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSystemDialerPackage() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4404,7 +4406,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetSystemDialerPackage() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4422,7 +4424,7 @@ func newCmdComAndroidInternalTelecomITelecomService_DumpCallAnalytics() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4433,7 +4435,7 @@ func newCmdComAndroidInternalTelecomITelecomService_DumpCallAnalytics() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4447,7 +4449,7 @@ func newCmdComAndroidInternalTelecomITelecomService_DumpCallAnalytics() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4465,7 +4467,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SilenceRinger() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4476,7 +4478,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SilenceRinger() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4490,7 +4492,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SilenceRinger() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4508,7 +4510,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4519,7 +4521,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4533,7 +4535,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4551,7 +4553,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HasManageOngoingCallsPermiss
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4562,7 +4564,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HasManageOngoingCallsPermiss
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4576,7 +4578,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HasManageOngoingCallsPermiss
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4594,7 +4596,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInManagedCall() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4605,7 +4607,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInManagedCall() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4619,7 +4621,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInManagedCall() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4637,7 +4639,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsRinging() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4648,7 +4650,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsRinging() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4662,7 +4664,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsRinging() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4680,7 +4682,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallState() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4691,7 +4693,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallState() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4705,7 +4707,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallState() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4723,7 +4725,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallStateUsingPackage() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4734,7 +4736,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallStateUsingPackage() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4748,7 +4750,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCallStateUsingPackage() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4766,7 +4768,7 @@ func newCmdComAndroidInternalTelecomITelecomService_EndCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4777,7 +4779,7 @@ func newCmdComAndroidInternalTelecomITelecomService_EndCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4791,7 +4793,7 @@ func newCmdComAndroidInternalTelecomITelecomService_EndCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4809,7 +4811,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCall() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4820,7 +4822,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCall() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4834,7 +4836,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCall() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4852,7 +4854,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCallWithVideoSt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4863,7 +4865,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCallWithVideoSt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4882,7 +4884,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AcceptRingingCallWithVideoSt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4902,7 +4904,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CancelMissedCallsNotificatio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4913,7 +4915,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CancelMissedCallsNotificatio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4927,7 +4929,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CancelMissedCallsNotificatio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -4945,7 +4947,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandlePinMmi() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -4956,7 +4958,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandlePinMmi() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -4975,7 +4977,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandlePinMmi() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -4995,7 +4997,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsTtySupported() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5006,7 +5008,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsTtySupported() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5020,7 +5022,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsTtySupported() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5038,7 +5040,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCurrentTtyMode() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5049,7 +5051,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCurrentTtyMode() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5063,7 +5065,7 @@ func newCmdComAndroidInternalTelecomITelecomService_GetCurrentTtyMode() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5081,7 +5083,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StartConference() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5092,7 +5094,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StartConference() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5119,7 +5121,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StartConference() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5139,7 +5141,7 @@ func newCmdComAndroidInternalTelecomITelecomService_PlaceCall() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5150,7 +5152,7 @@ func newCmdComAndroidInternalTelecomITelecomService_PlaceCall() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5168,7 +5170,7 @@ func newCmdComAndroidInternalTelecomITelecomService_PlaceCall() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5186,7 +5188,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetDefaultDialer() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5197,7 +5199,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetDefaultDialer() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5216,7 +5218,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetDefaultDialer() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5236,7 +5238,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StopBlockSuppression() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5247,7 +5249,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StopBlockSuppression() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5261,7 +5263,7 @@ func newCmdComAndroidInternalTelecomITelecomService_StopBlockSuppression() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5279,7 +5281,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateManageBlockedNumbersIn
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5290,7 +5292,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateManageBlockedNumbersIn
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5304,7 +5306,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateManageBlockedNumbersIn
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5322,7 +5324,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateLaunchEmergencyDialerI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5333,7 +5335,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateLaunchEmergencyDialerI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5352,7 +5354,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CreateLaunchEmergencyDialerI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5372,7 +5374,7 @@ func newCmdComAndroidInternalTelecomITelecomService_WaitOnHandlers() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5383,7 +5385,7 @@ func newCmdComAndroidInternalTelecomITelecomService_WaitOnHandlers() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5397,7 +5399,7 @@ func newCmdComAndroidInternalTelecomITelecomService_WaitOnHandlers() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5415,7 +5417,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestEmergencyPhoneAccount
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5426,7 +5428,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestEmergencyPhoneAccount
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5445,7 +5447,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestEmergencyPhoneAccount
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5465,7 +5467,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInEmergencyCall() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5476,7 +5478,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInEmergencyCall() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5490,7 +5492,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInEmergencyCall() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5508,7 +5510,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandleCallIntent() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5519,7 +5521,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandleCallIntent() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5540,7 +5542,7 @@ func newCmdComAndroidInternalTelecomITelecomService_HandleCallIntent() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5560,7 +5562,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupStuckCalls() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5571,7 +5573,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupStuckCalls() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5585,7 +5587,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupStuckCalls() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5603,7 +5605,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupOrphanPhoneAccounts()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5614,7 +5616,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupOrphanPhoneAccounts()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5628,7 +5630,7 @@ func newCmdComAndroidInternalTelecomITelecomService_CleanupOrphanPhoneAccounts()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5646,7 +5648,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsNonUiInCallServiceBound() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5657,7 +5659,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsNonUiInCallServiceBound() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5676,7 +5678,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsNonUiInCallServiceBound() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -5696,7 +5698,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ResetCarMode() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5707,7 +5709,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ResetCarMode() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5721,7 +5723,7 @@ func newCmdComAndroidInternalTelecomITelecomService_ResetCarMode() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5739,7 +5741,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallRedirectio
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5750,7 +5752,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallRedirectio
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5769,7 +5771,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallRedirectio
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5789,7 +5791,7 @@ func newCmdComAndroidInternalTelecomITelecomService_RequestLogMark() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5800,7 +5802,7 @@ func newCmdComAndroidInternalTelecomITelecomService_RequestLogMark() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5819,7 +5821,7 @@ func newCmdComAndroidInternalTelecomITelecomService_RequestLogMark() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5839,7 +5841,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestPhoneAcctSuggestionCo
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5850,7 +5852,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestPhoneAcctSuggestionCo
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5869,7 +5871,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestPhoneAcctSuggestionCo
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5889,7 +5891,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallScreeningA
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5900,7 +5902,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallScreeningA
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5919,7 +5921,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultCallScreeningA
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5939,7 +5941,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AddOrRemoveTestCallCompanion
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -5950,7 +5952,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AddOrRemoveTestCallCompanion
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -5974,7 +5976,7 @@ func newCmdComAndroidInternalTelecomITelecomService_AddOrRemoveTestCallCompanion
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -5996,7 +5998,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetSystemDialer() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6007,7 +6009,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetSystemDialer() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -6023,7 +6025,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetSystemDialer() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6041,7 +6043,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultDialer() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6052,7 +6054,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultDialer() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -6071,7 +6073,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestDefaultDialer() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6091,7 +6093,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestCallDiagnosticService
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6102,7 +6104,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestCallDiagnosticService
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -6121,7 +6123,7 @@ func newCmdComAndroidInternalTelecomITelecomService_SetTestCallDiagnosticService
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6141,7 +6143,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInSelfManagedCall() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6152,7 +6154,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInSelfManagedCall() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.ITelecomService")
 			}
 			if err != nil {
 				return err
@@ -6178,7 +6180,7 @@ func newCmdComAndroidInternalTelecomITelecomService_IsInSelfManagedCall() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -6214,7 +6216,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_HandleCallSessionEvent() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6225,7 +6227,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_HandleCallSessionEvent() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
 			}
 			if err != nil {
 				return err
@@ -6244,7 +6246,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_HandleCallSessionEvent() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6264,7 +6266,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangePeerDimensions() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6275,7 +6277,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangePeerDimensions() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
 			}
 			if err != nil {
 				return err
@@ -6299,7 +6301,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangePeerDimensions() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6321,7 +6323,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeCallDataUsage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6332,7 +6334,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeCallDataUsage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
 			}
 			if err != nil {
 				return err
@@ -6351,7 +6353,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeCallDataUsage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6371,7 +6373,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeVideoQuality() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6382,7 +6384,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeVideoQuality() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoCallback")
 			}
 			if err != nil {
 				return err
@@ -6401,7 +6403,7 @@ func newCmdComAndroidInternalTelecomIVideoCallback_ChangeVideoQuality() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6441,7 +6443,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_AddVideoCallback() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6452,7 +6454,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_AddVideoCallback() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6475,7 +6477,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_AddVideoCallback() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6495,7 +6497,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RemoveVideoCallback() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6506,7 +6508,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RemoveVideoCallback() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6529,7 +6531,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RemoveVideoCallback() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6549,7 +6551,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetCamera() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6560,7 +6562,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetCamera() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6589,7 +6591,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetCamera() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6613,7 +6615,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPreviewSurface() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6624,7 +6626,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPreviewSurface() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6640,7 +6642,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPreviewSurface() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6658,7 +6660,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDisplaySurface() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6669,7 +6671,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDisplaySurface() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6685,7 +6687,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDisplaySurface() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6703,7 +6705,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDeviceOrientation() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6714,7 +6716,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDeviceOrientation() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6733,7 +6735,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetDeviceOrientation() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6753,7 +6755,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetZoom() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6764,7 +6766,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetZoom() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6783,7 +6785,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetZoom() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6803,7 +6805,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCameraCapabilities() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6814,7 +6816,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCameraCapabilities() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6828,7 +6830,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCameraCapabilities() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6846,7 +6848,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCallDataUsage() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6857,7 +6859,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCallDataUsage() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6871,7 +6873,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_RequestCallDataUsage() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6889,7 +6891,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPauseImage() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6900,7 +6902,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPauseImage() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.IVideoProvider")
 			}
 			if err != nil {
 				return err
@@ -6916,7 +6918,7 @@ func newCmdComAndroidInternalTelecomIVideoProvider_SetPauseImage() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6946,7 +6948,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnError() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -6957,7 +6959,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnError() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.RemoteServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.RemoteServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -6971,7 +6973,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnError() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -6989,7 +6991,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnResult() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -7000,7 +7002,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnResult() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.RemoteServiceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.telecom.RemoteServiceCallback")
 			}
 			if err != nil {
 				return err
@@ -7036,7 +7038,7 @@ func newCmdComAndroidInternalTelecomRemoteServiceCallback_OnResult() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

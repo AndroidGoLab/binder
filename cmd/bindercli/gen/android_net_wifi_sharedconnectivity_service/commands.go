@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net/wifi/sharedconnectivity/app"
@@ -47,7 +49,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -58,7 +60,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -83,7 +85,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -148,7 +150,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -159,7 +161,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -184,7 +186,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -204,7 +206,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -215,7 +217,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -231,7 +233,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -249,7 +251,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -260,7 +262,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -276,7 +278,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback")
 			}
 			if err != nil {
 				return err
@@ -319,7 +321,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityCallback_On
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Reg
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Reg
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -393,7 +395,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Reg
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -413,7 +415,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Unr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -424,7 +426,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Unr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -448,7 +450,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Unr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -468,7 +470,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -479,7 +481,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -495,7 +497,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -513,7 +515,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Dis
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -524,7 +526,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Dis
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -540,7 +542,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Dis
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -558,7 +560,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -569,7 +571,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -585,7 +587,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Con
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -603,7 +605,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_For
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -614,7 +616,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_For
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -630,7 +632,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_For
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -648,7 +650,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -659,7 +661,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -673,7 +675,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -691,7 +693,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -702,7 +704,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -716,7 +718,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -734,7 +736,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -745,7 +747,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -759,7 +761,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -777,7 +779,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -788,7 +790,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -802,7 +804,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -820,7 +822,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -831,7 +833,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.net.wifi.sharedconnectivity.service.ISharedConnectivityService")
 			}
 			if err != nil {
 				return err
@@ -845,7 +847,7 @@ func newCmdAndroidNetWifiSharedconnectivityServiceISharedConnectivityService_Get
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

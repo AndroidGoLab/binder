@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	android2 "github.com/AndroidGoLab/binder/android"
@@ -51,7 +53,7 @@ func newCmdAndroidIGraphicBufferSource_Configure() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -62,7 +64,7 @@ func newCmdAndroidIGraphicBufferSource_Configure() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -91,7 +93,7 @@ func newCmdAndroidIGraphicBufferSource_Configure() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -113,7 +115,7 @@ func newCmdAndroidIGraphicBufferSource_SetSuspend() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -124,7 +126,7 @@ func newCmdAndroidIGraphicBufferSource_SetSuspend() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -148,7 +150,7 @@ func newCmdAndroidIGraphicBufferSource_SetSuspend() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -170,7 +172,7 @@ func newCmdAndroidIGraphicBufferSource_SetRepeatPreviousFrameDelayUs() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -181,7 +183,7 @@ func newCmdAndroidIGraphicBufferSource_SetRepeatPreviousFrameDelayUs() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -200,7 +202,7 @@ func newCmdAndroidIGraphicBufferSource_SetRepeatPreviousFrameDelayUs() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -220,7 +222,7 @@ func newCmdAndroidIGraphicBufferSource_SetMaxFps() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -231,7 +233,7 @@ func newCmdAndroidIGraphicBufferSource_SetMaxFps() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -250,7 +252,7 @@ func newCmdAndroidIGraphicBufferSource_SetMaxFps() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -270,7 +272,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeLapseConfig() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -281,7 +283,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeLapseConfig() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -305,7 +307,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeLapseConfig() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -327,7 +329,7 @@ func newCmdAndroidIGraphicBufferSource_SetStartTimeUs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -338,7 +340,7 @@ func newCmdAndroidIGraphicBufferSource_SetStartTimeUs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -357,7 +359,7 @@ func newCmdAndroidIGraphicBufferSource_SetStartTimeUs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -377,7 +379,7 @@ func newCmdAndroidIGraphicBufferSource_SetStopTimeUs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -388,7 +390,7 @@ func newCmdAndroidIGraphicBufferSource_SetStopTimeUs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -407,7 +409,7 @@ func newCmdAndroidIGraphicBufferSource_SetStopTimeUs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -427,7 +429,7 @@ func newCmdAndroidIGraphicBufferSource_GetStopTimeOffsetUs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -438,7 +440,7 @@ func newCmdAndroidIGraphicBufferSource_GetStopTimeOffsetUs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -452,7 +454,7 @@ func newCmdAndroidIGraphicBufferSource_GetStopTimeOffsetUs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -470,7 +472,7 @@ func newCmdAndroidIGraphicBufferSource_SetColorAspects() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -481,7 +483,7 @@ func newCmdAndroidIGraphicBufferSource_SetColorAspects() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -500,7 +502,7 @@ func newCmdAndroidIGraphicBufferSource_SetColorAspects() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -520,7 +522,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeOffsetUs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -531,7 +533,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeOffsetUs() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -550,7 +552,7 @@ func newCmdAndroidIGraphicBufferSource_SetTimeOffsetUs() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -570,7 +572,7 @@ func newCmdAndroidIGraphicBufferSource_SignalEndOfInputStream() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -581,7 +583,7 @@ func newCmdAndroidIGraphicBufferSource_SignalEndOfInputStream() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IGraphicBufferSource")
 			}
 			if err != nil {
 				return err
@@ -595,7 +597,7 @@ func newCmdAndroidIGraphicBufferSource_SignalEndOfInputStream() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -626,7 +628,7 @@ func newCmdAndroidIMediaExtractorService_MakeExtractor() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -637,7 +639,7 @@ func newCmdAndroidIMediaExtractorService_MakeExtractor() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
 			}
 			if err != nil {
 				return err
@@ -666,7 +668,7 @@ func newCmdAndroidIMediaExtractorService_MakeExtractor() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -688,7 +690,7 @@ func newCmdAndroidIMediaExtractorService_MakeIDataSource() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -699,7 +701,7 @@ func newCmdAndroidIMediaExtractorService_MakeIDataSource() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
 			}
 			if err != nil {
 				return err
@@ -728,7 +730,7 @@ func newCmdAndroidIMediaExtractorService_MakeIDataSource() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -752,7 +754,7 @@ func newCmdAndroidIMediaExtractorService_GetSupportedTypes() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -763,7 +765,7 @@ func newCmdAndroidIMediaExtractorService_GetSupportedTypes() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IMediaExtractorService")
 			}
 			if err != nil {
 				return err
@@ -777,7 +779,7 @@ func newCmdAndroidIMediaExtractorService_GetSupportedTypes() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -810,7 +812,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxExecuting() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -821,7 +823,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxExecuting() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
 			}
 			if err != nil {
 				return err
@@ -835,7 +837,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxExecuting() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -853,7 +855,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxIdle() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -864,7 +866,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxIdle() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
 			}
 			if err != nil {
 				return err
@@ -878,7 +880,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxIdle() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -896,7 +898,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxLoaded() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -907,7 +909,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxLoaded() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
 			}
 			if err != nil {
 				return err
@@ -921,7 +923,7 @@ func newCmdAndroidIOMXBufferSource_OnOmxLoaded() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -939,7 +941,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferAdded() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -950,7 +952,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferAdded() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
 			}
 			if err != nil {
 				return err
@@ -969,7 +971,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferAdded() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -989,7 +991,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferEmptied() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1000,7 +1002,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferEmptied() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.IOMXBufferSource")
 			}
 			if err != nil {
 				return err
@@ -1021,7 +1023,7 @@ func newCmdAndroidIOMXBufferSource_OnInputBufferEmptied() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

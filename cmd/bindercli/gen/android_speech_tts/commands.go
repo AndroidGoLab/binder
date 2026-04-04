@@ -11,7 +11,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/net"
@@ -52,7 +54,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -63,7 +65,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnSuccess() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnSuccess() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -132,7 +134,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnSuccess() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -152,7 +154,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -163,7 +165,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -187,7 +189,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnStop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -209,7 +211,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnError() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -220,7 +222,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnError() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -244,7 +246,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnError() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -266,7 +268,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnBeginSynthesis() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -277,7 +279,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnBeginSynthesis() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -311,7 +313,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnBeginSynthesis() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -337,7 +339,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnAudioAvailable() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -348,7 +350,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnAudioAvailable() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -376,7 +378,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnAudioAvailable() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -398,7 +400,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnRangeStart() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -409,7 +411,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnRangeStart() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechCallback")
 			}
 			if err != nil {
 				return err
@@ -443,7 +445,7 @@ func newCmdAndroidSpeechTtsITextToSpeechCallback_OnRangeStart() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -480,7 +482,7 @@ func newCmdAndroidSpeechTtsITextToSpeechManager_CreateSession() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -491,7 +493,7 @@ func newCmdAndroidSpeechTtsITextToSpeechManager_CreateSession() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechManager")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechManager")
 			}
 			if err != nil {
 				return err
@@ -520,7 +522,7 @@ func newCmdAndroidSpeechTtsITextToSpeechManager_CreateSession() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -567,7 +569,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Speak() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -578,7 +580,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Speak() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -618,7 +620,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Speak() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -644,7 +646,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SynthesizeToFileDescriptor() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -655,7 +657,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SynthesizeToFileDescriptor() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -695,7 +697,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SynthesizeToFileDescriptor() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -721,7 +723,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlayAudio() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -732,7 +734,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlayAudio() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -769,7 +771,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlayAudio() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -793,7 +795,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlaySilence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -804,7 +806,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlaySilence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -842,7 +844,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_PlaySilence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -868,7 +870,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsSpeaking() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -879,7 +881,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsSpeaking() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -893,7 +895,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsSpeaking() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -911,7 +913,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -922,7 +924,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -945,7 +947,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -965,7 +967,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetLanguage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -976,7 +978,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetLanguage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -990,7 +992,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetLanguage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1008,7 +1010,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetClientDefaultLanguage() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1019,7 +1021,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetClientDefaultLanguage() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1033,7 +1035,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetClientDefaultLanguage() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1051,7 +1053,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsLanguageAvailable() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1062,7 +1064,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsLanguageAvailable() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1091,7 +1093,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_IsLanguageAvailable() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1115,7 +1117,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetFeaturesForLanguage() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1126,7 +1128,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetFeaturesForLanguage() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1155,7 +1157,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetFeaturesForLanguage() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1179,7 +1181,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadLanguage() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1190,7 +1192,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadLanguage() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1228,7 +1230,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadLanguage() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1254,7 +1256,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1265,7 +1267,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1298,7 +1300,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1320,7 +1322,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetVoices() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1331,7 +1333,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetVoices() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1345,7 +1347,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetVoices() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1363,7 +1365,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadVoice() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1374,7 +1376,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadVoice() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1402,7 +1404,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_LoadVoice() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1424,7 +1426,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetDefaultVoiceNameFor() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1435,7 +1437,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetDefaultVoiceNameFor() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechService")
 			}
 			if err != nil {
 				return err
@@ -1464,7 +1466,7 @@ func newCmdAndroidSpeechTtsITextToSpeechService_GetDefaultVoiceNameFor() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1499,7 +1501,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSession_Disconnect() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1510,7 +1512,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSession_Disconnect() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSession")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSession")
 			}
 			if err != nil {
 				return err
@@ -1524,7 +1526,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSession_Disconnect() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1555,7 +1557,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnConnected() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1566,7 +1568,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnConnected() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1599,7 +1601,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnConnected() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1621,7 +1623,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnDisconnected() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1632,7 +1634,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnDisconnected() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1646,7 +1648,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnDisconnected() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1664,7 +1666,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnError() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1675,7 +1677,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnError() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.speech.tts.ITextToSpeechSessionCallback")
 			}
 			if err != nil {
 				return err
@@ -1694,7 +1696,7 @@ func newCmdAndroidSpeechTtsITextToSpeechSessionCallback_OnError() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

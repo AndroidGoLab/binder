@@ -14,7 +14,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/gnss"
@@ -62,7 +64,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnClosed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -73,7 +75,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnClosed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnss")
 			}
 			if err != nil {
 				return err
@@ -87,7 +89,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnClosed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -105,7 +107,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnFailed() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -116,7 +118,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnFailed() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnss")
 			}
 			if err != nil {
 				return err
@@ -130,7 +132,7 @@ func newCmdAndroidHardwareGnssIAGnss_DataConnFailed() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -159,7 +161,7 @@ func newCmdAndroidHardwareGnssIAGnssRil_InjectNiSuplMessageData() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -170,7 +172,7 @@ func newCmdAndroidHardwareGnssIAGnssRil_InjectNiSuplMessageData() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRil")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRil")
 			}
 			if err != nil {
 				return err
@@ -198,7 +200,7 @@ func newCmdAndroidHardwareGnssIAGnssRil_InjectNiSuplMessageData() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -232,7 +234,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestSetIdCb() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -243,7 +245,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestSetIdCb() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRilCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRilCallback")
 			}
 			if err != nil {
 				return err
@@ -262,7 +264,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestSetIdCb() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -282,7 +284,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestRefLocCb() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -293,7 +295,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestRefLocCb() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRilCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IAGnssRilCallback")
 			}
 			if err != nil {
 				return err
@@ -307,7 +309,7 @@ func newCmdAndroidHardwareGnssIAGnssRilCallback_RequestRefLocCb() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -358,7 +360,7 @@ func newCmdAndroidHardwareGnssIGnss_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -369,7 +371,7 @@ func newCmdAndroidHardwareGnssIGnss_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -383,7 +385,7 @@ func newCmdAndroidHardwareGnssIGnss_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -401,7 +403,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionPsds() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -412,7 +414,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionPsds() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -426,7 +428,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionPsds() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -444,7 +446,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssConfiguration() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -455,7 +457,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssConfiguration() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -469,7 +471,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssConfiguration() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -487,7 +489,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssMeasurement() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -498,7 +500,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssMeasurement() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -512,7 +514,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssMeasurement() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -530,7 +532,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssPowerIndication() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -541,7 +543,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssPowerIndication() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -555,7 +557,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssPowerIndication() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -573,7 +575,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssBatching() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -584,7 +586,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssBatching() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -598,7 +600,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssBatching() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -616,7 +618,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssGeofence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -627,7 +629,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssGeofence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -641,7 +643,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssGeofence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -659,7 +661,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssNavigationMessage() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -670,7 +672,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssNavigationMessage() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -684,7 +686,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssNavigationMessage() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -702,7 +704,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnss() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -713,7 +715,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnss() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -727,7 +729,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnss() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -745,7 +747,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnssRil() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnssRil() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -770,7 +772,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionAGnssRil() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -788,7 +790,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssDebug() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -799,7 +801,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssDebug() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -813,7 +815,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssDebug() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -831,7 +833,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssVisibilityControl() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -842,7 +844,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssVisibilityControl() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -856,7 +858,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssVisibilityControl() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -874,7 +876,7 @@ func newCmdAndroidHardwareGnssIGnss_Start() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -885,7 +887,7 @@ func newCmdAndroidHardwareGnssIGnss_Start() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -899,7 +901,7 @@ func newCmdAndroidHardwareGnssIGnss_Start() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -917,7 +919,7 @@ func newCmdAndroidHardwareGnssIGnss_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -928,7 +930,7 @@ func newCmdAndroidHardwareGnssIGnss_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -942,7 +944,7 @@ func newCmdAndroidHardwareGnssIGnss_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -960,7 +962,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectTime() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -971,7 +973,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectTime() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1000,7 +1002,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectTime() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1024,7 +1026,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectLocation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1035,7 +1037,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectLocation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1065,7 +1067,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectLocation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1097,7 +1099,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectBestLocation() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1108,7 +1110,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectBestLocation() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1138,7 +1140,7 @@ func newCmdAndroidHardwareGnssIGnss_InjectBestLocation() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1170,7 +1172,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssAntennaInfo() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1181,7 +1183,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssAntennaInfo() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1195,7 +1197,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionGnssAntennaInfo() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1213,7 +1215,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionMeasurementCorrections() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1224,7 +1226,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionMeasurementCorrections() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1238,7 +1240,7 @@ func newCmdAndroidHardwareGnssIGnss_GetExtensionMeasurementCorrections() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1256,7 +1258,7 @@ func newCmdAndroidHardwareGnssIGnss_StartSvStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1267,7 +1269,7 @@ func newCmdAndroidHardwareGnssIGnss_StartSvStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1281,7 +1283,7 @@ func newCmdAndroidHardwareGnssIGnss_StartSvStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1299,7 +1301,7 @@ func newCmdAndroidHardwareGnssIGnss_StopSvStatus() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1310,7 +1312,7 @@ func newCmdAndroidHardwareGnssIGnss_StopSvStatus() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1324,7 +1326,7 @@ func newCmdAndroidHardwareGnssIGnss_StopSvStatus() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1342,7 +1344,7 @@ func newCmdAndroidHardwareGnssIGnss_StartNmea() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1353,7 +1355,7 @@ func newCmdAndroidHardwareGnssIGnss_StartNmea() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1367,7 +1369,7 @@ func newCmdAndroidHardwareGnssIGnss_StartNmea() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1385,7 +1387,7 @@ func newCmdAndroidHardwareGnssIGnss_StopNmea() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1396,7 +1398,7 @@ func newCmdAndroidHardwareGnssIGnss_StopNmea() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnss")
 			}
 			if err != nil {
 				return err
@@ -1410,7 +1412,7 @@ func newCmdAndroidHardwareGnssIGnss_StopNmea() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1439,7 +1441,7 @@ func newCmdAndroidHardwareGnssIGnssAntennaInfo_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1450,7 +1452,7 @@ func newCmdAndroidHardwareGnssIGnssAntennaInfo_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssAntennaInfo")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssAntennaInfo")
 			}
 			if err != nil {
 				return err
@@ -1464,7 +1466,7 @@ func newCmdAndroidHardwareGnssIGnssAntennaInfo_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1497,7 +1499,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Init() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1508,7 +1510,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Init() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
 			}
 			if err != nil {
 				return err
@@ -1532,7 +1534,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Init() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1552,7 +1554,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_GetBatchSize() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1563,7 +1565,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_GetBatchSize() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
 			}
 			if err != nil {
 				return err
@@ -1577,7 +1579,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_GetBatchSize() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1595,7 +1597,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Flush() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1606,7 +1608,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Flush() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
 			}
 			if err != nil {
 				return err
@@ -1620,7 +1622,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Flush() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1638,7 +1640,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Stop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1649,7 +1651,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Stop() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
 			}
 			if err != nil {
 				return err
@@ -1663,7 +1665,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Stop() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1681,7 +1683,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Cleanup() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1692,7 +1694,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Cleanup() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatching")
 			}
 			if err != nil {
 				return err
@@ -1706,7 +1708,7 @@ func newCmdAndroidHardwareGnssIGnssBatching_Cleanup() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1735,7 +1737,7 @@ func newCmdAndroidHardwareGnssIGnssBatchingCallback_GnssLocationBatchCb() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1746,7 +1748,7 @@ func newCmdAndroidHardwareGnssIGnssBatchingCallback_GnssLocationBatchCb() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatchingCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssBatchingCallback")
 			}
 			if err != nil {
 				return err
@@ -1771,7 +1773,7 @@ func newCmdAndroidHardwareGnssIGnssBatchingCallback_GnssLocationBatchCb() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1809,7 +1811,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetCapabilitiesCb() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1820,7 +1822,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetCapabilitiesCb() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -1839,7 +1841,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetCapabilitiesCb() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1859,7 +1861,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssLocationCb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1870,7 +1872,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssLocationCb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -1900,7 +1902,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssLocationCb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1932,7 +1934,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssNmeaCb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1943,7 +1945,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssNmeaCb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -1967,7 +1969,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssNmeaCb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1989,7 +1991,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssAcquireWakelockCb() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2000,7 +2002,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssAcquireWakelockCb() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -2014,7 +2016,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssAcquireWakelockCb() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2032,7 +2034,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssReleaseWakelockCb() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2043,7 +2045,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssReleaseWakelockCb() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -2057,7 +2059,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssReleaseWakelockCb() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2075,7 +2077,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestTimeCb() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2086,7 +2088,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestTimeCb() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -2100,7 +2102,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestTimeCb() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2118,7 +2120,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestLocationCb() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2129,7 +2131,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestLocationCb() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -2153,7 +2155,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssRequestLocationCb() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2175,7 +2177,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetSignalTypeCapabilitiesCb() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2186,7 +2188,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetSignalTypeCapabilitiesCb() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssCallback")
 			}
 			if err != nil {
 				return err
@@ -2211,7 +2213,7 @@ func newCmdAndroidHardwareGnssIGnssCallback_GnssSetSignalTypeCapabilitiesCb() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2248,7 +2250,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplVersion() *cobra.Command
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2259,7 +2261,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplVersion() *cobra.Command
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2278,7 +2280,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplVersion() *cobra.Command
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2298,7 +2300,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplMode() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2309,7 +2311,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplMode() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2328,7 +2330,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetSuplMode() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2348,7 +2350,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetLppProfile() *cobra.Command 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2359,7 +2361,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetLppProfile() *cobra.Command 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2378,7 +2380,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetLppProfile() *cobra.Command 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2398,7 +2400,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetGlonassPositioningProtocol()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2409,7 +2411,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetGlonassPositioningProtocol()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2428,7 +2430,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetGlonassPositioningProtocol()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2448,7 +2450,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEmergencySuplPdn() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2459,7 +2461,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEmergencySuplPdn() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2478,7 +2480,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEmergencySuplPdn() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2498,7 +2500,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEsExtensionSec() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2509,7 +2511,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEsExtensionSec() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2528,7 +2530,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetEsExtensionSec() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2548,7 +2550,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetBlocklist() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2559,7 +2561,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetBlocklist() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssConfiguration")
 			}
 			if err != nil {
 				return err
@@ -2584,7 +2586,7 @@ func newCmdAndroidHardwareGnssIGnssConfiguration_SetBlocklist() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2615,7 +2617,7 @@ func newCmdAndroidHardwareGnssIGnssDebug_GetDebugData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2626,7 +2628,7 @@ func newCmdAndroidHardwareGnssIGnssDebug_GetDebugData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssDebug")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssDebug")
 			}
 			if err != nil {
 				return err
@@ -2640,7 +2642,7 @@ func newCmdAndroidHardwareGnssIGnssDebug_GetDebugData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2672,7 +2674,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_AddGeofence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2683,7 +2685,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_AddGeofence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
 			}
 			if err != nil {
 				return err
@@ -2737,7 +2739,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_AddGeofence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2771,7 +2773,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_PauseGeofence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2782,7 +2784,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_PauseGeofence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
 			}
 			if err != nil {
 				return err
@@ -2801,7 +2803,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_PauseGeofence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2821,7 +2823,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_ResumeGeofence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2832,7 +2834,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_ResumeGeofence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
 			}
 			if err != nil {
 				return err
@@ -2856,7 +2858,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_ResumeGeofence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2878,7 +2880,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_RemoveGeofence() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2889,7 +2891,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_RemoveGeofence() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofence")
 			}
 			if err != nil {
 				return err
@@ -2908,7 +2910,7 @@ func newCmdAndroidHardwareGnssIGnssGeofence_RemoveGeofence() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -2944,7 +2946,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceTransitionCb() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2955,7 +2957,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceTransitionCb() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3000,7 +3002,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceTransitionCb() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3038,7 +3040,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceStatusCb() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3049,7 +3051,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceStatusCb() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3084,7 +3086,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceStatusCb() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3118,7 +3120,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceAddCb() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3129,7 +3131,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceAddCb() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3153,7 +3155,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceAddCb() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3175,7 +3177,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceRemoveCb() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3186,7 +3188,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceRemoveCb() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3210,7 +3212,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceRemoveCb() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3232,7 +3234,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofencePauseCb() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3243,7 +3245,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofencePauseCb() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3267,7 +3269,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofencePauseCb() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3289,7 +3291,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceResumeCb() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3300,7 +3302,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceResumeCb() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssGeofenceCallback")
 			}
 			if err != nil {
 				return err
@@ -3324,7 +3326,7 @@ func newCmdAndroidHardwareGnssIGnssGeofenceCallback_GnssGeofenceResumeCb() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3357,7 +3359,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementCallback_GnssMeasurementCb() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3368,7 +3370,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementCallback_GnssMeasurementCb() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementCallback")
 			}
 			if err != nil {
 				return err
@@ -3412,7 +3414,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementCallback_GnssMeasurementCb() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3461,7 +3463,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_SetCallback() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3472,7 +3474,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_SetCallback() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementInterface")
 			}
 			if err != nil {
 				return err
@@ -3506,7 +3508,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_SetCallback() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3530,7 +3532,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_Close() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3541,7 +3543,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_Close() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssMeasurementInterface")
 			}
 			if err != nil {
 				return err
@@ -3555,7 +3557,7 @@ func newCmdAndroidHardwareGnssIGnssMeasurementInterface_Close() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3584,7 +3586,7 @@ func newCmdAndroidHardwareGnssIGnssNavigationMessageInterface_Close() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3595,7 +3597,7 @@ func newCmdAndroidHardwareGnssIGnssNavigationMessageInterface_Close() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssNavigationMessageInterface")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssNavigationMessageInterface")
 			}
 			if err != nil {
 				return err
@@ -3609,7 +3611,7 @@ func newCmdAndroidHardwareGnssIGnssNavigationMessageInterface_Close() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3638,7 +3640,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndication_RequestGnssPowerStats() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3649,7 +3651,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndication_RequestGnssPowerStats() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndication")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndication")
 			}
 			if err != nil {
 				return err
@@ -3663,7 +3665,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndication_RequestGnssPowerStats() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3693,7 +3695,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_SetCapabilitiesCb() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3704,7 +3706,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_SetCapabilitiesCb() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndicationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndicationCallback")
 			}
 			if err != nil {
 				return err
@@ -3723,7 +3725,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_SetCapabilitiesCb() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3743,7 +3745,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_GnssPowerStatsCb() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3754,7 +3756,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_GnssPowerStatsCb() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndicationCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPowerIndicationCallback")
 			}
 			if err != nil {
 				return err
@@ -3787,7 +3789,7 @@ func newCmdAndroidHardwareGnssIGnssPowerIndicationCallback_GnssPowerStatsCb() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3826,7 +3828,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_InjectPsdsData() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3837,7 +3839,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_InjectPsdsData() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsds")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsds")
 			}
 			if err != nil {
 				return err
@@ -3866,7 +3868,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_InjectPsdsData() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3888,7 +3890,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_SetCallback() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3899,7 +3901,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_SetCallback() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsds")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsds")
 			}
 			if err != nil {
 				return err
@@ -3923,7 +3925,7 @@ func newCmdAndroidHardwareGnssIGnssPsds_SetCallback() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -3954,7 +3956,7 @@ func newCmdAndroidHardwareGnssIGnssPsdsCallback_DownloadRequestCb() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -3965,7 +3967,7 @@ func newCmdAndroidHardwareGnssIGnssPsdsCallback_DownloadRequestCb() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsdsCallback")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.gnss.IGnssPsdsCallback")
 			}
 			if err != nil {
 				return err
@@ -3985,7 +3987,7 @@ func newCmdAndroidHardwareGnssIGnssPsdsCallback_DownloadRequestCb() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

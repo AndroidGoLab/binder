@@ -12,7 +12,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/service/quickaccesswallet"
@@ -43,7 +45,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletCardsUpdatedListener_Registe
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -54,7 +56,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletCardsUpdatedListener_Registe
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletCardsUpdatedListener")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletCardsUpdatedListener")
 			}
 			if err != nil {
 				return err
@@ -79,7 +81,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletCardsUpdatedListener_Registe
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -111,7 +113,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_A
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -122,7 +124,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_A
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletContextualLocationsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletContextualLocationsService")
 			}
 			if err != nil {
 				return err
@@ -146,7 +148,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_A
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -166,7 +168,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_O
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -177,7 +179,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_O
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletContextualLocationsService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.systemui.wallet.controller.IWalletContextualLocationsService")
 			}
 			if err != nil {
 				return err
@@ -200,7 +202,7 @@ func newCmdComAndroidSystemuiWalletControllerIWalletContextualLocationsService_O
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

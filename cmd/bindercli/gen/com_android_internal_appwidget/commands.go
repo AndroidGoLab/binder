@@ -13,7 +13,9 @@ import (
 	"strings"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/app"
@@ -50,7 +52,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_UpdateAppWidget() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -61,7 +63,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_UpdateAppWidget() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
 			}
 			if err != nil {
 				return err
@@ -82,7 +84,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_UpdateAppWidget() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -102,7 +104,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ProvidersChanged() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -113,7 +115,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ProvidersChanged() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
 			}
 			if err != nil {
 				return err
@@ -127,7 +129,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ProvidersChanged() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -145,7 +147,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ViewDataChanged() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -156,7 +158,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ViewDataChanged() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
 			}
 			if err != nil {
 				return err
@@ -180,7 +182,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_ViewDataChanged() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -202,7 +204,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_AppWidgetRemoved() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -213,7 +215,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_AppWidgetRemoved() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetHost")
 			}
 			if err != nil {
 				return err
@@ -232,7 +234,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetHost_AppWidgetRemoved() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -294,7 +296,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StartListening() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -305,7 +307,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StartListening() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -349,7 +351,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StartListening() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -373,7 +375,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StopListening() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -384,7 +386,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StopListening() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -403,7 +405,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_StopListening() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -423,7 +425,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_AllocateAppWidgetId() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -434,7 +436,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_AllocateAppWidgetId() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -453,7 +455,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_AllocateAppWidgetId() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -473,7 +475,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAppWidgetId() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -484,7 +486,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAppWidgetId() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -503,7 +505,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAppWidgetId() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -523,7 +525,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteHost() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -534,7 +536,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteHost() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -558,7 +560,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteHost() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -580,7 +582,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAllHosts() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -591,7 +593,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAllHosts() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -605,7 +607,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_DeleteAllHosts() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -623,7 +625,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetViews() *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -634,7 +636,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetViews() *cob
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -653,7 +655,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetViews() *cob
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -673,7 +675,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIdsForHost()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -684,7 +686,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIdsForHost()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -703,7 +705,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIdsForHost()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -723,7 +725,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetAppWidgetHidden() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -734,7 +736,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetAppWidgetHidden() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -753,7 +755,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetAppWidgetHidden() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -773,7 +775,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_CreateAppWidgetConfigInt
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -784,7 +786,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_CreateAppWidgetConfigInt
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -808,7 +810,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_CreateAppWidgetConfigInt
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -830,7 +832,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetIds() *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -841,7 +843,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetIds() *co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -872,7 +874,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetIds() *co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -892,7 +894,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetOptions()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -903,7 +905,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetOptions()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -924,7 +926,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetOptions()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -944,7 +946,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetOptions() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -955,7 +957,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetOptions() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -974,7 +976,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetOptions() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -994,7 +996,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_PartiallyUpdateAppWidget
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1005,7 +1007,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_PartiallyUpdateAppWidget
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1036,7 +1038,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_PartiallyUpdateAppWidget
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1056,7 +1058,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProvider(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1067,7 +1069,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProvider(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1085,7 +1087,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProvider(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1103,7 +1105,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProviderI
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1114,7 +1116,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProviderI
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1135,7 +1137,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_UpdateAppWidgetProviderI
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1155,7 +1157,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyAppWidgetViewDataC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1166,7 +1168,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyAppWidgetViewDataC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1205,7 +1207,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyAppWidgetViewDataC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1229,7 +1231,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetInstalledProvidersFor
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1240,7 +1242,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetInstalledProvidersFor
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1269,7 +1271,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetInstalledProvidersFor
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1293,7 +1295,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetInfo() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1304,7 +1306,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetInfo() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1323,7 +1325,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetInfo() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1343,7 +1345,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_HasBindAppWidgetPermissi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1354,7 +1356,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_HasBindAppWidgetPermissi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1373,7 +1375,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_HasBindAppWidgetPermissi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1393,7 +1395,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetBindAppWidgetPermissi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1404,7 +1406,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetBindAppWidgetPermissi
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1428,7 +1430,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetBindAppWidgetPermissi
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1450,7 +1452,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindAppWidgetId() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1461,7 +1463,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindAppWidgetId() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1489,7 +1491,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindAppWidgetId() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1511,7 +1513,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindRemoteViewsService()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1522,7 +1524,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindRemoteViewsService()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1577,7 +1579,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_BindRemoteViewsService()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1605,7 +1607,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyProviderInheritanc
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1616,7 +1618,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyProviderInheritanc
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1641,7 +1643,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NotifyProviderInheritanc
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1661,7 +1663,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIds() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1672,7 +1674,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIds() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1688,7 +1690,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetAppWidgetIds() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1706,7 +1708,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsBoundWidgetPackage() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1717,7 +1719,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsBoundWidgetPackage() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1736,7 +1738,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsBoundWidgetPackage() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1756,7 +1758,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RequestPinAppWidget() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1767,7 +1769,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RequestPinAppWidget() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1792,7 +1794,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RequestPinAppWidget() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1812,7 +1814,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsRequestPinAppWidgetSup
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1823,7 +1825,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsRequestPinAppWidgetSup
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1837,7 +1839,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_IsRequestPinAppWidgetSup
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1855,7 +1857,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NoteAppWidgetTapped() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1866,7 +1868,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NoteAppWidgetTapped() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1885,7 +1887,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_NoteAppWidgetTapped() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1905,7 +1907,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetWidgetPreview() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1916,7 +1918,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetWidgetPreview() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1939,7 +1941,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_SetWidgetPreview() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1959,7 +1961,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetWidgetPreview() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1970,7 +1972,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetWidgetPreview() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -1996,7 +1998,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_GetWidgetPreview() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -2018,7 +2020,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RemoveWidgetPreview() *c
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -2029,7 +2031,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RemoveWidgetPreview() *c
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.appwidget.IAppWidgetService")
 			}
 			if err != nil {
 				return err
@@ -2050,7 +2052,7 @@ func newCmdComAndroidInternalAppwidgetIAppWidgetService_RemoveWidgetPreview() *c
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},

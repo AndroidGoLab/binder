@@ -10,7 +10,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/com/android/internal_/app/procstats"
@@ -44,7 +46,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentStats() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -55,7 +57,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentStats() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -70,7 +72,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentStats() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -88,7 +90,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetStatsOverTime() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -99,7 +101,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetStatsOverTime() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -118,7 +120,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetStatsOverTime() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -138,7 +140,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentMemoryState() *
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -149,7 +151,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentMemoryState() *
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -163,7 +165,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCurrentMemoryState() *
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -181,7 +183,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStats() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -192,7 +194,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStats() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -222,7 +224,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStats() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -246,7 +248,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStatsMerged()
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -257,7 +259,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStatsMerged()
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -288,7 +290,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetCommittedStatsMerged()
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -312,7 +314,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetMinAssociationDumpDura
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -323,7 +325,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetMinAssociationDumpDura
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "com.android.internal.app.procstats.IProcessStats")
 			}
 			if err != nil {
 				return err
@@ -337,7 +339,7 @@ func newCmdComAndroidInternalAppProcstatsIProcessStats_GetMinAssociationDumpDura
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},

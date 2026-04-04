@@ -12,7 +12,9 @@ import (
 	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/cmd/bindercli/cliutil"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/conn"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
+	"github.com/AndroidGoLab/binder/cmd/bindercli/output"
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/android/hardware/security/keymint"
@@ -60,7 +62,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetHardwareInfo() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -71,7 +73,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetHardwareInfo() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -85,7 +87,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetHardwareInfo() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -103,7 +105,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_AddRngEntropy() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -114,7 +116,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_AddRngEntropy() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -137,7 +139,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_AddRngEntropy() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -157,7 +159,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GenerateKey() *cobra.Com
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -168,7 +170,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GenerateKey() *cobra.Com
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -215,7 +217,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GenerateKey() *cobra.Com
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -238,7 +240,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportKey() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -249,7 +251,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportKey() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -311,7 +313,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportKey() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -338,7 +340,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportWrappedKey() *cobr
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -349,7 +351,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportWrappedKey() *cobr
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -411,7 +413,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ImportWrappedKey() *cobr
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -441,7 +443,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_UpgradeKey() *cobra.Comm
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -452,7 +454,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_UpgradeKey() *cobra.Comm
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -486,7 +488,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_UpgradeKey() *cobra.Comm
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -508,7 +510,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteKey() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -519,7 +521,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteKey() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -542,7 +544,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteKey() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -562,7 +564,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteAllKeys() *cobra.C
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -573,7 +575,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteAllKeys() *cobra.C
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -587,7 +589,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeleteAllKeys() *cobra.C
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -605,7 +607,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DestroyAttestationIds() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -616,7 +618,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DestroyAttestationIds() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -630,7 +632,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DestroyAttestationIds() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -648,7 +650,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_Begin() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -659,7 +661,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_Begin() *cobra.Command {
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -715,7 +717,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_Begin() *cobra.Command {
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -745,7 +747,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeviceLocked() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -756,7 +758,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeviceLocked() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -787,7 +789,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_DeviceLocked() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -810,7 +812,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_EarlyBootEnded() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -821,7 +823,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_EarlyBootEnded() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -835,7 +837,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_EarlyBootEnded() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -853,7 +855,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ConvertStorageKeyToEphem
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -864,7 +866,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ConvertStorageKeyToEphem
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -887,7 +889,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_ConvertStorageKeyToEphem
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -907,7 +909,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetKeyCharacteristics() 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -918,7 +920,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetKeyCharacteristics() 
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -959,7 +961,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetKeyCharacteristics() 
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -983,7 +985,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrustChallenge(
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -994,7 +996,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrustChallenge(
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -1008,7 +1010,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrustChallenge(
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1026,7 +1028,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrust() *cobra.
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1037,7 +1039,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrust() *cobra.
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -1060,7 +1062,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_GetRootOfTrust() *cobra.
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1080,7 +1082,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_SendRootOfTrust() *cobra
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1091,7 +1093,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_SendRootOfTrust() *cobra
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintDevice")
 			}
 			if err != nil {
 				return err
@@ -1114,7 +1116,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintDevice_SendRootOfTrust() *cobra
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1148,7 +1150,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_UpdateAad() *cobra.Co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1159,7 +1161,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_UpdateAad() *cobra.Co
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
 			}
 			if err != nil {
 				return err
@@ -1210,7 +1212,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_UpdateAad() *cobra.Co
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1239,7 +1241,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Update() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1250,7 +1252,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Update() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
 			}
 			if err != nil {
 				return err
@@ -1301,7 +1303,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Update() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1330,7 +1332,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Finish() *cobra.Comma
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1341,7 +1343,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Finish() *cobra.Comma
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
 			}
 			if err != nil {
 				return err
@@ -1410,7 +1412,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Finish() *cobra.Comma
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1443,7 +1445,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Abort() *cobra.Comman
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1454,7 +1456,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Abort() *cobra.Comman
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IKeyMintOperation")
 			}
 			if err != nil {
 				return err
@@ -1468,7 +1470,7 @@ func newCmdAndroidHardwareSecurityKeymintIKeyMintOperation_Abort() *cobra.Comman
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("status", "ok")
 			return nil
 		},
@@ -1500,7 +1502,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GetHardwa
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1511,7 +1513,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GetHardwa
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
 			}
 			if err != nil {
 				return err
@@ -1525,7 +1527,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GetHardwa
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1543,7 +1545,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateE
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1554,7 +1556,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateE
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
 			}
 			if err != nil {
 				return err
@@ -1574,7 +1576,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateE
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1594,7 +1596,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1605,7 +1607,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
 			}
 			if err != nil {
 				return err
@@ -1655,7 +1657,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
@@ -1681,7 +1683,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := context.Background()
 
-			conn, err := cliutil.OpenConn(ctx, cmd)
+			conn, err := conn.Open(ctx, cmd)
 			if err != nil {
 				return err
 			}
@@ -1692,7 +1694,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 			if serviceName != "" {
 				svc, err = conn.GetService(ctx, serviceName)
 			} else {
-				svc, err = cliutil.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
+				svc, err = discovery.FindServiceByDescriptor(ctx, conn, "android.hardware.security.keymint.IRemotelyProvisionedComponent")
 			}
 			if err != nil {
 				return err
@@ -1726,7 +1728,7 @@ func newCmdAndroidHardwareSecurityKeymintIRemotelyProvisionedComponent_GenerateC
 			}
 
 			mode, _ := cmd.Root().PersistentFlags().GetString("format")
-			f := cliutil.NewFormatter(mode, os.Stdout)
+			f := output.NewFormatter(mode, os.Stdout)
 			f.Value("result", result)
 			return nil
 		},
