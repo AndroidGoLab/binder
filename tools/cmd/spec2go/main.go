@@ -1481,7 +1481,33 @@ func generateCodesFile(
 	return nil
 }
 
+// sanitizeIdent converts an arbitrary string into a valid Go identifier
+// fragment by replacing every non-letter, non-digit character with an
+// underscore. If the result starts with a digit, an underscore is prepended.
+func sanitizeIdent(s string) string {
+	var b strings.Builder
+	b.Grow(len(s))
+	for i, r := range s {
+		switch {
+		case unicode.IsLetter(r), r == '_':
+			b.WriteRune(r)
+		case unicode.IsDigit(r):
+			if i == 0 {
+				b.WriteByte('_')
+			}
+			b.WriteRune(r)
+		default:
+			b.WriteByte('_')
+		}
+	}
+	return b.String()
+}
+
 // generateSource produces the Go source for codes_gen.go.
+//
+// The output uses flat package-level variables for method slices and compiled
+// tables so the Go compiler places them in the data segment, eliminating
+// runtime init cost.
 func generateSource(
 	defaultAPI int,
 	allTables map[string]map[string]map[string]binder.TransactionCode,
@@ -1494,15 +1520,12 @@ func generateSource(
 	buf.WriteString("package versionaware\n\n")
 	buf.WriteString("import \"github.com/AndroidGoLab/binder/binder\"\n\n")
 
-	fmt.Fprintf(&buf, "func init() {\n")
-	fmt.Fprintf(&buf, "\tDefaultAPILevel = %d\n", defaultAPI)
-
 	versionIDs := sortedKeys(allTables)
-	buf.WriteString("\tTables = MultiVersionTable{\n")
 
+	// Phase 1: emit flat method-slice variables and table variables.
 	for _, vid := range versionIDs {
 		table := allTables[vid]
-		fmt.Fprintf(&buf, "\t\t%q: CompiledTable{\n", vid)
+		versionIdent := "v" + sanitizeIdent(vid)
 
 		descriptors := sortedKeys(table)
 		for _, desc := range descriptors {
@@ -1511,21 +1534,39 @@ func generateSource(
 				continue
 			}
 
-			fmt.Fprintf(&buf, "\t\t\t{Descriptor: %q, Methods: []MethodEntry{\n", desc)
+			descIdent := sanitizeIdent(desc)
+			fmt.Fprintf(&buf, "var methods_%s_%s = []MethodEntry{\n", versionIdent, descIdent)
 
 			methodNames := sortedKeys(methods)
 			for _, name := range methodNames {
 				code := methods[name]
 				offset := code - binder.FirstCallTransaction
-				fmt.Fprintf(&buf, "\t\t\t\t{Method: %q, Code: binder.FirstCallTransaction + %d},\n", name, offset)
+				fmt.Fprintf(&buf, "\t{Method: %q, Code: binder.FirstCallTransaction + %d},\n", name, offset)
 			}
 
-			buf.WriteString("\t\t\t}},\n")
+			buf.WriteString("}\n\n")
 		}
 
-		buf.WriteString("\t\t},\n")
+		fmt.Fprintf(&buf, "var table_%s = CompiledTable{\n", versionIdent)
+		for _, desc := range descriptors {
+			if len(table[desc]) == 0 {
+				continue
+			}
+			descIdent := sanitizeIdent(desc)
+			fmt.Fprintf(&buf, "\t{Descriptor: %q, Methods: methods_%s_%s},\n", desc, versionIdent, descIdent)
+		}
+		buf.WriteString("}\n\n")
 	}
 
+	// Phase 2: assemble the top-level maps in init().
+	fmt.Fprintf(&buf, "func init() {\n")
+	fmt.Fprintf(&buf, "\tDefaultAPILevel = %d\n", defaultAPI)
+
+	buf.WriteString("\tTables = MultiVersionTable{\n")
+	for _, vid := range versionIDs {
+		versionIdent := "v" + sanitizeIdent(vid)
+		fmt.Fprintf(&buf, "\t\t%q: table_%s,\n", vid, versionIdent)
+	}
 	buf.WriteString("\t}\n")
 
 	buf.WriteString("\tRevisions = APIRevisions{\n")
