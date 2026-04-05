@@ -326,6 +326,7 @@ func convertParamToAST(
 		Type:        convertTypeRefToAST(p.Type),
 		Annots:      convertAnnotationNamesToAST(p.Annotations),
 		MinAPILevel: p.MinAPILevel,
+		MaxAPILevel: p.MaxAPILevel,
 	}
 
 	switch p.Direction {
