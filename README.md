@@ -1519,8 +1519,9 @@ Core subcommands:
 | ------------------------------------------------ | ---------------------------------------------------------- |
 | `bindercli service list`                         | List all registered binder services with alive/dead status |
 | `bindercli service inspect <name>`               | Show a service's handle, descriptor, and alive status      |
-| `bindercli service methods <name>`               | List all methods available on a service                    |
-| `bindercli service transact <name> <code> [hex]` | Send a raw binder transaction                              |
+| `bindercli service methods <name>`               | List all methods with their transaction codes              |
+| `bindercli service transact <name> <code-or-method> [hex]` | Send a raw binder transaction (code or method name) |
+| `bindercli service resolve <name> <method-or-code>` | Resolve between method names and transaction codes      |
 | `bindercli aidl compile [-I path] <files>`       | Compile `.aidl` files to Go                                |
 | `bindercli aidl parse <file>`                    | Dump parsed AIDL AST as JSON                               |
 | `bindercli aidl check <files>`                   | Validate AIDL files without generating                     |
@@ -1530,10 +1531,10 @@ Global flags: `--format json|text|auto`, `--binder-device`, `--map-size`.
 
 ### Examples
 
-> **Note:** Generated proxy commands use transaction codes compiled from the AIDL snapshot in
-> `tools/pkg/3rdparty/`. If the device runs a different Android version, some proxy methods may
-> return parse errors due to transaction code mismatches. The `service` subcommands and
-> ServiceManager-level lookups work across all versions.
+> **Note:** Transaction codes are resolved dynamically from the device's framework JARs
+> (`/system/framework/*.jar`) at runtime. Compiled version tables are used as a fallback
+> when JARs are not readable. The `service` subcommands and ServiceManager-level lookups
+> work across all versions.
 
 <details>
 <summary>List and inspect services</summary>
@@ -1545,10 +1546,14 @@ bindercli service list
 # Inspect a specific service (show handle, descriptor, alive status)
 bindercli service inspect SurfaceFlinger
 
-# List methods available on a service (from generated registry)
+# List methods available on a service with transaction codes
 bindercli service methods activity
 
-# Send a raw binder transaction (service name, transaction code, optional hex data)
+# Resolve a method name to its transaction code (or vice versa)
+bindercli service resolve activity is-user-a-monkey
+
+# Send a raw binder transaction by method name or numeric code
+bindercli service transact activity is-user-a-monkey
 bindercli service transact SurfaceFlinger 64
 ```
 
@@ -1777,7 +1782,7 @@ bindercli com.android.internal.telephony.ITelephony get-network-country-iso-for-
 
 ### Verified Devices
 
-Commands are tested against the following devices. The runtime uses version-aware transaction code resolution (`binder/versionaware`) with tables for API 34, 35, and 36. "SM" = ServiceManager-level lookup, "Proxy" = generated proxy method with version-aware code resolution.
+Commands are tested against the following devices. The runtime uses version-aware transaction code resolution (`binder/versionaware`) that dynamically extracts codes from the device's framework JARs, with compiled tables as a fallback. "SM" = ServiceManager-level lookup, "Proxy" = generated proxy method with version-aware code resolution.
 
 <details>
 <summary>Verification matrix</summary>
@@ -2068,15 +2073,15 @@ This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `ha
 
 ### Transaction Code Resolution
 
-Each binder method has a numeric transaction code that can differ between Android versions. The generated proxies call `ResolveCode()` at runtime to get the correct code for the device, using a three-layer detection strategy:
+Each binder method has a numeric transaction code that can differ between Android versions. The generated proxies call `ResolveCode()` at runtime to get the correct code for the device, using a multi-layer detection strategy:
 
-1. **DEX bytecode extraction** (primary) — scans `/system/framework/*.jar`, parses DEX bytecode, and reads `TRANSACTION_*` constants from `$Stub` classes. This gives definitive codes for the exact firmware running on the device. This method is expected to work on all Android devices. If it fails on your platform, please [open an issue](https://github.com/AndroidGoLab/binder/issues).
+1. **DEX bytecode extraction** (primary) — scans `/system/framework/*.jar` and APEX module JARs, parses DEX bytecode, and reads `TRANSACTION_*` constants from `$Stub` classes. Individual interfaces are extracted on demand (lazy), and results are cached to avoid re-scanning. This gives definitive codes for the exact firmware running on the device. This method is expected to work on all Android devices. If it fails on your platform, please [open an issue](https://github.com/AndroidGoLab/binder/issues).
 
-2. **Compiled version tables + ELF filtering** (fallback) — pre-compiled tables from multiple AOSP revision tags, narrowed by API level (from ELF `.note.android.ident`) and exported symbols in `libbinder.so`.
+2. **Compiled version tables + ELF filtering** (fallback) — pre-compiled tables from AOSP revision tags, narrowed by API level and exported symbols in `libbinder.so`. Used when framework JARs are not readable (e.g. non-Android host, restricted SELinux context).
 
-3. **Live transaction probing** (last resort) — sends a test transaction (`isUserAMonkey()` on ActivityManager) with each candidate code and picks the one that returns a valid response.
+3. **Live transaction probing** (last resort) — sends a test transaction (`isUserAMonkey()` on ActivityManager) with each candidate code and picks the one that returns a valid response. Used only to distinguish between AOSP revisions when ELF inspection is ambiguous.
 
-Methods 2 and 3 exist only for extra reliability in edge cases (e.g. no read access to `/system/framework/`). The `genversions` tool builds the version tables by checking out AOSP revision tags and recording method→code mappings.
+Methods 2 and 3 exist only for environments where framework JARs are unavailable. On a standard Android device, all transaction codes are resolved dynamically from the device's own JARs.
 
 ## Testing and Verification
 
@@ -2330,7 +2335,7 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 │   │   ├── gen_e2e_smoke/    Smoke test generator
 │   │   ├── genbindercli/       bindercli command dispatcher generator
 │   │   ├── genreadme/        README package table generator
-│   │   └── genversions/      Version-aware transaction code table generator
+│   │   └── genversions/      Compiled transaction code table generator (fallback tables)
 │   └── pkg/
 │       └── aidlc/            AIDL processing pipeline
 │           ├── parser/       Lexer + recursive-descent AIDL parser
