@@ -1,15 +1,13 @@
-//go:build !prebuilt_tables
-
 package versionaware
 
 // DefaultAPILevel is the API level that the compiled proxy code was
-// generated against. Without prebuilt_tables, transaction codes are
-// resolved dynamically from device framework JARs.
+// generated against. Transaction codes are resolved dynamically from
+// device framework JARs.
 var DefaultAPILevel int
 
-// Tables is empty without prebuilt_tables; all resolution happens
-// via lazy JAR extraction.
+// Tables holds compiled version tables. Empty by default; all
+// resolution happens via lazy JAR extraction from the device.
 var Tables MultiVersionTable
 
-// Revisions is empty without prebuilt_tables.
+// Revisions maps API level -> list of version IDs (latest first).
 var Revisions = APIRevisions{}
