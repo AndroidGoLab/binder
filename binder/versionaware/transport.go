@@ -1111,5 +1111,13 @@ func (t *Transport) APILevel() int {
 	return t.apiLevel
 }
 
+// ActiveTable returns the current version table.
+// The returned map must not be modified by the caller.
+func (t *Transport) ActiveTable() VersionTable {
+	t.mu.RLock()
+	defer t.mu.RUnlock()
+	return t.table
+}
+
 // Verify Transport implements binder.VersionAwareTransport.
 var _ binder.VersionAwareTransport = (*Transport)(nil)
