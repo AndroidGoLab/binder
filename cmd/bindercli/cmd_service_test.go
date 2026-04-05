@@ -7,6 +7,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
 )
 
 func TestFormatMethodSignature_NoParams_NoReturn(t *testing.T) {
@@ -75,4 +78,37 @@ func TestMethodsToJSON(t *testing.T) {
 	assert.Equal(t, "restart", result[2]["name"])
 	assert.Nil(t, result[2]["return_type"])
 	assert.Nil(t, result[2]["params"])
+}
+
+func TestMethodsToJSONWithCodes(t *testing.T) {
+	methods := []MethodInfo{
+		{Name: "DoThing", ReturnType: "bool"},
+		{Name: "DoOther"},
+	}
+	table := versionaware.VersionTable{
+		"android.app.IFoo": {
+			"DoThing": binder.FirstCallTransaction + 0,
+			"DoOther": binder.FirstCallTransaction + 1,
+		},
+	}
+
+	result := methodsToJSONWithCodes(methods, table, "android.app.IFoo")
+	require.Len(t, result, 2)
+
+	assert.Equal(t, "do-thing", result[0]["name"])
+	assert.Equal(t, "0x0001", result[0]["code"])
+	assert.Equal(t, "bool", result[0]["return_type"])
+
+	assert.Equal(t, "do-other", result[1]["name"])
+	assert.Equal(t, "0x0002", result[1]["code"])
+}
+
+func TestMethodsToJSONWithCodes_NilTable(t *testing.T) {
+	methods := []MethodInfo{
+		{Name: "DoThing", ReturnType: "bool"},
+	}
+
+	result := methodsToJSONWithCodes(methods, nil, "android.app.IFoo")
+	require.Len(t, result, 1)
+	assert.Nil(t, result[0]["code"])
 }

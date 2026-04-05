@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/binder/versionaware"
 	"github.com/AndroidGoLab/binder/cmd/bindercli/discovery"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/AndroidGoLab/binder/servicemanager"
@@ -28,6 +29,7 @@ func newServiceCmd() *cobra.Command {
 	cmd.AddCommand(newServiceInspectCmd())
 	cmd.AddCommand(newServiceTransactCmd())
 	cmd.AddCommand(newServiceMethodsCmd())
+	cmd.AddCommand(newServiceResolveCmd())
 
 	return cmd
 }
@@ -125,16 +127,21 @@ func newServiceInspectCmd() *cobra.Command {
 
 func newServiceTransactCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "transact <name> <code> [hex-data]",
+		Use:   "transact <name> <code-or-method> [hex-data]",
 		Short: "Send a raw transaction to a binder service",
 		Args:  cobra.RangeArgs(2, 3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			name := args[0]
+			codeArg := args[1]
 
-			code, err := strconv.ParseUint(args[1], 0, 32)
-			if err != nil {
-				return fmt.Errorf("parsing transaction code: %w", err)
+			var txCode binder.TransactionCode
+			isNumeric := false
+
+			// Try parsing as numeric transaction code first.
+			if parsed, parseErr := strconv.ParseUint(codeArg, 0, 32); parseErr == nil {
+				txCode = binder.TransactionCode(parsed)
+				isNumeric = true
 			}
 
 			var data *parcel.Parcel
@@ -159,12 +166,28 @@ func newServiceTransactCmd() *cobra.Command {
 				return err
 			}
 
-			reply, err := svc.Transact(
-				ctx,
-				binder.TransactionCode(code),
-				0,
-				data,
-			)
+			// If not numeric, resolve method name to code.
+			if !isNumeric {
+				descriptor, descErr := descriptorForBinder(ctx, svc, name)
+				if descErr != nil {
+					return fmt.Errorf("resolving method name %q: %w", codeArg, descErr)
+				}
+
+				table, tableErr := getActiveTable(conn)
+				if tableErr != nil {
+					return fmt.Errorf("resolving method name %q: %w", codeArg, tableErr)
+				}
+
+				methodName := kebabToMethod(codeArg, descriptor)
+
+				resolved, ok := resolveMethodToCode(table, descriptor, methodName)
+				if !ok {
+					return fmt.Errorf("method %q not found on interface %s", codeArg, descriptor)
+				}
+				txCode = resolved
+			}
+
+			reply, err := svc.Transact(ctx, txCode, 0, data)
 			if err != nil {
 				return fmt.Errorf("transact failed: %w", err)
 			}
@@ -236,17 +259,25 @@ func newServiceMethodsCmd() *cobra.Command {
 				return fmt.Errorf("unknown interface %q for service %q — not in registry", descriptor, name)
 			}
 
+			table, tableErr := getActiveTable(conn)
+
 			f := NewFormatter(mode, os.Stdout)
 			switch f.Mode {
 			case "json":
 				f.WriteJSON(map[string]any{
 					"descriptor": descriptor,
-					"methods":    methodsToJSON(info.Methods),
+					"methods":    methodsToJSONWithCodes(info.Methods, table, descriptor),
 				})
 			default:
 				fmt.Fprintf(f.W, "Interface: %s (%d methods)\n\n", descriptor, len(info.Methods))
 				for _, m := range info.Methods {
-					fmt.Fprintf(f.W, "  %s\n", formatMethodSignature(m))
+					codeStr := "  ????  "
+					if tableErr == nil {
+						if code, ok := resolveMethodToCode(table, descriptor, m.Name); ok {
+							codeStr = fmt.Sprintf("  0x%04x", code)
+						}
+					}
+					fmt.Fprintf(f.W, "%s  %s\n", codeStr, formatMethodSignature(m))
 				}
 			}
 
@@ -304,4 +335,111 @@ func methodsToJSON(methods []MethodInfo) []map[string]any {
 		result = append(result, entry)
 	}
 	return result
+}
+
+func methodsToJSONWithCodes(
+	methods []MethodInfo,
+	table versionaware.VersionTable,
+	descriptor string,
+) []map[string]any {
+	result := make([]map[string]any, 0, len(methods))
+	for _, m := range methods {
+		entry := map[string]any{
+			"name": camelToKebab(m.Name),
+		}
+
+		if table != nil {
+			if code, ok := resolveMethodToCode(table, descriptor, m.Name); ok {
+				entry["code"] = fmt.Sprintf("0x%04x", code)
+			}
+		}
+
+		if len(m.Params) > 0 {
+			params := make([]map[string]string, 0, len(m.Params))
+			for _, p := range m.Params {
+				params = append(params, map[string]string{
+					"name": p.Name,
+					"type": p.Type,
+				})
+			}
+			entry["params"] = params
+		}
+
+		if m.ReturnType != "" {
+			entry["return_type"] = m.ReturnType
+		}
+
+		result = append(result, entry)
+	}
+	return result
+}
+
+func newServiceResolveCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "resolve <name> <method-or-code>",
+		Short: "Resolve a transaction code or method name for a binder service",
+		Long: `Resolve translates between method names and transaction codes.
+
+If the second argument is a number, it is treated as a transaction code and
+resolved to a method name. Otherwise it is treated as a method name (in
+camelCase or kebab-case) and resolved to a transaction code.`,
+		Args: cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ctx := cmd.Context()
+			name := args[0]
+			query := args[1]
+
+			conn, err := OpenConn(ctx, cmd)
+			if err != nil {
+				return err
+			}
+			defer conn.Close(ctx)
+
+			descriptor, err := resolveDescriptor(ctx, conn, name)
+			if err != nil {
+				return err
+			}
+
+			table, err := getActiveTable(conn)
+			if err != nil {
+				return err
+			}
+
+			mode, err := cmd.Root().PersistentFlags().GetString("format")
+			if err != nil {
+				return fmt.Errorf("reading --format flag: %w", err)
+			}
+
+			f := NewFormatter(mode, os.Stdout)
+
+			// Try parsing as numeric transaction code first.
+			if code, parseErr := strconv.ParseUint(query, 0, 32); parseErr == nil {
+				methodName, ok := resolveCodeToMethod(table, descriptor, binder.TransactionCode(code))
+				if !ok {
+					return fmt.Errorf("no method found for code %#x on %s", code, descriptor)
+				}
+				f.Result(map[string]any{
+					"descriptor": descriptor,
+					"method":     camelToKebab(methodName),
+					"code":       fmt.Sprintf("0x%04x", code),
+				})
+				return nil
+			}
+
+			// Treat as method name -- support kebab-case via registry lookup.
+			methodName := kebabToMethod(query, descriptor)
+
+			code, ok := resolveMethodToCode(table, descriptor, methodName)
+			if !ok {
+				return fmt.Errorf("method %q not found on %s", query, descriptor)
+			}
+
+			f.Result(map[string]any{
+				"descriptor": descriptor,
+				"method":     camelToKebab(methodName),
+				"code":       fmt.Sprintf("0x%04x", code),
+			})
+			return nil
+		},
+	}
 }
