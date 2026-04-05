@@ -1047,17 +1047,8 @@ func tryCheckService(
 	return handle, nil
 }
 
-// DefaultAPILevel is the API level that the compiled proxy code was
-// generated against. Set by generated code (codes_gen.go).
-var DefaultAPILevel int
-
-// Tables holds multi-version transaction code tables.
-// Populated by generated code (codes_gen.go).
-var Tables MultiVersionTable
-
-// Revisions maps API level -> list of version IDs (latest first).
-// Populated by generated code (codes_gen.go).
-var Revisions = APIRevisions{}
+// DefaultAPILevel, Tables, and Revisions are declared in
+// codes_gen.go (with prebuilt_tables tag) or codes_default.go.
 
 // --- Delegate all Transport methods to inner ---
 
