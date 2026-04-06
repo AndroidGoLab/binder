@@ -61,7 +61,7 @@ func run(
 	}
 	fmt.Fprintf(os.Stderr, "java2spec: loaded %d existing package specs\n", len(specs))
 
-	if err := mergeServiceMappings(frameworksBase, specs); err != nil {
+	if err := mergeServiceMappings(absThirdparty, frameworksBase, specs); err != nil {
 		return fmt.Errorf("service mappings: %w", err)
 	}
 
@@ -91,7 +91,13 @@ func run(
 // servicemanager package spec.  It also includes all _SERVICE constants from
 // Context.java that lack a SystemServiceRegistry match (with empty descriptor)
 // so that the generated ServiceName constants cover every well-known service.
+//
+// After the initial extraction, it scans all Java files for
+// IFoo.Stub.asInterface(ServiceManager.getService(...)) patterns to fill in
+// descriptors that SystemServiceRegistry does not cover (e.g., telephony
+// services registered via TelephonyFrameworkInitializer).
 func mergeServiceMappings(
+	thirdpartyDir string,
 	frameworksBase string,
 	specs map[string]*spec.PackageSpec,
 ) error {
@@ -132,6 +138,10 @@ func mergeServiceMappings(
 		})
 	}
 
+	// Scan all Java files for Stub.asInterface(ServiceManager.getService(...))
+	// patterns to fill in descriptors that SystemServiceRegistry does not cover.
+	fillDescriptorsFromBinderUsages(thirdpartyDir, allConstants, mappings)
+
 	sort.Slice(mappings, func(i, j int) bool {
 		return mappings[i].ServiceName < mappings[j].ServiceName
 	})
@@ -149,6 +159,64 @@ func mergeServiceMappings(
 
 	fmt.Fprintf(os.Stderr, "java2spec: merged %d service mappings into %s\n", len(mappings), smPkg)
 	return nil
+}
+
+// fillDescriptorsFromBinderUsages scans Java source files for
+// IFoo.Stub.asInterface(ServiceManager.getService(...)) patterns and uses
+// them to populate empty descriptors in service mappings.
+func fillDescriptorsFromBinderUsages(
+	thirdpartyDir string,
+	allConstants map[string]string,
+	mappings []spec.ServiceMapping,
+) {
+	usages, err := servicemap.ScanBinderUsages(thirdpartyDir)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "java2spec: warning: scanning binder usages: %v\n", err)
+		return
+	}
+
+	// Build lookup tables for resolving usages to service mappings.
+	// constantToIdx: Context constant name -> index in mappings slice.
+	// serviceToIdx: service name string -> index in mappings slice.
+	constantToIdx := make(map[string]int, len(mappings))
+	serviceToIdx := make(map[string]int, len(mappings))
+	for i, m := range mappings {
+		if m.ConstantName != "" {
+			constantToIdx[m.ConstantName] = i
+		}
+		if m.ServiceName != "" {
+			serviceToIdx[m.ServiceName] = i
+		}
+	}
+
+	filled := 0
+	for _, usage := range usages {
+		idx := -1
+
+		switch {
+		case usage.ServiceConstant != "":
+			if i, ok := constantToIdx[usage.ServiceConstant]; ok {
+				idx = i
+			}
+		case usage.ServiceLiteral != "":
+			if i, ok := serviceToIdx[usage.ServiceLiteral]; ok {
+				idx = i
+			}
+		}
+
+		if idx < 0 {
+			continue
+		}
+		if mappings[idx].Descriptor != "" {
+			// Already has a descriptor from SystemServiceRegistry.
+			continue
+		}
+
+		mappings[idx].Descriptor = usage.AIDLInterface
+		filled++
+	}
+
+	fmt.Fprintf(os.Stderr, "java2spec: filled %d descriptors from binder usage scan\n", filled)
 }
 
 // mergeJavaWireFormats walks Java sources in the 3rdparty directory tree,
