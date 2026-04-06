@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"runtime/pprof"
+	"strings"
 
 	"github.com/facebookincubator/go-belt"
 	"github.com/facebookincubator/go-belt/tool/logger"
@@ -109,13 +111,44 @@ and invoking Android Binder services using AIDL-generated Go bindings.`,
 	cmd.AddCommand(newServiceCmd())
 	cmd.AddCommand(newAIDLCmd())
 	cmd.AddCommand(newCameraCmd())
-	addGeneratedCommands(cmd)
 
 	return cmd
 }
 
+// isUnknownCommandError reports whether err is cobra's "unknown command" error,
+// which means the user invoked a subcommand that doesn't exist yet (likely a
+// generated proxy command that hasn't been registered).
+func isUnknownCommandError(err error) bool {
+	return err != nil && strings.HasPrefix(err.Error(), "unknown command ")
+}
+
 func main() {
-	if err := newRootCmd().Execute(); err != nil {
+	// Phase 1: try executing with only the lightweight built-in commands
+	// (service, aidl, camera). Suppress cobra's error output so that an
+	// "unknown command" failure for a generated proxy command is invisible.
+	// Stdout is left alone so --help and normal command output still work.
+	cmd := newRootCmd()
+	cmd.SilenceErrors = true
+	cmd.SilenceUsage = true
+	cmd.SetErr(io.Discard)
+
+	err := cmd.Execute()
+	switch {
+	case err == nil:
+		return
+	case isUnknownCommandError(err):
+		// Phase 2: the user invoked a generated command. Register all
+		// generated commands and retry with normal output.
+		addGeneratedCommands(cmd)
+		cmd.SilenceErrors = false
+		cmd.SilenceUsage = false
+		cmd.SetErr(os.Stderr)
+		if err := cmd.Execute(); err != nil {
+			os.Exit(1)
+		}
+	default:
+		// A built-in command failed. Print the error ourselves since
+		// cobra's error printing was silenced for phase 1.
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
