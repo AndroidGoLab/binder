@@ -8,5 +8,6 @@ const defaultCachePath = "/tmp/.binder_cache/codes.gob"
 type config struct {
 	// CachePath is the file path where the resolved VersionTable
 	// is cached. Empty string disables caching.
-	CachePath string
+	CachePath        string
+	TransactionCodes VersionTable
 }

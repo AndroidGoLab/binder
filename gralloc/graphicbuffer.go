@@ -6,6 +6,7 @@ import (
 
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
 	"github.com/AndroidGoLab/binder/parcel"
+	"golang.org/x/sys/unix"
 )
 
 // GraphicBuffer magic value: "GB01" in little-endian.
@@ -48,17 +49,17 @@ func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 	numFds := int32(binary.LittleEndian.Uint32(raw[40:44]))
 	numInts := int32(binary.LittleEndian.Uint32(raw[44:48]))
 
-	if numFds != fdCount {
+	if numFds < 0 || numInts < 0 || numFds != fdCount {
 		return nil, fmt.Errorf("fd count mismatch: header=%d, outer=%d", numFds, fdCount)
+	}
+	if int64(numInts)*4 != int64(len(raw)-52) {
+		return nil, fmt.Errorf("native handle ints %d do not fit flattened size %d", numInts, len(raw))
 	}
 
 	// Read native_handle ints from the flattened data (after 13-word header).
 	ints := make([]int32, numInts)
 	for i := range ints {
 		off := 52 + i*4
-		if off+4 > len(raw) {
-			break
-		}
 		ints[i] = int32(binary.LittleEndian.Uint32(raw[off : off+4]))
 	}
 
@@ -67,6 +68,9 @@ func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 	for i := range fds {
 		fd, err := p.ReadFileDescriptor()
 		if err != nil {
+			for _, opened := range fds[:i] {
+				_ = unix.Close(int(opened))
+			}
 			return nil, fmt.Errorf("reading fd %d: %w", i, err)
 		}
 		fds[i] = fd

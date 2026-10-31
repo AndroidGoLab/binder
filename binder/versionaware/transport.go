@@ -48,6 +48,7 @@ type Transport struct {
 	inner     binder.Transport
 	apiLevel  int
 	table     VersionTable
+	overrides VersionTable
 	version   string
 	cachePath string
 	// Revision is the detected AOSP firmware revision (e.g. "36.r4").
@@ -109,6 +110,9 @@ func NewTransport(
 	if targetAPI <= 0 {
 		return nil, fmt.Errorf("versionaware: unable to detect Android API level; pass --target-api explicitly or ensure /etc/build_flags.json is readable; supported API levels: %v", supportedAPILevels())
 	}
+	if cfg.TransactionCodes != nil && targetAPI != 34 {
+		return nil, fmt.Errorf("versionaware: Android 14 r35 SurfaceComposer contract requires API 34, got %d", targetAPI)
+	}
 
 	// Detect revision from libbinder.so symbols (cheap: single file
 	// read, no binder transactions). Done before cache loading so
@@ -145,6 +149,7 @@ func NewTransport(
 				inner:       inner,
 				apiLevel:    targetAPI,
 				table:       cached.ResolvedTable,
+				overrides:   cfg.TransactionCodes,
 				version:     fmt.Sprintf("%d.cached", targetAPI),
 				cachePath:   cfg.CachePath,
 				Revision:    revision,
@@ -165,6 +170,7 @@ func NewTransport(
 			inner:       inner,
 			apiLevel:    targetAPI,
 			table:       VersionTable{},
+			overrides:   cfg.TransactionCodes,
 			version:     version,
 			cachePath:   cfg.CachePath,
 			Revision:    revision,
@@ -191,6 +197,7 @@ func NewTransport(
 		inner:       inner,
 		apiLevel:    targetAPI,
 		table:       table,
+		overrides:   cfg.TransactionCodes,
 		version:     version,
 		cachePath:   cfg.CachePath,
 		Revision:    revision,
@@ -288,6 +295,9 @@ func (t *Transport) ResolveCode(
 	descriptor string,
 	method string,
 ) (binder.TransactionCode, error) {
+	if code := t.overrides.Resolve(descriptor, method); code != 0 {
+		return code, nil
+	}
 	// Fast path: descriptor already in table.
 	t.mu.RLock()
 	code := t.table.Resolve(descriptor, method)
@@ -1088,6 +1098,27 @@ func (t *Transport) RegisterReceiver(
 	receiver binder.TransactionReceiver,
 ) uintptr {
 	return t.inner.RegisterReceiver(ctx, receiver)
+}
+
+// CanUnregisterReceiver reports whether the underlying transport can remove
+// registered receivers.
+func (t *Transport) CanUnregisterReceiver() bool {
+	_, ok := t.inner.(interface {
+		UnregisterReceiver(context.Context, uintptr)
+	})
+	return ok
+}
+
+// UnregisterReceiver removes a previously registered receiver.
+func (t *Transport) UnregisterReceiver(ctx context.Context, cookie uintptr) error {
+	unregister, ok := t.inner.(interface {
+		UnregisterReceiver(context.Context, uintptr)
+	})
+	if !ok {
+		return fmt.Errorf("versionaware: underlying transport cannot unregister receivers")
+	}
+	unregister.UnregisterReceiver(ctx, cookie)
+	return nil
 }
 
 func (t *Transport) RequestDeathNotification(
