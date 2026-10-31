@@ -1,8 +1,8 @@
-// This example captures one raw RGBA frame through an Android 14 virtual display.
+// This example captures one raw RGBA frame of the screen via an Android 14 virtual display.
 // It uses the Pixel gralloc4 descriptor and requires ACCESS_SURFACE_FLINGER.
 // Build and run on a Pixel 6a with Android 14, using a privileged account:
 //
-// GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o capture ./examples/virtual_display_capture
+// GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o capture ./examples/screen_capture
 // adb push capture /data/local/tmp/capture
 // adb shell su 0 /data/local/tmp/capture -source-width 1080 -source-height 2400 -output /data/local/tmp/frame.rgba
 // adb exec-out su 0 cat /data/local/tmp/frame.rgba > frame.rgba
