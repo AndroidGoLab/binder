@@ -8,6 +8,7 @@ const defaultCachePath = "/tmp/.binder_cache/codes.gob"
 type config struct {
 	// CachePath is the file path where the resolved VersionTable
 	// is cached. Empty string disables caching.
-	CachePath        string
-	TransactionCodes VersionTable
+	CachePath                   string
+	TransactionCodes            VersionTable
+	SurfaceComposerAndroid14R35 bool
 }

@@ -45,12 +45,13 @@ const apexMountPrefix = "/apex/"
 // eagerly in NewTransport. If the device version cannot be
 // determined or is unsupported, NewTransport returns an error.
 type Transport struct {
-	inner     binder.Transport
-	apiLevel  int
-	table     VersionTable
-	overrides VersionTable
-	version   string
-	cachePath string
+	inner                       binder.Transport
+	apiLevel                    int
+	table                       VersionTable
+	overrides                   VersionTable
+	surfaceComposerAndroid14R35 bool
+	version                     string
+	cachePath                   string
 	// Revision is the detected AOSP firmware revision (e.g. "36.r4").
 	// Set during NewTransport when libbinder.so symbol inspection
 	// narrows the candidates to exactly one. Empty if ambiguous.
@@ -74,6 +75,14 @@ type Transport struct {
 	// (lazyExtractDescriptor). Required because Go maps are not safe
 	// for concurrent access.
 	mu sync.RWMutex
+}
+
+// UsesSurfaceComposerAndroid14R35 reports whether the caller explicitly
+// selected the Android 14 r35 SurfaceComposer contract for this transport.
+//
+// Example: a capture client can reject an unknown native wire contract.
+func (t *Transport) UsesSurfaceComposerAndroid14R35() bool {
+	return t.surfaceComposerAndroid14R35
 }
 
 // DetectAPILevel returns the Android API level of the running device.
@@ -110,7 +119,7 @@ func NewTransport(
 	if targetAPI <= 0 {
 		return nil, fmt.Errorf("versionaware: unable to detect Android API level; pass --target-api explicitly or ensure /etc/build_flags.json is readable; supported API levels: %v", supportedAPILevels())
 	}
-	if cfg.TransactionCodes != nil && targetAPI != 34 {
+	if cfg.SurfaceComposerAndroid14R35 && targetAPI != 34 {
 		return nil, fmt.Errorf("versionaware: Android 14 r35 SurfaceComposer contract requires API 34, got %d", targetAPI)
 	}
 
@@ -146,15 +155,16 @@ func NewTransport(
 				scannedJARs[jar] = true
 			}
 			return &Transport{
-				inner:       inner,
-				apiLevel:    targetAPI,
-				table:       cached.ResolvedTable,
-				overrides:   cfg.TransactionCodes,
-				version:     fmt.Sprintf("%d.cached", targetAPI),
-				cachePath:   cfg.CachePath,
-				Revision:    revision,
-				signatures:  map[string]dex.MethodSignatures{},
-				ScannedJARs: scannedJARs,
+				inner:                       inner,
+				apiLevel:                    targetAPI,
+				table:                       cached.ResolvedTable,
+				overrides:                   cfg.TransactionCodes,
+				surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+				version:                     fmt.Sprintf("%d.cached", targetAPI),
+				cachePath:                   cfg.CachePath,
+				Revision:                    revision,
+				signatures:                  map[string]dex.MethodSignatures{},
+				ScannedJARs:                 scannedJARs,
 			}, nil
 		}
 	}
@@ -167,15 +177,16 @@ func NewTransport(
 		version := fmt.Sprintf("%d.device", targetAPI)
 		logger.Debugf(ctx, "versionaware: framework JARs available; interfaces will be extracted on demand")
 		return &Transport{
-			inner:       inner,
-			apiLevel:    targetAPI,
-			table:       VersionTable{},
-			overrides:   cfg.TransactionCodes,
-			version:     version,
-			cachePath:   cfg.CachePath,
-			Revision:    revision,
-			signatures:  map[string]dex.MethodSignatures{},
-			ScannedJARs: map[string]bool{},
+			inner:                       inner,
+			apiLevel:                    targetAPI,
+			table:                       VersionTable{},
+			overrides:                   cfg.TransactionCodes,
+			surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+			version:                     version,
+			cachePath:                   cfg.CachePath,
+			Revision:                    revision,
+			signatures:                  map[string]dex.MethodSignatures{},
+			ScannedJARs:                 map[string]bool{},
 		}, nil
 	}
 
@@ -194,15 +205,16 @@ func NewTransport(
 	}
 
 	return &Transport{
-		inner:       inner,
-		apiLevel:    targetAPI,
-		table:       table,
-		overrides:   cfg.TransactionCodes,
-		version:     version,
-		cachePath:   cfg.CachePath,
-		Revision:    revision,
-		signatures:  map[string]dex.MethodSignatures{},
-		ScannedJARs: map[string]bool{},
+		inner:                       inner,
+		apiLevel:                    targetAPI,
+		table:                       table,
+		overrides:                   cfg.TransactionCodes,
+		surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+		version:                     version,
+		cachePath:                   cfg.CachePath,
+		Revision:                    revision,
+		signatures:                  map[string]dex.MethodSignatures{},
+		ScannedJARs:                 map[string]bool{},
 	}, nil
 }
 
@@ -331,6 +343,14 @@ func (t *Transport) ResolveMethodSignature(
 	descriptor string,
 	method string,
 ) []string {
+	if t.surfaceComposerAndroid14R35 && descriptor == "android.gui.ISurfaceComposer" {
+		switch method {
+		case "captureDisplayById":
+			return []string{"J", "Landroid/gui/CaptureArgs;", "Landroid/gui/IScreenCaptureListener;"}
+		case "getPhysicalDisplayIds":
+			return []string{}
+		}
+	}
 	// Fast path: check if signatures are already loaded.
 	t.mu.RLock()
 	loaded := t.signaturesLoaded

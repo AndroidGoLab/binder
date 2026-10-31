@@ -39,6 +39,7 @@ type optionSurfaceComposerAndroid14R35 struct{}
 //
 // Example: apply the option during transport construction.
 func (optionSurfaceComposerAndroid14R35) apply(c *config) {
+	c.SurfaceComposerAndroid14R35 = true
 	c.TransactionCodes = VersionTable{
 		"android.gui.ISurfaceComposer": {
 			"getPhysicalDisplayIds": 6,
