@@ -14,8 +14,8 @@ import (
 	"unsafe"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/logger"
 	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 )
@@ -45,11 +45,11 @@ var ErrDriverClosed = errors.New("binder: driver is closed")
 
 // Driver implements binder.Transport using /dev/binder.
 type Driver struct {
-	fd              int
-	mapped          []byte // mmap'd region, kept alive for munmap
-	mapSize         uint32
-	closed          bool
-	mu              sync.Mutex
+	fd      int
+	mapped  []byte // mmap'd region, kept alive for munmap
+	mapSize uint32
+	closed  bool
+	mu      sync.Mutex
 	// fdMu protects d.fd and d.mapped from concurrent access during
 	// Close. Read paths (doIoctl, writeCommand, Reply, copyFromMapped,
 	// the read loop ioctl) hold RLock; Close holds Lock when
@@ -58,12 +58,10 @@ type Driver struct {
 	fdMu            sync.RWMutex
 	acquiredHandles map[uint32]bool // tracks handles acquired via BC_INCREFS + BC_ACQUIRE
 
-	// receivers maps cookie values (heap addresses of receiverEntry) to
-	// the entries themselves. Using *receiverEntry as the map value keeps
-	// each entry reachable, preventing the GC from collecting the object
-	// whose address the kernel holds as a cookie.
-	receivers   map[uintptr]*receiverEntry
-	receiversMu sync.RWMutex
+	// Receiver cookies are never reused while this driver is open.
+	receivers          map[uintptr]*receiverEntry
+	nextReceiverCookie uintptr
+	receiversMu        sync.RWMutex
 
 	// deathRecipients maps cookie values (heap addresses of
 	// deathRecipientEntry) to the entries themselves, keeping them
@@ -79,7 +77,7 @@ type Driver struct {
 	// Open always creates a new Driver instance.
 	readLoopOnce    sync.Once
 	readLoopDone    chan struct{} // closed when the read loop exits
-	readLoopStarted atomic.Bool  // true after the read loop goroutine is launched
+	readLoopStarted atomic.Bool   // true after the read loop goroutine is launched
 	readLoopStop    chan struct{} // closed by Close() to signal read loop to send BC_EXIT_LOOPER before fd close
 }
 

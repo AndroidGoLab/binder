@@ -14,11 +14,12 @@ const maxParcelableDepth = 32
 // Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
 	data              []byte
-	pos               int      // current read position
-	objects           []uint64 // offsets of flat_binder_objects
-	parcelableDepth   int      // current nesting depth for parcelable unmarshal
-	readLimit         int      // when > 0, Len() returns min(len(data), readLimit)
-	interfaceTokenEnd int      // end of a token written at byte zero, or zero if absent
+	pos               int           // current read position
+	objects           []uint64      // offsets of flat_binder_objects
+	parcelableDepth   int           // current nesting depth for parcelable unmarshal
+	readLimit         int           // when > 0, Len() returns min(len(data), readLimit)
+	interfaceTokenEnd int           // end of a token written at byte zero, or zero if absent
+	receivedFDs       map[int]int32 // received descriptor offsets still owned by this parcel; -1 after transfer
 }
 
 // New creates a new empty Parcel.
@@ -103,11 +104,14 @@ func (p *Parcel) SetPosition(
 // correctness.
 //
 // Example: release a request parcel after a transaction.
-func (p *Parcel) Recycle() {
+func (p *Parcel) Recycle() error {
+	err := p.Close()
 	p.data = nil
 	p.pos = 0
 	p.objects = nil
 	p.interfaceTokenEnd = 0
+	p.receivedFDs = nil
+	return err
 }
 
 // grow ensures capacity and returns a slice of n bytes for writing.

@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"unsafe"
+	"sync/atomic"
 
-	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/facebookincubator/go-belt/tool/logger"
 )
 
 // StubBinder is a server-side IBinder that wraps a TransactionReceiver.
@@ -24,13 +24,22 @@ type StubBinder struct {
 	mu     sync.Mutex
 	cookie uintptr
 
-	// weakRef is a heap-allocated anchor whose address is used as the
-	// flat_binder_object.binder field (the kernel binder node identity).
-	// In Android C++, this role is played by BBinder::getWeakRefs().
-	// It must differ from cookie (which is the dispatch key) because
-	// the kernel uses them independently. Keeping weakRef as a *uint64
-	// prevents the GC from collecting it while the StubBinder is alive.
-	weakRef *uint64
+	// nodeID is an opaque, process-unique kernel Binder node identity.
+	nodeID uintptr
+}
+
+var nextStubNodeID atomic.Uintptr
+
+func newStubNodeID() uintptr {
+	for {
+		old := nextStubNodeID.Load()
+		if old == ^uintptr(0) {
+			panic("binder: exhausted local binder node identities")
+		}
+		if nextStubNodeID.CompareAndSwap(old, old+1) {
+			return old + 1
+		}
+	}
 }
 
 // NewStubBinder creates a StubBinder wrapping the given TransactionReceiver.
@@ -39,7 +48,7 @@ func NewStubBinder(
 ) *StubBinder {
 	return &StubBinder{
 		Receiver: receiver,
-		weakRef:  new(uint64),
+		nodeID:   newStubNodeID(),
 	}
 }
 
@@ -100,12 +109,9 @@ func (s *StubBinder) Cookie() uintptr {
 	return s.cookie
 }
 
-// BinderPtr returns the stable address used as the binder node identity
-// in the kernel (the flat_binder_object.binder field). This address is
-// distinct from Cookie() -- the kernel uses BinderPtr to create/find the
-// binder_node, and echoes Cookie back in BR_TRANSACTION for dispatch.
+// BinderPtr returns the opaque identity used for the kernel Binder node.
 func (s *StubBinder) BinderPtr() uintptr {
-	return uintptr(unsafe.Pointer(s.weakRef))
+	return s.nodeID
 }
 
 // Transport returns the VersionAwareTransport stored during

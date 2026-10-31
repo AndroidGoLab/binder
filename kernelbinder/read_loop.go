@@ -10,8 +10,8 @@ import (
 	"unsafe"
 
 	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/logger"
 	aidlerrors "github.com/AndroidGoLab/binder/errors"
+	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 )
@@ -20,24 +20,22 @@ import (
 // and starts the read loop if it has not been started yet.
 // Returns the cookie that identifies this receiver in incoming BR_TRANSACTION events.
 //
-// The cookie is the heap address of a receiverEntry allocated for this
-// registration. The kernel binder driver uses the flat_binder_object.binder
-// and .cookie fields to create/lookup binder nodes and to dispatch incoming
-// transactions. Both fields must be non-zero process-space addresses --
-// synthetic counter values (1, 2, 3 ...) are rejected by the kernel.
-// Storing the *receiverEntry in the receivers map keeps the object reachable,
-// so its address remains valid until UnregisterReceiver is called.
+// Cookies are opaque nonzero values that are never reused during this
+// driver's lifetime, including after a receiver is unregistered.
 func (d *Driver) RegisterReceiver(
 	ctx context.Context,
 	receiver binder.TransactionReceiver,
 ) uintptr {
 	logger.Tracef(ctx, "RegisterReceiver")
 
-	entry := &receiverEntry{receiver: receiver}
-	cookie := uintptr(unsafe.Pointer(entry))
-
 	d.receiversMu.Lock()
-	d.receivers[cookie] = entry
+	if d.nextReceiverCookie == ^uintptr(0) {
+		d.receiversMu.Unlock()
+		panic("binder: exhausted receiver cookies")
+	}
+	d.nextReceiverCookie++
+	cookie := d.nextReceiverCookie
+	d.receivers[cookie] = &receiverEntry{receiver: receiver}
 	d.receiversMu.Unlock()
 
 	// readLoopOnce is not reset on Close. A closed Driver must not be
@@ -422,6 +420,27 @@ func (d *Driver) handleIncomingTransaction(
 	}
 
 	// Free the mmap'd buffer as soon as we have copied the data.
+	// Preserve the object offsets so unread received descriptors can be closed,
+	// even when the receiver was unregistered before a late callback arrived.
+	var objects []uint64
+	if txn.offsetsSize > 0 {
+		offsets, err := d.copyFromMapped(txn.offsetsBuffer, txn.offsetsSize)
+		if err != nil {
+			logger.Warnf(ctx, "failed to copy transaction object offsets: %v", err)
+		} else {
+			for len(offsets) >= 8 {
+				objects = append(objects, binary.LittleEndian.Uint64(offsets))
+				offsets = offsets[8:]
+			}
+		}
+	}
+	dataParcel := parcel.FromReceivedBytes(dataBytes, objects)
+	defer func() {
+		if err := dataParcel.Close(); err != nil {
+			logger.Warnf(ctx, "failed to close unread incoming descriptors: %v", err)
+		}
+	}()
+
 	// The kernel requires BC_FREE_BUFFER for ALL BR_TRANSACTION buffers
 	// regardless of dataSize.
 	if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
@@ -444,7 +463,6 @@ func (d *Driver) handleIncomingTransaction(
 		return
 	}
 
-	dataParcel := parcel.FromBytes(dataBytes)
 	replyParcel, err := receiver.OnTransaction(ctx, code, dataParcel)
 	if err != nil {
 		// Trace level: fires on every unhandled transaction code on the
