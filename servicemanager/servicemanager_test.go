@@ -12,6 +12,8 @@ import (
 )
 
 // mockTransport captures the last Transact call and returns a predetermined reply.
+//
+// Example: inspect a service lookup without a Binder device.
 type mockTransport struct {
 	TransactionCount int
 	lastHandle       uint32
@@ -24,6 +26,9 @@ type mockTransport struct {
 	nextCookie       uintptr
 }
 
+// Transact records the request and returns the configured reply or error.
+//
+// Example: count service manager lookup transactions.
 func (m *mockTransport) Transact(
 	_ context.Context,
 	handle uint32,
