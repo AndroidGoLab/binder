@@ -7,10 +7,12 @@ import (
 	"os/exec"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/igbp"
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/stretchr/testify/require"
 	"golang.org/x/sys/unix"
 )
 
@@ -20,10 +22,10 @@ import (
 func TestPackedRGBA(t *testing.T) {
 	got, err := packedRGBA([]byte{1, 2, 3, 4, 5, 6, 7, 8, 99, 99, 99, 99, 9, 10, 11, 12, 13, 14, 15, 16, 99, 99, 99, 99}, 2, 2, 3)
 	if err != nil || !bytes.Equal(got, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}) {
-		t.Fatalf("got %v, %v", got, err)
+		require.FailNowf(t, "assertion failed", "got %v, %v", got, err)
 	}
 	if _, err = packedRGBA([]byte{1}, 2, 2, 3); err == nil {
-		t.Fatal("short buffer accepted")
+		require.FailNow(t, "short buffer accepted")
 	}
 }
 
@@ -41,7 +43,7 @@ func TestQueueFence(t *testing.T) {
 	p.WriteFileDescriptor(42)
 	slot, fd, err := readQueueFence(p)
 	if err != nil || slot != 0 || fd != 42 {
-		t.Fatalf("slot=%d fd=%d err=%v", slot, fd, err)
+		require.FailNowf(t, "assertion failed", "slot=%d fd=%d err=%v", slot, fd, err)
 	}
 	bad := parcel.New()
 	bad.WriteInt32(0)
@@ -49,7 +51,7 @@ func TestQueueFence(t *testing.T) {
 	bad.WriteInt32(2)
 	bad.WriteInt32(0)
 	if _, _, err := readQueueFence(bad); err == nil {
-		t.Fatal("invalid fence count accepted")
+		require.FailNow(t, "invalid fence count accepted")
 	}
 	noFence := parcel.New()
 	noFence.WriteInt32(0)
@@ -57,7 +59,7 @@ func TestQueueFence(t *testing.T) {
 	noFence.WriteInt32(0)
 	noFence.WriteRawBytes(make([]byte, 61))
 	if slot, fd, err := readQueueFence(noFence); err != nil || slot != 0 || fd != -1 {
-		t.Fatalf("missing fence: slot=%d fd=%d err=%v", slot, fd, err)
+		require.FailNowf(t, "assertion failed", "missing fence: slot=%d fd=%d err=%v", slot, fd, err)
 	}
 }
 
@@ -66,7 +68,7 @@ func TestQueueFence(t *testing.T) {
 // Example: a closed fence descriptor fails before buffer access.
 func TestCopyFrameRejectsInvalidFence(t *testing.T) {
 	if pixels, err := copyFrame(&gralloc.Buffer{}, 999999); err == nil || pixels != nil {
-		t.Fatalf("got pixels=%v error=%v", pixels, err)
+		require.FailNowf(t, "assertion failed", "got pixels=%v error=%v", pixels, err)
 	}
 }
 
@@ -75,9 +77,7 @@ func TestCopyFrameRejectsInvalidFence(t *testing.T) {
 // Example: a queued buffer arriving during shutdown must not access its buffer.
 func TestClosedProducerClosesFence(t *testing.T) {
 	var fds [2]int
-	if err := unix.Pipe(fds[:]); err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, unix.Pipe(fds[:]))
 	defer unix.Close(fds[1])
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Closed: true}
 	data := parcel.New()
@@ -90,13 +90,16 @@ func TestClosedProducerClosesFence(t *testing.T) {
 	data.WriteRawBytes(payload)
 	data.WriteFileDescriptor(int32(fds[0]))
 	if _, err := p.OnTransaction(context.Background(), igbp.QueueBuffer, data); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	if _, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0); err != unix.EBADF {
-		t.Fatalf("late fence remains open: %v", err)
+		require.FailNowf(t, "assertion failed", "late fence remains open: %v", err)
 	}
 }
 
+// TestQueueFenceRejectsMalformedDescriptor verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestQueueFenceRejectsMalformedDescriptor(t *testing.T) {
 	p := parcel.New()
 	p.WriteInt32(0)
@@ -107,15 +110,16 @@ func TestQueueFenceRejectsMalformedDescriptor(t *testing.T) {
 	p.WriteRawBytes(payload)
 	_, fd, err := readQueueFence(p)
 	if err == nil || fd != -1 {
-		t.Fatalf("fd=%d err=%v; want error and -1", fd, err)
+		require.FailNowf(t, "assertion failed", "fd=%d err=%v; want error and -1", fd, err)
 	}
 }
 
+// TestQueueFenceChecksNestedCount verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestQueueFenceChecksNestedCount(t *testing.T) {
 	var fds [2]int
-	if err := unix.Pipe(fds[:]); err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, unix.Pipe(fds[:]))
 	defer unix.Close(fds[1])
 	p := parcel.New()
 	p.WriteInt32(0)
@@ -124,18 +128,19 @@ func TestQueueFenceChecksNestedCount(t *testing.T) {
 	p.WriteRawBytes(make([]byte, 61))
 	p.WriteFileDescriptor(int32(fds[0]))
 	if _, _, err := readQueueFence(p); err == nil {
-		t.Fatal("mismatched nested fence count accepted")
+		require.FailNow(t, "mismatched nested fence count accepted")
 	}
 	if _, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0); err != unix.EBADF {
-		t.Fatalf("fence remains open: %v", err)
+		require.FailNowf(t, "assertion failed", "fence remains open: %v", err)
 	}
 }
 
+// TestCancelSignalsCaptureFailure verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestCancelSignalsCaptureFailure(t *testing.T) {
 	var fds [2]int
-	if err := unix.Pipe(fds[:]); err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, unix.Pipe(fds[:]))
 	defer unix.Close(fds[1])
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Result: make(chan frameResult, 1)}
 	data := parcel.New()
@@ -146,31 +151,37 @@ func TestCancelSignalsCaptureFailure(t *testing.T) {
 	data.WriteInt32(1)
 	data.WriteFileDescriptor(int32(fds[0]))
 	if _, err := p.OnTransaction(context.Background(), igbp.CancelBuffer, data); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	select {
 	case r := <-p.Result:
 		if r.Err == nil || r.Pixels != nil {
-			t.Fatalf("result=%+v", r)
+			require.FailNowf(t, "assertion failed", "result=%+v", r)
 		}
 	default:
-		t.Fatal("cancel did not signal capture failure")
+		require.FailNow(t, "cancel did not signal capture failure")
 	}
 	if _, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0); err != unix.EBADF {
-		t.Fatalf("fence remains open: %v", err)
+		require.FailNowf(t, "assertion failed", "fence remains open: %v", err)
 	}
 }
 
+// TestRejectOversizedDimensions verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestRejectOversizedDimensions(t *testing.T) {
 	if ^uint(0)>>32 == 0 {
 		t.Skip("int cannot represent oversized dimension")
 	}
 	_, err := run(context.Background(), int(int64(1)<<31), 1)
 	if err == nil || !strings.Contains(err.Error(), "dimensions") {
-		t.Fatalf("got %v; want dimension error", err)
+		require.FailNowf(t, "assertion failed", "got %v; want dimension error", err)
 	}
 }
 
+// TestRejectedDequeueIncludesTimestamps verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestRejectedDequeueIncludesTimestamps(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	p.Dequeued.Store(true)
@@ -182,37 +193,41 @@ func TestRejectedDequeueIncludesTimestamps(t *testing.T) {
 	data.WriteUint64(pixelUsage)
 	data.WriteBool(true)
 	reply, err := p.OnTransaction(context.Background(), igbp.DequeueBuffer, data)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, err)
 	if _, err := reply.Read(24); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	size, err := reply.ReadInt32()
 	if err != nil || size != 28 {
-		t.Fatalf("timestamps size=%d err=%v", size, err)
+		require.FailNowf(t, "assertion failed", "timestamps size=%d err=%v", size, err)
 	}
 	if _, err := reply.Read(32); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	status, err := reply.ReadInt32()
 	if err != nil || status != -11 {
-		t.Fatalf("status=%d err=%v", status, err)
+		require.FailNowf(t, "assertion failed", "status=%d err=%v", status, err)
 	}
 }
 
+// TestMalformedDequeueDoesNotConsumeSlot verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestMalformedDequeueDoesNotConsumeSlot(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	malformed := parcel.New()
 	malformed.WriteInterfaceToken(igbp.Descriptor)
 	if _, err := p.OnTransaction(context.Background(), igbp.DequeueBuffer, malformed); err == nil {
-		t.Fatal("malformed dequeue accepted")
+		require.FailNow(t, "malformed dequeue accepted")
 	}
 	if p.Dequeued.Load() {
-		t.Fatal("malformed dequeue consumed slot")
+		require.FailNow(t, "malformed dequeue consumed slot")
 	}
 }
 
+// TestRejectsWrongInterfaceToken verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestRejectsWrongInterfaceToken(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
@@ -223,28 +238,32 @@ func TestRejectsWrongInterfaceToken(t *testing.T) {
 	data.WriteUint64(pixelUsage)
 	data.WriteBool(false)
 	if _, err := p.OnTransaction(context.Background(), igbp.DequeueBuffer, data); err == nil {
-		t.Fatal("wrong token accepted")
+		require.FailNow(t, "wrong token accepted")
 	}
 	if p.Dequeued.Load() {
-		t.Fatal("wrong token consumed slot")
+		require.FailNow(t, "wrong token consumed slot")
 	}
 }
 
+// TestRequestInvalidSlot verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestRequestInvalidSlot(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
 	data.WriteInterfaceToken(igbp.Descriptor)
 	data.WriteInt32(999)
 	if _, err := p.OnTransaction(context.Background(), igbp.RequestBuffer, data); err == nil {
-		t.Fatal("invalid slot accepted")
+		require.FailNow(t, "invalid slot accepted")
 	}
 }
 
+// TestCloseFDsOnPartialAllocation verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestCloseFDsOnPartialAllocation(t *testing.T) {
 	var fds [2]int
-	if err := unix.Pipe(fds[:]); err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, unix.Pipe(fds[:]))
 	defer unix.Close(fds[1])
 	p := parcel.New()
 	outer := parcel.WriteParcelableHeader(p)
@@ -260,16 +279,17 @@ func TestCloseFDsOnPartialAllocation(t *testing.T) {
 	parcel.WriteParcelableFooter(p, outer)
 	var owned []int32
 	if _, err := readAllocation(p, &owned); err == nil {
-		t.Fatal("truncated allocation accepted")
+		require.FailNow(t, "truncated allocation accepted")
 	}
-	if err := closeFDs(owned); err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, closeFDs(owned))
 	if _, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0); err != unix.EBADF {
-		t.Fatalf("fd still open: %v", err)
+		require.FailNowf(t, "assertion failed", "fd still open: %v", err)
 	}
 }
 
+// TestMalformedLateFencePreservesStdin verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestMalformedLateFencePreservesStdin(t *testing.T) {
 	if os.Getenv("BINDER_TEST_STDIN_CHILD") == "1" {
 		p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Closed: true}
@@ -282,26 +302,27 @@ func TestMalformedLateFencePreservesStdin(t *testing.T) {
 		payload[queueFenceOffset] = 1
 		data.WriteRawBytes(payload)
 		if _, err := p.OnTransaction(context.Background(), igbp.QueueBuffer, data); err != nil {
-			t.Fatal(err)
+			require.NoError(t, err)
 		}
 		if _, err := unix.FcntlInt(0, unix.F_GETFD, 0); err != nil {
-			t.Fatalf("stdin was closed: %v", err)
+			require.FailNowf(t, "assertion failed", "stdin was closed: %v", err)
 		}
 		return
 	}
 	input, err := os.Open(os.DevNull)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, err)
 	defer input.Close()
 	cmd := exec.Command(os.Args[0], "-test.run=^TestMalformedLateFencePreservesStdin$")
 	cmd.Env = append(os.Environ(), "BINDER_TEST_STDIN_CHILD=1")
 	cmd.Stdin = input
 	if output, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("child: %v\n%s", err, output)
+		require.FailNowf(t, "assertion failed", "child: %v\n%s", err, output)
 	}
 }
 
+// TestCancelWithoutFenceSignalsFailure verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestCancelWithoutFenceSignalsFailure(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Result: make(chan frameResult, 1)}
 	data := parcel.New()
@@ -311,18 +332,21 @@ func TestCancelWithoutFenceSignalsFailure(t *testing.T) {
 	data.WriteInt32(0)
 	data.WriteInt32(0)
 	if _, err := p.OnTransaction(context.Background(), igbp.CancelBuffer, data); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	select {
 	case r := <-p.Result:
 		if r.Err == nil || r.Pixels != nil {
-			t.Fatalf("result=%+v", r)
+			require.FailNowf(t, "assertion failed", "result=%+v", r)
 		}
 	default:
-		t.Fatal("cancel did not signal failure")
+		require.FailNow(t, "cancel did not signal failure")
 	}
 }
 
+// TestSuccessfulDequeueIncludesTimestamps verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
 func TestSuccessfulDequeueIncludesTimestamps(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
@@ -333,21 +357,65 @@ func TestSuccessfulDequeueIncludesTimestamps(t *testing.T) {
 	data.WriteUint64(pixelUsage)
 	data.WriteBool(true)
 	reply, err := p.OnTransaction(context.Background(), igbp.DequeueBuffer, data)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, err)
 	if _, err := reply.Read(24); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	size, err := reply.ReadInt32()
 	if err != nil || size != 28 {
-		t.Fatalf("size=%d err=%v", size, err)
+		require.FailNowf(t, "assertion failed", "size=%d err=%v", size, err)
 	}
 	if _, err := reply.Read(32); err != nil {
-		t.Fatal(err)
+		require.NoError(t, err)
 	}
 	status, err := reply.ReadInt32()
 	if err != nil || status != int32(igbp.BufferNeedsRealloc) {
-		t.Fatalf("status=%d err=%v", status, err)
+		require.FailNowf(t, "assertion failed", "status=%d err=%v", status, err)
+	}
+}
+
+// TestWaitFenceRetriesInterruptedPoll verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
+func TestWaitFenceRetriesInterruptedPoll(t *testing.T) {
+	calls := 0
+	poll := // Interrupt the first poll and signal the second.
+		//
+		// Example: a signal interrupts a waiting Binder client.
+		func(
+			fds []unix.PollFd,
+			timeout int,
+		) (int, error) {
+			calls++
+			if calls == 1 {
+				return 0, unix.EINTR
+			}
+			if timeout <= 0 || timeout > fenceTimeoutMS {
+				require.FailNowf(t, "assertion failed", "invalid remaining timeout %d", timeout)
+			}
+			fds[0].Revents = unix.POLLIN
+			return 1, nil
+		}
+	if err := waitFence(1, 5*time.Second, poll); err != nil || calls != 2 {
+		require.FailNowf(t, "assertion failed", "calls=%d err=%v", calls, err)
+	}
+}
+
+// TestWaitFenceRejectsSignaledError verifies the condition described by its name.
+//
+// Example: the assertion checks both the result and relevant state.
+func TestWaitFenceRejectsSignaledError(t *testing.T) {
+	poll := // Simulate an errored fence that also reports readability.
+		//
+		// Example: POLLIN and POLLERR arrive together.
+		func(
+			fds []unix.PollFd,
+			timeout int,
+		) (int, error) {
+			fds[0].Revents = unix.POLLIN | unix.POLLERR
+			return 1, nil
+		}
+	if err := waitFence(1, time.Second, poll); err == nil {
+		require.FailNow(t, "signaled error accepted")
 	}
 }

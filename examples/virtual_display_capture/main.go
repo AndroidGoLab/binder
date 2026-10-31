@@ -32,6 +32,7 @@ import (
 
 	"github.com/AndroidGoLab/binder/android/hardware/common"
 	"github.com/AndroidGoLab/binder/android/hardware/graphics/allocator"
+	gfxCommon "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/binder/versionaware"
 	"github.com/AndroidGoLab/binder/gralloc"
@@ -43,16 +44,49 @@ import (
 )
 
 const (
-	width            = 360
-	height           = 800
-	rgba8888         = 1
-	pixelUsage       = 0xb03
-	fenceTimeoutMS   = 5000
-	dmaBufSync       = 0x40086200
-	dmaBufSyncRead   = 1
-	dmaBufSyncEnd    = 4
-	queueFenceOffset = 45 // Android 14 QueueBufferInput, before nested Fence.
-	queueMinimumSize = 61 // Includes empty Region, HDR metadata, and slot.
+	// width and height set the fixed output geometry.
+	//
+	// Example: output contains 360 * 800 pixels.
+	width  = 360
+	height = 800
+	// rgba8888 and pixelUsage identify the Pixel buffer layout and consumers.
+	//
+	// Example: the GPU renders pixels that the CPU reads.
+	rgba8888   = int32(gfxCommon.PixelFormatRgba8888)
+	pixelUsage = uint64(gfxCommon.BufferUsageCpuReadOften | gfxCommon.BufferUsageGpuTexture | gfxCommon.BufferUsageGpuRenderTarget | gfxCommon.BufferUsageComposerOverlay)
+	// fenceTimeoutMS bounds the wait for a queued frame.
+	//
+	// Example: an unsignaled fence fails after five seconds.
+	fenceTimeoutMS = 5000
+	// DMA-BUF sync ioctl and flags follow Linux include/uapi/linux/dma-buf.h.
+	// https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/include/uapi/linux/dma-buf.h
+	//
+	// Example: READ starts CPU read access and END completes it.
+	dmaBufSync     = 0x40086200
+	dmaBufSyncRead = 1
+	dmaBufSyncEnd  = 4
+	// QueueBufferInput layout follows Android 14 IGraphicBufferProducerFlattenables.cpp.
+	// https://android.googlesource.com/platform/frameworks/native/+/refs/tags/android-14.0.0_r1/libs/gui/IGraphicBufferProducerFlattenables.cpp
+	//
+	// Example: a minimal input includes an empty region and HDR metadata.
+	queueFenceOffset = 45
+	queueMinimumSize = 61
+	// These API 34 transaction codes and display-state flags follow ISurfaceComposer.
+	// https://android.googlesource.com/platform/frameworks/native/+/refs/tags/android-14.0.0_r1/libs/gui/aidl/android/gui/ISurfaceComposer.aidl
+	// https://android.googlesource.com/platform/frameworks/native/+/refs/tags/android-14.0.0_r1/libs/gui/include/gui/LayerState.h
+	//
+	// Example: configureDisplayCode applies surface, projection, and size.
+	allocateCode         = 1
+	createDisplayCode    = 4
+	destroyDisplayCode   = 5
+	configureDisplayCode = 8
+	displayStateChanges  = 7
+	// Pixel 6a's tested gralloc4 descriptor uses version 40 in a 37-byte blob.
+	// https://android.googlesource.com/platform/hardware/google/gchips/+/refs/heads/android14-release/gralloc4/src/hidl_common/BufferDescriptor.h
+	//
+	// Example: the final byte is the empty descriptor name.
+	pixelDescriptorSize    = 37
+	pixelDescriptorVersion = 40
 )
 
 // frameResult holds the copied frame or its capture error.
@@ -75,6 +109,9 @@ type producer struct {
 	Closed   bool
 }
 
+// closeFDs closes descriptors acquired from the allocator.
+//
+// Example: a partially decoded allocation still releases its known FDs.
 func closeFDs(fds []int32) error {
 	var errs []error
 	for _, fd := range fds {
@@ -86,7 +123,12 @@ func closeFDs(fds []int32) error {
 }
 
 // readAllocation tracks descriptors as they are decoded, including on error.
-func readAllocation(p *parcel.Parcel, owned *[]int32) (allocator.AllocationResult, error) {
+//
+// Example: owned contains FDs read before a truncated handle.
+func readAllocation(
+	p *parcel.Parcel,
+	owned *[]int32,
+) (allocator.AllocationResult, error) {
 	var result allocator.AllocationResult
 	end, err := parcel.ReadParcelableHeader(p)
 	if err != nil {
@@ -111,63 +153,77 @@ func readAllocation(p *parcel.Parcel, owned *[]int32) (allocator.AllocationResul
 		if present == 0 {
 			return result, errors.New("null allocation buffer")
 		}
-		handleEnd, err := parcel.ReadParcelableHeader(p)
+		handle, err := readNativeHandle(p, owned)
 		if err != nil {
 			return result, err
 		}
-		var handle common.NativeHandle
-		n, err := p.ReadInt32()
-		if err != nil {
-			return result, err
-		}
-		if n < 0 || int64(n) > int64(p.Len()/4) {
-			return result, errors.New("invalid allocation fd count")
-		}
-		for j := int32(0); j < n; j++ {
-			present, err := p.ReadInt32()
-			if err != nil {
-				return result, err
-			}
-			if present == 0 {
-				return result, errors.New("null allocation fd")
-			}
-			comm, err := p.ReadInt32()
-			if err != nil {
-				return result, err
-			}
-			fd, err := p.ReadFileDescriptor()
-			if err != nil {
-				return result, err
-			}
-			*owned = append(*owned, fd)
-			handle.Fds = append(handle.Fds, fd)
-			if comm != 0 {
-				fd, err = p.ReadFileDescriptor()
-				if err != nil {
-					return result, err
-				}
-				*owned = append(*owned, fd)
-				return result, errors.New("unexpected allocation communication fd")
-			}
-		}
-		n, err = p.ReadInt32()
-		if err != nil {
-			return result, err
-		}
-		if n < 0 || int64(n) > int64(p.Len()/4) {
-			return result, errors.New("invalid allocation int count")
-		}
-		for j := int32(0); j < n; j++ {
-			v, err := p.ReadInt32()
-			if err != nil {
-				return result, err
-			}
-			handle.Ints = append(handle.Ints, v)
-		}
-		parcel.SkipToParcelableEnd(p, handleEnd)
 		result.Buffers = append(result.Buffers, handle)
 	}
 	return result, nil
+}
+
+// readNativeHandle decodes an allocator handle and records received FDs.
+//
+// Example: descriptors remain tracked if a later field is truncated.
+func readNativeHandle(
+	p *parcel.Parcel,
+	owned *[]int32,
+) (common.NativeHandle, error) {
+	var handle common.NativeHandle
+	end, err := parcel.ReadParcelableHeader(p)
+	if err != nil {
+		return handle, err
+	}
+	defer parcel.SkipToParcelableEnd(p, end)
+	n, err := p.ReadInt32()
+	if err != nil {
+		return handle, err
+	}
+	if n < 0 || int64(n) > int64(p.Len()/4) {
+		return handle, errors.New("invalid allocation fd count")
+	}
+	for j := int32(0); j < n; j++ {
+		present, err := p.ReadInt32()
+		if err != nil {
+			return handle, err
+		}
+		if present == 0 {
+			return handle, errors.New("null allocation fd")
+		}
+		comm, err := p.ReadInt32()
+		if err != nil {
+			return handle, err
+		}
+		fd, err := p.ReadFileDescriptor()
+		if err != nil {
+			return handle, err
+		}
+		*owned = append(*owned, fd)
+		handle.Fds = append(handle.Fds, fd)
+		if comm != 0 {
+			fd, err = p.ReadFileDescriptor()
+			if err != nil {
+				return handle, err
+			}
+			*owned = append(*owned, fd)
+			return handle, errors.New("unexpected allocation communication fd")
+		}
+	}
+	n, err = p.ReadInt32()
+	if err != nil {
+		return handle, err
+	}
+	if n < 0 || int64(n) > int64(p.Len()/4) {
+		return handle, errors.New("invalid allocation int count")
+	}
+	for j := int32(0); j < n; j++ {
+		v, err := p.ReadInt32()
+		if err != nil {
+			return handle, err
+		}
+		handle.Ints = append(handle.Ints, v)
+	}
+	return handle, nil
 }
 
 // readQueueFence reads the slot and optional acquire fence from a queue request.
@@ -212,10 +268,30 @@ func readQueueFence(p *parcel.Parcel) (int32, int32, error) {
 	return slot, fd, nil
 }
 
+// reportCancel publishes a terminal capture error unless shutdown has started.
+//
+// Example: a canceled slot unblocks the waiting capture.
+func (p *producer) reportCancel(err error) {
+	p.Mu.Lock()
+	defer p.Mu.Unlock()
+	if p.Closed {
+		return
+	}
+	select {
+	case p.Result <- frameResult{Err: err}:
+	default:
+	}
+}
+
 // packedRGBA removes row padding from an RGBA8888 buffer.
 //
 // Example: a 360-pixel row with stride 368 loses eight padding pixels.
-func packedRGBA(data []byte, w, h, stride int) ([]byte, error) {
+func packedRGBA(
+	data []byte,
+	w int,
+	h int,
+	stride int,
+) ([]byte, error) {
 	if w <= 0 || h <= 0 || stride < w || stride > len(data)/4/h {
 		return nil, errors.New("invalid frame dimensions or buffer length")
 	}
@@ -229,20 +305,21 @@ func packedRGBA(data []byte, w, h, stride int) ([]byte, error) {
 // copyFrame waits for the producer fence and copies CPU-synchronized pixels.
 //
 // Example: no output is returned when the fence does not signal.
-func copyFrame(buf *gralloc.Buffer, fd int32) (_ []byte, resultErr error) {
+func copyFrame(
+	buf *gralloc.Buffer,
+	fd int32,
+) (_ []byte, resultErr error) {
 	if fd >= 0 {
-		defer func() {
+		defer // Close the acquire fence and retain any close failure.
+		//
+		// Example: an invalid fence cannot leak a descriptor.
+		func() {
 			if err := unix.Close(int(fd)); err != nil {
 				resultErr = errors.Join(resultErr, fmt.Errorf("close fence: %w", err))
 			}
 		}()
-		fds := []unix.PollFd{{Fd: fd, Events: unix.POLLIN}}
-		n, err := unix.Poll(fds, fenceTimeoutMS)
-		if err != nil {
+		if err := waitFence(fd, fenceTimeoutMS*time.Millisecond, unix.Poll); err != nil {
 			return nil, err
-		}
-		if n != 1 || fds[0].Revents&unix.POLLIN == 0 {
-			return nil, fmt.Errorf("acquire fence did not signal: %#x", fds[0].Revents)
 		}
 	}
 	if buf == nil || len(buf.Handle.Fds) == 0 || buf.Handle.Fds[0] < 0 || buf.Stride < width || int64(buf.Stride)*height*4 > int64(math.MaxInt) {
@@ -253,7 +330,10 @@ func copyFrame(buf *gralloc.Buffer, fd int32) (_ []byte, resultErr error) {
 	if _, _, errno := unix.Syscall(unix.SYS_IOCTL, uintptr(bufferFD), dmaBufSync, uintptr(unsafe.Pointer(&flags))); errno != 0 {
 		return nil, fmt.Errorf("begin CPU access: %w", errno)
 	}
-	defer func() {
+	defer // End synchronized CPU read access.
+	//
+	// Example: report an END ioctl failure along with a copy failure.
+	func() {
 		flags = uint64(dmaBufSyncRead | dmaBufSyncEnd)
 		if _, _, errno := unix.Syscall(unix.SYS_IOCTL, uintptr(bufferFD), dmaBufSync, uintptr(unsafe.Pointer(&flags))); errno != 0 {
 			resultErr = errors.Join(resultErr, fmt.Errorf("end CPU access: %w", errno))
@@ -263,7 +343,10 @@ func copyFrame(buf *gralloc.Buffer, fd int32) (_ []byte, resultErr error) {
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
+	defer // Release the mapped frame.
+	//
+	// Example: retain a munmap failure in the result.
+	func() {
 		if err := unix.Munmap(data); err != nil {
 			resultErr = errors.Join(resultErr, fmt.Errorf("unmap frame: %w", err))
 		}
@@ -274,7 +357,11 @@ func copyFrame(buf *gralloc.Buffer, fd int32) (_ []byte, resultErr error) {
 // OnTransaction handles one buffer and delegates other native window calls.
 //
 // Example: a queued frame is copied before its producer call returns.
-func (p *producer) OnTransaction(ctx context.Context, code binder.TransactionCode, data *parcel.Parcel) (*parcel.Parcel, error) {
+func (p *producer) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
 	token, err := data.ReadInterfaceToken()
 	if err != nil {
 		return nil, err
@@ -282,10 +369,11 @@ func (p *producer) OnTransaction(ctx context.Context, code binder.TransactionCod
 	if token != igbp.Descriptor {
 		return nil, fmt.Errorf("unexpected producer interface %q", token)
 	}
+	payloadPosition := data.Position()
 	data.SetPosition(0)
 	switch code {
 	case igbp.RequestBuffer:
-		_, _ = data.ReadInterfaceToken()
+		data.SetPosition(payloadPosition)
 		slot, err := data.ReadInt32()
 		if err != nil {
 			return nil, err
@@ -295,7 +383,7 @@ func (p *producer) OnTransaction(ctx context.Context, code binder.TransactionCod
 		}
 		data.SetPosition(0)
 	case igbp.DequeueBuffer:
-		_, _ = data.ReadInterfaceToken()
+		data.SetPosition(payloadPosition)
 		if _, err := data.Read(20); err != nil {
 			return nil, err
 		}
@@ -351,14 +439,7 @@ func (p *producer) OnTransaction(ctx context.Context, code binder.TransactionCod
 		if nested != count {
 			return nil, errors.Join(errors.New("invalid cancel fence count"), closeErr)
 		}
-		p.Mu.Lock()
-		if !p.Closed {
-			select {
-			case p.Result <- frameResult{Err: errors.Join(fmt.Errorf("buffer slot %d canceled before capture", slot), closeErr)}:
-			default:
-			}
-		}
-		p.Mu.Unlock()
+		p.reportCancel(errors.Join(fmt.Errorf("buffer slot %d canceled before capture", slot), closeErr))
 		data.SetPosition(0)
 	case igbp.Query:
 		if _, err := data.ReadInterfaceToken(); err != nil {
@@ -414,7 +495,11 @@ func (p *producer) OnTransaction(ctx context.Context, code binder.TransactionCod
 // run creates the virtual display, captures one frame and releases it.
 //
 // Example: run can write the resulting raw pixels to a file.
-func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultErr error) {
+func run(
+	ctx context.Context,
+	sourceWidth int,
+	sourceHeight int,
+) (_ []byte, resultErr error) {
 	if sourceWidth <= 0 || sourceHeight <= 0 || int64(sourceWidth) > math.MaxInt32 || int64(sourceHeight) > math.MaxInt32 {
 		return nil, errors.New("physical display dimensions must be positive int32 values")
 	}
@@ -425,7 +510,10 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
+	defer // Release Binder resources even when capture fails.
+	//
+	// Example: preserve a close error after a timeout.
+	func() {
 		if err := drv.Close(context.Background()); err != nil {
 			resultErr = errors.Join(resultErr, fmt.Errorf("close binder: %w", err))
 		}
@@ -439,24 +527,27 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	if err != nil {
 		return nil, err
 	}
-	desc := make([]byte, 37)
-	binary.LittleEndian.PutUint32(desc[0:], 40)
+	desc := make([]byte, pixelDescriptorSize)
+	binary.LittleEndian.PutUint32(desc[0:], pixelDescriptorVersion)
 	binary.LittleEndian.PutUint32(desc[4:], width)
 	binary.LittleEndian.PutUint32(desc[8:], height)
 	binary.LittleEndian.PutUint32(desc[12:], 1)
-	binary.LittleEndian.PutUint32(desc[16:], rgba8888)
+	binary.LittleEndian.PutUint32(desc[16:], uint32(rgba8888))
 	binary.LittleEndian.PutUint64(desc[20:], pixelUsage)
 	req := parcel.New()
 	req.WriteInterfaceToken(allocator.DescriptorIAllocator)
 	req.WriteByteArray(desc)
 	req.WriteInt32(1)
-	reply, err := alloc.Transact(ctx, 1, 0, req)
+	reply, err := alloc.Transact(ctx, allocateCode, 0, req)
 	if err != nil {
 		return nil, err
 	}
 	defer reply.Recycle()
 	var ownedFDs []int32
-	defer func() {
+	defer // Close descriptors decoded from the allocation response.
+	//
+	// Example: partial decoding still releases acquired FDs.
+	func() {
 		if err := closeFDs(ownedFDs); err != nil {
 			resultErr = errors.Join(resultErr, err)
 		}
@@ -485,7 +576,7 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	req.WriteString16("binder-go-capture")
 	req.WriteBool(false)
 	req.WriteFloat32(0)
-	reply, err = sf.Transact(ctx, 4, 0, req)
+	reply, err = sf.Transact(ctx, createDisplayCode, 0, req)
 	if err != nil {
 		return nil, err
 	}
@@ -497,13 +588,16 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
+	defer // Destroy the virtual display before closing Binder.
+	//
+	// Example: use a fresh context after capture cancellation.
+	func() {
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		p := parcel.New()
 		p.WriteInterfaceToken("android.gui.ISurfaceComposer")
 		p.WriteStrongBinder(display)
-		r, e := sf.Transact(cleanupCtx, 5, 0, p)
+		r, e := sf.Transact(cleanupCtx, destroyDisplayCode, 0, p)
 		if e == nil {
 			defer r.Recycle()
 			e = binder.ReadStatus(r)
@@ -519,7 +613,10 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	var buffers [4]*gralloc.Buffer
 	buffers[0] = buf
 	prod := &producer{ProducerStub: igbp.NewProducerStub(width, height, buffers), Buffer: buf, Result: make(chan frameResult, 1)}
-	defer func() {
+	defer // Prevent late callbacks from reading the released buffer.
+	//
+	// Example: shutdown waits for a copy already in progress.
+	func() {
 		prod.Mu.Lock()
 		defer prod.Mu.Unlock()
 		prod.Closed = true
@@ -538,7 +635,7 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	req.WriteInt32(1)
 	req.WriteStrongBinder(display)
 	binder.WriteBinderToParcel(ctx, req, stub, transport)
-	req.WriteInt32(7)
+	req.WriteInt32(displayStateChanges)
 	req.WriteInt32(0)
 	req.WriteInt32(0)
 	req.WriteInt32(0)
@@ -558,7 +655,7 @@ func run(ctx context.Context, sourceWidth, sourceHeight int) (_ []byte, resultEr
 	req.WriteInt32(0)
 	req.WriteUint64(1)
 	req.WriteInt32(0)
-	if _, err = raw.Transact(ctx, 8, 0, req); err != nil {
+	if _, err = raw.Transact(ctx, configureDisplayCode, 0, req); err != nil {
 		return nil, fmt.Errorf("configure virtual display: %w", err)
 	}
 	select {
@@ -588,4 +685,33 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("wrote %dx%d RGBA8888 to %s\n", width, height, *output)
+}
+
+// waitFence waits for a readable fence within one monotonic deadline.
+//
+// Example: an interrupted poll resumes with the remaining time.
+func waitFence(
+	fd int32,
+	timeout time.Duration,
+	poll func([]unix.PollFd, int) (int, error),
+) error {
+	deadline := time.Now().Add(timeout)
+	for {
+		remaining := time.Until(deadline)
+		if remaining <= 0 {
+			return errors.New("acquire fence timed out")
+		}
+		fds := []unix.PollFd{{Fd: fd, Events: unix.POLLIN}}
+		n, err := poll(fds, int((remaining+time.Millisecond-1)/time.Millisecond))
+		if errors.Is(err, unix.EINTR) || errors.Is(err, unix.EAGAIN) {
+			continue
+		}
+		if err != nil {
+			return fmt.Errorf("poll acquire fence: %w", err)
+		}
+		if n != 1 || fds[0].Revents&unix.POLLIN == 0 || fds[0].Revents&(unix.POLLERR|unix.POLLNVAL) != 0 {
+			return fmt.Errorf("acquire fence did not signal: %#x", fds[0].Revents)
+		}
+		return nil
+	}
 }

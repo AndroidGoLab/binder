@@ -646,6 +646,7 @@ More examples: [`examples/`](examples/)
 | [`user_manager`](examples/user_manager/) | Query user profiles from the UserManager service. |
 | [`vehicle_telematics`](examples/vehicle_telematics/) | Collect GPS, battery, and device diagnostics for vehicle telematics. |
 | [`version_compat`](examples/version_compat/) | Validate proxy compatibility across API levels. |
+| [`virtual_display_capture`](examples/virtual_display_capture/) | This example captures one raw RGBA frame through an Android 14 virtual display. |
 | [`volume_control`](examples/volume_control/) | Get and set stream volumes via AudioService. |
 | [`vpn_monitor`](examples/vpn_monitor/) | Check VPN status via the IVpnManager system service. |
 | [`wakelock_audit`](examples/wakelock_audit/) | Enumerate supported wake lock levels via PowerManager. |
@@ -2376,6 +2377,6 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 ├── interop/                  Interoperability helpers
 │   ├── gadb/                 Pure-Go ADB integration
 │   └── gomobile/             Android AAR via gomobile
-├── examples/                 106 runnable examples
+├── examples/                 107 runnable examples
 └── .github/workflows/        CI configuration
 ```
