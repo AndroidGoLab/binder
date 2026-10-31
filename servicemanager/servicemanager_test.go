@@ -13,14 +13,15 @@ import (
 
 // mockTransport captures the last Transact call and returns a predetermined reply.
 type mockTransport struct {
-	lastHandle   uint32
-	lastCode     binder.TransactionCode
-	lastFlags    binder.TransactionFlags
-	lastData     *parcel.Parcel
-	replyFunc    func() *parcel.Parcel
-	err          error
-	lastReceiver binder.TransactionReceiver
-	nextCookie   uintptr
+	TransactionCount int
+	lastHandle       uint32
+	lastCode         binder.TransactionCode
+	lastFlags        binder.TransactionFlags
+	lastData         *parcel.Parcel
+	replyFunc        func() *parcel.Parcel
+	err              error
+	lastReceiver     binder.TransactionReceiver
+	nextCookie       uintptr
 }
 
 func (m *mockTransport) Transact(
@@ -30,6 +31,7 @@ func (m *mockTransport) Transact(
 	flags binder.TransactionFlags,
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	m.TransactionCount++
 	m.lastHandle = handle
 	m.lastCode = code
 	m.lastFlags = flags
@@ -476,4 +478,5 @@ func TestGetServiceAndroid10NotFound(t *testing.T) {
 	result, err := New(mt).GetService(context.Background(), "missing")
 	require.Nil(t, result)
 	require.ErrorContains(t, err, "service not found")
+	assert.Equal(t, 1, mt.TransactionCount)
 }

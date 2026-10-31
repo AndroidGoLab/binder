@@ -43,7 +43,10 @@ func New(
 	}
 }
 
-// GetService retrieves a service by name. Blocks until the service is available.
+// GetService retrieves a service by name with one transaction. It returns an
+// error if the service is absent from the reply; it does not retry registration.
+//
+// Example: look up the package service.
 func (sm *ServiceManager) GetService(
 	ctx context.Context,
 	name ServiceName,

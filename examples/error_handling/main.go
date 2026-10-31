@@ -40,13 +40,12 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// ---------------------------------------------------------------
-	// 1. Service availability: CheckService (non-blocking) vs
-	//    GetService (blocking with timeout).
+	// 1. Service availability: compare CheckService and GetService.
 	// ---------------------------------------------------------------
 	fmt.Println("=== Service Availability ===")
 
 	// CheckService returns (nil, nil) when the service is not registered.
-	// It never blocks.
+	// It does not retry while waiting for registration.
 	svc, err := sm.CheckService(ctx, "this.service.does.not.exist")
 	if err != nil {
 		fmt.Printf("CheckService error: %v\n", err)
@@ -54,8 +53,8 @@ func main() {
 		fmt.Println("CheckService: service not found (nil binder, no error)")
 	}
 
-	// GetService blocks until the service appears. Use a context timeout
-	// so the program does not hang forever on a missing service.
+	// GetService makes one lookup. The context supplies a transaction deadline;
+	// it does not make the client wait for a service to be registered.
 	getCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
 

@@ -164,7 +164,7 @@ func main() {
 	for _, st := range services {
 		fmt.Printf("\n[%s]\n", st.Name)
 
-		// 1) CheckService (non-blocking)
+		// 1) CheckService with a deadline in the context.
 		checkCtx, checkCancel := context.WithTimeout(ctx, 5*time.Second)
 		checkBinder, checkErr := sm.CheckService(checkCtx, servicemanager.ServiceName(st.Name))
 		checkCancel()
@@ -177,7 +177,7 @@ func main() {
 			fmt.Printf("  CheckService: SUCCESS (handle=%d)\n", checkBinder.Handle())
 		}
 
-		// 2) GetService (blocking, with timeout)
+		// 2) GetService with a deadline in the context (no registration retry).
 		getCtx, getCancel := context.WithTimeout(ctx, 10*time.Second)
 		getBinder, getErr := sm.GetService(getCtx, servicemanager.ServiceName(st.Name))
 		getCancel()
@@ -212,11 +212,11 @@ func main() {
 		// 4) Compare
 		if checkBinder == nil && getBinder != nil {
 			fmt.Printf("  *** DISCREPANCY: CheckService=nil but GetService=handle %d ***\n", getBinder.Handle())
-			fmt.Printf("  This means GetService's startIfNotFound=true triggered lazy service start!\n")
+			fmt.Printf("  The service may have appeared between the two lookups.\n")
 		} else if checkBinder != nil && getBinder == nil {
 			fmt.Printf("  *** DISCREPANCY: CheckService=handle %d but GetService=nil ***\n", checkBinder.Handle())
 		} else if checkBinder == nil && getBinder == nil {
-			fmt.Printf("  Both returned nil/error - service truly unavailable\n")
+			fmt.Printf("  Both lookups returned nil or an error\n")
 		} else {
 			fmt.Printf("  Both succeeded (check handle=%d, get handle=%d)\n", checkBinder.Handle(), getBinder.Handle())
 		}
