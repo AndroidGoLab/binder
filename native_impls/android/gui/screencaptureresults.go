@@ -1,129 +1,146 @@
 package gui
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
+	"golang.org/x/sys/unix"
 )
 
-// ScreenCaptureResults holds the result of a SurfaceFlinger screen
-// capture. The wire format is defined in C++ (ScreenCaptureResults.cpp),
-// not AIDL.
+// ScreenCaptureResults holds a SurfaceFlinger capture and owns its received descriptors.
+//
+// Example: call Close after using Buffer and waiting for FenceFD.
 type ScreenCaptureResults struct {
-	// Buffer contains the captured pixels as a gralloc GraphicBuffer.
-	// Nil if capture failed.
-	Buffer *gralloc.Buffer
-
-	// CapturedSecureLayers indicates if secure content was captured.
+	Buffer               *gralloc.Buffer
+	GainMap              *gralloc.Buffer
+	FenceFD              int32
+	FenceStatus          int32
 	CapturedSecureLayers bool
-
-	// CapturedHdrLayers indicates if HDR content was captured.
-	CapturedHdrLayers bool
-
-	// CapturedDataspace is the dataspace of the captured content.
-	CapturedDataspace uint32
-
-	// HdrSdrRatio is the HDR/SDR luminance ratio.
-	HdrSdrRatio float32
+	CapturedHdrLayers    bool
+	CapturedDataspace    uint32
+	HdrSdrRatio          float32
+	fenceOwned           bool
 }
 
 var _ parcel.Parcelable = (*ScreenCaptureResults)(nil)
 
-func (s *ScreenCaptureResults) MarshalParcel(
-	p *parcel.Parcel,
-) error {
+// MarshalParcel is not implemented for native capture results.
+//
+// Example: results are received from SurfaceFlinger, not sent to it.
+func (s *ScreenCaptureResults) MarshalParcel(p *parcel.Parcel) error {
 	return fmt.Errorf("ScreenCaptureResults.MarshalParcel: not implemented")
 }
 
-func (s *ScreenCaptureResults) UnmarshalParcel(
-	p *parcel.Parcel,
-) error {
-	// GraphicBuffer (nullable).
+// Close releases the fence and the buffer descriptors, including mapped memory.
+//
+// Example: defer result.Close() after a successful decode.
+func (s *ScreenCaptureResults) Close() error {
+	var errs []error
+	if s.fenceOwned {
+		s.fenceOwned = false
+		errs = append(errs, unix.Close(int(s.FenceFD)))
+	}
+	s.FenceFD = -1
+	for _, buffer := range []*gralloc.Buffer{s.Buffer, s.GainMap} {
+		if buffer == nil {
+			continue
+		}
+		buffer.Munmap()
+		for _, fd := range buffer.Handle.Fds {
+			errs = append(errs, unix.Close(int(fd)))
+		}
+		buffer.Handle.Fds = nil
+	}
+	s.Buffer = nil
+	s.GainMap = nil
+	return errors.Join(errs...)
+}
+
+// UnmarshalParcel decodes a capture result and takes ownership of its descriptors.
+// On failure it releases descriptors already read; the parcel owns any unread ones.
+//
+// Example: decode a received callback parcel before inspecting its buffer.
+func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
+	if err := s.Close(); err != nil {
+		return fmt.Errorf("closing previous result: %w", err)
+	}
+	*s = ScreenCaptureResults{FenceFD: -1}
+	defer func() {
+		if _err != nil {
+			_ = s.Close()
+		}
+	}()
+
 	hasBuffer, err := p.ReadBool()
 	if err != nil {
 		return fmt.Errorf("reading hasBuffer: %w", err)
 	}
 	if hasBuffer {
-		buf, err := gralloc.ReadGraphicBuffer(p)
+		s.Buffer, err = gralloc.ReadGraphicBuffer(p)
 		if err != nil {
 			return fmt.Errorf("reading GraphicBuffer: %w", err)
 		}
-		s.Buffer = buf
 	}
-
-	// Fence (nullable). We skip it — just need to advance the parcel.
 	hasFence, err := p.ReadBool()
 	if err != nil {
 		return fmt.Errorf("reading hasFence: %w", err)
 	}
 	if hasFence {
-		// Fence is flattened as: int32(flattenedSize) + int32(fdCount)
-		// + raw[flattenedSize] + fds. For a valid fence, flattenedSize=4,
-		// fdCount=1, raw=uint32(0), fd=fenceFd.
-		fenceSize, err := p.ReadInt32()
+		size, err := p.ReadInt32()
 		if err != nil {
 			return fmt.Errorf("reading fence size: %w", err)
 		}
-		fenceFdCount, err := p.ReadInt32()
+		count, err := p.ReadInt32()
 		if err != nil {
 			return fmt.Errorf("reading fence fd count: %w", err)
 		}
-		if fenceSize > 0 {
-			if _, err := p.Read(int(fenceSize)); err != nil {
-				return fmt.Errorf("reading fence data: %w", err)
-			}
+		if size != 4 || count != 1 {
+			return fmt.Errorf("invalid fence layout: size %d, fd count %d", size, count)
 		}
-		for i := int32(0); i < fenceFdCount; i++ {
-			if _, err := p.ReadFileDescriptor(); err != nil {
-				return fmt.Errorf("reading fence fd: %w", err)
-			}
+		if _, err := p.Read(int(size)); err != nil {
+			return fmt.Errorf("reading fence data: %w", err)
 		}
+		s.FenceFD, err = p.ReadFileDescriptor()
+		if err != nil {
+			return fmt.Errorf("reading fence fd: %w", err)
+		}
+		s.fenceOwned = true
 	} else {
-		// No fence — read the status int32.
-		if _, err := p.ReadInt32(); err != nil {
+		s.FenceStatus, err = p.ReadInt32()
+		if err != nil {
 			return fmt.Errorf("reading fence status: %w", err)
 		}
 	}
-
 	s.CapturedSecureLayers, err = p.ReadBool()
 	if err != nil {
 		return fmt.Errorf("reading capturedSecureLayers: %w", err)
 	}
-
 	s.CapturedHdrLayers, err = p.ReadBool()
 	if err != nil {
 		return fmt.Errorf("reading capturedHdrLayers: %w", err)
 	}
-
-	dataspace, err := p.ReadUint32()
+	s.CapturedDataspace, err = p.ReadUint32()
 	if err != nil {
 		return fmt.Errorf("reading capturedDataspace: %w", err)
 	}
-	s.CapturedDataspace = dataspace
-
-	// gainMap and hdrSdrRatio were added in Android 15 (API 35).
-	// Older versions end the parcel after capturedDataspace.
 	if p.Position() >= p.Len() {
 		return nil
 	}
-
-	// Optional gain map (nullable GraphicBuffer).
 	hasGainMap, err := p.ReadBool()
 	if err != nil {
 		return fmt.Errorf("reading hasGainMap: %w", err)
 	}
 	if hasGainMap {
-		// Skip the gain map buffer — we don't need it.
-		if _, err := gralloc.ReadGraphicBuffer(p); err != nil {
+		s.GainMap, err = gralloc.ReadGraphicBuffer(p)
+		if err != nil {
 			return fmt.Errorf("reading gain map: %w", err)
 		}
 	}
-
 	s.HdrSdrRatio, err = p.ReadFloat32()
 	if err != nil {
 		return fmt.Errorf("reading hdrSdrRatio: %w", err)
 	}
-
 	return nil
 }
