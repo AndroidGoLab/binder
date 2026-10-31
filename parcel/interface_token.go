@@ -35,6 +35,8 @@ const (
 //	int32: work-source UID (or -1 for none)
 //	int32: vendor header ('SYST' for system builds)
 //	String16: interface descriptor
+//
+// Example: address a request to android.os.IServiceManager.
 func (p *Parcel) WriteInterfaceToken(
 	descriptor string,
 ) {

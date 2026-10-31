@@ -48,7 +48,7 @@ func TestAndroid10InterfaceTokenTranslation(t *testing.T) {
 	original := append([]byte(nil), p.Data()...)
 	offsets := append([]uint64(nil), p.Objects()...)
 	capture := &captureTransport{}
-	transport := &Transport{inner: capture, apiLevel: 29}
+	transport := &Transport{inner: capture, apiLevel: binder.APILevelAndroid10}
 	expected := append(append([]byte(nil), original[:8]...), original[12:]...)
 	for i := 0; i < 2; i++ {
 		_, err := transport.Transact(context.Background(), 1, 2, 0, p)
@@ -83,10 +83,10 @@ func TestInterfaceTokenPassThrough(t *testing.T) {
 		Parcel *parcel.Parcel
 	}{
 		{"modern API", 30, modern}, {"unknown API", 0, modern},
-		{"legacy", 29, legacy}, {"raw", 29, raw},
-		{"unmarked canonical bytes", 29, parcel.FromBytes(append([]byte(nil), modern.Data()...))},
-		{"malformed length", 29, parcel.FromBytes(malformed)},
-		{"missing terminator", 29, parcel.FromBytes(unterminated)},
+		{"legacy", binder.APILevelAndroid10, legacy}, {"raw", binder.APILevelAndroid10, raw},
+		{"unmarked canonical bytes", binder.APILevelAndroid10, parcel.FromBytes(append([]byte(nil), modern.Data()...))},
+		{"malformed length", binder.APILevelAndroid10, parcel.FromBytes(malformed)},
+		{"missing terminator", binder.APILevelAndroid10, parcel.FromBytes(unterminated)},
 	} {
 		t.Run(tc.Name,
 			// Check that this request remains unchanged.
@@ -156,7 +156,7 @@ func (c *packageTransport) Transact(
 // Example: query whether a package is available on an API 29 transport.
 func TestAndroid10GeneratedPackageManagerRequest(t *testing.T) {
 	capture := &packageTransport{}
-	transport := &Transport{inner: capture, apiLevel: 29, table: VersionTable{
+	transport := &Transport{inner: capture, apiLevel: binder.APILevelAndroid10, table: VersionTable{
 		pm.DescriptorIPackageManager: {pm.MethodIPackageManagerIsPackageAvailable: 2},
 	}}
 	proxy := pm.NewPackageManagerProxy(binder.NewProxyBinder(transport, binder.CallerIdentity{UserID: 10}, 1))
@@ -200,7 +200,7 @@ func TestAndroid10TokenMarkerLifecycle(t *testing.T) {
 			// Example: preserve an unmarked request.
 			func(t *testing.T) {
 				capture := &captureTransport{}
-				transport := &Transport{inner: capture, apiLevel: 29}
+				transport := &Transport{inner: capture, apiLevel: binder.APILevelAndroid10}
 				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.Parcel)
 				require.NoError(t, err)
 				require.Equal(t, tc.Parcel.Data(), capture.Data)

@@ -101,6 +101,8 @@ func (p *Parcel) SetPosition(
 // Data() or Objects() before Recycle must not observe writes from
 // subsequent parcel operations. This trades pooling efficiency for
 // correctness.
+//
+// Example: release a request parcel after a transaction.
 func (p *Parcel) Recycle() {
 	p.data = nil
 	p.pos = 0

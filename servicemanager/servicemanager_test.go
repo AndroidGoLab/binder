@@ -415,7 +415,7 @@ type android10Transport struct{ *mockTransport }
 // APILevel returns the Android 10 API level.
 //
 // Example: select the legacy service manager request.
-func (m *android10Transport) APILevel() int { return 29 }
+func (m *android10Transport) APILevel() int { return binder.APILevelAndroid10 }
 
 // ResolveCode rejects resolution because Android 10 uses a fixed code.
 //

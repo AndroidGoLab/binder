@@ -180,6 +180,8 @@ func (p *Parcel) WriteNullStrongBinder() {
 // Null is detected as: type==0 (all-zero object) or BINDER_TYPE_BINDER with
 // binder pointer==0 (Android's representation of a null IBinder).
 // Also reads the int32 stability level that follows the flat_binder_object.
+//
+// Example: decode a nullable Binder returned by a modern service.
 func (p *Parcel) ReadNullableStrongBinder() (uint32, bool, error) {
 	return p.readNullableStrongBinder(true)
 }
