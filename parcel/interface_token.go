@@ -23,10 +23,43 @@ const (
 func (p *Parcel) WriteInterfaceToken(
 	descriptor string,
 ) {
+	atStart := len(p.data) == 0
 	p.WriteInt32(strictModePenaltyGather)
 	p.WriteInt32(workSourceUIDNone)
 	p.WriteInt32(headerSYST)
 	p.WriteString16(descriptor)
+	if atStart {
+		p.interfaceTokenEnd = len(p.data)
+	}
+}
+
+// Android10Request returns a copy with the marked interface token encoded for
+// Android 10, or p itself if no token was written at the start. Object offsets
+// are adjusted in the copy; the original parcel remains unchanged.
+//
+// Example: adapt a generated AIDL request before sending it to API 29.
+func (p *Parcel) Android10Request() *Parcel {
+	const vendorOffset = 8
+	const vendorEnd = 12
+	if p.interfaceTokenEnd < vendorEnd || p.interfaceTokenEnd > len(p.data) {
+		return p
+	}
+	for _, offset := range p.objects {
+		if offset < uint64(p.interfaceTokenEnd) || offset > uint64(len(p.data)) {
+			return p
+		}
+	}
+	data := make([]byte, 0, len(p.data)-4)
+	data = append(data, p.data[:vendorOffset]...)
+	data = append(data, p.data[vendorEnd:]...)
+	var objects []uint64
+	if p.objects != nil {
+		objects = make([]uint64, len(p.objects))
+		for i, offset := range p.objects {
+			objects[i] = offset - 4
+		}
+	}
+	return FromBytesWithObjects(data, objects)
 }
 
 // ReadInterfaceToken reads a Binder interface token, consuming the

@@ -12,10 +12,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/binder/versionaware/dex"
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/facebookincubator/go-belt/tool/logger"
 )
 
 const (
@@ -1059,6 +1059,9 @@ func (t *Transport) Transact(
 	flags binder.TransactionFlags,
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if t.apiLevel == 29 && data != nil {
+		data = data.Android10Request()
+	}
 	return t.inner.Transact(ctx, handle, code, flags, data)
 }
 
