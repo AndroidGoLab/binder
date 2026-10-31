@@ -8,6 +8,9 @@ import (
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
 )
 
+// pixelHandle constructs a small valid gchips handle for layout tests.
+//
+// Example: change one field to exercise rejection of a malformed layout.
 func pixelHandle() *Buffer {
 	ints := make([]int32, 77)
 	ints[0] = -1
@@ -28,6 +31,9 @@ func pixelHandle() *Buffer {
 	return &Buffer{Handle: common.NativeHandle{Fds: []int32{7, 8}, Ints: ints}, Width: 2, Height: 2, Stride: 4, Format: 1}
 }
 
+// TestCopyRGBARejectsTruncatedFD verifies that a short allocation is rejected.
+//
+// Example: a zero-length FD cannot contain a two-row image.
 func TestCopyRGBARejectsTruncatedFD(t *testing.T) {
 	f, err := os.CreateTemp(t.TempDir(), "buffer")
 	if err != nil {
@@ -41,6 +47,10 @@ func TestCopyRGBARejectsTruncatedFD(t *testing.T) {
 		t.Fatalf("got %v", err)
 	}
 }
+
+// TestPixelRGBALayout verifies the supported plane geometry.
+//
+// Example: a two-pixel image can have a four-pixel stride.
 func TestPixelRGBALayout(t *testing.T) {
 	b := pixelHandle()
 	l, err := pixelRGBALayout(b)
@@ -51,6 +61,26 @@ func TestPixelRGBALayout(t *testing.T) {
 		t.Fatalf("wrong layout: %+v", l)
 	}
 }
+
+// TestPixelRGBALayoutOffset includes the plane offset in the mapped extent.
+//
+// Example: a 32-byte plane beginning at byte eight needs a 40-byte mapping.
+func TestPixelRGBALayoutOffset(t *testing.T) {
+	b := pixelHandle()
+	b.Handle.Ints[gchipsPlaneOffsetIndex] = 8
+	b.Handle.Ints[gchipsAllocSizeIndex] = 40
+	l, err := pixelRGBALayout(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if l.offset != 8 || l.length != 40 {
+		t.Fatalf("wrong offset mapping: %+v", l)
+	}
+}
+
+// TestPixelRGBALayoutRejectsUnsupported checks the ABI validation boundaries.
+//
+// Example: compressed or undersized planes must not be read as RGBA.
 func TestPixelRGBALayoutRejectsUnsupported(t *testing.T) {
 	cases := map[string]func(*Buffer){
 		"magic": func(b *Buffer) { b.Handle.Ints[2] = 0 }, "compressed": func(b *Buffer) { b.Handle.Ints[16] = 1 },
