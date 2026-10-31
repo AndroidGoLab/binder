@@ -471,8 +471,12 @@ func (p *producer) OnTransaction(
 		p.Mu.Lock()
 		defer p.Mu.Unlock()
 		if p.Closed {
-			if err := closeFence(fd); err != nil {
-				return nil, fmt.Errorf("close late fence: %w", err)
+			closeErr := closeFence(fd)
+			if closeErr != nil {
+				closeErr = fmt.Errorf("close late fence: %w", closeErr)
+			}
+			if err = errors.Join(err, closeErr); err != nil {
+				return nil, err
 			}
 			data.SetPosition(0)
 			return p.ProducerStub.OnTransaction(ctx, code, data)

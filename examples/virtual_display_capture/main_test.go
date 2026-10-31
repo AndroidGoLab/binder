@@ -316,12 +316,10 @@ func TestMalformedLateFencePreservesStdin(t *testing.T) {
 		payload := make([]byte, queueMinimumSize)
 		payload[queueFenceOffset] = 1
 		data.WriteRawBytes(payload)
-		if _, err := p.OnTransaction(context.Background(), igbp.QueueBuffer, data); err != nil {
-			require.NoError(t, err)
-		}
-		if _, err := unix.FcntlInt(0, unix.F_GETFD, 0); err != nil {
-			require.FailNowf(t, "assertion failed", "stdin was closed: %v", err)
-		}
+		_, err := p.OnTransaction(context.Background(), igbp.QueueBuffer, data)
+		_, stdinErr := unix.FcntlInt(0, unix.F_GETFD, 0)
+		require.NoError(t, stdinErr, "stdin was closed")
+		require.Error(t, err, "malformed late fence must be rejected")
 		return
 	}
 	input, err := os.Open(os.DevNull)
