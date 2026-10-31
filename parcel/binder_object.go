@@ -181,6 +181,16 @@ func (p *Parcel) WriteNullStrongBinder() {
 // binder pointer==0 (Android's representation of a null IBinder).
 // Also reads the int32 stability level that follows the flat_binder_object.
 func (p *Parcel) ReadNullableStrongBinder() (uint32, bool, error) {
+	return p.readNullableStrongBinder(true)
+}
+
+// ReadNullableStrongBinderLegacy reads a binder without the stability suffix
+// used by newer Android releases.
+func (p *Parcel) ReadNullableStrongBinderLegacy() (uint32, bool, error) {
+	return p.readNullableStrongBinder(false)
+}
+
+func (p *Parcel) readNullableStrongBinder(stability bool) (uint32, bool, error) {
 	b, err := p.read(flatBinderObjectSize)
 	if err != nil {
 		return 0, false, err
@@ -189,8 +199,10 @@ func (p *Parcel) ReadNullableStrongBinder() (uint32, bool, error) {
 	objType := binderObjectType(binary.LittleEndian.Uint32(b[0:]))
 
 	// Read the stability level (always present after the flat_binder_object).
-	if _, err := p.ReadInt32(); err != nil {
-		return 0, false, fmt.Errorf("parcel: reading binder stability: %w", err)
+	if stability {
+		if _, err := p.ReadInt32(); err != nil {
+			return 0, false, fmt.Errorf("parcel: reading binder stability: %w", err)
+		}
 	}
 
 	if objType == 0 {

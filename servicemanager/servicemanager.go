@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/parcel"
 )
 
@@ -51,14 +51,30 @@ func (sm *ServiceManager) GetService(
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
 
-	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "getService")
+	transport, err := sm.transport()
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	}
+	// Android 10's native service manager predates the AIDL interface and
+	// uses GET_SERVICE_TRANSACTION directly, with no status in its reply.
+	legacy := transport.APILevel() == 29
+	code := binder.FirstCallTransaction
+	if !legacy {
+		code, err = sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "getService")
+		if err != nil {
+			return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+		}
 	}
 
 	data := parcel.New()
 	defer data.Recycle()
-	data.WriteInterfaceToken(serviceManagerDescriptor)
+	if legacy {
+		data.WriteInt32(-1 << 31) // strict mode penalty gather
+		data.WriteInt32(-1)       // no work source UID
+		data.WriteString16(serviceManagerDescriptor)
+	} else {
+		data.WriteInterfaceToken(serviceManagerDescriptor)
+	}
 	data.WriteString16(string(name))
 
 	reply, err := sm.remote.Transact(ctx, code, 0, data)
@@ -67,22 +83,34 @@ func (sm *ServiceManager) GetService(
 	}
 	defer reply.Recycle()
 
-	if err := binder.ReadStatus(reply); err != nil {
-		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	// The Android 10 service manager returns a single zero word when absent.
+	if legacy && reply.Len() == 4 {
+		value, readErr := reply.ReadInt32()
+		if readErr == nil && value == 0 {
+			return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
+		}
+		return nil, fmt.Errorf("servicemanager: GetService(%q): invalid legacy reply", name)
 	}
 
-	handle, ok, err := reply.ReadNullableStrongBinder()
+	if !legacy {
+		if err := binder.ReadStatus(reply); err != nil {
+			return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+		}
+	}
+
+	var handle uint32
+	var ok bool
+	if legacy {
+		handle, ok, err = reply.ReadNullableStrongBinderLegacy()
+	} else {
+		handle, ok, err = reply.ReadNullableStrongBinder()
+	}
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): reading binder: %w", name, err)
 	}
 
 	if !ok {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
-	}
-
-	transport, err := sm.transport()
-	if err != nil {
-		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
 
 	return binder.NewProxyBinder(transport, sm.identity, handle), nil

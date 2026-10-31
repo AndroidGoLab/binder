@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/AndroidGoLab/binder/binder"
 	aidlerrors "github.com/AndroidGoLab/binder/errors"
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // mockTransport captures the last Transact call and returns a predetermined reply.
@@ -44,8 +44,8 @@ func (m *mockTransport) Transact(
 	return m.replyFunc(), nil
 }
 
-func (m *mockTransport) AcquireHandle(_ context.Context, _ uint32) error  { return nil }
-func (m *mockTransport) ReleaseHandle(_ context.Context, _ uint32) error  { return nil }
+func (m *mockTransport) AcquireHandle(_ context.Context, _ uint32) error { return nil }
+func (m *mockTransport) ReleaseHandle(_ context.Context, _ uint32) error { return nil }
 func (m *mockTransport) RegisterReceiver(_ context.Context, receiver binder.TransactionReceiver) uintptr {
 	m.lastReceiver = receiver
 	m.nextCookie++
@@ -403,4 +403,47 @@ func TestAddService_TransportError(t *testing.T) {
 	err := sm.AddService(ctx, ServiceName("fail.service"), &mockReceiver{}, false, 0)
 	require.Error(t, err)
 	assert.ErrorIs(t, err, assert.AnError)
+}
+
+type android10Transport struct{ *mockTransport }
+
+func (m *android10Transport) APILevel() int { return 29 }
+
+func (m *android10Transport) ResolveCode(context.Context, string, string) (binder.TransactionCode, error) {
+	return 0, assert.AnError
+}
+
+func TestGetServiceAndroid10(t *testing.T) {
+	mt := &android10Transport{&mockTransport{replyFunc: func() *parcel.Parcel {
+		p := parcel.New()
+		p.WriteStrongBinder(42)
+		return parcel.FromBytes(p.Data()[:24])
+	}}}
+	result, err := New(mt).GetService(context.Background(), "activity")
+	require.NoError(t, err)
+	require.Equal(t, uint32(42), result.(*binder.ProxyBinder).Handle())
+	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
+	mt.lastData.SetPosition(0)
+	_, err = mt.lastData.ReadInt32()
+	require.NoError(t, err)
+	_, err = mt.lastData.ReadInt32()
+	require.NoError(t, err)
+	descriptor, err := mt.lastData.ReadString16()
+	require.NoError(t, err)
+	assert.Equal(t, serviceManagerDescriptor, descriptor)
+	name, err := mt.lastData.ReadString16()
+	require.NoError(t, err)
+	assert.Equal(t, "activity", name)
+}
+
+func TestGetServiceAndroid10NotFound(t *testing.T) {
+	mt := &android10Transport{&mockTransport{replyFunc: func() *parcel.Parcel {
+		p := parcel.New()
+		p.WriteInt32(0)
+		p.SetPosition(0)
+		return p
+	}}}
+	result, err := New(mt).GetService(context.Background(), "missing")
+	require.Nil(t, result)
+	require.ErrorContains(t, err, "service not found")
 }
