@@ -76,7 +76,6 @@ const (
 	// https://android.googlesource.com/platform/frameworks/native/+/refs/tags/android-14.0.0_r1/libs/gui/include/gui/LayerState.h
 	//
 	// Example: configureDisplayCode applies surface, projection, and size.
-	allocateCode         = 1
 	createDisplayCode    = 4
 	destroyDisplayCode   = 5
 	configureDisplayCode = 8
@@ -120,6 +119,16 @@ func closeFDs(fds []int32) error {
 		}
 	}
 	return errors.Join(errs...)
+}
+
+// closeFence closes an optional fence descriptor.
+//
+// Example: a negative descriptor denotes no fence.
+func closeFence(fd int32) error {
+	if fd < 0 {
+		return nil
+	}
+	return unix.Close(int(fd))
 }
 
 // readAllocation tracks descriptors as they are decoded, including on error.
@@ -326,17 +335,15 @@ func copyFrame(
 		return nil, errors.New("invalid vendor buffer")
 	}
 	bufferFD := int(buf.Handle.Fds[0])
-	flags := uint64(dmaBufSyncRead)
-	if _, _, errno := unix.Syscall(unix.SYS_IOCTL, uintptr(bufferFD), dmaBufSync, uintptr(unsafe.Pointer(&flags))); errno != 0 {
-		return nil, fmt.Errorf("begin CPU access: %w", errno)
+	if err := syncBuffer(bufferFD, dmaBufSyncRead, dmaBufIoctl); err != nil {
+		return nil, fmt.Errorf("begin CPU access: %w", err)
 	}
 	defer // End synchronized CPU read access.
 	//
 	// Example: report an END ioctl failure along with a copy failure.
 	func() {
-		flags = uint64(dmaBufSyncRead | dmaBufSyncEnd)
-		if _, _, errno := unix.Syscall(unix.SYS_IOCTL, uintptr(bufferFD), dmaBufSync, uintptr(unsafe.Pointer(&flags))); errno != 0 {
-			resultErr = errors.Join(resultErr, fmt.Errorf("end CPU access: %w", errno))
+		if err := syncBuffer(bufferFD, dmaBufSyncRead|dmaBufSyncEnd, dmaBufIoctl); err != nil {
+			resultErr = errors.Join(resultErr, fmt.Errorf("end CPU access: %w", err))
 		}
 	}()
 	data, err := unix.Mmap(bufferFD, 0, int(buf.Stride)*height*4, unix.PROT_READ, unix.MAP_SHARED)
@@ -464,10 +471,8 @@ func (p *producer) OnTransaction(
 		p.Mu.Lock()
 		defer p.Mu.Unlock()
 		if p.Closed {
-			if fd >= 0 {
-				if err := unix.Close(int(fd)); err != nil {
-					return nil, fmt.Errorf("close late fence: %w", err)
-				}
+			if err := closeFence(fd); err != nil {
+				return nil, fmt.Errorf("close late fence: %w", err)
 			}
 			data.SetPosition(0)
 			return p.ProducerStub.OnTransaction(ctx, code, data)
@@ -538,7 +543,7 @@ func run(
 	req.WriteInterfaceToken(allocator.DescriptorIAllocator)
 	req.WriteByteArray(desc)
 	req.WriteInt32(1)
-	reply, err := alloc.Transact(ctx, allocateCode, 0, req)
+	reply, err := alloc.Transact(ctx, allocator.TransactionIAllocatorAllocate, 0, req)
 	if err != nil {
 		return nil, err
 	}
@@ -713,5 +718,39 @@ func waitFence(
 			return fmt.Errorf("acquire fence did not signal: %#x", fds[0].Revents)
 		}
 		return nil
+	}
+}
+
+// dmaBufIoctl executes the Linux DMA-BUF synchronization ioctl.
+//
+// Example: READ begins CPU access to a mapped buffer.
+func dmaBufIoctl(
+	fd int,
+	flags *uint64,
+) error {
+	_, _, errno := unix.Syscall(unix.SYS_IOCTL, uintptr(fd), dmaBufSync, uintptr(unsafe.Pointer(flags)))
+	if errno != 0 {
+		return errno
+	}
+	return nil
+}
+
+// syncBuffer retries interrupted DMA-BUF synchronization for at most five seconds.
+//
+// Example: EAGAIN is retried until the buffer is ready.
+func syncBuffer(
+	fd int,
+	flags uint64,
+	ioctl func(int, *uint64) error,
+) error {
+	deadline := time.Now().Add(fenceTimeoutMS * time.Millisecond)
+	for {
+		err := ioctl(fd, &flags)
+		if !errors.Is(err, unix.EINTR) && !errors.Is(err, unix.EAGAIN) {
+			return err
+		}
+		if !time.Now().Before(deadline) {
+			return fmt.Errorf("DMA-BUF sync retry timeout: %w", err)
+		}
 	}
 }

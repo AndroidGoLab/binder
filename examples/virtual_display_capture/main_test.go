@@ -16,6 +16,21 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// cleanupFD arranges to close a test-owned descriptor and check the result.
+//
+// Example: the write end of a pipe closes after its test.
+func cleanupFD(
+	t *testing.T,
+	fd int,
+) {
+	t.Helper()
+	t.Cleanup( // Close the descriptor after the test finishes.
+		//
+		// Example: a failed close is reported to the test.
+		func() { require.NoError(t, unix.Close(fd)) },
+	)
+}
+
 // TestPackedRGBA verifies that row padding does not leak into the output.
 //
 // Example: a two-pixel image may have a three-pixel buffer stride.
@@ -67,9 +82,9 @@ func TestQueueFence(t *testing.T) {
 //
 // Example: a closed fence descriptor fails before buffer access.
 func TestCopyFrameRejectsInvalidFence(t *testing.T) {
-	if pixels, err := copyFrame(&gralloc.Buffer{}, 999999); err == nil || pixels != nil {
-		require.FailNowf(t, "assertion failed", "got pixels=%v error=%v", pixels, err)
-	}
+	pixels, err := copyFrame(&gralloc.Buffer{}, 999999)
+	require.Nil(t, pixels)
+	require.ErrorContains(t, err, "acquire fence")
 }
 
 // TestClosedProducerClosesFence checks late callbacks after teardown.
@@ -78,7 +93,7 @@ func TestCopyFrameRejectsInvalidFence(t *testing.T) {
 func TestClosedProducerClosesFence(t *testing.T) {
 	var fds [2]int
 	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[1])
+	cleanupFD(t, fds[1])
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Closed: true}
 	data := parcel.New()
 	data.WriteInterfaceToken(igbp.Descriptor)
@@ -97,9 +112,9 @@ func TestClosedProducerClosesFence(t *testing.T) {
 	}
 }
 
-// TestQueueFenceRejectsMalformedDescriptor verifies the condition described by its name.
+// TestQueueFenceRejectsMalformedDescriptor verifies that a missing FD object leaves the descriptor sentinel at -1.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a missing FD object leaves the descriptor sentinel at -1.
 func TestQueueFenceRejectsMalformedDescriptor(t *testing.T) {
 	p := parcel.New()
 	p.WriteInt32(0)
@@ -114,13 +129,13 @@ func TestQueueFenceRejectsMalformedDescriptor(t *testing.T) {
 	}
 }
 
-// TestQueueFenceChecksNestedCount verifies the condition described by its name.
+// TestQueueFenceChecksNestedCount verifies that mismatched fence counts reject the parcel and close its FD.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: mismatched fence counts reject the parcel and close its FD.
 func TestQueueFenceChecksNestedCount(t *testing.T) {
 	var fds [2]int
 	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[1])
+	cleanupFD(t, fds[1])
 	p := parcel.New()
 	p.WriteInt32(0)
 	p.WriteInt32(61)
@@ -135,13 +150,13 @@ func TestQueueFenceChecksNestedCount(t *testing.T) {
 	}
 }
 
-// TestCancelSignalsCaptureFailure verifies the condition described by its name.
+// TestCancelSignalsCaptureFailure verifies that canceling a slot closes its fence and reports failure.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: canceling a slot closes its fence and reports failure.
 func TestCancelSignalsCaptureFailure(t *testing.T) {
 	var fds [2]int
 	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[1])
+	cleanupFD(t, fds[1])
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Result: make(chan frameResult, 1)}
 	data := parcel.New()
 	data.WriteInterfaceToken(igbp.Descriptor)
@@ -166,9 +181,9 @@ func TestCancelSignalsCaptureFailure(t *testing.T) {
 	}
 }
 
-// TestRejectOversizedDimensions verifies the condition described by its name.
+// TestRejectOversizedDimensions verifies that a width above MaxInt32 fails before platform access.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a width above MaxInt32 fails before platform access.
 func TestRejectOversizedDimensions(t *testing.T) {
 	if ^uint(0)>>32 == 0 {
 		t.Skip("int cannot represent oversized dimension")
@@ -179,9 +194,9 @@ func TestRejectOversizedDimensions(t *testing.T) {
 	}
 }
 
-// TestRejectedDequeueIncludesTimestamps verifies the condition described by its name.
+// TestRejectedDequeueIncludesTimestamps verifies that a rejected dequeue includes requested frame timestamps.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a rejected dequeue includes requested frame timestamps.
 func TestRejectedDequeueIncludesTimestamps(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	p.Dequeued.Store(true)
@@ -210,9 +225,9 @@ func TestRejectedDequeueIncludesTimestamps(t *testing.T) {
 	}
 }
 
-// TestMalformedDequeueDoesNotConsumeSlot verifies the condition described by its name.
+// TestMalformedDequeueDoesNotConsumeSlot verifies that a truncated dequeue leaves the slot available.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a truncated dequeue leaves the slot available.
 func TestMalformedDequeueDoesNotConsumeSlot(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	malformed := parcel.New()
@@ -225,9 +240,9 @@ func TestMalformedDequeueDoesNotConsumeSlot(t *testing.T) {
 	}
 }
 
-// TestRejectsWrongInterfaceToken verifies the condition described by its name.
+// TestRejectsWrongInterfaceToken verifies that an unrelated Binder token cannot reserve the slot.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: an unrelated Binder token cannot reserve the slot.
 func TestRejectsWrongInterfaceToken(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
@@ -245,9 +260,9 @@ func TestRejectsWrongInterfaceToken(t *testing.T) {
 	}
 }
 
-// TestRequestInvalidSlot verifies the condition described by its name.
+// TestRequestInvalidSlot verifies that a request for slot 999 is rejected.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a request for slot 999 is rejected.
 func TestRequestInvalidSlot(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
@@ -258,13 +273,13 @@ func TestRequestInvalidSlot(t *testing.T) {
 	}
 }
 
-// TestCloseFDsOnPartialAllocation verifies the condition described by its name.
+// TestCloseFDsOnPartialAllocation verifies that a descriptor read before truncated allocation data is closed.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a descriptor read before truncated allocation data is closed.
 func TestCloseFDsOnPartialAllocation(t *testing.T) {
 	var fds [2]int
 	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[1])
+	cleanupFD(t, fds[1])
 	p := parcel.New()
 	outer := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(width)
@@ -287,9 +302,9 @@ func TestCloseFDsOnPartialAllocation(t *testing.T) {
 	}
 }
 
-// TestMalformedLateFencePreservesStdin verifies the condition described by its name.
+// TestMalformedLateFencePreservesStdin verifies that a missing fence object does not close descriptor zero.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a missing fence object does not close descriptor zero.
 func TestMalformedLateFencePreservesStdin(t *testing.T) {
 	if os.Getenv("BINDER_TEST_STDIN_CHILD") == "1" {
 		p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Closed: true}
@@ -311,7 +326,11 @@ func TestMalformedLateFencePreservesStdin(t *testing.T) {
 	}
 	input, err := os.Open(os.DevNull)
 	require.NoError(t, err)
-	defer input.Close()
+	t.Cleanup( // Close the subprocess input after the child exits.
+		//
+		// Example: report a failure to release the test file.
+		func() { require.NoError(t, input.Close()) },
+	)
 	cmd := exec.Command(os.Args[0], "-test.run=^TestMalformedLateFencePreservesStdin$")
 	cmd.Env = append(os.Environ(), "BINDER_TEST_STDIN_CHILD=1")
 	cmd.Stdin = input
@@ -320,9 +339,9 @@ func TestMalformedLateFencePreservesStdin(t *testing.T) {
 	}
 }
 
-// TestCancelWithoutFenceSignalsFailure verifies the condition described by its name.
+// TestCancelWithoutFenceSignalsFailure verifies that canceling without a fence still unblocks capture.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: canceling without a fence still unblocks capture.
 func TestCancelWithoutFenceSignalsFailure(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{}), Result: make(chan frameResult, 1)}
 	data := parcel.New()
@@ -344,9 +363,9 @@ func TestCancelWithoutFenceSignalsFailure(t *testing.T) {
 	}
 }
 
-// TestSuccessfulDequeueIncludesTimestamps verifies the condition described by its name.
+// TestSuccessfulDequeueIncludesTimestamps verifies that a successful dequeue returns requested timestamps.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: a successful dequeue returns requested timestamps.
 func TestSuccessfulDequeueIncludesTimestamps(t *testing.T) {
 	p := &producer{ProducerStub: igbp.NewProducerStub(width, height, [4]*gralloc.Buffer{})}
 	data := parcel.New()
@@ -374,9 +393,9 @@ func TestSuccessfulDequeueIncludesTimestamps(t *testing.T) {
 	}
 }
 
-// TestWaitFenceRetriesInterruptedPoll verifies the condition described by its name.
+// TestWaitFenceRetriesInterruptedPoll verifies that an interrupted poll retries with remaining time.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: an interrupted poll retries with remaining time.
 func TestWaitFenceRetriesInterruptedPoll(t *testing.T) {
 	calls := 0
 	poll := // Interrupt the first poll and signal the second.
@@ -401,9 +420,9 @@ func TestWaitFenceRetriesInterruptedPoll(t *testing.T) {
 	}
 }
 
-// TestWaitFenceRejectsSignaledError verifies the condition described by its name.
+// TestWaitFenceRejectsSignaledError verifies that POLLIN with POLLERR is rejected.
 //
-// Example: the assertion checks both the result and relevant state.
+// Example: POLLIN with POLLERR is rejected.
 func TestWaitFenceRejectsSignaledError(t *testing.T) {
 	poll := // Simulate an errored fence that also reports readability.
 		//
@@ -418,4 +437,51 @@ func TestWaitFenceRejectsSignaledError(t *testing.T) {
 	if err := waitFence(1, time.Second, poll); err == nil {
 		require.FailNow(t, "signaled error accepted")
 	}
+}
+
+// TestSyncBufferRetries verifies retryable ioctl errors for START and END.
+//
+// Example: EINTR followed by EAGAIN is retried until success.
+func TestSyncBufferRetries(t *testing.T) {
+	for _, flags := range []uint64{dmaBufSyncRead, dmaBufSyncRead | dmaBufSyncEnd} {
+		calls := 0
+		ioctl := // Return two retryable failures before success.
+			//
+			// Example: EINTR and EAGAIN do not change the requested sync flags.
+			func(
+				fd int,
+				got *uint64,
+			) error {
+				require.Equal(t, flags, *got)
+				calls++
+				if calls == 1 {
+					return unix.EINTR
+				}
+				if calls == 2 {
+					return unix.EAGAIN
+				}
+				return nil
+			}
+		require.NoError(t, syncBuffer(42, flags, ioctl))
+		require.Equal(t, 3, calls)
+	}
+}
+
+// TestSyncBufferTerminalError verifies nonretryable ioctl errors survive.
+//
+// Example: EBADF is returned after one attempt.
+func TestSyncBufferTerminalError(t *testing.T) {
+	calls := 0
+	ioctl := // Return a nonretryable failure.
+		//
+		// Example: EBADF stops the retry loop.
+		func(
+			fd int,
+			flags *uint64,
+		) error {
+			calls++
+			return unix.EBADF
+		}
+	require.ErrorIs(t, syncBuffer(42, dmaBufSyncRead, ioctl), unix.EBADF)
+	require.Equal(t, 1, calls)
 }
