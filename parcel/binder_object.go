@@ -186,10 +186,15 @@ func (p *Parcel) ReadNullableStrongBinder() (uint32, bool, error) {
 
 // ReadNullableStrongBinderLegacy reads a binder without the stability suffix
 // used by newer Android releases.
+//
+// Example: read an Android 10 service manager reply.
 func (p *Parcel) ReadNullableStrongBinderLegacy() (uint32, bool, error) {
 	return p.readNullableStrongBinder(false)
 }
 
+// readNullableStrongBinder reads a binder object and optionally its stability.
+//
+// Example: decode either a legacy or modern Binder reply.
 func (p *Parcel) readNullableStrongBinder(stability bool) (uint32, bool, error) {
 	b, err := p.read(flatBinderObjectSize)
 	if err != nil {
@@ -198,7 +203,7 @@ func (p *Parcel) readNullableStrongBinder(stability bool) (uint32, bool, error) 
 
 	objType := binderObjectType(binary.LittleEndian.Uint32(b[0:]))
 
-	// Read the stability level (always present after the flat_binder_object).
+	// Modern replies append the stability level after the flat_binder_object.
 	if stability {
 		if _, err := p.ReadInt32(); err != nil {
 			return 0, false, fmt.Errorf("parcel: reading binder stability: %w", err)

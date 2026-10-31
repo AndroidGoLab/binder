@@ -405,29 +405,61 @@ func TestAddService_TransportError(t *testing.T) {
 	assert.ErrorIs(t, err, assert.AnError)
 }
 
+// android10Transport supplies the Android 10 API level to the mock.
+//
+// Example: exercise the native service manager protocol.
 type android10Transport struct{ *mockTransport }
 
+// APILevel returns the Android 10 API level.
+//
+// Example: select the legacy service manager request.
 func (m *android10Transport) APILevel() int { return 29 }
 
-func (m *android10Transport) ResolveCode(context.Context, string, string) (binder.TransactionCode, error) {
+// ResolveCode rejects resolution because Android 10 uses a fixed code.
+//
+// Example: detect an unexpected AIDL code lookup in the test.
+func (m *android10Transport) ResolveCode(
+	_ context.Context,
+	_ string,
+	_ string,
+) (binder.TransactionCode, error) {
 	return 0, assert.AnError
 }
 
+// android10BinderReply returns a binder without a stability suffix.
+//
+// Example: simulate a successful native service lookup.
+func android10BinderReply() *parcel.Parcel {
+	p := parcel.New()
+	p.WriteStrongBinder(42)
+	return parcel.FromBytes(p.Data()[:24])
+}
+
+// android10MissingReply returns the native absent-service response.
+//
+// Example: simulate a service that has not been registered.
+func android10MissingReply() *parcel.Parcel {
+	p := parcel.New()
+	p.WriteInt32(0)
+	return p
+}
+
+// TestGetServiceAndroid10 checks the native lookup request and reply.
+//
+// Example: retrieve an Android 10 service handle.
 func TestGetServiceAndroid10(t *testing.T) {
-	mt := &android10Transport{&mockTransport{replyFunc: func() *parcel.Parcel {
-		p := parcel.New()
-		p.WriteStrongBinder(42)
-		return parcel.FromBytes(p.Data()[:24])
-	}}}
+	mt := &android10Transport{&mockTransport{replyFunc: android10BinderReply}}
 	result, err := New(mt).GetService(context.Background(), "activity")
 	require.NoError(t, err)
 	require.Equal(t, uint32(42), result.(*binder.ProxyBinder).Handle())
 	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
 	mt.lastData.SetPosition(0)
-	_, err = mt.lastData.ReadInt32()
+	strict, err := mt.lastData.ReadInt32()
 	require.NoError(t, err)
-	_, err = mt.lastData.ReadInt32()
+	assert.Equal(t, int32(-1<<31), strict)
+	workSource, err := mt.lastData.ReadInt32()
 	require.NoError(t, err)
+	assert.Equal(t, int32(-1), workSource)
 	descriptor, err := mt.lastData.ReadString16()
 	require.NoError(t, err)
 	assert.Equal(t, serviceManagerDescriptor, descriptor)
@@ -436,13 +468,11 @@ func TestGetServiceAndroid10(t *testing.T) {
 	assert.Equal(t, "activity", name)
 }
 
+// TestGetServiceAndroid10NotFound checks the native null reply.
+//
+// Example: report a missing Android 10 service.
 func TestGetServiceAndroid10NotFound(t *testing.T) {
-	mt := &android10Transport{&mockTransport{replyFunc: func() *parcel.Parcel {
-		p := parcel.New()
-		p.WriteInt32(0)
-		p.SetPosition(0)
-		return p
-	}}}
+	mt := &android10Transport{&mockTransport{replyFunc: android10MissingReply}}
 	result, err := New(mt).GetService(context.Background(), "missing")
 	require.Nil(t, result)
 	require.ErrorContains(t, err, "service not found")

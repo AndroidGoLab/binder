@@ -10,6 +10,16 @@ const (
 	// headerSYST is the vendor header for system (non-VNDK, non-recovery) builds.
 	// B_PACK_CHARS('S','Y','S','T') = 0x53595354
 	headerSYST = int32(0x53595354)
+
+	// vendorHeaderOffset is the byte offset of the vendor header in a token.
+	//
+	// Example: remove this word for an Android 10 request.
+	vendorHeaderOffset = 8
+
+	// vendorHeaderEnd is the byte offset immediately after the vendor header.
+	//
+	// Example: copy the descriptor following the removed header.
+	vendorHeaderEnd = 12
 )
 
 // WriteInterfaceToken writes a Binder interface token (descriptor) with
@@ -39,9 +49,7 @@ func (p *Parcel) WriteInterfaceToken(
 //
 // Example: adapt a generated AIDL request before sending it to API 29.
 func (p *Parcel) Android10Request() *Parcel {
-	const vendorOffset = 8
-	const vendorEnd = 12
-	if p.interfaceTokenEnd < vendorEnd || p.interfaceTokenEnd > len(p.data) {
+	if p.interfaceTokenEnd < vendorHeaderEnd || p.interfaceTokenEnd > len(p.data) {
 		return p
 	}
 	for _, offset := range p.objects {
@@ -50,8 +58,8 @@ func (p *Parcel) Android10Request() *Parcel {
 		}
 	}
 	data := make([]byte, 0, len(p.data)-4)
-	data = append(data, p.data[:vendorOffset]...)
-	data = append(data, p.data[vendorEnd:]...)
+	data = append(data, p.data[:vendorHeaderOffset]...)
+	data = append(data, p.data[vendorHeaderEnd:]...)
 	var objects []uint64
 	if p.objects != nil {
 		objects = make([]uint64, len(p.objects))

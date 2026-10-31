@@ -17,16 +17,22 @@ import (
 // Example: inspect a serialized request without a Binder device.
 type captureTransport struct {
 	binder.Transport
-	data    []byte
-	objects []uint64
+	Data    []byte
+	Objects []uint64
 }
 
 // Transact copies the request for inspection.
 //
 // Example: capture a request before returning an empty reply.
-func (c *captureTransport) Transact(_ context.Context, _ uint32, _ binder.TransactionCode, _ binder.TransactionFlags, data *parcel.Parcel) (*parcel.Parcel, error) {
-	c.data = append([]byte(nil), data.Data()...)
-	c.objects = append([]uint64(nil), data.Objects()...)
+func (c *captureTransport) Transact(
+	_ context.Context,
+	_ uint32,
+	_ binder.TransactionCode,
+	_ binder.TransactionFlags,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	c.Data = append([]byte(nil), data.Data()...)
+	c.Objects = append([]uint64(nil), data.Objects()...)
 	return parcel.New(), nil
 }
 
@@ -47,8 +53,8 @@ func TestAndroid10InterfaceTokenTranslation(t *testing.T) {
 	for i := 0; i < 2; i++ {
 		_, err := transport.Transact(context.Background(), 1, 2, 0, p)
 		require.NoError(t, err)
-		require.Equal(t, expected, capture.data)
-		require.Equal(t, []uint64{offsets[0] - 4}, capture.objects)
+		require.Equal(t, expected, capture.Data)
+		require.Equal(t, []uint64{offsets[0] - 4}, capture.Objects)
 		require.Equal(t, original, p.Data())
 		require.Equal(t, offsets, p.Objects())
 		require.Equal(t, 4, p.Position())
@@ -82,14 +88,18 @@ func TestInterfaceTokenPassThrough(t *testing.T) {
 		{"malformed length", 29, parcel.FromBytes(malformed)},
 		{"missing terminator", 29, parcel.FromBytes(unterminated)},
 	} {
-		t.Run(tc.name, func(t *testing.T) {
-			capture := &captureTransport{}
-			transport := &Transport{inner: capture, apiLevel: tc.api}
-			_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
-			require.NoError(t, err)
-			require.Equal(t, tc.p.Data(), capture.data)
-			require.Equal(t, tc.p.Objects(), capture.objects)
-		})
+		t.Run(tc.name,
+			// Check that this request remains unchanged.
+			//
+			// Example: preserve an unmarked request.
+			func(t *testing.T) {
+				capture := &captureTransport{}
+				transport := &Transport{inner: capture, apiLevel: tc.api}
+				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
+				require.NoError(t, err)
+				require.Equal(t, tc.p.Data(), capture.Data)
+				require.Equal(t, tc.p.Objects(), capture.Objects)
+			})
 	}
 }
 
@@ -103,12 +113,18 @@ type packageTransport struct {
 // Transact captures the request and returns a successful boolean response.
 //
 // Example: represent an available package in a wire fixture.
-func (c *packageTransport) Transact(ctx context.Context, handle uint32, code binder.TransactionCode, flags binder.TransactionFlags, data *parcel.Parcel) (*parcel.Parcel, error) {
+func (c *packageTransport) Transact(
+	ctx context.Context,
+	handle uint32,
+	code binder.TransactionCode,
+	flags binder.TransactionFlags,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
 	_, err := c.captureTransport.Transact(ctx, handle, code, flags, data)
 	if err != nil {
 		return nil, err
 	}
-	request := parcel.FromBytes(c.data)
+	request := parcel.FromBytes(c.Data)
 	strict, err := request.ReadInt32()
 	if err != nil || strict != -1<<31 {
 		return nil, fmt.Errorf("invalid strict mode header: %d: %v", strict, err)
@@ -153,8 +169,8 @@ func TestAndroid10GeneratedPackageManagerRequest(t *testing.T) {
 	expected.WriteString16(pm.DescriptorIPackageManager)
 	expected.WriteString16("example.app")
 	expected.WriteInt32(10)
-	require.Equal(t, expected.Data(), capture.data)
-	require.Empty(t, capture.objects)
+	require.Equal(t, expected.Data(), capture.Data)
+	require.Empty(t, capture.Objects)
 }
 
 // TestAndroid10TokenMarkerLifecycle checks that only an initial token is adapted.
@@ -178,13 +194,17 @@ func TestAndroid10TokenMarkerLifecycle(t *testing.T) {
 	}{
 		{"recycled", recycled}, {"prefixed token", prefixed}, {"overlapping object", invalidOffset},
 	} {
-		t.Run(tc.name, func(t *testing.T) {
-			capture := &captureTransport{}
-			transport := &Transport{inner: capture, apiLevel: 29}
-			_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
-			require.NoError(t, err)
-			require.Equal(t, tc.p.Data(), capture.data)
-			require.Equal(t, tc.p.Objects(), capture.objects)
-		})
+		t.Run(tc.name,
+			// Check that this request remains unchanged.
+			//
+			// Example: preserve an unmarked request.
+			func(t *testing.T) {
+				capture := &captureTransport{}
+				transport := &Transport{inner: capture, apiLevel: 29}
+				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
+				require.NoError(t, err)
+				require.Equal(t, tc.p.Data(), capture.Data)
+				require.Equal(t, tc.p.Objects(), capture.Objects)
+			})
 	}
 }

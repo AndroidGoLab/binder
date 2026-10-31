@@ -68,12 +68,10 @@ func (sm *ServiceManager) GetService(
 
 	data := parcel.New()
 	defer data.Recycle()
+	data.WriteInterfaceToken(serviceManagerDescriptor)
 	if legacy {
-		data.WriteInt32(-1 << 31) // strict mode penalty gather
-		data.WriteInt32(-1)       // no work source UID
-		data.WriteString16(serviceManagerDescriptor)
-	} else {
-		data.WriteInterfaceToken(serviceManagerDescriptor)
+		data = data.Android10Request()
+		defer data.Recycle()
 	}
 	data.WriteString16(string(name))
 
