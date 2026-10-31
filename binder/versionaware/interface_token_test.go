@@ -78,9 +78,9 @@ func TestInterfaceTokenPassThrough(t *testing.T) {
 	unterminated := append([]byte(nil), modern.Data()...)
 	unterminated[16+2*int(binary.LittleEndian.Uint32(unterminated[12:16]))] = 1
 	for _, tc := range []struct {
-		name string
-		api  int
-		p    *parcel.Parcel
+		Name   string
+		API    int
+		Parcel *parcel.Parcel
 	}{
 		{"modern API", 30, modern}, {"unknown API", 0, modern},
 		{"legacy", 29, legacy}, {"raw", 29, raw},
@@ -88,17 +88,17 @@ func TestInterfaceTokenPassThrough(t *testing.T) {
 		{"malformed length", 29, parcel.FromBytes(malformed)},
 		{"missing terminator", 29, parcel.FromBytes(unterminated)},
 	} {
-		t.Run(tc.name,
+		t.Run(tc.Name,
 			// Check that this request remains unchanged.
 			//
 			// Example: preserve an unmarked request.
 			func(t *testing.T) {
 				capture := &captureTransport{}
-				transport := &Transport{inner: capture, apiLevel: tc.api}
-				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
+				transport := &Transport{inner: capture, apiLevel: tc.API}
+				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.Parcel)
 				require.NoError(t, err)
-				require.Equal(t, tc.p.Data(), capture.Data)
-				require.Equal(t, tc.p.Objects(), capture.Objects)
+				require.Equal(t, tc.Parcel.Data(), capture.Data)
+				require.Equal(t, tc.Parcel.Objects(), capture.Objects)
 			})
 	}
 }
@@ -189,22 +189,22 @@ func TestAndroid10TokenMarkerLifecycle(t *testing.T) {
 	invalidOffset.WriteStrongBinder(1)
 	invalidOffset.Objects()[0] = 8
 	for _, tc := range []struct {
-		name string
-		p    *parcel.Parcel
+		Name   string
+		Parcel *parcel.Parcel
 	}{
 		{"recycled", recycled}, {"prefixed token", prefixed}, {"overlapping object", invalidOffset},
 	} {
-		t.Run(tc.name,
+		t.Run(tc.Name,
 			// Check that this request remains unchanged.
 			//
 			// Example: preserve an unmarked request.
 			func(t *testing.T) {
 				capture := &captureTransport{}
 				transport := &Transport{inner: capture, apiLevel: 29}
-				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.p)
+				_, err := transport.Transact(context.Background(), 1, 2, 0, tc.Parcel)
 				require.NoError(t, err)
-				require.Equal(t, tc.p.Data(), capture.Data)
-				require.Equal(t, tc.p.Objects(), capture.Objects)
+				require.Equal(t, tc.Parcel.Data(), capture.Data)
+				require.Equal(t, tc.Parcel.Objects(), capture.Objects)
 			})
 	}
 }

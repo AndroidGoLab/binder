@@ -1052,6 +1052,10 @@ func tryCheckService(
 
 // --- Delegate all Transport methods to inner ---
 
+// Transact sends a request through the underlying transport, adapting marked
+// interface tokens to the Android 10 wire format when targeting API 29.
+//
+// Example: send a generated AIDL request to a remote service.
 func (t *Transport) Transact(
 	ctx context.Context,
 	handle uint32,
@@ -1059,7 +1063,7 @@ func (t *Transport) Transact(
 	flags binder.TransactionFlags,
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
-	if t.apiLevel == 29 && data != nil {
+	if t.apiLevel == binder.APILevelAndroid10 && data != nil {
 		data = data.Android10Request()
 	}
 	return t.inner.Transact(ctx, handle, code, flags, data)

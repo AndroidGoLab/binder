@@ -14,6 +14,11 @@ const (
 	serviceManagerHandle     = uint32(0)
 	serviceManagerDescriptor = "android.os.IServiceManager"
 
+	// legacyMissingReplySize is the size of Android 10's absent-service word.
+	//
+	// Example: identify a null native service manager reply.
+	legacyMissingReplySize = 4
+
 	// dumpFlagPriorityAll combines all priority flags per IServiceManager.aidl:
 	// DUMP_FLAG_PRIORITY_CRITICAL (1) | DUMP_FLAG_PRIORITY_HIGH (2)
 	// | DUMP_FLAG_PRIORITY_NORMAL (4) | DUMP_FLAG_PRIORITY_DEFAULT (8).
@@ -60,7 +65,7 @@ func (sm *ServiceManager) GetService(
 	}
 	// Android 10's native service manager predates the AIDL interface and
 	// uses GET_SERVICE_TRANSACTION directly, with no status in its reply.
-	legacy := transport.APILevel() == 29
+	legacy := transport.APILevel() == binder.APILevelAndroid10
 	code := binder.FirstCallTransaction
 	if !legacy {
 		code, err = sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "getService")
@@ -85,7 +90,7 @@ func (sm *ServiceManager) GetService(
 	defer reply.Recycle()
 
 	// The Android 10 service manager returns a single zero word when absent.
-	if legacy && reply.Len() == 4 {
+	if legacy && reply.Len() == legacyMissingReplySize {
 		value, readErr := reply.ReadInt32()
 		if readErr == nil && value == 0 {
 			return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)

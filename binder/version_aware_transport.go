@@ -2,6 +2,11 @@ package binder
 
 import "context"
 
+// APILevelAndroid10 is the Android platform API level for Android 10.
+//
+// Example: select the legacy service manager wire format.
+const APILevelAndroid10 = 29
+
 // VersionAwareTransport extends Transport with version-aware
 // transaction code resolution. Implemented by versionaware.Transport.
 type VersionAwareTransport interface {

@@ -20,6 +20,11 @@ const (
 	//
 	// Example: copy the descriptor following the removed header.
 	vendorHeaderEnd = 12
+
+	// vendorHeaderSize is the size of the vendor header in bytes.
+	//
+	// Example: adjust Binder object offsets after removing the header.
+	vendorHeaderSize = vendorHeaderEnd - vendorHeaderOffset
 )
 
 // WriteInterfaceToken writes a Binder interface token (descriptor) with
@@ -57,14 +62,14 @@ func (p *Parcel) Android10Request() *Parcel {
 			return p
 		}
 	}
-	data := make([]byte, 0, len(p.data)-4)
+	data := make([]byte, 0, len(p.data)-vendorHeaderSize)
 	data = append(data, p.data[:vendorHeaderOffset]...)
 	data = append(data, p.data[vendorHeaderEnd:]...)
 	var objects []uint64
 	if p.objects != nil {
 		objects = make([]uint64, len(p.objects))
 		for i, offset := range p.objects {
-			objects[i] = offset - 4
+			objects[i] = offset - vendorHeaderSize
 		}
 	}
 	return FromBytesWithObjects(data, objects)
