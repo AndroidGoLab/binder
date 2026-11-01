@@ -2,6 +2,7 @@ package gralloc
 
 import (
 	"encoding/binary"
+	"errors"
 	"fmt"
 
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
@@ -9,13 +10,17 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-// GraphicBuffer magic value: "GB01" in little-endian.
+// graphicBufferMagic identifies the flattened GraphicBuffer wire format.
+//
+// Example: reject a flattened buffer with a different magic value.
 const graphicBufferMagic uint32 = 0x47423031
 
 // ReadGraphicBuffer reads a flattened GraphicBuffer from a parcel.
 // The wire format follows GraphicBuffer::unflatten():
 //
 //	int32(flattenedSize) + int32(fdCount) + raw[flattenedSize] + fd objects
+//
+// Example: decode the buffer from a SurfaceFlinger capture result.
 func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 	flattenedSize, err := p.ReadInt32()
 	if err != nil {
@@ -68,10 +73,13 @@ func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 	for i := range fds {
 		fd, err := p.ReadFileDescriptor()
 		if err != nil {
+			errs := []error{fmt.Errorf("reading fd %d: %w", i, err)}
 			for _, opened := range fds[:i] {
-				_ = unix.Close(int(opened))
+				if closeErr := unix.Close(int(opened)); closeErr != nil {
+					errs = append(errs, fmt.Errorf("closing partially read fd: %w", closeErr))
+				}
 			}
-			return nil, fmt.Errorf("reading fd %d: %w", i, err)
+			return nil, errors.Join(errs...)
 		}
 		fds[i] = fd
 	}
