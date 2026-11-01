@@ -50,6 +50,7 @@ type Transport struct {
 	table                       VersionTable
 	overrides                   VersionTable
 	surfaceComposerAndroid14R35 bool
+	surfaceComposerDiagnostic   string
 	version                     string
 	cachePath                   string
 	// Revision is the detected AOSP firmware revision (e.g. "36.r4").
@@ -77,8 +78,8 @@ type Transport struct {
 	mu sync.RWMutex
 }
 
-// UsesSurfaceComposerAndroid14R35 reports whether the caller explicitly
-// selected the Android 14 r35 SurfaceComposer contract for this transport.
+// UsesSurfaceComposerAndroid14R35 reports whether the Android 14 r35
+// SurfaceComposer contract was selected explicitly or recognized on the device.
 //
 // Example: a capture client can reject an unknown native wire contract.
 func (t *Transport) UsesSurfaceComposerAndroid14R35() bool {
@@ -122,6 +123,19 @@ func NewTransport(
 	if cfg.SurfaceComposerAndroid14R35 && targetAPI != 34 {
 		return nil, fmt.Errorf("versionaware: Android 14 r35 SurfaceComposer contract requires API 34, got %d", targetAPI)
 	}
+	if !cfg.SurfaceComposerAndroid14R35 && targetAPI == 34 {
+		library, err := readSurfaceComposerLibrary(surfaceComposerLibraryPath, targetAPI)
+		if err == nil && library.supported() {
+			optionSurfaceComposerAndroid14R35{}.apply(&cfg)
+			logger.Debugf(ctx, "versionaware: recognized SurfaceComposer native contract from %s", surfaceComposerLibraryPath)
+		} else {
+			cfg.SurfaceComposerDiagnostic = fmt.Sprintf("no verified matching contract (ELF class %v, machine %v, build ID %q, inspection error %v)", library.Class, library.Machine, library.BuildID, err)
+			logger.Debugf(ctx, "versionaware: SurfaceComposer native contract unrecognized (build ID %q, inspection error %v)", library.BuildID, err)
+		}
+	}
+	if !cfg.SurfaceComposerAndroid14R35 && cfg.SurfaceComposerDiagnostic == "" {
+		cfg.SurfaceComposerDiagnostic = "no verified contract for this API"
+	}
 
 	// Detect revision from libbinder.so symbols (cheap: single file
 	// read, no binder transactions). Done before cache loading so
@@ -160,6 +174,7 @@ func NewTransport(
 				table:                       cached.ResolvedTable,
 				overrides:                   cfg.TransactionCodes,
 				surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+				surfaceComposerDiagnostic:   cfg.SurfaceComposerDiagnostic,
 				version:                     fmt.Sprintf("%d.cached", targetAPI),
 				cachePath:                   cfg.CachePath,
 				Revision:                    revision,
@@ -182,6 +197,7 @@ func NewTransport(
 			table:                       VersionTable{},
 			overrides:                   cfg.TransactionCodes,
 			surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+			surfaceComposerDiagnostic:   cfg.SurfaceComposerDiagnostic,
 			version:                     version,
 			cachePath:                   cfg.CachePath,
 			Revision:                    revision,
@@ -210,6 +226,7 @@ func NewTransport(
 		table:                       table,
 		overrides:                   cfg.TransactionCodes,
 		surfaceComposerAndroid14R35: cfg.SurfaceComposerAndroid14R35,
+		surfaceComposerDiagnostic:   cfg.SurfaceComposerDiagnostic,
 		version:                     version,
 		cachePath:                   cfg.CachePath,
 		Revision:                    revision,
@@ -307,6 +324,9 @@ func (t *Transport) ResolveCode(
 	descriptor string,
 	method string,
 ) (binder.TransactionCode, error) {
+	if !t.surfaceComposerAndroid14R35 && descriptor == "android.gui.ISurfaceComposer" && (method == "getPhysicalDisplayIds" || method == "captureDisplayById") {
+		return 0, fmt.Errorf("versionaware: unsupported SurfaceComposer capture contract on API %d: %s: %s", t.apiLevel, surfaceComposerLibraryPath, t.surfaceComposerDiagnostic)
+	}
 	if code := t.overrides.Resolve(descriptor, method); code != 0 {
 		return code, nil
 	}

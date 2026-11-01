@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"context"
 	"encoding/binary"
 	"golang.org/x/sys/unix"
 	"testing"
@@ -133,4 +134,104 @@ func TestScreenCaptureResultsPreservesStatus(t *testing.T) {
 	require.Equal(t, int32(-1), result.FenceFD)
 	require.Nil(t, result.GainMap)
 	require.NoError(t, result.Close())
+}
+
+// TestScreenCaptureResultsCopiesShareOwnership protects reused descriptors from a second close.
+//
+// Example: a generated listener passes a result by value and both copies are closed.
+func TestScreenCaptureResultsCopiesShareOwnership(t *testing.T) {
+	fds := make([]int, 2)
+	require.NoError(t, unix.Pipe(fds))
+	defer unix.Close(fds[1])
+	p := parcel.New()
+	p.WriteBool(false)
+	p.WriteBool(true)
+	p.WriteInt32(4)
+	p.WriteInt32(1)
+	p.WriteInt32(0)
+	p.WriteFileDescriptor(int32(fds[0]))
+	p.WriteBool(false)
+	p.WriteBool(false)
+	p.WriteUint32(0)
+	p.SetPosition(0)
+	var result ScreenCaptureResults
+	require.NoError(t, result.UnmarshalParcel(p))
+	copy := result
+	require.NoError(t, result.Close())
+	require.NoError(t, unix.Dup3(fds[1], fds[0], unix.O_CLOEXEC))
+	defer unix.Close(fds[0])
+	require.NoError(t, copy.Close())
+	_, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
+	require.NoError(t, err)
+}
+
+// TestScreenCaptureResultsDecodeReportsCleanupError retains both errors.
+//
+// Example: a truncated result holds a descriptor closed unexpectedly by its caller.
+func TestScreenCaptureResultsDecodeReportsCleanupError(t *testing.T) {
+	fds := make([]int, 2)
+	require.NoError(t, unix.Pipe(fds))
+	defer unix.Close(fds[1])
+	p := parcel.New()
+	p.WriteBool(true)
+	writeGraphicBuffer(p, int32(fds[0]))
+	p.SetPosition(0)
+	require.NoError(t, unix.Close(fds[0]))
+	var result ScreenCaptureResults
+	err := result.UnmarshalParcel(p)
+	require.ErrorContains(t, err, "reading hasFence")
+	require.ErrorIs(t, err, unix.EBADF)
+}
+
+// TestScreenCaptureResultsCopyRGBARejectsClosedCopy avoids using released handles.
+//
+// Example: one callback copy closes a result before another requests pixels.
+func TestScreenCaptureResultsCopyRGBARejectsClosedCopy(t *testing.T) {
+	p := parcel.New()
+	p.WriteBool(false)
+	p.WriteBool(false)
+	p.WriteInt32(0)
+	p.WriteBool(false)
+	p.WriteBool(false)
+	p.WriteUint32(0)
+	p.SetPosition(0)
+	var result ScreenCaptureResults
+	require.NoError(t, result.UnmarshalParcel(p))
+	copy := result
+	require.NoError(t, result.Close())
+	_, err := copy.CopyRGBA(context.Background())
+	require.ErrorContains(t, err, "closed")
+}
+
+// TestScreenCaptureResultsCopyRGBAWaitsForFence protects pixels from premature reads.
+//
+// Example: a canceled capture stops waiting before its fence signals.
+func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
+	bufferFDs := make([]int, 2)
+	fenceFDs := make([]int, 2)
+	require.NoError(t, unix.Pipe(bufferFDs))
+	require.NoError(t, unix.Pipe(fenceFDs))
+	defer unix.Close(bufferFDs[1])
+	defer unix.Close(fenceFDs[1])
+	p := parcel.New()
+	p.WriteBool(true)
+	writeGraphicBuffer(p, int32(bufferFDs[0]))
+	p.WriteBool(true)
+	p.WriteInt32(4)
+	p.WriteInt32(1)
+	p.WriteInt32(0)
+	p.WriteFileDescriptor(int32(fenceFDs[0]))
+	p.WriteBool(false)
+	p.WriteBool(false)
+	p.WriteUint32(0)
+	p.SetPosition(0)
+	var result ScreenCaptureResults
+	require.NoError(t, result.UnmarshalParcel(p))
+	defer result.Close()
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	_, err := result.CopyRGBA(ctx)
+	require.ErrorIs(t, err, context.Canceled)
+	_, err = unix.FcntlInt(uintptr(fenceFDs[0]), unix.F_GETFD, 0)
+	require.NoError(t, err)
 }

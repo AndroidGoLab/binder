@@ -1,8 +1,10 @@
 package gui
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
@@ -21,7 +23,16 @@ type ScreenCaptureResults struct {
 	CapturedHdrLayers    bool
 	CapturedDataspace    uint32
 	HdrSdrRatio          float32
-	fenceOwned           bool
+	owner                *screenCaptureOwner
+}
+
+// screenCaptureOwner serializes use and release shared by result copies.
+//
+// Example: listener arguments copied by value share one owner.
+type screenCaptureOwner struct {
+	mu         sync.Mutex
+	closed     bool
+	fenceOwned bool
 }
 
 var _ parcel.Parcelable = (*ScreenCaptureResults)(nil)
@@ -37,9 +48,18 @@ func (s *ScreenCaptureResults) MarshalParcel(p *parcel.Parcel) error {
 //
 // Example: defer result.Close() after a successful decode.
 func (s *ScreenCaptureResults) Close() error {
+	if s.owner == nil {
+		return nil
+	}
+	s.owner.mu.Lock()
+	defer s.owner.mu.Unlock()
+	if s.owner.closed {
+		return nil
+	}
+	s.owner.closed = true
 	var errs []error
-	if s.fenceOwned {
-		s.fenceOwned = false
+	if s.owner.fenceOwned {
+		s.owner.fenceOwned = false
 		errs = append(errs, unix.Close(int(s.FenceFD)))
 	}
 	s.FenceFD = -1
@@ -66,10 +86,10 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 	if err := s.Close(); err != nil {
 		return fmt.Errorf("closing previous result: %w", err)
 	}
-	*s = ScreenCaptureResults{FenceFD: -1}
+	*s = ScreenCaptureResults{FenceFD: -1, owner: &screenCaptureOwner{}}
 	defer func() {
 		if _err != nil {
-			_ = s.Close()
+			_err = errors.Join(_err, s.Close())
 		}
 	}()
 
@@ -106,7 +126,7 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 		if err != nil {
 			return fmt.Errorf("reading fence fd: %w", err)
 		}
-		s.fenceOwned = true
+		s.owner.fenceOwned = true
 	} else {
 		s.FenceStatus, err = p.ReadInt32()
 		if err != nil {
@@ -143,4 +163,29 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 		return fmt.Errorf("reading hdrSdrRatio: %w", err)
 	}
 	return nil
+}
+
+// CopyRGBA waits for capture completion and copies supported buffer pixels.
+// The caller retains ownership and must close the result.
+//
+// Example: copy pixels before releasing a listener result.
+func (s *ScreenCaptureResults) CopyRGBA(ctx context.Context) ([]byte, error) {
+	if s.owner == nil {
+		return nil, fmt.Errorf("capture result has no owned buffer")
+	}
+	s.owner.mu.Lock()
+	defer s.owner.mu.Unlock()
+	if s.owner.closed {
+		return nil, fmt.Errorf("capture result is closed")
+	}
+	if s.FenceStatus != 0 {
+		return nil, fmt.Errorf("capture failed: status %d", s.FenceStatus)
+	}
+	if s.Buffer == nil {
+		return nil, fmt.Errorf("capture result has no buffer")
+	}
+	if err := gralloc.WaitFence(ctx, s.FenceFD); err != nil {
+		return nil, fmt.Errorf("wait for capture fence: %w", err)
+	}
+	return gralloc.CopyRGBA(s.Buffer)
 }

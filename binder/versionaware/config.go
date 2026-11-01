@@ -11,4 +11,5 @@ type config struct {
 	CachePath                   string
 	TransactionCodes            VersionTable
 	SurfaceComposerAndroid14R35 bool
+	SurfaceComposerDiagnostic   string
 }

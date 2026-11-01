@@ -21,11 +21,41 @@ type StubBinder struct {
 	Receiver  TransactionReceiver
 	transport Transport
 
-	mu     sync.Mutex
-	cookie uintptr
+	mu         sync.Mutex
+	cookie     uintptr
+	released   bool
+	releaseErr error
 
 	// nodeID is an opaque, process-unique kernel Binder node identity.
 	nodeID uintptr
+}
+
+// Release unregisters this stub once. A released stub cannot be registered again.
+//
+// Example: release a callback after its request finishes.
+func (s *StubBinder) Release(ctx context.Context) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.released {
+		return s.releaseErr
+	}
+	s.released = true
+	if s.cookie == 0 {
+		return nil
+	}
+	switch unregister := s.transport.(type) {
+	case interface {
+		UnregisterReceiver(context.Context, uintptr) error
+	}:
+		s.releaseErr = unregister.UnregisterReceiver(ctx, s.cookie)
+	case interface {
+		UnregisterReceiver(context.Context, uintptr)
+	}:
+		unregister.UnregisterReceiver(ctx, s.cookie)
+	default:
+		s.releaseErr = fmt.Errorf("binder: transport cannot unregister receiver")
+	}
+	return s.releaseErr
 }
 
 var nextStubNodeID atomic.Uintptr
@@ -118,6 +148,8 @@ func (s *StubBinder) BinderPtr() uintptr {
 // RegisterWithTransport, or nil if the stub has not been registered
 // or the stored transport does not implement VersionAwareTransport.
 func (s *StubBinder) Transport() VersionAwareTransport {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	vat, _ := s.transport.(VersionAwareTransport)
 	return vat
 }
@@ -137,6 +169,9 @@ func (s *StubBinder) RegisterWithTransport(
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	if s.released {
+		return s.cookie
+	}
 	if s.cookie != 0 {
 		if s.transport != t {
 			logger.Warnf(ctx, "StubBinder.RegisterWithTransport called with a different transport; ignoring (already registered)")
