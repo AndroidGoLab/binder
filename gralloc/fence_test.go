@@ -4,9 +4,21 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sys/unix"
 )
+
+// closeTestFD releases a descriptor that remains owned by a test.
+//
+// Example: report a failure while cleaning up a pipe endpoint.
+func closeTestFD(
+	t *testing.T,
+	fd int,
+) {
+	t.Helper()
+	assert.NoError(t, unix.Close(fd))
+}
 
 // observedCancelContext cancels when the fence waiter registers its wake callback.
 //
@@ -36,8 +48,8 @@ func (c *observedCancelContext) AfterFunc(f func()) func() bool {
 func TestWaitFence(t *testing.T) {
 	fds := []int{0, 0}
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	require.NoError(t, WaitFence(context.Background(), -1))
 	require.Error(t, WaitFence(context.Background(), -2))
 	_, err := unix.Write(fds[1], []byte{1})
@@ -53,8 +65,8 @@ func TestWaitFence(t *testing.T) {
 func TestWaitFenceCancellation(t *testing.T) {
 	fds := []int{0, 0}
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	base, cancel := context.WithCancel(context.Background())
 	ctx := &observedCancelContext{Context: base, cancel: cancel}
 	require.ErrorIs(t, WaitFence(ctx, int32(fds[0])), context.Canceled)
@@ -68,7 +80,7 @@ func TestWaitFenceCancellation(t *testing.T) {
 func TestWaitFenceHangup(t *testing.T) {
 	fds := []int{0, 0}
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
+	defer closeTestFD(t, fds[0])
 	require.NoError(t, unix.Close(fds[1]))
 	require.Error(t, WaitFence(context.Background(), int32(fds[0])))
 }
@@ -79,7 +91,7 @@ func TestWaitFenceHangup(t *testing.T) {
 func TestWaitFenceClosedFD(t *testing.T) {
 	fds := []int{0, 0}
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[1])
 	require.NoError(t, unix.Close(fds[0]))
 	require.Error(t, WaitFence(context.Background(), int32(fds[0])))
 }

@@ -37,7 +37,7 @@ func graphicParcel(
 func TestReadGraphicBufferReportsCloseFailure(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(3, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	p.WriteFileDescriptor(int32(fds[0]))
@@ -61,7 +61,7 @@ func TestReadGraphicBufferRejectsTruncatedInts(t *testing.T) {
 func TestReadGraphicBufferClosesPartialFDs(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(2, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
@@ -77,8 +77,8 @@ func TestReadGraphicBufferClosesPartialFDs(t *testing.T) {
 func TestReadGraphicBufferPreservesBorrowedPartialFD(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(2, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	_, err := ReadGraphicBuffer(p)
@@ -93,8 +93,8 @@ func TestReadGraphicBufferPreservesBorrowedPartialFD(t *testing.T) {
 func TestReadOwnedGraphicBufferDuplicatesBorrowedFD(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(1, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	buf, err := ReadOwnedGraphicBuffer(p)
@@ -114,8 +114,8 @@ func TestReadOwnedGraphicBufferDuplicatesBorrowedFD(t *testing.T) {
 func TestReadGraphicBufferReturnsBorrowedFD(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(1, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	buf, err := ReadGraphicBuffer(p)
@@ -131,8 +131,8 @@ func TestReadGraphicBufferReturnsBorrowedFD(t *testing.T) {
 func TestReadOwnedGraphicBufferTransfersReceivedFD(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[0])
+	defer closeTestFD(t, fds[1])
 	wire := graphicParcel(1, 0, nil)
 	wire.WriteFileDescriptor(int32(fds[0]))
 	p := parcel.FromReceivedBytes(wire.Data(), wire.Objects())
@@ -162,15 +162,16 @@ func TestReadOwnedGraphicBufferFailurePreservesBorrowedFD(t *testing.T) {
 			}
 		}
 	}()
-	defer unix.Close(fds[1])
+	defer closeTestFD(t, fds[1])
 	p := graphicParcel(2, 0, nil)
 	p.WriteFileDescriptor(int32(fds[0]))
 	_, err := ReadOwnedGraphicBuffer(p)
 	require.Error(t, err)
 	_, err = unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
 	require.NoError(t, err)
-	require.NoError(t, unix.Close(fds[0]))
+	err = unix.Close(fds[0])
 	sourceOpen = false
+	require.NoError(t, err)
 	_, err = unix.Write(fds[1], []byte{1})
 	require.ErrorIs(t, err, unix.EPIPE)
 }

@@ -54,21 +54,21 @@ func (s *StubBinder) Release(ctx context.Context) error {
 	return s.releaseErr
 }
 
-// nextStubNodeID assigns process-unique opaque Binder node identities.
+// nextLocalBinderIdentity assigns process-unique opaque Binder identities.
 //
 // Example: a new stub cannot reuse a released node's identity.
-var nextStubNodeID atomic.Uintptr
+var nextLocalBinderIdentity atomic.Uintptr
 
-// newStubNodeID reserves the next nonzero node identity.
+// NewLocalBinderIdentity reserves a process-unique nonzero Binder identity.
 //
-// Example: give each local Binder stub a distinct kernel node key.
-func newStubNodeID() uintptr {
+// Example: reserve a receiver cookie that may also be used as a node key.
+func NewLocalBinderIdentity() uintptr {
 	for {
-		old := nextStubNodeID.Load()
+		old := nextLocalBinderIdentity.Load()
 		if old == ^uintptr(0) {
 			panic("binder: exhausted local binder node identities")
 		}
-		if nextStubNodeID.CompareAndSwap(old, old+1) {
+		if nextLocalBinderIdentity.CompareAndSwap(old, old+1) {
 			return old + 1
 		}
 	}
@@ -80,7 +80,7 @@ func NewStubBinder(
 ) *StubBinder {
 	return &StubBinder{
 		Receiver: receiver,
-		nodeID:   newStubNodeID(),
+		nodeID:   NewLocalBinderIdentity(),
 	}
 }
 

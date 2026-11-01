@@ -37,6 +37,7 @@ func TestReplyParcelClosesUnreadDescriptor(t *testing.T) {
 	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
 	// Close pipe ends that remain open after the assertion.
+	//
 	// Example: release the peer even when the reply closes its descriptor.
 	t.Cleanup(func() { closeReplyTestFD(t, fds[0]); closeReplyTestFD(t, fds[1]) })
 	p := parcel.New()
@@ -67,6 +68,7 @@ func TestReplyParcelTransfersReadDescriptor(t *testing.T) {
 	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
 	// Release the socket pair after checking transfer.
+	//
 	// Example: close the transferred descriptor when the test ends.
 	t.Cleanup(func() { closeReplyTestFD(t, fds[0]); closeReplyTestFD(t, fds[1]) })
 	p := parcel.New()
@@ -113,8 +115,12 @@ func TestReplyParcelPreservesHIDLFDArray(t *testing.T) {
 	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
 	// Release the source descriptors after the scatter-gather check.
+	//
 	// Example: close the peer after checking the duplicated FD.
 	t.Cleanup(func() { closeReplyTestFD(t, fds[0]); closeReplyTestFD(t, fds[1]) })
+	// dataSize holds one PTR and one FDA object in the simulated reply.
+	//
+	// Example: place the FDA object directly after the PTR object.
 	const dataSize = 72
 	mapped := make([]byte, dataSize+16+4)
 	binary.LittleEndian.PutUint32(mapped[0:], uint32(binderTypePTR))
@@ -138,6 +144,7 @@ func TestReplyParcelPreservesHIDLFDArray(t *testing.T) {
 	dup := int(int32(binary.LittleEndian.Uint32(reply.Data()[parent:])))
 	require.NotEqual(t, fds[0], dup)
 	// Release the scatter-gather duplicate after the test.
+	//
 	// Example: a successful FDA copy leaves one owned descriptor.
 	t.Cleanup(func() { closeReplyTestFD(t, dup) })
 	require.NoError(t, reply.Recycle())

@@ -61,6 +61,7 @@ func TestCaptureLayersSyncRetainsReceivedDescriptors(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
 	// Close any descriptor left open by an early assertion failure.
+	//
 	// Example: a failed decode still releases the test pipe.
 	t.Cleanup(func() {
 		for _, fd := range fds {

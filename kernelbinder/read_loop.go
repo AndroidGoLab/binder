@@ -51,11 +51,7 @@ func (d *Driver) RegisterReceiver(
 func (d *Driver) addReceiver(receiver binder.TransactionReceiver) uintptr {
 	d.receiversMu.Lock()
 	defer d.receiversMu.Unlock()
-	if d.nextReceiverCookie == ^uintptr(0) {
-		panic("binder: exhausted receiver cookies")
-	}
-	d.nextReceiverCookie++
-	cookie := d.nextReceiverCookie
+	cookie := binder.NewLocalBinderIdentity()
 	d.receivers[cookie] = &receiverEntry{receiver: receiver}
 	return cookie
 }

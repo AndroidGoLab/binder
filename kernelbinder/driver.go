@@ -59,9 +59,8 @@ type Driver struct {
 	acquiredHandles map[uint32]bool // tracks handles acquired via BC_INCREFS + BC_ACQUIRE
 
 	// Receiver cookies are never reused while this driver is open.
-	receivers          map[uintptr]*receiverEntry
-	nextReceiverCookie uintptr
-	receiversMu        sync.RWMutex
+	receivers   map[uintptr]*receiverEntry
+	receiversMu sync.RWMutex
 
 	// deathRecipients maps cookie values (heap addresses of
 	// deathRecipientEntry) to the entries themselves, keeping them
@@ -578,6 +577,7 @@ func (d *Driver) parseReadBuffer(
 			var txn binderTransactionData
 			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
 			// Release the kernel buffer on success and on every decode error.
+			//
 			// Example: a failed offsets copy still releases the reply buffer.
 			defer func() {
 				if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {

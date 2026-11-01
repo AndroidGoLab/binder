@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -37,7 +38,10 @@ func pixelHandle() *Buffer {
 func TestCopyRGBARejectsTruncatedFD(t *testing.T) {
 	f, err := os.CreateTemp(t.TempDir(), "buffer")
 	require.NoError(t, err)
-	defer f.Close()
+	defer // Close the temporary allocation after checking its length.
+	//
+	// Example: an unexpected close error fails the test.
+	func() { assert.NoError(t, f.Close()) }()
 	b := pixelHandle()
 	b.Handle.Fds[0] = int32(f.Fd())
 	_, err = CopyRGBA(b)

@@ -82,7 +82,10 @@ func TestScreenCaptureResultsOwnsDescriptors(t *testing.T) {
 // writeGraphicBuffer writes one flattened buffer with a descriptor.
 //
 // Example: include a buffer or gain map in a test result.
-func writeGraphicBuffer(p *parcel.Parcel, fd int32) {
+func writeGraphicBuffer(
+	p *parcel.Parcel,
+	fd int32,
+) {
 	raw := make([]byte, 52)
 	binary.LittleEndian.PutUint32(raw, 0x47423031)
 	binary.LittleEndian.PutUint32(raw[40:], 1)
@@ -90,6 +93,32 @@ func writeGraphicBuffer(p *parcel.Parcel, fd int32) {
 	p.WriteInt32(1)
 	p.WriteRawBytes(raw)
 	p.WriteFileDescriptor(fd)
+}
+
+// closeTestDescriptor closes a test-owned descriptor and reports unexpected errors.
+//
+// Example: defer cleanup for the write end of a pipe.
+func closeTestDescriptor(
+	t *testing.T,
+	fd int,
+) {
+	t.Helper()
+	if err := unix.Close(fd); err != nil && !errors.Is(err, unix.EBADF) {
+		t.Errorf("close fd %d: %v", fd, err)
+	}
+}
+
+// closeTestResult releases a decoded result and reports cleanup errors.
+//
+// Example: defer cleanup after testing fence cancellation.
+func closeTestResult(
+	t *testing.T,
+	result *ScreenCaptureResults,
+) {
+	t.Helper()
+	if err := result.Close(); err != nil {
+		t.Errorf("close capture result: %v", err)
+	}
 }
 
 // TestScreenCaptureResultsClosesPartialResult checks descriptors are released on later truncation.
@@ -153,7 +182,7 @@ func TestScreenCaptureResultsPreservesStatus(t *testing.T) {
 func TestScreenCaptureResultsCopiesShareOwnership(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer closeTestDescriptor(t, fds[1])
 	p := parcel.New()
 	p.WriteBool(false)
 	p.WriteBool(true)
@@ -170,7 +199,7 @@ func TestScreenCaptureResultsCopiesShareOwnership(t *testing.T) {
 	copy := result
 	require.NoError(t, result.Close())
 	require.NoError(t, unix.Dup3(fds[1], fds[0], unix.O_CLOEXEC))
-	defer unix.Close(fds[0])
+	defer closeTestDescriptor(t, fds[0])
 	require.NoError(t, copy.Close())
 	_, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
 	require.NoError(t, err)
@@ -182,7 +211,7 @@ func TestScreenCaptureResultsCopiesShareOwnership(t *testing.T) {
 func TestScreenCaptureResultsDecodeReportsCleanupError(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer closeTestDescriptor(t, fds[1])
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[0]))
@@ -222,8 +251,8 @@ func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
 	fenceFDs := make([]int, 2)
 	require.NoError(t, unix.Pipe(bufferFDs))
 	require.NoError(t, unix.Pipe(fenceFDs))
-	defer unix.Close(bufferFDs[1])
-	defer unix.Close(fenceFDs[1])
+	defer closeTestDescriptor(t, bufferFDs[1])
+	defer closeTestDescriptor(t, fenceFDs[1])
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(bufferFDs[0]))
@@ -238,7 +267,7 @@ func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
 	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
-	defer result.Close()
+	defer closeTestResult(t, &result)
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 	_, err := result.CopyRGBA(ctx)
@@ -253,8 +282,8 @@ func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
 func TestScreenCaptureResultsBorrowedParcelPreservesDescriptors(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
+	defer closeTestDescriptor(t, fds[0])
+	defer closeTestDescriptor(t, fds[1])
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[0]))

@@ -16,8 +16,8 @@ import (
 func TestReadOwnedFileDescriptorDuplicatesBorrowed(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	defer read.Close()
-	defer write.Close()
+	defer closeTestFile(t, read)
+	defer closeTestFile(t, write)
 	p := New()
 	p.WriteFileDescriptor(int32(read.Fd()))
 	fd, err := p.ReadOwnedFileDescriptor()
@@ -37,8 +37,16 @@ func TestReadOwnedFileDescriptorDuplicatesBorrowed(t *testing.T) {
 func TestReadOwnedFileDescriptorTransfersReceived(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	defer read.Close()
-	defer write.Close()
+	readOpen := true
+	defer // Close the source only if the test has not already closed it.
+	//
+	// Example: no deferred close can target a reused FD.
+	func() {
+		if readOpen {
+			closeTestFile(t, read)
+		}
+	}()
+	defer closeTestFile(t, write)
 	wire := New()
 	wire.WriteFileDescriptor(int32(read.Fd()))
 	p := FromReceivedBytes(wire.Data(), wire.Objects())
@@ -48,9 +56,11 @@ func TestReadOwnedFileDescriptorTransfersReceived(t *testing.T) {
 	require.NoError(t, p.Close())
 	_, err = read.Stat()
 	require.NoError(t, err)
-	require.NoError(t, unix.Close(int(fd)))
-	_, err = read.Stat()
-	require.Error(t, err)
+	err = read.Close()
+	readOpen = false
+	require.NoError(t, err)
+	_, err = unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
+	require.ErrorIs(t, err, unix.EBADF)
 }
 
 // TestReadOwnedFileDescriptorRejectsClosedBorrowedFD reports duplication errors.
@@ -59,7 +69,10 @@ func TestReadOwnedFileDescriptorTransfersReceived(t *testing.T) {
 func TestReadOwnedFileDescriptorRejectsClosedBorrowedFD(t *testing.T) {
 	fds := []int{0, 0}
 	require.NoError(t, unix.Pipe(fds))
-	defer unix.Close(fds[1])
+	defer // Close the remaining pipe endpoint.
+	//
+	// Example: an unexpected cleanup failure fails the test.
+	func() { require.NoError(t, unix.Close(fds[1])) }()
 	require.NoError(t, unix.Close(fds[0]))
 	p := New()
 	p.WriteFileDescriptor(int32(fds[0]))
