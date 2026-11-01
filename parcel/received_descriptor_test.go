@@ -14,7 +14,12 @@ import (
 func TestReceivedDescriptorOwnership(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = read.Close(); _ = write.Close() })
+	t.Cleanup(
+		// Release the test pipe after checking descriptor ownership.
+		//
+		// Example: either end may already have been closed by the test.
+		func() { _ = read.Close(); _ = write.Close() },
+	)
 	wire := New()
 	wire.WriteFileDescriptor(int32(read.Fd()))
 	wire.WriteFileDescriptor(int32(write.Fd()))
@@ -39,7 +44,12 @@ func TestReceivedDescriptorOwnership(t *testing.T) {
 func TestReceivedDescriptorRecycle(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = read.Close(); _ = write.Close() })
+	t.Cleanup(
+		// Release the test pipe after checking descriptor ownership.
+		//
+		// Example: either end may already have been closed by the test.
+		func() { _ = read.Close(); _ = write.Close() },
+	)
 	wire := New()
 	wire.WriteFileDescriptor(int32(read.Fd()))
 	borrowed := FromBytesWithObjects(wire.Data(), wire.Objects())
@@ -61,7 +71,12 @@ func TestReceivedDescriptorRecycle(t *testing.T) {
 func TestReceivedParcelFileDescriptorClosesComm(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = read.Close(); _ = write.Close() })
+	t.Cleanup(
+		// Release the test pipe after checking descriptor ownership.
+		//
+		// Example: either end may already have been closed by the test.
+		func() { _ = read.Close(); _ = write.Close() },
+	)
 	wire := New()
 	wire.WriteInt32(1)
 	wire.WriteInt32(1)
@@ -84,7 +99,12 @@ func TestReceivedParcelFileDescriptorClosesComm(t *testing.T) {
 func TestReceivedParcelFileDescriptorClosesPrimaryOnMalformedComm(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = read.Close(); _ = write.Close() })
+	t.Cleanup(
+		// Release the test pipe after checking descriptor ownership.
+		//
+		// Example: either end may already have been closed by the test.
+		func() { _ = read.Close(); _ = write.Close() },
+	)
 	wire := New()
 	wire.WriteInt32(1)
 	wire.WriteInt32(1)
@@ -105,7 +125,12 @@ func TestReceivedParcelFileDescriptorClosesPrimaryOnMalformedComm(t *testing.T) 
 func TestBorrowedParcelFileDescriptorPreservesComm(t *testing.T) {
 	read, write, err := os.Pipe()
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = read.Close(); _ = write.Close() })
+	t.Cleanup(
+		// Release the test pipe after checking descriptor ownership.
+		//
+		// Example: either end may already have been closed by the test.
+		func() { _ = read.Close(); _ = write.Close() },
+	)
 	wire := New()
 	wire.WriteInt32(1)
 	wire.WriteInt32(1)
@@ -122,6 +147,9 @@ func TestBorrowedParcelFileDescriptorPreservesComm(t *testing.T) {
 	require.NoError(t, err)
 }
 
+// TestReceivedParcelRejectsUnlistedDescriptor checks received object ownership.
+//
+// Example: an FD-shaped object missing from Binder offsets is rejected.
 func TestReceivedParcelRejectsUnlistedDescriptor(t *testing.T) {
 	wire := New()
 	wire.WriteFileDescriptor(123)

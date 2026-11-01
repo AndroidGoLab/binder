@@ -8,12 +8,12 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-// observedCancelContext reports when the fence waiter registers cancellation.
+// observedCancelContext cancels when the fence waiter registers its wake callback.
 //
-// Example: a test can cancel only after the wake pipe is connected.
+// Example: a test exercises cancellation after the wake pipe is connected.
 type observedCancelContext struct {
 	context.Context
-	registered chan struct{}
+	cancel context.CancelFunc
 }
 
 // Value prevents context from bypassing the observable AfterFunc method.
@@ -21,12 +21,12 @@ type observedCancelContext struct {
 // Example: registration is forwarded through AfterFunc below.
 func (*observedCancelContext) Value(key any) any { return nil }
 
-// AfterFunc registers a cancellation callback and announces the registration.
+// AfterFunc registers a cancellation callback and then cancels the context.
 //
-// Example: a test waits until cancellation can wake the poll.
+// Example: the wake callback must interrupt the poll.
 func (c *observedCancelContext) AfterFunc(f func()) func() bool {
 	stop := context.AfterFunc(c.Context, f)
-	close(c.registered)
+	c.cancel()
 	return stop
 }
 
@@ -56,15 +56,8 @@ func TestWaitFenceCancellation(t *testing.T) {
 	defer unix.Close(fds[0])
 	defer unix.Close(fds[1])
 	base, cancel := context.WithCancel(context.Background())
-	ctx := &observedCancelContext{Context: base, registered: make(chan struct{})}
-	result := make(chan error, 1)
-	go // Wait on an unsignaled descriptor until canceled.
-	//
-	// Example: a caller can stop waiting without signaling the fence.
-	func() { result <- WaitFence(ctx, int32(fds[0])) }()
-	<-ctx.registered
-	cancel()
-	require.ErrorIs(t, <-result, context.Canceled)
+	ctx := &observedCancelContext{Context: base, cancel: cancel}
+	require.ErrorIs(t, WaitFence(ctx, int32(fds[0])), context.Canceled)
 	_, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
 	require.NoError(t, err)
 }

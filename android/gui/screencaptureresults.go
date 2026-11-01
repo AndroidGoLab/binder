@@ -11,7 +11,9 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-// ScreenCaptureResults holds a SurfaceFlinger capture and owns its received descriptors.
+// ScreenCaptureResults holds a SurfaceFlinger capture and owns its descriptors.
+// Copies share ownership: closing one invalidates all copies. Fields and buffer
+// handles must not be changed concurrently with Close or CopyRGBA.
 //
 // Example: call Close after using Buffer and waiting for FenceFD.
 type ScreenCaptureResults struct {
@@ -40,11 +42,14 @@ var _ parcel.Parcelable = (*ScreenCaptureResults)(nil)
 // MarshalParcel is not implemented for native capture results.
 //
 // Example: results are received from SurfaceFlinger, not sent to it.
-func (s *ScreenCaptureResults) MarshalParcel(p *parcel.Parcel) error {
+func (s *ScreenCaptureResults) MarshalParcel(
+	p *parcel.Parcel,
+) error {
 	return fmt.Errorf("ScreenCaptureResults.MarshalParcel: not implemented")
 }
 
 // Close releases the fence and the buffer descriptors, including mapped memory.
+// It waits for any CopyRGBA call on this result or a copy to finish.
 //
 // Example: defer result.Close() after a successful decode.
 func (s *ScreenCaptureResults) Close() error {
@@ -79,15 +84,20 @@ func (s *ScreenCaptureResults) Close() error {
 }
 
 // UnmarshalParcel decodes a capture result and takes ownership of its descriptors.
-// On failure it releases descriptors already read; the parcel owns any unread ones.
+// On failure it releases descriptors already read; received parcels retain unread ones.
 //
 // Example: decode a received callback parcel before inspecting its buffer.
-func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
+func (s *ScreenCaptureResults) UnmarshalParcel(
+	p *parcel.Parcel,
+) (_err error) {
 	if err := s.Close(); err != nil {
 		return fmt.Errorf("closing previous result: %w", err)
 	}
 	*s = ScreenCaptureResults{FenceFD: -1, owner: &screenCaptureOwner{}}
-	defer func() {
+	defer // Release any descriptors transferred before a decoding error.
+	//
+	// Example: truncated metadata follows a valid buffer.
+	func() {
 		if _err != nil {
 			_err = errors.Join(_err, s.Close())
 		}
@@ -98,7 +108,7 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 		return fmt.Errorf("reading hasBuffer: %w", err)
 	}
 	if hasBuffer {
-		s.Buffer, err = gralloc.ReadGraphicBuffer(p)
+		s.Buffer, err = gralloc.ReadOwnedGraphicBuffer(p)
 		if err != nil {
 			return fmt.Errorf("reading GraphicBuffer: %w", err)
 		}
@@ -122,7 +132,7 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 		if _, err := p.Read(int(size)); err != nil {
 			return fmt.Errorf("reading fence data: %w", err)
 		}
-		s.FenceFD, err = p.ReadFileDescriptor()
+		s.FenceFD, err = p.ReadOwnedFileDescriptor()
 		if err != nil {
 			return fmt.Errorf("reading fence fd: %w", err)
 		}
@@ -153,7 +163,7 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 		return fmt.Errorf("reading hasGainMap: %w", err)
 	}
 	if hasGainMap {
-		s.GainMap, err = gralloc.ReadGraphicBuffer(p)
+		s.GainMap, err = gralloc.ReadOwnedGraphicBuffer(p)
 		if err != nil {
 			return fmt.Errorf("reading gain map: %w", err)
 		}
@@ -165,11 +175,13 @@ func (s *ScreenCaptureResults) UnmarshalParcel(p *parcel.Parcel) (_err error) {
 	return nil
 }
 
-// CopyRGBA waits for capture completion and copies supported buffer pixels.
+// CopyRGBA waits for capture completion and returns independently owned, tightly packed RGBA pixels.
 // The caller retains ownership and must close the result.
 //
 // Example: copy pixels before releasing a listener result.
-func (s *ScreenCaptureResults) CopyRGBA(ctx context.Context) ([]byte, error) {
+func (s *ScreenCaptureResults) CopyRGBA(
+	ctx context.Context,
+) ([]byte, error) {
 	if s.owner == nil {
 		return nil, fmt.Errorf("capture result has no owned buffer")
 	}

@@ -29,6 +29,14 @@ type captureListener struct {
 	result    chan captureReply
 }
 
+// captureContract reports support for the known capture wire format.
+//
+// Example: reject capture when the device contract is unknown.
+type captureContract interface {
+	// UsesSurfaceComposerAndroid14R35 reports support for the verified contract.
+	UsesSurfaceComposerAndroid14R35() bool
+}
+
 // Descriptor identifies the callback interface.
 //
 // Example: validate the callback's Binder interface token.
@@ -42,35 +50,8 @@ func (c *captureListener) OnTransaction(
 	code binder.TransactionCode,
 	p *parcel.Parcel,
 ) (*parcel.Parcel, error) {
-	var reply captureReply
-	if code != TransactionIScreenCaptureListenerOnScreenCaptureCompleted {
-		reply.err = fmt.Errorf("unexpected capture callback code %d", code)
-	} else {
-		token, err := p.ReadInterfaceToken()
-		if err != nil {
-			reply.err = err
-		} else if token != DescriptorIScreenCaptureListener {
-			reply.err = fmt.Errorf("unexpected capture callback descriptor %q", token)
-		} else {
-			present, err := p.ReadInt32()
-			if err != nil {
-				reply.err = err
-			} else if present != 1 {
-				reply.err = errors.New("capture result missing")
-			} else {
-				result := new(ScreenCaptureResults)
-				if err = result.UnmarshalParcel(p); err != nil {
-					reply.err = err
-				} else if result.FenceStatus != 0 {
-					reply.err = errors.Join(fmt.Errorf("capture failed: status %d", result.FenceStatus), result.Close())
-				} else if result.Buffer == nil {
-					reply.err = errors.Join(errors.New("capture returned no buffer"), result.Close())
-				} else {
-					reply.result = result
-				}
-			}
-		}
-	}
+	result, err := decodeCaptureReply(code, p)
+	reply := captureReply{result: result, err: err}
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.abandoned || c.completed {
@@ -84,6 +65,43 @@ func (c *captureListener) OnTransaction(
 	c.completed = true
 	c.result <- reply
 	return nil, nil
+}
+
+// decodeCaptureReply validates and decodes a native capture callback.
+//
+// Example: reject a successful response that has no buffer.
+func decodeCaptureReply(
+	code binder.TransactionCode,
+	p *parcel.Parcel,
+) (*ScreenCaptureResults, error) {
+	if code != TransactionIScreenCaptureListenerOnScreenCaptureCompleted {
+		return nil, fmt.Errorf("unexpected capture callback code %d", code)
+	}
+	token, err := p.ReadInterfaceToken()
+	if err != nil {
+		return nil, err
+	}
+	if token != DescriptorIScreenCaptureListener {
+		return nil, fmt.Errorf("unexpected capture callback descriptor %q", token)
+	}
+	present, err := p.ReadInt32()
+	if err != nil {
+		return nil, err
+	}
+	if present != 1 {
+		return nil, errors.New("capture result missing")
+	}
+	result := new(ScreenCaptureResults)
+	if err := result.UnmarshalParcel(p); err != nil {
+		return nil, err
+	}
+	if result.FenceStatus != 0 {
+		return nil, errors.Join(fmt.Errorf("capture failed: status %d", result.FenceStatus), result.Close())
+	}
+	if result.Buffer == nil {
+		return nil, errors.Join(errors.New("capture returned no buffer"), result.Close())
+	}
+	return result, nil
 }
 
 // abandon rejects later callbacks and closes any queued result.
@@ -121,14 +139,14 @@ func (p *SurfaceComposerProxy) CaptureDisplayByIdSync(
 		return nil, errors.New("capture requires a transport")
 	}
 	t := p.Remote.Transport()
-	protocol, ok := t.(interface{ UsesSurfaceComposerAndroid14R35() bool })
+	protocol, ok := t.(captureContract)
 	if !ok || !protocol.UsesSurfaceComposerAndroid14R35() {
 		if _, err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureDisplayById); err != nil {
 			return nil, fmt.Errorf("unsupported SurfaceComposer capture protocol: %w", err)
 		}
 		return nil, errors.New("unsupported SurfaceComposer capture protocol")
 	}
-	unregister, ok := t.(interface{ CanUnregisterReceiver() bool })
+	unregister, ok := t.(binder.ReceiverUnregisterCapability)
 	if !ok || !unregister.CanUnregisterReceiver() {
 		return nil, errors.New("transport cannot unregister capture listener")
 	}

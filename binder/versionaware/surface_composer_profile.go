@@ -3,6 +3,7 @@ package versionaware
 import (
 	"debug/elf"
 	"encoding/hex"
+	"errors"
 	"fmt"
 )
 
@@ -55,12 +56,12 @@ func (l surfaceComposerLibrary) supported() bool {
 func readSurfaceComposerLibrary(
 	path string,
 	api int,
-) (surfaceComposerLibrary, error) {
+) (_ surfaceComposerLibrary, _err error) {
 	f, err := elf.Open(path)
 	if err != nil {
 		return surfaceComposerLibrary{}, err
 	}
-	defer f.Close()
+	defer func() { _err = errors.Join(_err, f.Close()) }()
 	section := f.Section(".note.gnu.build-id")
 	if section == nil {
 		return surfaceComposerLibrary{}, fmt.Errorf("missing GNU build ID")

@@ -2,14 +2,16 @@ package gui
 
 import (
 	"context"
-	"errors"
-	"strings"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/stretchr/testify/require"
 )
 
+// captureSyncTransport simulates asynchronous capture callbacks.
+//
+// Example: deliver a late response after a request is canceled.
 type captureSyncTransport struct {
 	binder.VersionAwareTransport
 	receivers chan binder.TransactionReceiver
@@ -17,26 +19,77 @@ type captureSyncTransport struct {
 	released  chan struct{}
 }
 
-func (t *captureSyncTransport) RegisterReceiver(_ context.Context, r binder.TransactionReceiver) uintptr {
+// RegisterReceiver records a callback receiver.
+//
+// Example: deliver a response to the recorded receiver.
+func (t *captureSyncTransport) RegisterReceiver(
+	_ context.Context,
+	r binder.TransactionReceiver,
+) uintptr {
 	t.receivers <- r
 	return 1
 }
-func (t *captureSyncTransport) UnregisterReceiver(context.Context, uintptr) error {
+
+// UnregisterReceiver records callback cleanup.
+//
+// Example: observe listener removal after cancellation.
+func (t *captureSyncTransport) UnregisterReceiver(
+	_ context.Context,
+	_ uintptr,
+) error {
 	t.released <- struct{}{}
 	return nil
 }
-func (*captureSyncTransport) CanUnregisterReceiver() bool           { return true }
+
+// CanUnregisterReceiver reports the test transport's cleanup capability.
+//
+// Example: permit a listener registration.
+func (*captureSyncTransport) CanUnregisterReceiver() bool { return true }
+
+// UsesSurfaceComposerAndroid14R35 reports the simulated capture protocol.
+//
+// Example: allow the synchronous helper to submit a capture.
 func (*captureSyncTransport) UsesSurfaceComposerAndroid14R35() bool { return true }
-func (*captureSyncTransport) ResolveCode(context.Context, string, string) (binder.TransactionCode, error) {
+
+// ResolveCode supplies the test transaction code.
+//
+// Example: resolve the capture method.
+func (*captureSyncTransport) ResolveCode(
+	_ context.Context,
+	_ string,
+	_ string,
+) (binder.TransactionCode, error) {
 	return 26, nil
 }
-func (*captureSyncTransport) ResolveMethodSignature(context.Context, string, string) []string {
+
+// ResolveMethodSignature uses the generated proxy's signature.
+//
+// Example: marshal CaptureArgs without signature adaptation.
+func (*captureSyncTransport) ResolveMethodSignature(
+	_ context.Context,
+	_ string,
+	_ string,
+) []string {
 	return nil
 }
-func (t *captureSyncTransport) Transact(context.Context, uint32, binder.TransactionCode, binder.TransactionFlags, *parcel.Parcel) (*parcel.Parcel, error) {
+
+// Transact signals that the request was submitted.
+//
+// Example: wait until a callback can be delivered.
+func (t *captureSyncTransport) Transact(
+	_ context.Context,
+	_ uint32,
+	_ binder.TransactionCode,
+	_ binder.TransactionFlags,
+	_ *parcel.Parcel,
+) (*parcel.Parcel, error) {
 	t.sent <- struct{}{}
 	return parcel.New(), nil
 }
+
+// TestCaptureDisplayByIdSyncCancelReleasesListener verifies cancellation cleanup.
+//
+// Example: a canceled request removes its callback.
 func TestCaptureDisplayByIdSyncCancelReleasesListener(t *testing.T) {
 	tr := &captureSyncTransport{receivers: make(chan binder.TransactionReceiver, 1), sent: make(chan struct{}, 1), released: make(chan struct{}, 1)}
 	proxy := NewSurfaceComposerProxy(binder.NewProxyBinder(tr, binder.CallerIdentity{}, 1))
@@ -46,16 +99,17 @@ func TestCaptureDisplayByIdSyncCancelReleasesListener(t *testing.T) {
 	<-tr.sent
 	<-tr.receivers
 	cancel()
-	if err := <-done; !errors.Is(err, context.Canceled) {
-		t.Fatalf("got %v", err)
-	}
+	require.ErrorIs(t, <-done, context.Canceled)
 	select {
 	case <-tr.released:
 	default:
-		t.Fatal("listener not released")
+		require.FailNow(t, "listener not released")
 	}
 }
 
+// TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest verifies isolation.
+//
+// Example: a late callback cannot finish a later request.
 func TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest(t *testing.T) {
 	tr := &captureSyncTransport{receivers: make(chan binder.TransactionReceiver, 2), sent: make(chan struct{}, 2), released: make(chan struct{}, 2)}
 	proxy := NewSurfaceComposerProxy(binder.NewProxyBinder(tr, binder.CallerIdentity{}, 1))
@@ -65,9 +119,7 @@ func TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest(t *testing.T
 	<-tr.sent
 	first := <-tr.receivers
 	cancel()
-	if err := <-done; !errors.Is(err, context.Canceled) {
-		t.Fatal(err)
-	}
+	require.ErrorIs(t, <-done, context.Canceled)
 	<-tr.released
 	go func() {
 		r, err := proxy.CaptureDisplayByIdSync(context.Background(), 1, CaptureArgs{})
@@ -91,23 +143,15 @@ func TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest(t *testing.T
 		p.SetPosition(0)
 		return p
 	}
-	if _, err := first.OnTransaction(context.Background(), binder.FirstCallTransaction, reply(-1)); err != nil {
-		t.Fatal(err)
-	}
+	_, err := first.OnTransaction(context.Background(), binder.FirstCallTransaction, reply(-1))
+	require.NoError(t, err)
 	select {
 	case err := <-done:
-		t.Fatalf("late callback completed next capture: %v", err)
+		require.FailNowf(t, "late callback completed next capture", "%v", err)
 	default:
 	}
-	if _, err := second.OnTransaction(context.Background(), binder.FirstCallTransaction, reply(0)); err != nil {
-		t.Fatal(err)
-	}
-	if err := <-done; err != nil {
-		if !strings.Contains(err.Error(), "no buffer") {
-			t.Fatal(err)
-		}
-	} else {
-		t.Fatal("accepted successful capture without buffer")
-	}
+	_, err = second.OnTransaction(context.Background(), binder.FirstCallTransaction, reply(0))
+	require.NoError(t, err)
+	require.ErrorContains(t, <-done, "no buffer")
 	<-tr.released
 }

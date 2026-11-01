@@ -3,11 +3,11 @@ package gui
 import (
 	"context"
 	"encoding/binary"
-	"golang.org/x/sys/unix"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/sys/unix"
 )
 
 // TestScreenCaptureResultsRejectsMalformedFence ensures invalid fence layouts fail.
@@ -22,7 +22,7 @@ func TestScreenCaptureResultsRejectsMalformedFence(t *testing.T) {
 	p.WriteBool(false)
 	p.WriteBool(false)
 	p.WriteUint32(0)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.Error(t, result.UnmarshalParcel(p))
 }
@@ -53,7 +53,7 @@ func TestScreenCaptureResultsOwnsDescriptors(t *testing.T) {
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[2]))
 	p.WriteFloat32(1.5)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
 	require.Equal(t, int32(fds[1]), result.FenceFD)
@@ -105,7 +105,7 @@ func TestScreenCaptureResultsClosesPartialResult(t *testing.T) {
 	p.WriteInt32(1)
 	p.WriteInt32(0)
 	p.WriteFileDescriptor(int32(fds[1]))
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.Error(t, result.UnmarshalParcel(p))
 	require.Nil(t, result.Buffer)
@@ -127,7 +127,7 @@ func TestScreenCaptureResultsPreservesStatus(t *testing.T) {
 	p.WriteBool(false)
 	p.WriteBool(true)
 	p.WriteUint32(7)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
 	require.Equal(t, int32(-5), result.FenceStatus)
@@ -153,7 +153,7 @@ func TestScreenCaptureResultsCopiesShareOwnership(t *testing.T) {
 	p.WriteBool(false)
 	p.WriteBool(false)
 	p.WriteUint32(0)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
 	copy := result
@@ -175,7 +175,7 @@ func TestScreenCaptureResultsDecodeReportsCleanupError(t *testing.T) {
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[0]))
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	require.NoError(t, unix.Close(fds[0]))
 	var result ScreenCaptureResults
 	err := result.UnmarshalParcel(p)
@@ -194,7 +194,7 @@ func TestScreenCaptureResultsCopyRGBARejectsClosedCopy(t *testing.T) {
 	p.WriteBool(false)
 	p.WriteBool(false)
 	p.WriteUint32(0)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
 	copy := result
@@ -224,7 +224,7 @@ func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
 	p.WriteBool(false)
 	p.WriteBool(false)
 	p.WriteUint32(0)
-	p.SetPosition(0)
+	p = parcel.FromReceivedBytes(p.Data(), p.Objects())
 	var result ScreenCaptureResults
 	require.NoError(t, result.UnmarshalParcel(p))
 	defer result.Close()
@@ -233,5 +233,38 @@ func TestScreenCaptureResultsCopyRGBAWaitsForFence(t *testing.T) {
 	_, err := result.CopyRGBA(ctx)
 	require.ErrorIs(t, err, context.Canceled)
 	_, err = unix.FcntlInt(uintptr(fenceFDs[0]), unix.F_GETFD, 0)
+	require.NoError(t, err)
+}
+
+// TestScreenCaptureResultsBorrowedParcelPreservesDescriptors verifies independent ownership.
+//
+// Example: decoding a locally built parcel duplicates its borrowed descriptors.
+func TestScreenCaptureResultsBorrowedParcelPreservesDescriptors(t *testing.T) {
+	fds := make([]int, 2)
+	require.NoError(t, unix.Pipe(fds))
+	defer unix.Close(fds[0])
+	defer unix.Close(fds[1])
+	p := parcel.New()
+	p.WriteBool(true)
+	writeGraphicBuffer(p, int32(fds[0]))
+	p.WriteBool(true)
+	p.WriteInt32(4)
+	p.WriteInt32(1)
+	p.WriteInt32(0)
+	p.WriteFileDescriptor(int32(fds[0]))
+	p.WriteBool(false)
+	p.WriteBool(false)
+	p.WriteUint32(0)
+	p.WriteBool(true)
+	writeGraphicBuffer(p, int32(fds[0]))
+	p.WriteFloat32(1)
+	p.SetPosition(0)
+	var result ScreenCaptureResults
+	require.NoError(t, result.UnmarshalParcel(p))
+	require.NotEqual(t, int32(fds[0]), result.Buffer.Handle.Fds[0])
+	require.NotEqual(t, int32(fds[0]), result.FenceFD)
+	require.NotEqual(t, int32(fds[0]), result.GainMap.Handle.Fds[0])
+	require.NoError(t, result.Close())
+	_, err := unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
 	require.NoError(t, err)
 }

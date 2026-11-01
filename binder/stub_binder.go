@@ -44,13 +44,9 @@ func (s *StubBinder) Release(ctx context.Context) error {
 		return nil
 	}
 	switch unregister := s.transport.(type) {
-	case interface {
-		UnregisterReceiver(context.Context, uintptr) error
-	}:
+	case ReceiverUnregisterer:
 		s.releaseErr = unregister.UnregisterReceiver(ctx, s.cookie)
-	case interface {
-		UnregisterReceiver(context.Context, uintptr)
-	}:
+	case ReceiverUnregistererNoError:
 		unregister.UnregisterReceiver(ctx, s.cookie)
 	default:
 		s.releaseErr = fmt.Errorf("binder: transport cannot unregister receiver")
@@ -58,8 +54,14 @@ func (s *StubBinder) Release(ctx context.Context) error {
 	return s.releaseErr
 }
 
+// nextStubNodeID assigns process-unique opaque Binder node identities.
+//
+// Example: a new stub cannot reuse a released node's identity.
 var nextStubNodeID atomic.Uintptr
 
+// newStubNodeID reserves the next nonzero node identity.
+//
+// Example: give each local Binder stub a distinct kernel node key.
 func newStubNodeID() uintptr {
 	for {
 		old := nextStubNodeID.Load()

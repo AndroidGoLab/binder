@@ -20,8 +20,30 @@ const graphicBufferMagic uint32 = 0x47423031
 //
 //	int32(flattenedSize) + int32(fdCount) + raw[flattenedSize] + fd objects
 //
-// Example: decode the buffer from a SurfaceFlinger capture result.
+// Received descriptors are transferred to the caller; descriptors in a
+// borrowed parcel remain borrowed.
+//
+// Example: decode a GraphicBuffer while preserving its parcel's FD semantics.
 func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
+	return readGraphicBuffer(p, false)
+}
+
+// ReadOwnedGraphicBuffer returns a buffer whose descriptors the caller owns.
+// Received descriptors transfer from the parcel; borrowed descriptors are
+// duplicated with close-on-exec.
+//
+// Example: decode a capture result that can outlive its source parcel.
+func ReadOwnedGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
+	return readGraphicBuffer(p, true)
+}
+
+// readGraphicBuffer decodes a native buffer with the requested FD ownership.
+//
+// Example: an owned decode duplicates borrowed FDs before returning.
+func readGraphicBuffer(
+	p *parcel.Parcel,
+	owned bool,
+) (*Buffer, error) {
 	flattenedSize, err := p.ReadInt32()
 	if err != nil {
 		return nil, fmt.Errorf("reading flattenedSize: %w", err)
@@ -70,11 +92,19 @@ func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 
 	// Read FDs from parcel (as flat_binder_objects).
 	fds := make([]int32, numFds)
+	var acquired []int32
 	for i := range fds {
-		fd, err := p.ReadFileDescriptor()
+		var fd int32
+		var transferred bool
+		if owned {
+			fd, err = p.ReadOwnedFileDescriptor()
+			transferred = err == nil
+		} else {
+			fd, transferred, err = p.ReadFileDescriptorWithOwnership()
+		}
 		if err != nil {
 			errs := []error{fmt.Errorf("reading fd %d: %w", i, err)}
-			for _, opened := range fds[:i] {
+			for _, opened := range acquired {
 				if closeErr := unix.Close(int(opened)); closeErr != nil {
 					errs = append(errs, fmt.Errorf("closing partially read fd: %w", closeErr))
 				}
@@ -82,6 +112,9 @@ func ReadGraphicBuffer(p *parcel.Parcel) (*Buffer, error) {
 			return nil, errors.Join(errs...)
 		}
 		fds[i] = fd
+		if transferred {
+			acquired = append(acquired, fd)
+		}
 	}
 
 	return &Buffer{

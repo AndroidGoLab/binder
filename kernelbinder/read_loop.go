@@ -28,15 +28,7 @@ func (d *Driver) RegisterReceiver(
 ) uintptr {
 	logger.Tracef(ctx, "RegisterReceiver")
 
-	d.receiversMu.Lock()
-	if d.nextReceiverCookie == ^uintptr(0) {
-		d.receiversMu.Unlock()
-		panic("binder: exhausted receiver cookies")
-	}
-	d.nextReceiverCookie++
-	cookie := d.nextReceiverCookie
-	d.receivers[cookie] = &receiverEntry{receiver: receiver}
-	d.receiversMu.Unlock()
+	cookie := d.addReceiver(receiver)
 
 	// readLoopOnce is not reset on Close. A closed Driver must not be
 	// reused — Open always returns a fresh instance. If RegisterReceiver
@@ -50,6 +42,21 @@ func (d *Driver) RegisterReceiver(
 	})
 
 	logger.Tracef(ctx, "/RegisterReceiver: cookie=0x%x", cookie)
+	return cookie
+}
+
+// addReceiver assigns a never-reused cookie and registers the receiver.
+//
+// Example: preserve callback identity after an earlier listener is removed.
+func (d *Driver) addReceiver(receiver binder.TransactionReceiver) uintptr {
+	d.receiversMu.Lock()
+	defer d.receiversMu.Unlock()
+	if d.nextReceiverCookie == ^uintptr(0) {
+		panic("binder: exhausted receiver cookies")
+	}
+	d.nextReceiverCookie++
+	cookie := d.nextReceiverCookie
+	d.receivers[cookie] = &receiverEntry{receiver: receiver}
 	return cookie
 }
 

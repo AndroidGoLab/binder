@@ -2,10 +2,10 @@ package gralloc
 
 import (
 	"os"
-	"strings"
 	"testing"
 
 	common "github.com/AndroidGoLab/binder/android/hardware/common"
+	"github.com/stretchr/testify/require"
 )
 
 // pixelHandle constructs a small valid gchips handle for layout tests.
@@ -36,16 +36,12 @@ func pixelHandle() *Buffer {
 // Example: a zero-length FD cannot contain a two-row image.
 func TestCopyRGBARejectsTruncatedFD(t *testing.T) {
 	f, err := os.CreateTemp(t.TempDir(), "buffer")
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, err)
 	defer f.Close()
 	b := pixelHandle()
 	b.Handle.Fds[0] = int32(f.Fd())
 	_, err = CopyRGBA(b)
-	if err == nil || !strings.Contains(err.Error(), "pixel fd too short") {
-		t.Fatalf("got %v", err)
-	}
+	require.ErrorContains(t, err, "pixel fd too short")
 }
 
 // TestPixelRGBALayout verifies the supported plane geometry.
@@ -54,12 +50,8 @@ func TestCopyRGBARejectsTruncatedFD(t *testing.T) {
 func TestPixelRGBALayout(t *testing.T) {
 	b := pixelHandle()
 	l, err := pixelRGBALayout(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if l.fd != 7 || l.stride != 16 || l.offset != 0 || l.length != 32 {
-		t.Fatalf("wrong layout: %+v", l)
-	}
+	require.NoError(t, err)
+	require.Equal(t, rgbaLayout{fd: 7, stride: 16, offset: 0, length: 32}, l)
 }
 
 // TestPixelRGBALayoutOffset includes the plane offset in the mapped extent.
@@ -70,33 +62,46 @@ func TestPixelRGBALayoutOffset(t *testing.T) {
 	b.Handle.Ints[gchipsPlaneOffsetIndex] = 8
 	b.Handle.Ints[gchipsAllocSizeIndex] = 40
 	l, err := pixelRGBALayout(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if l.offset != 8 || l.length != 40 {
-		t.Fatalf("wrong offset mapping: %+v", l)
-	}
+	require.NoError(t, err)
+	require.Equal(t, 8, l.offset)
+	require.Equal(t, 40, l.length)
 }
 
 // TestPixelRGBALayoutRejectsUnsupported checks the ABI validation boundaries.
 //
 // Example: compressed or undersized planes must not be read as RGBA.
 func TestPixelRGBALayoutRejectsUnsupported(t *testing.T) {
-	cases := map[string]func(*Buffer){
-		"magic": func(b *Buffer) { b.Handle.Ints[2] = 0 }, "compressed": func(b *Buffer) { b.Handle.Ints[16] = 1 },
-		"bad fd": func(b *Buffer) { b.Handle.Ints[19] = 1 }, "short allocation": func(b *Buffer) { b.Handle.Ints[63] = 8 },
-		"short stride": func(b *Buffer) { b.Handle.Ints[23] = 4 }, "dimensions": func(b *Buffer) { b.Handle.Ints[5] = 3 },
-		"layers": func(b *Buffer) { b.Handle.Ints[53] = 2 }, "wrong handle length": func(b *Buffer) { b.Handle.Ints = b.Handle.Ints[:60] },
-		"mapper version": func(b *Buffer) { b.Handle.Ints[75] = 500 },
-		"short plane":    func(b *Buffer) { b.Handle.Ints[21] = 8 },
+	cases := map[string]struct {
+		index    int
+		value    int32
+		truncate bool
+	}{
+		"magic":               {index: gchipsMagicIndex, value: 0},
+		"compressed":          {index: gchipsAllocFormatIndex + 1, value: 1},
+		"bad fd":              {index: gchipsPlaneFDIndex, value: 1},
+		"short allocation":    {index: gchipsAllocSizeIndex, value: 8},
+		"short stride":        {index: gchipsPlaneByteStride, value: 4},
+		"dimensions":          {index: gchipsWidthIndex, value: 3},
+		"layers":              {index: gchipsLayerCountIndex, value: 2},
+		"wrong handle length": {truncate: true},
+		"mapper version":      {index: gchipsMapperVersionIndex, value: 500},
+		"short plane":         {index: gchipsPlaneSizeIndex, value: 8},
 	}
-	for name, mutate := range cases {
-		t.Run(name, func(t *testing.T) {
-			b := pixelHandle()
-			mutate(b)
-			if _, err := pixelRGBALayout(b); err == nil {
-				t.Fatal("accepted unsupported layout")
-			}
-		})
+	for name, mutation := range cases {
+		t.Run(name,
+			// Reject this single malformed ABI field.
+			//
+			// Example: a short plane must not be read as a full image.
+			func(t *testing.T) {
+				b := pixelHandle()
+				if mutation.truncate {
+					b.Handle.Ints = b.Handle.Ints[:60]
+				} else {
+					b.Handle.Ints[mutation.index] = mutation.value
+				}
+				_, err := pixelRGBALayout(b)
+				require.Error(t, err)
+			},
+		)
 	}
 }

@@ -57,6 +57,9 @@ func run(
 	if err != nil {
 		return fmt.Errorf("get SurfaceFlinger: %w", err)
 	}
+	if _, err := remote.ResolveCode(ctx, gui.DescriptorISurfaceComposer, gui.MethodISurfaceComposerCaptureDisplayById); err != nil {
+		return fmt.Errorf("resolve display capture: %w", err)
+	}
 	composer := gui.NewSurfaceComposerProxy(remote)
 	ids, err := composer.GetPhysicalDisplayIds(ctx)
 	if err != nil {

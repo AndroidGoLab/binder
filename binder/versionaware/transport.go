@@ -324,7 +324,7 @@ func (t *Transport) ResolveCode(
 	descriptor string,
 	method string,
 ) (binder.TransactionCode, error) {
-	if !t.surfaceComposerAndroid14R35 && descriptor == "android.gui.ISurfaceComposer" && (method == "getPhysicalDisplayIds" || method == "captureDisplayById") {
+	if !t.surfaceComposerAndroid14R35 && descriptor == "android.gui.ISurfaceComposer" && method == "captureDisplayById" {
 		return 0, fmt.Errorf("versionaware: unsupported SurfaceComposer capture contract on API %d: %s: %s", t.apiLevel, surfaceComposerLibraryPath, t.surfaceComposerDiagnostic)
 	}
 	if code := t.overrides.Resolve(descriptor, method); code != 0 {
@@ -1142,23 +1142,39 @@ func (t *Transport) RegisterReceiver(
 
 // CanUnregisterReceiver reports whether the underlying transport can remove
 // registered receivers.
+//
+// Example: check cleanup support before registering a callback.
 func (t *Transport) CanUnregisterReceiver() bool {
-	_, ok := t.inner.(interface {
-		UnregisterReceiver(context.Context, uintptr)
-	})
-	return ok
+	if capability, ok := t.inner.(binder.ReceiverUnregisterCapability); ok && !capability.CanUnregisterReceiver() {
+		return false
+	}
+	switch t.inner.(type) {
+	case binder.ReceiverUnregisterer, binder.ReceiverUnregistererNoError:
+		return true
+	default:
+		return false
+	}
 }
 
 // UnregisterReceiver removes a previously registered receiver.
-func (t *Transport) UnregisterReceiver(ctx context.Context, cookie uintptr) error {
-	unregister, ok := t.inner.(interface {
-		UnregisterReceiver(context.Context, uintptr)
-	})
-	if !ok {
+//
+// Example: release a callback registration after closing its owner.
+func (t *Transport) UnregisterReceiver(
+	ctx context.Context,
+	cookie uintptr,
+) error {
+	if !t.CanUnregisterReceiver() {
 		return fmt.Errorf("versionaware: underlying transport cannot unregister receivers")
 	}
-	unregister.UnregisterReceiver(ctx, cookie)
-	return nil
+	switch unregister := t.inner.(type) {
+	case binder.ReceiverUnregisterer:
+		return unregister.UnregisterReceiver(ctx, cookie)
+	case binder.ReceiverUnregistererNoError:
+		unregister.UnregisterReceiver(ctx, cookie)
+		return nil
+	default:
+		return fmt.Errorf("versionaware: underlying transport cannot unregister receivers")
+	}
 }
 
 func (t *Transport) RequestDeathNotification(

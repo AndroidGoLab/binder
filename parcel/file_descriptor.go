@@ -85,8 +85,10 @@ func (p *Parcel) WriteFileDescriptor(
 	binary.LittleEndian.PutUint64(buf[16:], 0)
 }
 
-// ReadFileDescriptor reads a flat_binder_object with type BINDER_TYPE_FD
-// and returns the file descriptor.
+// ReadFileDescriptor reads a flat_binder_object with type BINDER_TYPE_FD.
+// It transfers received descriptors and returns borrowed descriptors unchanged.
+//
+// Example: decode an incoming Binder descriptor for the caller to close.
 func (p *Parcel) ReadFileDescriptor() (int32, error) {
 	offset := p.Position()
 	b, err := p.read(flatBinderObjectSize)
@@ -114,6 +116,37 @@ func (p *Parcel) ReadFileDescriptor() (int32, error) {
 		p.receivedFDs[offset] = -1
 	}
 	return fd, nil
+}
+
+// ReadFileDescriptorWithOwnership reports whether the descriptor was transferred
+// from a received parcel. Borrowed parcels retain ownership of the descriptor.
+//
+// Example: close transferred descriptors if a containing object fails to decode.
+func (p *Parcel) ReadFileDescriptorWithOwnership() (int32, bool, error) {
+	fd, err := p.ReadFileDescriptor()
+	if err != nil {
+		return 0, false, err
+	}
+	return fd, p.receivedFDs != nil, nil
+}
+
+// ReadOwnedFileDescriptor returns a descriptor owned by the caller. Received
+// descriptors transfer from the parcel; borrowed descriptors are duplicated.
+//
+// Example: decode a resource that can be closed independently of its parcel.
+func (p *Parcel) ReadOwnedFileDescriptor() (int32, error) {
+	fd, transferred, err := p.ReadFileDescriptorWithOwnership()
+	if err != nil {
+		return 0, err
+	}
+	if transferred {
+		return fd, nil
+	}
+	dup, err := duplicateFileDescriptor(fd)
+	if err != nil {
+		return 0, fmt.Errorf("parcel: duplicate borrowed file descriptor: %w", err)
+	}
+	return dup, nil
 }
 
 // WriteParcelFileDescriptor writes a ParcelFileDescriptor (AIDL type) to
@@ -144,6 +177,8 @@ func (p *Parcel) WriteParcelFileDescriptor(
 //	FD object  - flat_binder_object with BINDER_TYPE_FD
 //
 // Returns -1 for a null ParcelFileDescriptor.
+//
+// Example: read a descriptor supplied by a remote service.
 func (p *Parcel) ReadParcelFileDescriptor() (_fd int32, _err error) {
 	nullInd, err := p.ReadInt32()
 	if err != nil {
@@ -165,7 +200,10 @@ func (p *Parcel) ReadParcelFileDescriptor() (_fd int32, _err error) {
 	if err != nil {
 		return -1, err
 	}
-	defer func() {
+	defer // Release an acquired primary descriptor if later decoding fails.
+	//
+	// Example: a missing communication descriptor closes the received primary.
+	func() {
 		if _err != nil && ownsPrimary {
 			_err = errors.Join(_err, closeFileDescriptor(fd))
 		}

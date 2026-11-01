@@ -74,13 +74,16 @@ func TestRecognizeSurfaceComposer(t *testing.T) {
 // Example: an old cache cannot select a native contract on a new firmware.
 func TestUnselectedSurfaceComposerRejectsCachedCodes(t *testing.T) {
 	tr := &Transport{apiLevel: 34, table: VersionTable{"android.gui.ISurfaceComposer": {"getPhysicalDisplayIds": 6, "captureDisplayById": 26, "other": 7}}}
-	for _, method := range []string{"getPhysicalDisplayIds", "captureDisplayById"} {
+	for _, method := range []string{"captureDisplayById"} {
 		_, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", method)
 		require.ErrorContains(t, err, "unsupported")
 		require.ErrorContains(t, err, "API 34")
 		require.ErrorContains(t, err, "/system/lib64/libgui.so")
 	}
-	code, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "other")
+	code, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "getPhysicalDisplayIds")
+	require.NoError(t, err)
+	require.Equal(t, binder.TransactionCode(6), code)
+	code, err = tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "other")
 	require.NoError(t, err)
 	require.Equal(t, binder.TransactionCode(7), code)
 }
