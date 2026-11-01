@@ -69,23 +69,37 @@ func TestRecognizeSurfaceComposer(t *testing.T) {
 	}
 }
 
-// TestUnselectedSurfaceComposerRejectsCachedCodes prevents unsafe transactions.
+// TestUnselectedSurfaceComposerPreservesResolvedCodes checks ordinary lookup.
 //
-// Example: an old cache cannot select a native contract on a new firmware.
-func TestUnselectedSurfaceComposerRejectsCachedCodes(t *testing.T) {
+// Example: a caller may resolve its own capture contract from a cached table.
+func TestUnselectedSurfaceComposerPreservesResolvedCodes(t *testing.T) {
 	tr := &Transport{apiLevel: 34, table: VersionTable{"android.gui.ISurfaceComposer": {"getPhysicalDisplayIds": 6, "captureDisplayById": 26, "other": 7}}}
-	for _, method := range []string{"captureDisplayById"} {
-		_, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", method)
-		require.ErrorContains(t, err, "unsupported")
-		require.ErrorContains(t, err, "API 34")
-		require.ErrorContains(t, err, "/system/lib64/libgui.so")
-	}
-	code, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "getPhysicalDisplayIds")
+	code, err := tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "captureDisplayById")
+	require.NoError(t, err)
+	require.Equal(t, binder.TransactionCode(26), code)
+	code, err = tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "getPhysicalDisplayIds")
 	require.NoError(t, err)
 	require.Equal(t, binder.TransactionCode(6), code)
 	code, err = tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "other")
 	require.NoError(t, err)
 	require.Equal(t, binder.TransactionCode(7), code)
+	tr = &Transport{table: VersionTable{}}
+	tr.MergeTable(VersionTable{"android.gui.ISurfaceComposer": {"captureDisplayById": 26}})
+	code, err = tr.ResolveCode(context.Background(), "android.gui.ISurfaceComposer", "captureDisplayById")
+	require.NoError(t, err)
+	require.Equal(t, binder.TransactionCode(26), code)
+}
+
+// TestCheckSurfaceComposerContract checks explicit validation and diagnostics.
+//
+// Example: reject capture before registration when the native contract is unknown.
+func TestCheckSurfaceComposerContract(t *testing.T) {
+	unknown := &Transport{apiLevel: 34, surfaceComposerDiagnostic: "unrecognized build"}
+	err := unknown.CheckSurfaceComposerAndroid14R35()
+	require.ErrorContains(t, err, "API 34")
+	require.ErrorContains(t, err, "/system/lib64/libgui.so")
+	require.ErrorContains(t, err, "unrecognized build")
+	require.NoError(t, (&Transport{surfaceComposerAndroid14R35: true}).CheckSurfaceComposerAndroid14R35())
 }
 
 // TestSurfaceComposerDefinedSymbols excludes imported functions from evidence.

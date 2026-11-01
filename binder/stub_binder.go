@@ -142,6 +142,8 @@ func (s *StubBinder) Cookie() uintptr {
 }
 
 // BinderPtr returns the opaque identity used for the kernel Binder node.
+//
+// Example: write this identity into a local Binder object.
 func (s *StubBinder) BinderPtr() uintptr {
 	return s.nodeID
 }
@@ -149,6 +151,8 @@ func (s *StubBinder) BinderPtr() uintptr {
 // Transport returns the VersionAwareTransport stored during
 // RegisterWithTransport, or nil if the stub has not been registered
 // or the stored transport does not implement VersionAwareTransport.
+//
+// Example: retrieve the transport associated with a registered stub.
 func (s *StubBinder) Transport() VersionAwareTransport {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -164,6 +168,8 @@ func (s *StubBinder) Identity() CallerIdentity {
 // RegisterWithTransport registers this stub's receiver with the given
 // transport and stores the returned cookie. Subsequent calls are no-ops
 // (the stub is only registered once). Returns the cookie.
+//
+// Example: register a callback before passing its stub to a proxy.
 func (s *StubBinder) RegisterWithTransport(
 	ctx context.Context,
 	t Transport,

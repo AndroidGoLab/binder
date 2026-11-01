@@ -52,6 +52,11 @@ func (*captureSyncTransport) CanUnregisterReceiver() bool { return true }
 // Example: allow the synchronous helper to submit a capture.
 func (*captureSyncTransport) UsesSurfaceComposerAndroid14R35() bool { return true }
 
+// CheckSurfaceComposerAndroid14R35 accepts the simulated capture protocol.
+//
+// Example: submit a request on a verified test transport.
+func (*captureSyncTransport) CheckSurfaceComposerAndroid14R35() error { return nil }
+
 // ResolveCode supplies the test transaction code.
 //
 // Example: resolve the capture method.
@@ -163,4 +168,43 @@ func TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest(t *testing.T
 	require.NoError(t, err)
 	require.ErrorContains(t, <-done, "no buffer")
 	<-tr.released
+}
+
+// unsupportedCaptureTransport simulates a resolvable code without a verified contract.
+//
+// Example: a caller supplied an override but the capture wire format is unknown.
+type unsupportedCaptureTransport struct{ *captureSyncTransport }
+
+// CheckSurfaceComposerAndroid14R35 rejects the unknown capture contract.
+//
+// Example: report device-specific recognition evidence.
+func (*unsupportedCaptureTransport) CheckSurfaceComposerAndroid14R35() error {
+	return errors.New("unrecognized test device")
+}
+
+// Transact records an unexpected request instead of waiting for a callback.
+//
+// Example: ensure an unsupported profile never reaches Binder IPC.
+func (t *unsupportedCaptureTransport) Transact(
+	_ context.Context,
+	_ uint32,
+	_ binder.TransactionCode,
+	_ binder.TransactionFlags,
+	_ *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	t.sent <- struct{}{}
+	return nil, errors.New("unexpected transaction")
+}
+
+// TestCaptureDisplayByIdSyncRejectsUnverifiedContractBeforeIPC protects capture callers.
+//
+// Example: a manually resolved transaction code cannot bypass protocol checking.
+func TestCaptureDisplayByIdSyncRejectsUnverifiedContractBeforeIPC(t *testing.T) {
+	inner := &captureSyncTransport{receivers: make(chan binder.TransactionReceiver, 1), sent: make(chan struct{}, 1), released: make(chan struct{}, 1)}
+	proxy := NewSurfaceComposerProxy(binder.NewProxyBinder(&unsupportedCaptureTransport{inner}, binder.CallerIdentity{}, 1))
+	result, err := proxy.CaptureDisplayByIdSync(context.Background(), 1, CaptureArgs{})
+	require.Nil(t, result)
+	require.ErrorContains(t, err, "unrecognized test device")
+	require.Empty(t, inner.receivers)
+	require.Empty(t, inner.sent)
 }

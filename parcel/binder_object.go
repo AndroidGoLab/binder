@@ -41,14 +41,12 @@ const (
 
 // WriteLocalBinder writes a local binder object to the parcel.
 //
-// binderPtr is the binder node address -- the kernel uses it to find or
-// create the binder_node that represents this object. It must be a unique,
-// non-zero process-space address (analogous to BBinder::getWeakRefs() in
-// the C++ implementation).
+// binderPtr is an opaque nonzero Binder node identity. The kernel uses it
+// to find or create the node; it need not be a process-space address.
 //
 // cookie is echoed back in incoming BR_TRANSACTION events and is used by
 // the process for dispatch (analogous to the BBinder* pointer in C++).
-// It must also be a non-zero process-space address.
+// It must also be nonzero; it need not be a process-space address.
 //
 // The kernel converts this BINDER_TYPE_BINDER into BINDER_TYPE_HANDLE in
 // the receiving process.

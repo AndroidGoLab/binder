@@ -22,6 +22,8 @@ import (
 //
 // Cookies are opaque nonzero values that are never reused during this
 // driver's lifetime, including after a receiver is unregistered.
+//
+// Example: register a listener before sending its Binder node.
 func (d *Driver) RegisterReceiver(
 	ctx context.Context,
 	receiver binder.TransactionReceiver,
@@ -425,17 +427,9 @@ func (d *Driver) handleIncomingTransaction(
 	// Free the mmap'd buffer as soon as we have copied the data.
 	// Preserve the object offsets so unread received descriptors can be closed,
 	// even when the receiver was unregistered before a late callback arrived.
-	var objects []uint64
-	if txn.offsetsSize > 0 {
-		offsets, err := d.copyFromMapped(txn.offsetsBuffer, txn.offsetsSize)
-		if err != nil {
-			logger.Warnf(ctx, "failed to copy transaction object offsets: %v", err)
-		} else {
-			for len(offsets) >= 8 {
-				objects = append(objects, binary.LittleEndian.Uint64(offsets))
-				offsets = offsets[8:]
-			}
-		}
+	objects, err := d.copyIncomingObjectOffsets(txn)
+	if err != nil {
+		logger.Warnf(ctx, "failed to copy transaction object offsets: %v", err)
 	}
 	dataParcel := parcel.FromReceivedBytes(dataBytes, objects)
 	// Release descriptors that the callback did not take ownership of.
@@ -493,6 +487,25 @@ func (d *Driver) handleIncomingTransaction(
 	}
 
 	d.sendReply(ctx, replyParcel)
+}
+
+// copyIncomingObjectOffsets copies the transaction's flat-object offsets.
+//
+// Example: retain descriptor positions after the kernel buffer is freed.
+func (d *Driver) copyIncomingObjectOffsets(txn *binderTransactionData) ([]uint64, error) {
+	if txn.offsetsSize == 0 {
+		return nil, nil
+	}
+	offsets, err := d.copyFromMapped(txn.offsetsBuffer, txn.offsetsSize)
+	if err != nil {
+		return nil, err
+	}
+	var objects []uint64
+	for len(offsets) >= 8 {
+		objects = append(objects, binary.LittleEndian.Uint64(offsets))
+		offsets = offsets[8:]
+	}
+	return objects, nil
 }
 
 // sendReply sends a BC_REPLY with the given parcel data.

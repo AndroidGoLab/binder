@@ -33,10 +33,10 @@ type captureListener struct {
 //
 // Example: reject capture when the device contract is unknown.
 type captureContract interface {
-	// UsesSurfaceComposerAndroid14R35 reports support for the verified contract.
+	// CheckSurfaceComposerAndroid14R35 verifies the supported capture contract.
 	//
 	// Example: reject capture on an unrecognized device.
-	UsesSurfaceComposerAndroid14R35() bool
+	CheckSurfaceComposerAndroid14R35() error
 }
 
 // Descriptor identifies the callback interface.
@@ -57,16 +57,27 @@ func (c *captureListener) OnTransaction(
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.abandoned || c.completed {
-		if reply.result != nil {
-			if err := reply.result.Close(); err != nil {
-				logger.Warnf(ctx, "closing late capture result: %v", err)
-			}
-		}
+		closeLateCapture(ctx, reply.result)
 		return nil, nil
 	}
 	c.completed = true
 	c.result <- reply
 	return nil, nil
+}
+
+// closeLateCapture reports cleanup failures for an abandoned callback.
+//
+// Example: a canceled request releases a result that arrived too late.
+func closeLateCapture(
+	ctx context.Context,
+	result *ScreenCaptureResults,
+) {
+	if result == nil {
+		return
+	}
+	if err := result.Close(); err != nil {
+		logger.Warnf(ctx, "closing late capture result: %v", err)
+	}
 }
 
 // decodeCaptureReply validates and decodes a native capture callback.
@@ -142,11 +153,11 @@ func (p *SurfaceComposerProxy) CaptureDisplayByIdSync(
 	}
 	t := p.Remote.Transport()
 	protocol, ok := t.(captureContract)
-	if !ok || !protocol.UsesSurfaceComposerAndroid14R35() {
-		if _, err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureDisplayById); err != nil {
-			return nil, fmt.Errorf("unsupported SurfaceComposer capture protocol: %w", err)
-		}
+	if !ok {
 		return nil, errors.New("unsupported SurfaceComposer capture protocol")
+	}
+	if err := protocol.CheckSurfaceComposerAndroid14R35(); err != nil {
+		return nil, fmt.Errorf("unsupported SurfaceComposer capture protocol: %w", err)
 	}
 	unregister, ok := t.(binder.ReceiverUnregisterCapability)
 	if !ok || !unregister.CanUnregisterReceiver() {

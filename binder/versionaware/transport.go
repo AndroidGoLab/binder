@@ -86,6 +86,16 @@ func (t *Transport) UsesSurfaceComposerAndroid14R35() bool {
 	return t.surfaceComposerAndroid14R35
 }
 
+// CheckSurfaceComposerAndroid14R35 validates the selected native capture contract.
+//
+// Example: check the device contract before registering a capture listener.
+func (t *Transport) CheckSurfaceComposerAndroid14R35() error {
+	if t.surfaceComposerAndroid14R35 {
+		return nil
+	}
+	return fmt.Errorf("versionaware: unsupported SurfaceComposer capture contract on API %d: %s: %s", t.apiLevel, surfaceComposerLibraryPath, t.surfaceComposerDiagnostic)
+}
+
 // DetectAPILevel returns the Android API level of the running device.
 // Reads /etc/build_flags.json (no fork, no binder dependency).
 // Returns 0 if detection fails.
@@ -324,9 +334,6 @@ func (t *Transport) ResolveCode(
 	descriptor string,
 	method string,
 ) (binder.TransactionCode, error) {
-	if !t.surfaceComposerAndroid14R35 && descriptor == "android.gui.ISurfaceComposer" && method == "captureDisplayById" {
-		return 0, fmt.Errorf("versionaware: unsupported SurfaceComposer capture contract on API %d: %s: %s", t.apiLevel, surfaceComposerLibraryPath, t.surfaceComposerDiagnostic)
-	}
 	if code := t.overrides.Resolve(descriptor, method); code != 0 {
 		return code, nil
 	}

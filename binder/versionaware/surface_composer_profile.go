@@ -8,6 +8,34 @@ import (
 )
 
 const (
+	// surfaceComposerVerifiedAPI is the API level of the verified library.
+	//
+	// Example: reject a matching library on a different Android API level.
+	surfaceComposerVerifiedAPI = 34
+	// elfNoteWordSize is the size of each ELF note header field.
+	//
+	// Example: locate the note type after two fields.
+	elfNoteWordSize = 4
+	// elfNoteHeaderSize is the size of an ELF note header.
+	//
+	// Example: locate the owner after three header fields.
+	elfNoteHeaderSize = 3 * elfNoteWordSize
+	// gnuBuildIDNoteType identifies GNU build ID notes.
+	//
+	// Example: distinguish a build ID from another GNU note.
+	gnuBuildIDNoteType = 3
+	// gnuBuildIDOwner is the null-terminated GNU note owner.
+	//
+	// Example: verify the owner of a build ID note.
+	gnuBuildIDOwner = "GNU\x00"
+	// surfaceComposerBuildIDSize is the verified build ID length in bytes.
+	//
+	// Example: reject a build ID of an unsupported length.
+	surfaceComposerBuildIDSize = 16
+	// gnuBuildIDDescriptorOffset locates the descriptor after the aligned owner.
+	//
+	// Example: read a build ID following its note header and owner.
+	gnuBuildIDDescriptorOffset = elfNoteHeaderSize + len(gnuBuildIDOwner)
 	// surfaceComposerLibraryPath identifies the device's 64-bit native client.
 	//
 	// Example: inspect this file to recognize the capture contract.
@@ -45,7 +73,7 @@ type surfaceComposerLibrary struct {
 //
 // Example: reject a different build even when it exports the same signatures.
 func (l surfaceComposerLibrary) supported() bool {
-	return l.API == 34 && l.Class == elf.ELFCLASS64 && l.Machine == elf.EM_AARCH64 &&
+	return l.API == surfaceComposerVerifiedAPI && l.Class == elf.ELFCLASS64 && l.Machine == elf.EM_AARCH64 &&
 		l.BuildID == surfaceComposerVerifiedBuildID && l.Symbols[surfaceComposerCaptureSymbol] &&
 		l.Symbols[surfaceComposerIDsSymbol] && l.Symbols[surfaceComposerSerializerSymbol]
 }
@@ -73,20 +101,20 @@ func readSurfaceComposerLibrary(
 	if err != nil {
 		return surfaceComposerLibrary{}, err
 	}
-	if len(note) < 16 {
+	if len(note) < gnuBuildIDDescriptorOffset {
 		return surfaceComposerLibrary{}, fmt.Errorf("invalid GNU build ID note")
 	}
-	namesz := f.ByteOrder.Uint32(note[0:4])
-	descsz := f.ByteOrder.Uint32(note[4:8])
-	kind := f.ByteOrder.Uint32(note[8:12])
-	if namesz != 4 || kind != 3 || string(note[12:16]) != "GNU\x00" || descsz != 16 || len(note) < 16+int(descsz) {
+	namesz := f.ByteOrder.Uint32(note[:elfNoteWordSize])
+	descsz := f.ByteOrder.Uint32(note[elfNoteWordSize : 2*elfNoteWordSize])
+	kind := f.ByteOrder.Uint32(note[2*elfNoteWordSize : elfNoteHeaderSize])
+	if namesz != uint32(len(gnuBuildIDOwner)) || kind != gnuBuildIDNoteType || string(note[elfNoteHeaderSize:gnuBuildIDDescriptorOffset]) != gnuBuildIDOwner || descsz != surfaceComposerBuildIDSize || len(note) < gnuBuildIDDescriptorOffset+int(descsz) {
 		return surfaceComposerLibrary{}, fmt.Errorf("invalid GNU build ID note")
 	}
 	syms, err := f.DynamicSymbols()
 	if err != nil {
 		return surfaceComposerLibrary{}, err
 	}
-	result := surfaceComposerLibrary{API: api, Class: f.Class, Machine: f.Machine, BuildID: hex.EncodeToString(note[16 : 16+descsz]), Symbols: surfaceComposerDefinedSymbols(syms)}
+	result := surfaceComposerLibrary{API: api, Class: f.Class, Machine: f.Machine, BuildID: hex.EncodeToString(note[gnuBuildIDDescriptorOffset : gnuBuildIDDescriptorOffset+int(descsz)]), Symbols: surfaceComposerDefinedSymbols(syms)}
 	return result, nil
 }
 

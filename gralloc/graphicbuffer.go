@@ -103,13 +103,7 @@ func readGraphicBuffer(
 			fd, transferred, err = p.ReadFileDescriptorWithOwnership()
 		}
 		if err != nil {
-			errs := []error{fmt.Errorf("reading fd %d: %w", i, err)}
-			for _, opened := range acquired {
-				if closeErr := unix.Close(int(opened)); closeErr != nil {
-					errs = append(errs, fmt.Errorf("closing partially read fd: %w", closeErr))
-				}
-			}
-			return nil, errors.Join(errs...)
+			return nil, errors.Join(fmt.Errorf("reading fd %d: %w", i, err), closeGraphicBufferFDs(acquired))
 		}
 		fds[i] = fd
 		if transferred {
@@ -128,4 +122,17 @@ func readGraphicBuffer(
 		Format: format,
 		Usage:  uint64(usageHigh)<<32 | uint64(usageLow),
 	}, nil
+}
+
+// closeGraphicBufferFDs releases descriptors acquired during a failed decode.
+//
+// Example: preserve every close error when a later descriptor is missing.
+func closeGraphicBufferFDs(fds []int32) error {
+	var errs []error
+	for _, fd := range fds {
+		if err := unix.Close(int(fd)); err != nil {
+			errs = append(errs, fmt.Errorf("closing partially read fd: %w", err))
+		}
+	}
+	return errors.Join(errs...)
 }

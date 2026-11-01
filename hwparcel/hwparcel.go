@@ -207,6 +207,7 @@ func (p *HwParcel) WriteNullBinder() {
 // into the inline data with a real binder/cookie pair. The kernel will
 // create a binder_node for this object and translate it to a
 // BINDER_TYPE_HANDLE in the receiving process.
+// Both values are opaque Binder identities; they need not be addresses.
 //
 // Unlike AIDL, HIDL does NOT write a stability level after the flat_binder_object.
 // The offset IS recorded in the objects array so the kernel processes it.
