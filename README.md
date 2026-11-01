@@ -620,7 +620,7 @@ More examples: [`examples/`](examples/)
 | [`rkp_monitor`](examples/rkp_monitor/) | Monitor remote key provisioning (RKP) and device security state. |
 | [`rotation_resolver`](examples/rotation_resolver/) | Query device rotation and display state via WindowManager and DisplayManager. |
 | [`satellite_check`](examples/satellite_check/) | Check satellite telephony readiness by querying the telephony service. |
-| [`screen_capture`](examples/screen_capture/) | This example captures one raw RGBA frame of the screen via an Android 14 virtual display. |
+| [`screen_capture`](examples/screen_capture/) | The screen_capture example captures one scaled RGBA8888 display frame. |
 | [`screen_control`](examples/screen_control/) | Check screen on/off state and display interactivity via PowerManager. |
 | [`secure_element`](examples/secure_element/) | Query OMAPI SecureElementService for available readers. |
 | [`security_test_apk`](examples/security_test_apk/) | Binary security_test_apk probes whether an app-sandboxed process can |
