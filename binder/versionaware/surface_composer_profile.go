@@ -61,6 +61,8 @@ func readSurfaceComposerLibrary(
 	if err != nil {
 		return surfaceComposerLibrary{}, err
 	}
+	// Report a close failure alongside any inspection failure.
+	// Example: a successful inspection still reports a failed close.
 	defer func() { _err = errors.Join(_err, f.Close()) }()
 	section := f.Section(".note.gnu.build-id")
 	if section == nil {

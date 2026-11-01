@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/binder"
@@ -95,6 +96,8 @@ func TestCaptureDisplayByIdSyncCancelReleasesListener(t *testing.T) {
 	proxy := NewSurfaceComposerProxy(binder.NewProxyBinder(tr, binder.CallerIdentity{}, 1))
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
+	// Run capture concurrently so cancellation can interrupt its wait.
+	// Example: a canceled request unregisters its listener.
 	go func() { _, err := proxy.CaptureDisplayByIdSync(ctx, 1, CaptureArgs{}); done <- err }()
 	<-tr.sent
 	<-tr.receivers
@@ -115,21 +118,27 @@ func TestCaptureDisplayByIdSyncLateResultDoesNotCompleteNextRequest(t *testing.T
 	proxy := NewSurfaceComposerProxy(binder.NewProxyBinder(tr, binder.CallerIdentity{}, 1))
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 2)
+	// Submit the first request while the test controls its cancellation.
+	// Example: cancel before a callback is delivered.
 	go func() { _, err := proxy.CaptureDisplayByIdSync(ctx, 1, CaptureArgs{}); done <- err }()
 	<-tr.sent
 	first := <-tr.receivers
 	cancel()
 	require.ErrorIs(t, <-done, context.Canceled)
 	<-tr.released
+	// Submit a second request before the first callback arrives.
+	// Example: a late first callback must not complete this request.
 	go func() {
 		r, err := proxy.CaptureDisplayByIdSync(context.Background(), 1, CaptureArgs{})
 		if r != nil {
-			_ = r.Close()
+			err = errors.Join(err, r.Close())
 		}
 		done <- err
 	}()
 	<-tr.sent
 	second := <-tr.receivers
+	// Construct a native callback with a chosen capture status.
+	// Example: encode a failure for the abandoned request.
 	reply := func(status int32) *parcel.Parcel {
 		p := parcel.New()
 		p.WriteInterfaceToken(DescriptorIScreenCaptureListener)

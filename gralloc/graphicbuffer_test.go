@@ -2,9 +2,11 @@ package gralloc
 
 import (
 	"encoding/binary"
+	"errors"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sys/unix"
 )
@@ -154,7 +156,10 @@ func TestReadOwnedGraphicBufferFailurePreservesBorrowedFD(t *testing.T) {
 	// Example: a failed decode assertion still releases the test pipe.
 	func() {
 		if sourceOpen {
-			_ = unix.Close(fds[0])
+			err := unix.Close(fds[0])
+			if !errors.Is(err, unix.EBADF) {
+				assert.NoError(t, err)
+			}
 		}
 	}()
 	defer unix.Close(fds[1])

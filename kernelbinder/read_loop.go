@@ -442,6 +442,8 @@ func (d *Driver) handleIncomingTransaction(
 		}
 	}
 	dataParcel := parcel.FromReceivedBytes(dataBytes, objects)
+	// Release descriptors that the callback did not take ownership of.
+	// Example: a late callback has no registered receiver.
 	defer func() {
 		if err := dataParcel.Close(); err != nil {
 			logger.Warnf(ctx, "failed to close unread incoming descriptors: %v", err)

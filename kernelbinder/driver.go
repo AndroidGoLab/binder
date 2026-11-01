@@ -577,15 +577,19 @@ func (d *Driver) parseReadBuffer(
 
 			var txn binderTransactionData
 			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
+			// Release the kernel buffer on success and on every decode error.
+			// Example: a failed offsets copy still releases the reply buffer.
+			defer func() {
+				if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
+					logger.Warnf(ctx, "failed to free binder buffer: %v", err)
+				}
+			}()
 
 			logger.Tracef(ctx, "BR_REPLY: flags=0x%x dataSize=%d offsetsSize=%d", txn.flags, txn.dataSize, txn.offsetsSize)
 
 			if txn.dataSize == 0 {
 				// The kernel requires BC_FREE_BUFFER for ALL BR_REPLY
 				// buffers regardless of dataSize.
-				if freeErr := d.freeBuffer(ctx, txn.dataBuffer); freeErr != nil {
-					logger.Warnf(ctx, "failed to free binder buffer: %v", freeErr)
-				}
 				return parcel.New(), true, gotTransactionComplete, nil
 			}
 
@@ -595,9 +599,6 @@ func (d *Driver) parseReadBuffer(
 			}
 
 			if transactionFlag(txn.flags)&tfStatusCode != 0 {
-				if freeErr := d.freeBuffer(ctx, txn.dataBuffer); freeErr != nil {
-					logger.Warnf(ctx, "failed to free binder buffer: %v", freeErr)
-				}
 				if len(replyData) >= 4 {
 					statusCode := int32(binary.LittleEndian.Uint32(replyData))
 					if statusCode != 0 {
@@ -608,6 +609,20 @@ func (d *Driver) parseReadBuffer(
 			}
 
 			d.acquireReplyHandles(ctx, replyData, txn.offsetsBuffer, txn.offsetsSize)
+			var objects []uint64
+			if txn.offsetsSize > 0 {
+				if txn.offsetsSize%8 != 0 {
+					return nil, true, gotTransactionComplete, fmt.Errorf("binder: invalid reply offsets size %d", txn.offsetsSize)
+				}
+				offsets, err := d.copyFromMapped(txn.offsetsBuffer, txn.offsetsSize)
+				if err != nil {
+					return nil, true, gotTransactionComplete, fmt.Errorf("binder: copy reply offsets: %w", err)
+				}
+				for len(offsets) > 0 {
+					objects = append(objects, binary.LittleEndian.Uint64(offsets))
+					offsets = offsets[8:]
+				}
+			}
 
 			// Resolve HIDL scatter-gather buffers before freeing the mmap'd
 			// region. BINDER_TYPE_PTR objects reference data in the extra
@@ -618,11 +633,7 @@ func (d *Driver) parseReadBuffer(
 				logger.Warnf(ctx, "scatter-gather resolve: %v", sgErr)
 			}
 
-			if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
-				logger.Warnf(ctx, "failed to free binder buffer: %v", err)
-			}
-
-			return parcel.FromBytes(replyData), true, gotTransactionComplete, nil
+			return parcel.FromReceivedBytes(replyData, objects), true, gotTransactionComplete, nil
 
 		case brTransaction:
 			logger.Tracef(ctx, "parseReadBuffer: BR_TRANSACTION (inline)")

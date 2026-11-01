@@ -34,6 +34,8 @@ type captureListener struct {
 // Example: reject capture when the device contract is unknown.
 type captureContract interface {
 	// UsesSurfaceComposerAndroid14R35 reports support for the verified contract.
+	//
+	// Example: reject capture on an unrecognized device.
 	UsesSurfaceComposerAndroid14R35() bool
 }
 

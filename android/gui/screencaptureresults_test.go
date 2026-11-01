@@ -3,6 +3,7 @@ package gui
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/parcel"
@@ -34,11 +35,16 @@ func TestScreenCaptureResultsOwnsDescriptors(t *testing.T) {
 	fds := make([]int, 4)
 	require.NoError(t, unix.Pipe(fds[:2]))
 	require.NoError(t, unix.Pipe(fds[2:]))
-	t.Cleanup(func() {
-		for _, fd := range fds {
-			_ = unix.Close(fd)
-		}
-	})
+	t.Cleanup( // Release any descriptors not already closed by the result.
+		//
+		// Example: an early assertion leaves a pipe open.
+		func() {
+			for _, fd := range fds {
+				if err := unix.Close(fd); err != nil && !errors.Is(err, unix.EBADF) {
+					t.Errorf("close fd %d: %v", fd, err)
+				}
+			}
+		})
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[0]))
@@ -92,11 +98,16 @@ func writeGraphicBuffer(p *parcel.Parcel, fd int32) {
 func TestScreenCaptureResultsClosesPartialResult(t *testing.T) {
 	fds := make([]int, 2)
 	require.NoError(t, unix.Pipe(fds))
-	t.Cleanup(func() {
-		for _, fd := range fds {
-			_ = unix.Close(fd)
-		}
-	})
+	t.Cleanup( // Release any descriptors not already closed by failed decoding.
+		//
+		// Example: an early assertion leaves a pipe open.
+		func() {
+			for _, fd := range fds {
+				if err := unix.Close(fd); err != nil && !errors.Is(err, unix.EBADF) {
+					t.Errorf("close fd %d: %v", fd, err)
+				}
+			}
+		})
 	p := parcel.New()
 	p.WriteBool(true)
 	writeGraphicBuffer(p, int32(fds[0]))
