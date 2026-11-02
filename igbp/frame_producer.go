@@ -213,8 +213,12 @@ func (p *FrameProducer) OnTransaction(ctx context.Context, code binder.Transacti
 		return r, nil
 	case SetMaxDequeuedBufCount, SetAsyncMode, AllowAllocation, SetGenerationNumber, SetDequeueTimeout, SetSharedBufferMode, SetAutoRefresh, SetLegacyBufferDrop, SetAutoPrerotation, Disconnect:
 		return simpleOKReply()
-	case AllocateBuffers, GetFrameTimestamps:
+	case AllocateBuffers:
 		return nil, nil
+	case GetFrameTimestamps:
+		r := parcel.New()
+		WriteEmptyFrameEventHistoryDelta(r)
+		return r, nil
 	case GetConsumerUsage:
 		r := parcel.New()
 		r.WriteUint64(p.slots[0].buffer.Usage)

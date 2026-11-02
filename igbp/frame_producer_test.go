@@ -202,3 +202,113 @@ func TestFrameProducerIDsDiffer(t *testing.T) {
 	}
 	require.NotEqual(t, id(a), id(b))
 }
+
+// TestFrameProducerTimestampsReply checks the native empty timestamp delta.
+//
+// Example: a native client can decode a frame history with no events.
+func TestFrameProducerTimestampsReply(t *testing.T) {
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.SetPosition(0)
+	reply, err := p.OnTransaction(context.Background(), GetFrameTimestamps, req)
+	require.NoError(t, err)
+	require.NotNil(t, reply)
+	size, err := reply.ReadInt32()
+	require.NoError(t, err)
+	require.Equal(t, int32(28), size)
+	count, err := reply.ReadInt32()
+	require.NoError(t, err)
+	require.Zero(t, count)
+	raw, err := reply.Read(28)
+	require.NoError(t, err)
+	require.Equal(t, make([]byte, 28), raw)
+}
+
+// TestFrameProducerSlowReaderResumes verifies backpressure and slot recovery.
+//
+// Example: a slow consumer holds both buffers until it releases one frame.
+func TestFrameProducerSlowReaderResumes(t *testing.T) {
+	ctx := context.Background()
+	b := func() *gralloc.Buffer { return &gralloc.Buffer{Width: 1, Height: 1, Stride: 1, Format: 1} }
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{b(), b()})
+	require.NoError(t, err)
+	dequeue := func() int32 {
+		req := parcel.New()
+		req.WriteInterfaceToken(Descriptor)
+		req.WriteUint32(1)
+		req.WriteUint32(1)
+		req.WriteInt32(1)
+		req.WriteUint64(0)
+		req.WriteBool(false)
+		req.SetPosition(0)
+		reply, err := p.OnTransaction(ctx, DequeueBuffer, req)
+		require.NoError(t, err)
+		slot, err := reply.ReadInt32()
+		require.NoError(t, err)
+		return slot
+	}
+	enqueue := func(slot int32) {
+		req := parcel.New()
+		req.WriteInterfaceToken(Descriptor)
+		req.WriteInt32(slot)
+		req.WriteInt32(61)
+		req.WriteInt32(0)
+		req.WriteRawBytes(make([]byte, 61))
+		req.SetPosition(0)
+		_, err := p.OnTransaction(ctx, QueueBuffer, req)
+		require.NoError(t, err)
+	}
+	a, bslot := dequeue(), dequeue()
+	require.Equal(t, int32(0), a)
+	require.Equal(t, int32(1), bslot)
+	enqueue(a)
+	enqueue(bslot)
+	require.Equal(t, int32(-1), dequeue())
+	frame, err := p.Next(ctx)
+	require.NoError(t, err)
+	require.NoError(t, frame.Release(ctx))
+	require.Equal(t, a, dequeue())
+}
+
+// TestFrameProducerCloseRetriesQueuedFence preserves buffers after canceled cleanup.
+//
+// Example: a later cleanup succeeds after the queued frame's fence signals.
+func TestFrameProducerCloseRetriesQueuedFence(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[0])
+	defer unix.Close(fds[1])
+	raw := make([]byte, 61)
+	binary.LittleEndian.PutUint32(raw[45:], 1)
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(int32(len(raw)))
+	req.WriteInt32(1)
+	req.WriteRawBytes(raw)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, QueueBuffer, req)
+	require.NoError(t, err)
+	canceled, cancel := context.WithCancel(ctx)
+	cancel()
+	require.ErrorIs(t, p.Close(canceled), context.Canceled)
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	require.NoError(t, p.Close(ctx))
+}
