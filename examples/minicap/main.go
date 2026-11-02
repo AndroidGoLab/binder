@@ -64,7 +64,13 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 	if err != nil {
 		return fmt.Errorf("open binder: %w", err)
 	}
-	defer func() { resultErr = errors.Join(resultErr, driver.Close(context.Background())) }()
+	var stub *binder.StubBinder
+	defer func() {
+		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
+		if stub != nil {
+			resultErr = errors.Join(resultErr, stub.Release(context.Background()))
+		}
+	}()
 	transport, err := versionaware.NewTransport(ctx, driver, 0, versionaware.OptionCachePath(""))
 	if err != nil {
 		return fmt.Errorf("configure binder: %w", err)
@@ -101,6 +107,7 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 	if err != nil {
 		return err
 	}
+	stub = binder.NewStubBinder(producer)
 	defer func() {
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
 		defer cancel()
@@ -110,8 +117,6 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		}
 		resultErr = errors.Join(resultErr, err)
 	}()
-	stub := binder.NewStubBinder(producer)
-	defer func() { resultErr = errors.Join(resultErr, stub.Release(context.Background())) }()
 	display, err := gui.CreateVirtualDisplay(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height)
 	if err != nil {
 		safeToFree = false
