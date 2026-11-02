@@ -6,9 +6,11 @@ import (
 	"context"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"testing"
 	"unsafe"
 
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sys/unix"
@@ -222,4 +224,32 @@ func TestResolveFDADuplicateFailureClosesEarlierDuplicates(t *testing.T) {
 	require.NoError(t, unix.Close(fds[0]))
 	_, err = unix.Write(fds[1], []byte{1})
 	require.ErrorIs(t, err, unix.EPIPE, "the first duplicate must not keep the pipe reader open")
+}
+
+// TestReplyTransactionStatusPreservesCode verifies native status replies retain their type.
+//
+// Example: Android 10 enumeration's status -1 can be recognized without text parsing.
+func TestReplyTransactionStatusPreservesCode(t *testing.T) {
+	for _, code := range []int32{-1, -13, 0} {
+		mapped := make([]byte, 4)
+		binary.LittleEndian.PutUint32(mapped, uint32(code))
+		d := &Driver{fd: -1, mapped: mapped}
+		txn := binderTransactionData{flags: uint32(tfStatusCode), dataSize: 4, dataBuffer: uint64(uintptr(unsafe.Pointer(&mapped[0])))}
+		raw := make([]byte, 4+int(unsafe.Sizeof(txn)))
+		binary.LittleEndian.PutUint32(raw, uint32(brReply))
+		copy(raw[4:], unsafe.Slice((*byte)(unsafe.Pointer(&txn)), int(unsafe.Sizeof(txn))))
+		reply, got, _, err := d.parseReadBuffer(context.Background(), raw)
+		require.True(t, got)
+		if code == 0 {
+			require.NoError(t, err)
+			require.NotNil(t, reply)
+			require.NoError(t, reply.Recycle())
+			continue
+		}
+		require.Nil(t, reply)
+		var status *aidlerrors.TransactionStatusError
+		require.ErrorAs(t, err, &status)
+		require.Equal(t, code, status.Code)
+		require.EqualError(t, err, fmt.Sprintf("binder: kernel status error: %d (0x%x)", code, uint32(code)))
+	}
 }

@@ -602,7 +602,7 @@ func (d *Driver) parseReadBuffer(
 				if len(replyData) >= 4 {
 					statusCode := int32(binary.LittleEndian.Uint32(replyData))
 					if statusCode != 0 {
-						return nil, true, gotTransactionComplete, fmt.Errorf("binder: kernel status error: %d (0x%x)", statusCode, uint32(statusCode))
+						return nil, true, gotTransactionComplete, &aidlerrors.TransactionStatusError{Code: statusCode}
 					}
 				}
 				return parcel.New(), true, gotTransactionComplete, nil

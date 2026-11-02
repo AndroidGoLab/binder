@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/AndroidGoLab/binder/binder"
+	aidlerrors "github.com/AndroidGoLab/binder/errors"
 	"github.com/AndroidGoLab/binder/logger"
 	"github.com/AndroidGoLab/binder/parcel"
 )
@@ -13,6 +14,26 @@ import (
 const (
 	serviceManagerHandle     = uint32(0)
 	serviceManagerDescriptor = "android.os.IServiceManager"
+
+	// legacyGetServiceTransaction is Android 10's native lookup transaction.
+	//
+	// Example: retrieve a service without resolving an AIDL method.
+	legacyGetServiceTransaction = binder.FirstCallTransaction
+
+	// legacyCheckServiceTransaction is Android 10's native nonblocking lookup.
+	//
+	// Example: check whether SurfaceFlinger is registered.
+	legacyCheckServiceTransaction = binder.FirstCallTransaction + 1
+
+	// legacyListServicesTransaction is Android 10's indexed enumeration transaction.
+	//
+	// Example: request one registered service by its zero-based index.
+	legacyListServicesTransaction = binder.FirstCallTransaction + 3
+
+	// legacyListEndStatus is the native service manager's enumeration terminator.
+	//
+	// Example: stop after the probe following the last registered service.
+	legacyListEndStatus = int32(-1)
 
 	// legacyMissingReplySize is the size of Android 10's absent-service word.
 	//
@@ -59,18 +80,37 @@ func (sm *ServiceManager) GetService(
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
 
-	transport, err := sm.transport()
+	remote, err := sm.lookupService(ctx, name, "getService", legacyGetServiceTransaction)
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
+	if remote == nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
+	}
+	return remote, nil
+}
+
+// lookupService performs one lookup using the service manager's wire protocol.
+//
+// Example: decode Android 10's raw Binder reply for GetService or CheckService.
+func (sm *ServiceManager) lookupService(
+	ctx context.Context,
+	name ServiceName,
+	method string,
+	legacyCode binder.TransactionCode,
+) (binder.IBinder, error) {
+	transport, err := sm.transport()
+	if err != nil {
+		return nil, err
+	}
 	// Android 10's native service manager predates the AIDL interface and
-	// uses GET_SERVICE_TRANSACTION directly, with no status in its reply.
+	// uses fixed lookup transaction codes, with no status in its reply.
 	legacy := transport.APILevel() == binder.APILevelAndroid10
-	code := binder.FirstCallTransaction
+	code := legacyCode
 	if !legacy {
-		code, err = sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "getService")
+		code, err = sm.remote.ResolveCode(ctx, serviceManagerDescriptor, method)
 		if err != nil {
-			return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+			return nil, err
 		}
 	}
 
@@ -85,7 +125,7 @@ func (sm *ServiceManager) GetService(
 
 	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
-		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+		return nil, err
 	}
 	defer reply.Recycle()
 
@@ -93,14 +133,14 @@ func (sm *ServiceManager) GetService(
 	if legacy && reply.Len() == legacyMissingReplySize {
 		value, readErr := reply.ReadInt32()
 		if readErr == nil && value == 0 {
-			return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
+			return nil, nil
 		}
-		return nil, fmt.Errorf("servicemanager: GetService(%q): invalid legacy reply", name)
+		return nil, errors.Join(errors.New("invalid legacy reply"), readErr)
 	}
 
 	if !legacy {
 		if err := binder.ReadStatus(reply); err != nil {
-			return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+			return nil, err
 		}
 	}
 
@@ -112,11 +152,11 @@ func (sm *ServiceManager) GetService(
 		handle, ok, err = reply.ReadNullableStrongBinder()
 	}
 	if err != nil {
-		return nil, fmt.Errorf("servicemanager: GetService(%q): reading binder: %w", name, err)
+		return nil, fmt.Errorf("reading binder: %w", err)
 	}
 
 	if !ok {
-		return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
+		return nil, nil
 	}
 
 	return binder.NewProxyBinder(transport, sm.identity, handle), nil
@@ -124,6 +164,8 @@ func (sm *ServiceManager) GetService(
 
 // CheckService checks if a service is registered without blocking.
 // Returns nil, nil if the service is not found.
+//
+// Example: inspect whether SurfaceFlinger is available without retrying.
 func (sm *ServiceManager) CheckService(
 	ctx context.Context,
 	name ServiceName,
@@ -131,49 +173,31 @@ func (sm *ServiceManager) CheckService(
 	logger.Tracef(ctx, "CheckService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/CheckService(%q): %v", name, _err) }()
 
-	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "checkService")
+	remote, err := sm.lookupService(ctx, name, "checkService", legacyCheckServiceTransaction)
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
 	}
-
-	data := parcel.New()
-	defer data.Recycle()
-	data.WriteInterfaceToken(serviceManagerDescriptor)
-	data.WriteString16(string(name))
-
-	reply, err := sm.remote.Transact(ctx, code, 0, data)
-	if err != nil {
-		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
-	}
-	defer reply.Recycle()
-
-	if err := binder.ReadStatus(reply); err != nil {
-		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
-	}
-
-	handle, ok, err := reply.ReadNullableStrongBinder()
-	if err != nil {
-		return nil, fmt.Errorf("servicemanager: CheckService(%q): reading binder: %w", name, err)
-	}
-
-	if !ok {
-		return nil, nil
-	}
-
-	transport, err := sm.transport()
-	if err != nil {
-		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
-	}
-
-	return binder.NewProxyBinder(transport, sm.identity, handle), nil
+	return remote, nil
 }
 
-// ListServices returns the names of all registered services.
+// ListServices returns the names of all registered services. Android 10 uses
+// the same native status for enumeration completion and denied listing, so a
+// denied list is indistinguishable from an empty list on that protocol.
+//
+// Example: discover the services available to the caller.
 func (sm *ServiceManager) ListServices(
 	ctx context.Context,
 ) (_services []ServiceName, _err error) {
 	logger.Tracef(ctx, "ListServices")
 	defer func() { logger.Tracef(ctx, "/ListServices: %d services, err=%v", len(_services), _err) }()
+
+	transport, err := sm.transport()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
+	}
+	if transport.APILevel() == binder.APILevelAndroid10 {
+		return sm.listServicesAndroid10(ctx)
+	}
 
 	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "listServices")
 	if err != nil {
@@ -218,6 +242,60 @@ func (sm *ServiceManager) ListServices(
 	}
 
 	return services, nil
+}
+
+// listServicesAndroid10 enumerates the native service manager one name at a time.
+// Android 10's handwritten protocol cannot be resolved from generated AIDL stubs.
+//
+// Example: list services on API 29 without a framework transaction-code table.
+func (sm *ServiceManager) listServicesAndroid10(
+	ctx context.Context,
+) ([]ServiceName, error) {
+	services := make([]ServiceName, 0)
+	for index := int32(0); ; index++ {
+		name, err := sm.listServiceAndroid10(ctx, index)
+		if err != nil {
+			var status *aidlerrors.TransactionStatusError
+			if errors.As(err, &status) && status.Code == legacyListEndStatus {
+				return services, nil
+			}
+			return nil, fmt.Errorf("servicemanager: ListServices: service %d: %w", index, err)
+		}
+		// Probe the terminal index before rejecting another successful entry.
+		if index == maxServiceCount {
+			return nil, fmt.Errorf("servicemanager: ListServices: service count exceeds maximum (%d)", maxServiceCount)
+		}
+		services = append(services, name)
+	}
+}
+
+// listServiceAndroid10 requests a single native service name at index.
+//
+// Example: decode a raw String16 reply without an AIDL status or vector header.
+func (sm *ServiceManager) listServiceAndroid10(
+	ctx context.Context,
+	index int32,
+) (ServiceName, error) {
+	if err := ctx.Err(); err != nil {
+		return "", err
+	}
+	canonical := parcel.New()
+	defer canonical.Recycle()
+	canonical.WriteInterfaceToken(serviceManagerDescriptor)
+	data := canonical.Android10Request()
+	defer data.Recycle()
+	data.WriteInt32(index)
+	data.WriteInt32(dumpFlagPriorityAll)
+	reply, err := sm.remote.Transact(ctx, legacyListServicesTransaction, 0, data)
+	if err != nil {
+		return "", err
+	}
+	defer reply.Recycle()
+	name, err := reply.ReadString16()
+	if err != nil {
+		return "", fmt.Errorf("reading service %d: %w", index, err)
+	}
+	return ServiceName(name), nil
 }
 
 // IsDeclared checks whether a service is declared in the VINTF manifest.
