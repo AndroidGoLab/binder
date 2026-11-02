@@ -18,7 +18,14 @@ func writeAndroid10DisplayGeometry(
 	p *parcel.Parcel,
 	sourceWidth, sourceHeight, width, height int32,
 ) {
-	for _, value := range []int32{7, 0, 0, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height, width, height} {
+	writeAndroid10DisplayGeometryOnStack(p, sourceWidth, sourceHeight, width, height, 0)
+}
+
+// writeAndroid10DisplayGeometryOnStack encodes a selected layer stack.
+//
+// Example: project a secondary display's composition.
+func writeAndroid10DisplayGeometryOnStack(p *parcel.Parcel, sourceWidth, sourceHeight, width, height, stack int32) {
+	for _, value := range []int32{7, stack, 0, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height, width, height} {
 		p.WriteInt32(value)
 	}
 }
@@ -43,6 +50,21 @@ func CreateVirtualDisplay(
 	api int,
 	producer *binder.StubBinder,
 	sourceWidth, sourceHeight, width, height int32,
+) (*VirtualDisplay, error) {
+	return CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0)
+}
+
+// CreateVirtualDisplayOnLayerStack projects a selected composition layer stack.
+//
+// Example: capture a secondary physical display with a known layer stack.
+func CreateVirtualDisplayOnLayerStack(
+	ctx context.Context,
+	raw binder.IBinder,
+	aidl binder.IBinder,
+	transport binder.Transport,
+	api int,
+	producer *binder.StubBinder,
+	sourceWidth, sourceHeight, width, height, stack int32,
 ) (*VirtualDisplay, error) {
 	if sourceWidth <= 0 || sourceHeight <= 0 || width <= 0 || height <= 0 {
 		return nil, fmt.Errorf("display dimensions must be positive")
@@ -100,7 +122,7 @@ func CreateVirtualDisplay(
 		return nil, fmt.Errorf("read display token: %w", err)
 	}
 	d := &VirtualDisplay{remote: remote, api: api, token: token}
-	if err := d.configure(ctx, raw, transport, producer, sourceWidth, sourceHeight, width, height); err != nil {
+	if err := d.configure(ctx, raw, transport, producer, sourceWidth, sourceHeight, width, height, stack); err != nil {
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		return nil, errors.Join(err, d.Close(cleanupCtx))
@@ -111,7 +133,7 @@ func CreateVirtualDisplay(
 // configure submits the display surface and projection state.
 //
 // Example: connect a buffer producer to the virtual display.
-func (d *VirtualDisplay) configure(ctx context.Context, raw binder.IBinder, transport binder.Transport, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height int32) error {
+func (d *VirtualDisplay) configure(ctx context.Context, raw binder.IBinder, transport binder.Transport, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height, stack int32) error {
 	p := parcel.New()
 	defer p.Recycle()
 	if d.api == 29 {
@@ -124,7 +146,7 @@ func (d *VirtualDisplay) configure(ctx context.Context, raw binder.IBinder, tran
 			cookie = producer.RegisterWithTransport(ctx, transport)
 		}
 		p.WriteLocalBinderLegacy(producer.BinderPtr(), cookie)
-		writeAndroid10DisplayGeometry(p, sourceWidth, sourceHeight, width, height)
+		writeAndroid10DisplayGeometryOnStack(p, sourceWidth, sourceHeight, width, height, stack)
 		p.WriteInt32(0)
 		p.WriteNullStrongBinderLegacy()
 		p.WriteInt32(0)
@@ -145,7 +167,7 @@ func (d *VirtualDisplay) configure(ctx context.Context, raw binder.IBinder, tran
 		p.WriteInt32(1)
 		p.WriteStrongBinder(d.token)
 		binder.WriteBinderToParcel(ctx, p, producer, transport)
-		writeAndroid14DisplayGeometry(p, sourceWidth, sourceHeight, width, height)
+		writeAndroid14DisplayGeometryOnStack(p, sourceWidth, sourceHeight, width, height, stack)
 		p.WriteInt32(0)
 		binder.WriteBinderToParcel(ctx, p, producer, transport)
 		p.WriteInt32(0)
@@ -205,7 +227,14 @@ func (d *VirtualDisplay) Close(ctx context.Context) error {
 //
 // Example: project a physical display into a smaller virtual display.
 func writeAndroid14DisplayGeometry(p *parcel.Parcel, sourceWidth, sourceHeight, width, height int32) {
-	for _, value := range []int32{7, 0, 0, 0, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height, width, height} {
+	writeAndroid14DisplayGeometryOnStack(p, sourceWidth, sourceHeight, width, height, 0)
+}
+
+// writeAndroid14DisplayGeometryOnStack writes a selected layer stack.
+//
+// Example: project a secondary display's composition.
+func writeAndroid14DisplayGeometryOnStack(p *parcel.Parcel, sourceWidth, sourceHeight, width, height, stack int32) {
+	for _, value := range []int32{7, 0, stack, 0, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height, width, height} {
 		p.WriteInt32(value)
 	}
 }

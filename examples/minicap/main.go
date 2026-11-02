@@ -1,9 +1,9 @@
-// The minicap example streams fixed-size RGBA8888 frames from a virtual display.
+// The minicap example streams JPEG or raw RGBA8888 frames from a virtual display.
 //
 // Build with GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build ./examples/minicap.
 // On a supported device, run as a user with SurfaceFlinger capture permission:
-// minicap -source-width 1080 -source-height 2400 -width 360 -height 800 > frames.rgba
-// Each frame contains width*height*4 bytes with no padding. Android 14 Pixel
+// minicap -P 1080x2400@360x800/0 -n minicap
+// Use -raw to write tightly packed RGBA frames to stdout. Android 14 Pixel
 // gchips and Android 10 Qualcomm SDM845 are the supported allocator layouts.
 // The Android 10 path has source-based tests but has not been tested on a device;
 // unsupported handles are rejected.
@@ -58,10 +58,26 @@ func releaseFrame(ctx context.Context, frame frameReleaser) error { return frame
 // Example: return control even if a graphics fence never signals.
 const cleanupTimeout = 5 * time.Second
 
+// captureBufferCount bounds the producer queue and each frame-skip pass.
+//
+// Example: a fast producer cannot keep the consumer in a skip loop forever.
+const captureBufferCount = 4
+
+// frameDelay returns the remaining interval after frame processing.
+//
+// Example: wait only the unused part of a 10 FPS interval.
+func frameDelay(start, now time.Time, rate float64) time.Duration {
+	remaining := start.Add(time.Duration(float64(time.Second) / rate)).Sub(now)
+	if remaining < 0 {
+		return 0
+	}
+	return remaining
+}
+
 // capture streams frames until canceled or an operation fails.
 //
 // Example: stream a scaled display to standard output.
-func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, width, height int32) (resultErr error) {
+func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, width, height int32, displayID int, skip bool, rate float64) (resultErr error) {
 	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
 	if err != nil {
 		return fmt.Errorf("open binder: %w", err)
@@ -95,7 +111,29 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 			return fmt.Errorf("get SurfaceFlinger AIDL: %w", err)
 		}
 	}
-	buffers, err := gralloc.AllocateRGBA(ctx, sm, api, width, height, 4)
+	var stack int32
+	if displayID != 0 {
+		if api != 34 {
+			return errors.New("secondary display capture requires a known layer stack")
+		}
+		ids, err := gui.PhysicalDisplayIDs(ctx, aidl, api)
+		if err != nil {
+			return fmt.Errorf("list physical displays: %w", err)
+		}
+		id, err := chooseDisplay(ids, displayID)
+		if err != nil {
+			return err
+		}
+		info, err := gui.GetPhysicalDisplayInfo(ctx, aidl, api, id)
+		if err != nil {
+			return fmt.Errorf("read display info: %w", err)
+		}
+		if info.LayerStack == nil {
+			return errors.New("display layer stack unavailable")
+		}
+		stack = *info.LayerStack
+	}
+	buffers, err := gralloc.AllocateRGBA(ctx, sm, api, width, height, captureBufferCount)
 	if err != nil {
 		return fmt.Errorf("allocate capture buffers: %w", err)
 	}
@@ -119,7 +157,7 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		}
 		resultErr = errors.Join(resultErr, err)
 	}()
-	display, err := gui.CreateVirtualDisplay(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height)
+	display, err := gui.CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height, stack)
 	if err != nil {
 		safeToFree = false
 		return err
@@ -133,7 +171,17 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		}
 		resultErr = errors.Join(resultErr, err)
 	}()
+	pixels := make([]byte, int(width)*int(height)*4)
 	for {
+		if server, ok := out.(*socketStream); ok {
+			_, err := server.WaitForClient()
+			if errors.Is(err, context.Canceled) {
+				return nil
+			}
+			if err != nil {
+				return err
+			}
+		}
 		frame, err := producer.Next(ctx)
 		if errors.Is(err, context.Canceled) {
 			return nil
@@ -141,7 +189,25 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		if err != nil {
 			return err
 		}
-		pixels, copyErr := frame.CopyRGBA(ctx)
+		frameStart := time.Now()
+		if skip {
+			skipper := &queuedFrameSkipper{producer: producer, current: frame}
+			err := skipAtMost(ctx, captureBufferCount-1, skipper)
+			frame = skipper.current
+			if err != nil {
+				cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
+				releaseErr := releaseFrame(cleanupCtx, frame)
+				cancel()
+				if releaseErr != nil || !errors.Is(err, context.Canceled) {
+					safeToFree = false
+				}
+				if errors.Is(err, context.Canceled) {
+					return releaseErr
+				}
+				return errors.Join(err, releaseErr)
+			}
+		}
+		copyErr := frame.CopyRGBAInto(ctx, pixels)
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
 		releaseErr := releaseFrame(cleanupCtx, frame)
 		cancel()
@@ -154,24 +220,71 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		if err := errors.Join(copyErr, releaseErr); err != nil {
 			return err
 		}
-		if err := writeFrame(out, pixels); err != nil {
+		err = writeFrame(out, pixels)
+		switch {
+		case errors.Is(err, errCaptureDone), errors.Is(err, context.Canceled):
+			return nil
+		case errors.Is(err, errPeerDisconnected):
+			continue
+		case err != nil:
 			return fmt.Errorf("write frame: %w", err)
+		}
+		if rate > 0 {
+			timer := time.NewTimer(frameDelay(frameStart, time.Now(), rate))
+			select {
+			case <-timer.C:
+			case <-ctx.Done():
+				timer.Stop()
+				return nil
+			}
 		}
 	}
 }
 
-// main parses display dimensions and streams frames until interrupted.
+// run selects an output mode and captures until interrupted.
 //
-// Example: pipe the raw frames to a compatible consumer.
+// Example: use -s to write a single JPEG.
+func run(ctx context.Context, args []string, out io.Writer) (resultErr error) {
+	opts, err := parseOptions(args)
+	if errors.Is(err, flag.ErrHelp) {
+		_, err = io.WriteString(out, "Usage: minicap -P WIDTHxHEIGHT@WIDTHxHEIGHT/ROTATION [-n SOCKET] [-Q QUALITY] [-s|-t|-raw] [-S] [-r FPS] [-d DISPLAY] [-i]\n")
+		return err
+	}
+	if err != nil {
+		return err
+	}
+	if opts.info {
+		return writeDisplayInfo(ctx, out, opts.displayID)
+	}
+	sw, sh, w, h := opts.projection.captureSize()
+	if opts.raw {
+		if f, ok := out.(*os.File); ok {
+			writer := newRawFileWriter(ctx, f)
+			defer func() { resultErr = errors.Join(resultErr, writer.Close()) }()
+			out = writer
+		}
+	}
+	switch {
+	case opts.screenshot || opts.test:
+		out = singleFrameWriter{out: out, width: w, height: h, quality: opts.quality, test: opts.test}
+	case !opts.raw:
+		server, err := newSocketStream(ctx, opts.socketName, opts.projection, w, h, opts.quality, os.Getpid())
+		if err != nil {
+			return err
+		}
+		defer server.Close()
+		out = server
+	}
+	return capture(ctx, out, sw, sh, w, h, opts.displayID, opts.skip, opts.rate)
+}
+
+// main parses options and reports capture errors.
+//
+// Example: stream JPEG frames over the minicap abstract socket.
 func main() {
-	sw := flag.Int("source-width", 1080, "physical display width")
-	sh := flag.Int("source-height", 2400, "physical display height")
-	w := flag.Int("width", 360, "output width")
-	h := flag.Int("height", 800, "output height")
-	flag.Parse()
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
-	if err := capture(ctx, os.Stdout, int32(*sw), int32(*sh), int32(*w), int32(*h)); err != nil {
+	if err := run(ctx, os.Args[1:], os.Stdout); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}

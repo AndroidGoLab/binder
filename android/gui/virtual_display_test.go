@@ -133,3 +133,28 @@ func TestAndroid10TransactionState(t *testing.T) {
 	require.Zero(t, callbacks)
 	require.Equal(t, p.Len(), p.Position())
 }
+
+// TestVirtualDisplayLayerStack checks the selected display's layer stack is
+// carried into the Android 10 transaction.
+func TestVirtualDisplayLayerStack(t *testing.T) {
+	r := &virtualDisplayRemote{}
+	_, err := CreateVirtualDisplayOnLayerStack(context.Background(), r, nil, &virtualDisplayTransport{}, 29, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 7)
+	require.NoError(t, err)
+	p := r.requests[1]
+	_, err = p.ReadInterfaceToken()
+	require.NoError(t, err)
+	_, err = p.ReadInt32()
+	require.NoError(t, err)
+	_, err = p.ReadInt32()
+	require.NoError(t, err)
+	_, _, err = p.ReadNullableStrongBinderLegacy()
+	require.NoError(t, err)
+	_, _, err = p.ReadNullableStrongBinderLegacy()
+	require.NoError(t, err)
+	flags, err := p.ReadInt32()
+	require.NoError(t, err)
+	require.EqualValues(t, 7, flags)
+	stack, err := p.ReadInt32()
+	require.NoError(t, err)
+	require.EqualValues(t, 7, stack)
+}
