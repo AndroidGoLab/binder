@@ -67,22 +67,25 @@ func (d *Driver) resolveScatterGather(
 	replyData []byte,
 	offsetsAddr uint64,
 	offsetsSize uint64,
-) ([]byte, error) {
+) (result []byte, fdOffsets []int, err error) {
 	if offsetsSize == 0 {
-		return replyData, nil
+		return replyData, nil, nil
+	}
+	if offsetsSize%8 != 0 {
+		return replyData, nil, fmt.Errorf("resolveScatterGather: invalid offsets size %d", offsetsSize)
 	}
 
 	numOffsets := int(offsetsSize / 8)
 	offsetsBuf, err := d.copyFromMapped(offsetsAddr, offsetsSize)
 	if err != nil {
-		return replyData, fmt.Errorf("resolveScatterGather: copying offsets: %w", err)
+		return replyData, nil, fmt.Errorf("resolveScatterGather: copying offsets: %w", err)
 	}
 
 	// First pass: check if any BINDER_TYPE_PTR objects exist.
 	hasPTR := false
 	for i := range numOffsets {
 		objOffset := binary.LittleEndian.Uint64(offsetsBuf[i*8:])
-		if objOffset+4 > uint64(len(replyData)) {
+		if objOffset > uint64(len(replyData)) || uint64(len(replyData))-objOffset < 4 {
 			continue
 		}
 		objType := binderObjectType(binary.LittleEndian.Uint32(replyData[objOffset:]))
@@ -93,7 +96,7 @@ func (d *Driver) resolveScatterGather(
 	}
 
 	if !hasPTR {
-		return replyData, nil
+		return replyData, nil, nil
 	}
 
 	// Second pass: copy each PTR buffer from mmap and append to replyData.
@@ -103,12 +106,20 @@ func (d *Driver) resolveScatterGather(
 
 	// ptrBufferOffsets maps objects-array index to the offset in extended
 	// where the PTR buffer data was placed.
-	ptrBufferOffsets := make(map[int]uint64)
-	ptrIndex := 0
+	type bufferLocation struct{ offset, length uint64 }
+	ptrBufferOffsets := make(map[int]bufferLocation)
+	var duplicated []int
+	defer func() {
+		if err != nil {
+			for _, fd := range duplicated {
+				_ = unix.Close(fd)
+			}
+		}
+	}()
 
 	for i := range numOffsets {
 		objOffset := binary.LittleEndian.Uint64(offsetsBuf[i*8:])
-		if objOffset+4 > uint64(len(extended)) {
+		if objOffset > uint64(len(replyData)) || uint64(len(replyData))-objOffset < 4 {
 			continue
 		}
 
@@ -116,7 +127,7 @@ func (d *Driver) resolveScatterGather(
 
 		switch objType {
 		case binderTypePTR:
-			if objOffset+binderBufferObjectSize > uint64(len(extended)) {
+			if uint64(len(replyData))-objOffset < binderBufferObjectSize {
 				continue
 			}
 
@@ -124,13 +135,13 @@ func (d *Driver) resolveScatterGather(
 			bufLen := binary.LittleEndian.Uint64(extended[objOffset+16:])
 
 			if bufLen == 0 {
-				ptrIndex++
+				ptrBufferOffsets[i] = bufferLocation{uint64(len(extended)), 0}
 				continue
 			}
 
 			bufData, copyErr := d.copyFromMapped(bufPtr, bufLen)
 			if copyErr != nil {
-				return replyData, fmt.Errorf("resolveScatterGather: copying buffer %d (ptr=0x%x len=%d): %w",
+				return replyData, nil, fmt.Errorf("resolveScatterGather: copying buffer %d (ptr=0x%x len=%d): %w",
 					i, bufPtr, bufLen, copyErr)
 			}
 
@@ -144,11 +155,10 @@ func (d *Driver) resolveScatterGather(
 
 			// Patch the buffer pointer.
 			binary.LittleEndian.PutUint64(extended[objOffset+8:], newOffset)
-			ptrBufferOffsets[ptrIndex] = newOffset
-			ptrIndex++
+			ptrBufferOffsets[i] = bufferLocation{newOffset, bufLen}
 
 		case binderTypeFDA:
-			if objOffset+binderFDArrayObjectSize > uint64(len(extended)) {
+			if uint64(len(replyData))-objOffset < binderFDArrayObjectSize {
 				continue
 			}
 
@@ -157,17 +167,22 @@ func (d *Driver) resolveScatterGather(
 			parentOff := binary.LittleEndian.Uint64(extended[objOffset+24:])
 
 			// Find the parent buffer's data in our extended array.
-			parentBufOffset, ok := ptrBufferOffsets[int(parentIdx)]
+			parent, ok := ptrBufferOffsets[int(parentIdx)]
+			if parentIdx >= uint64(numOffsets) {
+				ok = false
+			}
 			if !ok {
-				continue
+				return replyData, nil, fmt.Errorf("resolveScatterGather: invalid FDA parent %d", parentIdx)
 			}
 
-			// The FDs are int32 values at parentBufOffset + parentOff.
-			fdOffset := parentBufOffset + parentOff
+			if parentOff > parent.length || numFds > (parent.length-parentOff)/4 {
+				return replyData, nil, fmt.Errorf("resolveScatterGather: FDA exceeds parent buffer")
+			}
+			fdOffset := parent.offset + parentOff
 			for j := uint64(0); j < numFds; j++ {
 				fdPos := fdOffset + j*4
 				if fdPos+4 > uint64(len(extended)) {
-					break
+					return replyData, nil, fmt.Errorf("resolveScatterGather: FDA exceeds buffer")
 				}
 				oldFD := int(int32(binary.LittleEndian.Uint32(extended[fdPos:])))
 
@@ -176,8 +191,10 @@ func (d *Driver) resolveScatterGather(
 				// binder_transaction_buffer_release.
 				newFD, dupErr := unix.Dup(oldFD)
 				if dupErr != nil {
-					continue
+					return replyData, nil, fmt.Errorf("resolveScatterGather: duplicate fd: %w", dupErr)
 				}
+				duplicated = append(duplicated, newFD)
+				fdOffsets = append(fdOffsets, int(fdPos))
 
 				// Replace the fd in the buffer data with the dup'd fd.
 				binary.LittleEndian.PutUint32(extended[fdPos:], uint32(int32(newFD)))
@@ -185,5 +202,5 @@ func (d *Driver) resolveScatterGather(
 		}
 	}
 
-	return extended, nil
+	return extended, fdOffsets, nil
 }

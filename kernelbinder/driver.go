@@ -628,12 +628,13 @@ func (d *Driver) parseReadBuffer(
 			// region. BINDER_TYPE_PTR objects reference data in the extra
 			// buffer space after the main data; we copy those and patch the
 			// pointers to offsets within the extended reply data.
-			replyData, sgErr := d.resolveScatterGather(replyData, txn.offsetsBuffer, txn.offsetsSize)
+			replyData, fdOffsets, sgErr := d.resolveScatterGather(replyData, txn.offsetsBuffer, txn.offsetsSize)
 			if sgErr != nil {
-				logger.Warnf(ctx, "scatter-gather resolve: %v", sgErr)
+				_ = parcel.FromReceivedBytes(replyData, objects).Close()
+				return nil, true, gotTransactionComplete, fmt.Errorf("scatter-gather resolve: %w", sgErr)
 			}
 
-			return parcel.FromReceivedBytes(replyData, objects), true, gotTransactionComplete, nil
+			return parcel.FromReceivedBytes(replyData, objects, fdOffsets...), true, gotTransactionComplete, nil
 
 		case brTransaction:
 			logger.Tracef(ctx, "parseReadBuffer: BR_TRANSACTION (inline)")

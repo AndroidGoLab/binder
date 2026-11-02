@@ -7,14 +7,16 @@ import (
 	"os"
 )
 
-// FromReceivedBytes takes ownership of flat file descriptors identified by objects.
-// Successful ReadFileDescriptor calls transfer ownership to the caller; Close
+// FromReceivedBytes takes ownership of flat file descriptors identified by objects
+// and descriptors at the supplied absolute data offsets.
+// Successful descriptor reads or takes transfer ownership to the caller; Close
 // releases descriptors that were never read. Other constructors borrow descriptors.
 //
 // Example: dispatch an incoming Binder callback and defer its parcel's Close.
 func FromReceivedBytes(
 	data []byte,
 	objects []uint64,
+	fdOffsets ...int,
 ) *Parcel {
 	p := FromBytesWithObjects(data, objects)
 	p.receivedFDs = make(map[int]int32)
@@ -31,7 +33,22 @@ func FromReceivedBytes(
 		}
 		p.receivedFDs[int(offset)] = fd
 	}
+	for _, offset := range fdOffsets {
+		if offset >= 0 && offset <= len(data)-4 {
+			p.receivedFDs[offset] = int32(binary.LittleEndian.Uint32(data[offset:]))
+		}
+	}
 	return p
+}
+
+// TakeReceivedFileDescriptor transfers a received descriptor at an absolute data offset.
+func (p *Parcel) TakeReceivedFileDescriptor(offset int) (int32, error) {
+	fd, ok := p.receivedFDs[offset]
+	if !ok || fd < 0 {
+		return 0, fmt.Errorf("parcel: no unclaimed received file descriptor at offset %d", offset)
+	}
+	p.receivedFDs[offset] = -1
+	return fd, nil
 }
 
 // Close releases unread received file descriptors, preserving transferred descriptors.

@@ -414,13 +414,17 @@ func (d *Driver) handleIncomingTransaction(
 		}
 	}
 
+	var fdOffsets []int
+	var resolveFailed bool
 	// Resolve HIDL scatter-gather buffers before freeing the mmap'd region.
 	if len(dataBytes) > 0 && txn.offsetsSize > 0 {
-		resolved, sgErr := d.resolveScatterGather(dataBytes, txn.offsetsBuffer, txn.offsetsSize)
+		resolved, resolvedFDs, sgErr := d.resolveScatterGather(dataBytes, txn.offsetsBuffer, txn.offsetsSize)
 		if sgErr != nil {
 			logger.Warnf(ctx, "scatter-gather resolve: %v", sgErr)
+			resolveFailed = true
 		} else {
 			dataBytes = resolved
+			fdOffsets = resolvedFDs
 		}
 	}
 
@@ -431,7 +435,7 @@ func (d *Driver) handleIncomingTransaction(
 	if err != nil {
 		logger.Warnf(ctx, "failed to copy transaction object offsets: %v", err)
 	}
-	dataParcel := parcel.FromReceivedBytes(dataBytes, objects)
+	dataParcel := parcel.FromReceivedBytes(dataBytes, objects, fdOffsets...)
 	// Release descriptors that the callback did not take ownership of.
 	// Example: a late callback has no registered receiver.
 	defer func() {
@@ -444,6 +448,13 @@ func (d *Driver) handleIncomingTransaction(
 	// regardless of dataSize.
 	if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
 		logger.Warnf(ctx, "failed to free transaction buffer: %v", err)
+	}
+
+	if resolveFailed {
+		if !isOneway {
+			d.sendReply(ctx, parcel.New())
+		}
+		return
 	}
 
 	receiver := d.lookupReceiver(cookie)

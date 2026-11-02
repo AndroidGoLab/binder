@@ -20,11 +20,13 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"os"
 
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/hwparcel"
 	"github.com/AndroidGoLab/binder/hwservicemanager"
 	"github.com/AndroidGoLab/binder/logger"
+	"github.com/AndroidGoLab/binder/parcel"
 )
 
 const (
@@ -95,7 +97,7 @@ func Allocate(
 	}
 	defer reply.Recycle()
 
-	result, err := parseAllocateResponse(reply.Data())
+	result, err := parseAllocateResponse(reply)
 	if err != nil {
 		return nil, fmt.Errorf("hidlalloc: parsing response: %w", err)
 	}
@@ -123,7 +125,8 @@ func Allocate(
 //	int32 numInts
 //	int32[numFds] fds  (translated by kernel)
 //	int32[numInts] ints
-func parseAllocateResponse(data []byte) (*AllocateResult, error) {
+func parseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
+	data := p.Data()
 	if len(data) < 12 {
 		return nil, fmt.Errorf("response too short: %d bytes", len(data))
 	}
@@ -174,7 +177,7 @@ func parseAllocateResponse(data []byte) (*AllocateResult, error) {
 		return result, nil
 	}
 
-	if nativeHandleBufPtr >= uint64(len(data)) || nativeHandleBufPtr+nativeHandleBufLen > uint64(len(data)) {
+	if nativeHandleBufPtr > uint64(len(data)) || nativeHandleBufLen > uint64(len(data))-nativeHandleBufPtr {
 		return result, fmt.Errorf("native_handle buffer out of range: ptr=%d len=%d dataLen=%d",
 			nativeHandleBufPtr, nativeHandleBufLen, len(data))
 	}
@@ -198,7 +201,14 @@ func parseAllocateResponse(data []byte) (*AllocateResult, error) {
 	offset := 12
 	result.Fds = make([]int32, numFds)
 	for i := range numFds {
-		result.Fds[i] = int32(binary.LittleEndian.Uint32(nhData[offset:]))
+		fd, err := p.TakeReceivedFileDescriptor(int(nativeHandleBufPtr) + offset)
+		if err != nil {
+			for _, taken := range result.Fds[:i] {
+				_ = os.NewFile(uintptr(taken), "hidl descriptor").Close()
+			}
+			return nil, fmt.Errorf("native_handle descriptor %d: %w", i, err)
+		}
+		result.Fds[i] = fd
 		offset += 4
 	}
 

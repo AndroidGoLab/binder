@@ -108,10 +108,10 @@ func TestReplyParcelRejectsUnreadableOffsets(t *testing.T) {
 	require.ErrorContains(t, err, "copy reply offsets")
 }
 
-// TestReplyParcelPreservesHIDLFDArray verifies the separate scatter-gather lifecycle.
+// TestReplyParcelClosesHIDLFDArray verifies the separate scatter-gather lifecycle.
 //
-// Example: recycling a reply does not close an FDA descriptor duplicate.
-func TestReplyParcelPreservesHIDLFDArray(t *testing.T) {
+// Example: recycling a reply closes an unread FDA descriptor duplicate.
+func TestReplyParcelClosesHIDLFDArray(t *testing.T) {
 	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
 	// Release the source descriptors after the scatter-gather check.
@@ -143,11 +143,83 @@ func TestReplyParcelPreservesHIDLFDArray(t *testing.T) {
 	require.LessOrEqual(t, parent+4, uint64(len(reply.Data())))
 	dup := int(int32(binary.LittleEndian.Uint32(reply.Data()[parent:])))
 	require.NotEqual(t, fds[0], dup)
-	// Release the scatter-gather duplicate after the test.
+	// Release the duplicate if an assertion fails before recycling.
 	//
-	// Example: a successful FDA copy leaves one owned descriptor.
+	// Example: cleanup tolerates the parcel having already closed it.
 	t.Cleanup(func() { closeReplyTestFD(t, dup) })
 	require.NoError(t, reply.Recycle())
 	_, err = unix.FcntlInt(uintptr(dup), unix.F_GETFD, 0)
+	require.ErrorIs(t, err, unix.EBADF)
+}
+
+func TestResolveFDAParentIndexAndTransfer(t *testing.T) {
+	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
+	defer closeReplyTestFD(t, fds[0])
+	defer closeReplyTestFD(t, fds[1])
+	// A non-PTR object precedes the parent; FDA parent indexes all objects.
+	const size = 96
+	mapped := make([]byte, size+24+4)
+	binary.LittleEndian.PutUint32(mapped[24:], uint32(binderTypePTR))
+	binary.LittleEndian.PutUint64(mapped[32:], uint64(uintptr(unsafe.Pointer(&mapped[size+24]))))
+	binary.LittleEndian.PutUint64(mapped[40:], 4)
+	binary.LittleEndian.PutUint32(mapped[64:], uint32(binderTypeFDA))
+	binary.LittleEndian.PutUint64(mapped[72:], 1)
+	binary.LittleEndian.PutUint64(mapped[80:], 1)
+	binary.LittleEndian.PutUint64(mapped[size:], 0)
+	binary.LittleEndian.PutUint64(mapped[size+8:], 24)
+	binary.LittleEndian.PutUint64(mapped[size+16:], 64)
+	binary.LittleEndian.PutUint32(mapped[size+24:], uint32(fds[0]))
+	d := &Driver{fd: -1, mapped: mapped}
+	data, offsets, err := d.resolveScatterGather(mapped[:size], uint64(uintptr(unsafe.Pointer(&mapped[size]))), 24)
+	require.NoError(t, err)
+	require.Len(t, offsets, 1)
+	p := parcel.FromReceivedBytes(data, nil, offsets...)
+	fd, err := p.TakeReceivedFileDescriptor(offsets[0])
+	require.NoError(t, err)
+	defer closeReplyTestFD(t, int(fd))
+	_, err = p.TakeReceivedFileDescriptor(offsets[0])
+	require.Error(t, err)
+	require.NoError(t, p.Close())
+	_, err = unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
+	require.NoError(t, err)
+}
+
+func TestResolveFDARejectsDuplicateFailure(t *testing.T) {
+	const size = 72
+	mapped := make([]byte, size+16+4)
+	binary.LittleEndian.PutUint32(mapped, uint32(binderTypePTR))
+	binary.LittleEndian.PutUint64(mapped[8:], uint64(uintptr(unsafe.Pointer(&mapped[size+16]))))
+	binary.LittleEndian.PutUint64(mapped[16:], 4)
+	binary.LittleEndian.PutUint32(mapped[40:], uint32(binderTypeFDA))
+	binary.LittleEndian.PutUint64(mapped[48:], 1)
+	binary.LittleEndian.PutUint64(mapped[size+8:], 40)
+	binary.LittleEndian.PutUint32(mapped[size+16:], ^uint32(0))
+	d := &Driver{fd: -1, mapped: mapped}
+	_, offsets, err := d.resolveScatterGather(mapped[:size], uint64(uintptr(unsafe.Pointer(&mapped[size]))), 16)
+	require.ErrorIs(t, err, unix.EBADF)
+	require.Empty(t, offsets)
+}
+
+func TestResolveFDADuplicateFailureClosesEarlierDuplicates(t *testing.T) {
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer closeReplyTestFD(t, fds[1])
+	const size = 72
+	mapped := make([]byte, size+16+8)
+	binary.LittleEndian.PutUint32(mapped, uint32(binderTypePTR))
+	binary.LittleEndian.PutUint64(mapped[8:], uint64(uintptr(unsafe.Pointer(&mapped[size+16]))))
+	binary.LittleEndian.PutUint64(mapped[16:], 8)
+	binary.LittleEndian.PutUint32(mapped[40:], uint32(binderTypeFDA))
+	binary.LittleEndian.PutUint64(mapped[48:], 2)
+	binary.LittleEndian.PutUint64(mapped[size+8:], 40)
+	binary.LittleEndian.PutUint32(mapped[size+16:], uint32(fds[0]))
+	binary.LittleEndian.PutUint32(mapped[size+20:], ^uint32(0))
+	d := &Driver{fd: -1, mapped: mapped}
+	_, offsets, err := d.resolveScatterGather(mapped[:size], uint64(uintptr(unsafe.Pointer(&mapped[size]))), 16)
+	require.ErrorIs(t, err, unix.EBADF)
+	require.Empty(t, offsets)
+	require.NoError(t, unix.Close(fds[0]))
+	_, err = unix.Write(fds[1], []byte{1})
+	require.ErrorIs(t, err, unix.EPIPE, "the first duplicate must not keep the pipe reader open")
 }
