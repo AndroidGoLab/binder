@@ -10,6 +10,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplay
+var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplayOnLayerStack
+
 // TestAndroid10DisplayState verifies the geometry and flag order from
 // Android 10's DisplayState::write.
 func TestAndroid10DisplayState(t *testing.T) {
@@ -172,7 +175,7 @@ func TestVirtualDisplaySecureOption(t *testing.T) {
 			t.Run(fmt.Sprintf("api%d_secure%t", api, secure), func(t *testing.T) {
 				raw := &virtualDisplayRemote{}
 				aidl := &virtualDisplayRemote{aidl: true}
-				_, err := CreateVirtualDisplayOnLayerStack(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 0, VirtualDisplayOptions{Secure: secure})
+				_, err := CreateVirtualDisplayOnLayerStackWithOptions(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 0, VirtualDisplayOptions{Secure: secure})
 				require.NoError(t, err)
 				p := raw.requests[0]
 				if api == 34 {
@@ -194,17 +197,18 @@ func TestVirtualDisplaySecureOption(t *testing.T) {
 	}
 }
 
-// TestVirtualDisplayDefaultAndOptions validates default, forwarding, and rejection.
+// TestVirtualDisplayDefaultAndOptions validates default and option forwarding.
 func TestVirtualDisplayDefaultAndOptions(t *testing.T) {
 	for _, api := range []int{29, 34} {
 		for _, secure := range []bool{false, true} {
 			raw := &virtualDisplayRemote{}
 			aidl := &virtualDisplayRemote{aidl: true}
-			var options []VirtualDisplayOptions
+			var err error
 			if secure {
-				options = []VirtualDisplayOptions{{Secure: true}}
+				_, err = CreateVirtualDisplayWithOptions(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, VirtualDisplayOptions{Secure: true})
+			} else {
+				_, err = CreateVirtualDisplay(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800)
 			}
-			_, err := CreateVirtualDisplay(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, options...)
 			require.NoError(t, err)
 			p := raw.requests[0]
 			if api == 34 {
@@ -223,8 +227,4 @@ func TestVirtualDisplayDefaultAndOptions(t *testing.T) {
 			require.Equal(t, secure, got)
 		}
 	}
-	raw := &virtualDisplayRemote{}
-	_, err := CreateVirtualDisplay(context.Background(), raw, nil, &virtualDisplayTransport{}, 29, binder.NewStubBinder(nil), 1080, 2400, 360, 800, VirtualDisplayOptions{}, VirtualDisplayOptions{})
-	require.Error(t, err)
-	require.Empty(t, raw.requests)
 }

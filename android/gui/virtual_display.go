@@ -39,9 +39,11 @@ type VirtualDisplay struct {
 	token  uint32
 }
 
-// VirtualDisplayOptions controls virtual display creation. Secure displays may
-// require elevated privileges on the device.
+// VirtualDisplayOptions controls virtual display creation.
+//
+// Example: request secure composition with VirtualDisplayOptions{Secure: true}.
 type VirtualDisplayOptions struct {
+	// Secure requests secure composition, which may require elevated privileges.
 	Secure bool
 }
 
@@ -56,9 +58,8 @@ func CreateVirtualDisplay(
 	api int,
 	producer *binder.StubBinder,
 	sourceWidth, sourceHeight, width, height int32,
-	options ...VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
-	return CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0, options...)
+	return CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0)
 }
 
 // CreateVirtualDisplayOnLayerStack projects a selected composition layer stack.
@@ -72,12 +73,21 @@ func CreateVirtualDisplayOnLayerStack(
 	api int,
 	producer *binder.StubBinder,
 	sourceWidth, sourceHeight, width, height, stack int32,
-	options ...VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
-	if len(options) > 1 {
-		return nil, fmt.Errorf("at most one virtual display options value is allowed")
-	}
-	secure := len(options) == 1 && options[0].Secure
+	return CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, stack, VirtualDisplayOptions{})
+}
+
+// CreateVirtualDisplayWithOptions creates a projected display on layer stack zero.
+//
+// Example: request a secure virtual display using VirtualDisplayOptions{Secure: true}.
+func CreateVirtualDisplayWithOptions(ctx context.Context, raw, aidl binder.IBinder, transport binder.Transport, api int, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height int32, options VirtualDisplayOptions) (*VirtualDisplay, error) {
+	return CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0, options)
+}
+
+// CreateVirtualDisplayOnLayerStackWithOptions projects a selected layer stack.
+//
+// Example: request secure composition for a selected display's layer stack.
+func CreateVirtualDisplayOnLayerStackWithOptions(ctx context.Context, raw, aidl binder.IBinder, transport binder.Transport, api int, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height, stack int32, options VirtualDisplayOptions) (*VirtualDisplay, error) {
 	if sourceWidth <= 0 || sourceHeight <= 0 || width <= 0 || height <= 0 {
 		return nil, fmt.Errorf("display dimensions must be positive")
 	}
@@ -100,10 +110,10 @@ func CreateVirtualDisplayOnLayerStack(
 	}
 	if api == 29 {
 		p.WriteString("binder-go-capture")
-		p.WriteBool(secure)
+		p.WriteBool(options.Secure)
 	} else {
 		p.WriteString16("binder-go-capture")
-		p.WriteBool(secure)
+		p.WriteBool(options.Secure)
 		p.WriteFloat32(0)
 	}
 	code := binder.TransactionCode(5)
