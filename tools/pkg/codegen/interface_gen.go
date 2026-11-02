@@ -390,6 +390,7 @@ func writeStubCase(
 	} else {
 		// Write the reply parcel.
 		f.P("\t\t_reply := parcel.New()")
+		f.P("\t\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
 		f.P("\t\tif _err != nil {")
 		f.P("\t\t\tbinder.WriteStatus(_reply, _err)")
 		f.P("\t\t\treturn _reply, nil")
@@ -1161,6 +1162,7 @@ func writeProxyMethod(
 
 	// Build and write data parcel.
 	f.P("\t_data := parcel.New()")
+	f.P("\t_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))")
 	f.P("\tdefer _data.Recycle()")
 	f.P("\t_data.WriteInterfaceToken(%s)", descriptorConst)
 
@@ -1238,6 +1240,7 @@ func writeProxyMethod(
 			f.P("\t}")
 		}
 		f.P("\tdefer _reply.Recycle()")
+		f.P("\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
 
 		// Read status.
 		f.P("")

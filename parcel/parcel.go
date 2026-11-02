@@ -13,6 +13,7 @@ const maxParcelableDepth = 32
 //
 // Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
+	targetAPILevel    int
 	data              []byte
 	pos               int           // current read position
 	objects           []uint64      // offsets of flat_binder_objects
@@ -20,6 +21,16 @@ type Parcel struct {
 	readLimit         int           // when > 0, Len() returns min(len(data), readLimit)
 	interfaceTokenEnd int           // end of a token written at byte zero, or zero if absent
 	receivedFDs       map[int]int32 // received descriptor offsets still owned by this parcel; -1 after transfer
+}
+
+// SetTargetAPILevel sets the target Android API level; zero means unknown.
+func (p *Parcel) SetTargetAPILevel(level int) {
+	p.targetAPILevel = level
+}
+
+// TargetAPILevel returns the target Android API level, or zero if unknown.
+func (p *Parcel) TargetAPILevel() int {
+	return p.targetAPILevel
 }
 
 // New creates a new empty Parcel.
@@ -110,6 +121,7 @@ func (p *Parcel) Recycle() error {
 	p.pos = 0
 	p.objects = nil
 	p.interfaceTokenEnd = 0
+	p.targetAPILevel = 0
 	p.receivedFDs = nil
 	return err
 }

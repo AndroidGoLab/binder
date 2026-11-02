@@ -1144,7 +1144,7 @@ func (t *Transport) RegisterReceiver(
 	ctx context.Context,
 	receiver binder.TransactionReceiver,
 ) uintptr {
-	return t.inner.RegisterReceiver(ctx, receiver)
+	return t.inner.RegisterReceiver(ctx, &profiledReceiver{receiver: receiver, transport: t})
 }
 
 // CanUnregisterReceiver reports whether the underlying transport can remove

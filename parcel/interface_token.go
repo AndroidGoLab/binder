@@ -74,7 +74,9 @@ func (p *Parcel) Android10Request() *Parcel {
 			objects[i] = offset - vendorHeaderSize
 		}
 	}
-	return FromBytesWithObjects(data, objects)
+	clone := FromBytesWithObjects(data, objects)
+	clone.SetTargetAPILevel(p.TargetAPILevel())
+	return clone
 }
 
 // ReadInterfaceToken reads a Binder interface token, consuming the
