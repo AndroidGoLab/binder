@@ -26,7 +26,8 @@ type DisplayInfo struct {
 	PhysicalXDpi, PhysicalYDpi                                                                                                                           float32
 	AppVsyncOffsetNanos, PresentationDeadlineNanos                                                                                                       int64
 	State, CommittedState, OwnerUid                                                                                                                      int32
-	OwnerPackageName, UniqueId                                                                                                                           string
+	OwnerPackageName                                                                                                                                     *string
+	UniqueId                                                                                                                                             string
 	RemoveMode                                                                                                                                           int32
 	RefreshRateOverride, BrightnessMinimum, BrightnessMaximum, BrightnessDefault                                                                         float32
 	RoundedCorners                                                                                                                                       *DisplayRoundedCorners
@@ -36,14 +37,15 @@ type DisplayInfo struct {
 	LayoutLimitedRefreshRate                                                                                                                             *DisplayRefreshRateRange
 	HdrSdrRatio                                                                                                                                          float32
 	ThermalRefreshRateThrottling                                                                                                                         []DisplayThermalRefreshRate
-	ThermalBrightnessThrottlingDataId                                                                                                                    string
+	ThermalBrightnessThrottlingDataId                                                                                                                    *string
 }
 
 type displayCodec struct {
-	p    *parcel.Parcel
-	read bool
-	err  error
-	api  int
+	p       *parcel.Parcel
+	read    bool
+	err     error
+	api     int
+	profile parcel.DisplayInfoWireProfile
 }
 
 func (c *displayCodec) i(v *int32) {
@@ -90,6 +92,22 @@ func (c *displayCodec) s(v *string, utf8 bool) {
 		c.p.WriteString(*v)
 	} else {
 		c.p.WriteString16(*v)
+	}
+}
+func (c *displayCodec) nullableString(v **string, utf8 bool) {
+	if c.err != nil {
+		return
+	}
+	if c.read {
+		if utf8 {
+			*v, c.err = c.p.ReadNullableString()
+		} else {
+			*v, c.err = c.p.ReadNullableString16()
+		}
+	} else if utf8 {
+		c.p.WriteNullableString(*v)
+	} else {
+		c.p.WriteNullableString16(*v)
 	}
 }
 func (c *displayCodec) count(n *int, nullable bool) {
@@ -178,9 +196,9 @@ func (c *displayCodec) class(name *string) {
 func (s *DisplayInfo) MarshalParcel(p *parcel.Parcel) error   { return s.codec(p, false) }
 func (s *DisplayInfo) UnmarshalParcel(p *parcel.Parcel) error { return s.codec(p, true) }
 func (s *DisplayInfo) codec(p *parcel.Parcel, read bool) error {
-	c := displayCodec{p: p, read: read, api: p.TargetAPILevel()}
-	if c.api != 29 && c.api != 34 {
-		return fmt.Errorf("DisplayInfo: unsupported Android API %d", c.api)
+	c := displayCodec{p: p, read: read, api: p.TargetAPILevel(), profile: p.DisplayInfoWireProfile()}
+	if !(c.api == 29 && c.profile == parcel.DisplayInfoWireProfileAndroid10 || c.api == 34 && (c.profile == parcel.DisplayInfoWireProfileAndroid14Initial || c.profile == parcel.DisplayInfoWireProfileAndroid14Vsync)) {
+		return fmt.Errorf("DisplayInfo: unsupported Android API %d and wire profile %d", c.api, c.profile)
 	}
 	c.i(&s.LayerStack)
 	c.i(&s.Flags)
@@ -209,8 +227,10 @@ func (s *DisplayInfo) codec(p *parcel.Parcel, read bool) error {
 		c.f(&s.RenderFrameRate)
 	}
 	c.i(&s.DefaultModeId)
-	if c.api == 34 {
+	if c.profile == parcel.DisplayInfoWireProfileAndroid14Vsync {
 		c.i(&s.UserPreferredModeId)
+	} else if c.read {
+		s.UserPreferredModeId = 0
 	}
 	n := len(s.SupportedModes)
 	c.count(&n, false)
@@ -236,7 +256,7 @@ func (s *DisplayInfo) codec(p *parcel.Parcel, read bool) error {
 		c.i(&s.CommittedState)
 	}
 	c.i(&s.OwnerUid)
-	c.s(&s.OwnerPackageName, c.api == 34)
+	c.nullableString(&s.OwnerPackageName, c.api == 34)
 	c.s(&s.UniqueId, c.api == 34)
 	c.i(&s.RemoveMode)
 	if c.api == 34 {
@@ -251,7 +271,7 @@ func (s *DisplayInfo) codec(p *parcel.Parcel, read bool) error {
 		c.rangeObject(&s.LayoutLimitedRefreshRate)
 		c.f(&s.HdrSdrRatio)
 		c.thermal(&s.ThermalRefreshRateThrottling)
-		c.s(&s.ThermalBrightnessThrottlingDataId, true)
+		c.nullableString(&s.ThermalBrightnessThrottlingDataId, true)
 	}
 	if c.err != nil {
 		return fmt.Errorf("DisplayInfo: %w", c.err)

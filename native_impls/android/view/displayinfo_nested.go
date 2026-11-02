@@ -92,7 +92,9 @@ func (c *displayCodec) mode(m *DisplayInfoMode) {
 	c.i(&m.Height)
 	c.f(&m.RefreshRate)
 	if c.api == 34 {
-		c.f(&m.VsyncRate)
+		if c.profile == parcel.DisplayInfoWireProfileAndroid14Vsync {
+			c.f(&m.VsyncRate)
+		}
 		c.floats(&m.AlternativeRefreshRates)
 		c.ints(&m.SupportedHdrTypes, true)
 	}
