@@ -20,6 +20,8 @@ type captureSyncTransport struct {
 	released  chan struct{}
 }
 
+func (*captureSyncTransport) APILevel() int { return 34 }
+
 // RegisterReceiver records a callback receiver.
 //
 // Example: deliver a response to the recorded receiver.

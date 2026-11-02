@@ -19,6 +19,8 @@ type captureLayersReplyTransport struct {
 	reply *parcel.Parcel
 }
 
+func (*captureLayersReplyTransport) APILevel() int { return 34 }
+
 // ResolveCode selects the simulated captureLayersSync transaction.
 //
 // Example: invoke the generated synchronous proxy method.
