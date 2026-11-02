@@ -111,6 +111,8 @@ func TestPixelRGBALayoutRejectsUnsupported(t *testing.T) {
 }
 
 // TestRGBAReaderReuse verifies that one mapping can read successive padded frames.
+//
+// Example: reread changed pixels without creating another mapping.
 func TestRGBAReaderReuse(t *testing.T) {
 	f, err := os.CreateTemp(t.TempDir(), "pixels")
 	require.NoError(t, err)

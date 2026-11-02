@@ -234,7 +234,10 @@ func (p *FrameProducer) Close(ctx context.Context) error {
 			return ctx.Err()
 		}
 	}
-	defer func() { <-p.closing }()
+	defer // Allow another shutdown attempt after this one returns.
+	//
+	// Example: retry cleanup after a timed-out lease.
+	func() { <-p.closing }()
 	p.mu.Lock()
 	if !p.isClosed {
 		p.isClosed = true

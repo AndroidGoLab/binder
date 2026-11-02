@@ -6,7 +6,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/AndroidGoLab/binder/android/hardware/common"
 	"github.com/AndroidGoLab/binder/gralloc"
+	"github.com/AndroidGoLab/binder/gralloc/dmaheap"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sys/unix"
@@ -635,6 +637,8 @@ func TestFrameProducerRejectsCanceledFenceHangup(t *testing.T) {
 }
 
 // TestCloseRetainsReaderUntilLeaseReleased checks shutdown retry ownership.
+//
+// Example: a timed-out shutdown preserves a reader for the outstanding lease.
 func TestCloseRetainsReaderUntilLeaseReleased(t *testing.T) {
 	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
 	require.NoError(t, err)
@@ -653,17 +657,57 @@ func TestCloseRetainsReaderUntilLeaseReleased(t *testing.T) {
 }
 
 // TestConcurrentCloseHonorsCancellation keeps a second shutdown bounded.
+//
+// Example: cancel a shutdown waiting for another caller's cleanup.
 func TestConcurrentCloseHonorsCancellation(t *testing.T) {
 	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
 	require.NoError(t, err)
 	p.slots[0].state = frameSlotQueued
 	frame := &Frame{producer: p, slot: 0, fence: -1}
 	done := make(chan error, 1)
-	go func() { done <- p.Close(context.Background()) }()
+	go // Hold the shutdown open while the test retains a frame.
+	//
+	// Example: a concurrent close can cancel without waiting for this one.
+	func() { done <- p.Close(context.Background()) }()
 	<-p.closed
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 	require.ErrorIs(t, p.Close(ctx), context.Canceled)
 	require.NoError(t, frame.Release(context.Background()))
 	require.NoError(t, <-done)
+}
+
+// TestProducerCloseUnmapsReader exercises shutdown with a real DMA-BUF mapping.
+//
+// Example: a released frame's reader cannot be used after producer shutdown.
+func TestProducerCloseUnmapsReader(t *testing.T) {
+	fd, err := dmaheap.Allocate(4096)
+	if err != nil {
+		t.Skipf("DMA heap unavailable: %v", err)
+	}
+	defer // Close the allocation only after the producer releases its mapping.
+	//
+	// Example: preserve the borrowed descriptor throughout the reader lifetime.
+	func() { require.NoError(t, unix.Close(int(fd))) }()
+	words := make([]int32, 77)
+	words[0], words[1], words[2], words[4] = -1, -1, 0x3141592, 1
+	words[5], words[6], words[7], words[15] = 2, 2, 1, 1
+	words[23], words[25], words[27], words[53], words[63], words[75] = 8, 2, 2, 1, 4096, 400
+	b := &gralloc.Buffer{Handle: common.NativeHandle{Fds: []int32{fd, fd}, Ints: words}, Width: 2, Height: 2, Stride: 2, Format: 1}
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{b})
+	require.NoError(t, err)
+	p.slots[0].state = frameSlotQueued
+	frame := &Frame{producer: p, slot: 0, fence: -1}
+	pixels := make([]byte, 16)
+	require.NoError(t, frame.CopyRGBAInto(context.Background(), pixels))
+	reader := p.slots[0].reader
+	require.NotNil(t, reader)
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	require.ErrorIs(t, p.Close(ctx), context.Canceled)
+	require.NoError(t, reader.CopyInto(pixels))
+	require.NoError(t, frame.Release(context.Background()))
+	require.NoError(t, p.Close(context.Background()))
+	require.ErrorContains(t, reader.CopyInto(pixels), "closed")
+	require.NoError(t, p.Close(context.Background()))
 }

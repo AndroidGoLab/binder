@@ -253,6 +253,9 @@ func validateRGBADestination(b *Buffer, pixels []byte) error {
 	return validateRGBASize(b.Width, b.Height, pixels)
 }
 
+// validateRGBASize checks the dimensions and exact packed destination length.
+//
+// Example: reject a destination that omits one visible pixel.
 func validateRGBASize(width, height uint32, pixels []byte) error {
 	if width == 0 || height == 0 || uint64(width)*uint64(height) > uint64(math.MaxInt)/rgbaBytesPerPixel || len(pixels) != int(uint64(width)*uint64(height)*rgbaBytesPerPixel) {
 		return errors.New("invalid RGBA destination size")
@@ -284,7 +287,9 @@ func NewRGBAReader(b *Buffer) (*RGBAReader, error) {
 	return newRGBAReader(b, !qcom, qcom)
 }
 
-// newRGBAReader permits tests to use a regular file without DMA-BUF ioctls.
+// newRGBAReader validates and maps a buffer using the selected access backend.
+//
+// Example: retain an ION descriptor while a Qualcomm buffer is mapped.
 func newRGBAReader(b *Buffer, syncDMA, useION bool) (_ *RGBAReader, resultErr error) {
 	l, err := captureRGBALayout(b)
 	if err != nil {
@@ -298,7 +303,10 @@ func newRGBAReader(b *Buffer, syncDMA, useION bool) (_ *RGBAReader, resultErr er
 		return nil, fmt.Errorf("pixel fd too short: %d bytes, need %d", stat.Size, l.length)
 	}
 	r := &RGBAReader{layout: l, width: b.Width, height: b.Height, ion: -1, syncDMA: syncDMA}
-	defer func() {
+	defer // Release partially initialized resources on construction failure.
+	//
+	// Example: unmap if ending initial CPU access fails.
+	func() {
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, r.Close())
 		}
@@ -345,7 +353,10 @@ func (r *RGBAReader) CopyInto(pixels []byte) (resultErr error) {
 		if err := dmaBufBeginCPUAccess(r.layout.fd); err != nil {
 			return fmt.Errorf("start DMA-BUF read: %w", err)
 		}
-		defer func() {
+		defer // End access after reading even when a later operation fails.
+		//
+		// Example: report a DMA-BUF synchronization failure to the caller.
+		func() {
 			if err := dmaBufSync(r.layout.fd, dmaBufSyncRead|dmaBufSyncEnd); err != nil {
 				resultErr = errors.Join(resultErr, fmt.Errorf("end DMA-BUF read: %w", err))
 			}
@@ -355,6 +366,9 @@ func (r *RGBAReader) CopyInto(pixels []byte) (resultErr error) {
 	return nil
 }
 
+// copyRGBARows strips allocation padding from validated mapped rows.
+//
+// Example: copy a strided graphics plane into tightly packed output.
 func copyRGBARows(pixels, data []byte, layout rgbaLayout, width, height uint32) {
 	row := int(width) * rgbaBytesPerPixel
 	for y := 0; y < int(height); y++ {
