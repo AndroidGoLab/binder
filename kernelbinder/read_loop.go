@@ -374,9 +374,9 @@ func (d *Driver) handleSystemTransaction(
 	case binder.InterfaceTransaction:
 		desc := receiver.Descriptor()
 		logger.Tracef(ctx, "INTERFACE_TRANSACTION: returning descriptor %q", desc)
-		reply := parcel.New()
-		reply.WriteString16(desc)
 		if !isOneway {
+			reply := parcel.New()
+			reply.WriteString16(desc)
 			d.sendReply(ctx, reply)
 		}
 
@@ -474,6 +474,11 @@ func (d *Driver) handleIncomingTransaction(
 	}
 
 	replyParcel, err := receiver.OnTransaction(ctx, code, dataParcel)
+	if replyParcel != nil && (err != nil || isOneway) {
+		if recycleErr := replyParcel.Recycle(); recycleErr != nil {
+			logger.Warnf(ctx, "failed to recycle discarded callback reply: %v", recycleErr)
+		}
+	}
 	if err != nil {
 		// Trace level: fires on every unhandled transaction code on the
 		// per-frame hot path. Warn-level consumed 20ms in profiling.
@@ -526,6 +531,9 @@ func (d *Driver) sendReply(
 ) {
 	if err := d.Reply(ctx, reply); err != nil {
 		logger.Warnf(ctx, "failed to send BC_REPLY: %v", err)
+	}
+	if err := reply.Recycle(); err != nil {
+		logger.Warnf(ctx, "failed to recycle callback reply: %v", err)
 	}
 }
 
