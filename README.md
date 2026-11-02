@@ -600,6 +600,7 @@ More examples: [`examples/`](examples/)
 | [`media_session_control`](examples/media_session_control/) | Enumerate active media sessions and query global priority. |
 | [`media_transcoding`](examples/media_transcoding/) | Query media transcoding service status and media metrics session IDs. |
 | [`memory_pressure`](examples/memory_pressure/) | Read memory pressure info from ActivityManager. |
+| [`minicap`](examples/minicap/) | The minicap example streams JPEG or raw RGBA8888 frames from a virtual display. |
 | [`mock_service`](examples/mock_service/) | Create a mock binder service for testing. |
 | [`network_monitor`](examples/network_monitor/) | Check network connectivity status via NetworkManagementService. |
 | [`network_policy`](examples/network_policy/) | Query network policy settings via the INetworkPolicyManager system service. |
@@ -2074,7 +2075,7 @@ go run ./tools/cmd/aidl2spec -3rdparty tools/pkg/3rdparty -output specs/
 go run ./tools/cmd/spec2go -specs specs/ -output . -smoke-tests
 ```
 
-This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **5,175 Go files** across **407 packages**.
+This discovers all AIDL files across `frameworks-base`, `frameworks-native`, `hardware-interfaces`, and `system-hardware-interfaces`, infers search roots from package declarations, and generates Go proxies for all AOSP services. The current AOSP snapshot produces **5,177 Go files** across **407 packages**.
 
 ### Transaction Code Resolution
 
@@ -2368,7 +2369,7 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 │   └── driver.go             Open, mmap, ioctl BINDER_WRITE_READ
 ├── servicemanager/           ServiceManager client
 ├── errors/                   AIDL exception types (ExceptionCode, StatusError)
-├── android/                  Pre-generated AOSP service proxies (5,175 files)
+├── android/                  Pre-generated AOSP service proxies (5,177 files)
 │   ├── app/                  ActivityManager, AlarmManager, ...
 │   ├── os/                   ServiceManager, PowerManager, ...
 │   ├── hardware/             HAL interfaces
@@ -2377,6 +2378,6 @@ See the example app at [`examples/gomobile/`](examples/gomobile/).
 ├── interop/                  Interoperability helpers
 │   ├── gadb/                 Pure-Go ADB integration
 │   └── gomobile/             Android AAR via gomobile
-├── examples/                 107 runnable examples
+├── examples/                 108 runnable examples
 └── .github/workflows/        CI configuration
 ```
