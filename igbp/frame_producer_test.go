@@ -451,3 +451,19 @@ func TestFrameProducerTryNextReturnsOnlyAvailableFrames(t *testing.T) {
 	require.False(t, ok)
 	require.Nil(t, frame)
 }
+
+// TestFrameCopyIntoHonorsCancellation preserves the lease and destination.
+//
+// Example: a canceled frame read leaves its output and slot untouched.
+func TestFrameCopyIntoHonorsCancellation(t *testing.T) {
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	p.slots[0].state = frameSlotQueued
+	frame := &Frame{producer: p, slot: 0, fence: -1}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	dst := []byte{1, 2, 3, 4}
+	require.ErrorIs(t, frame.CopyRGBAInto(ctx, dst), context.Canceled)
+	require.Equal(t, []byte{1, 2, 3, 4}, dst)
+	require.NoError(t, frame.Release(context.Background()))
+}

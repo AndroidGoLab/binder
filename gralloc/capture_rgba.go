@@ -173,49 +173,85 @@ func handleUint64(
 //
 // Example: copy pixels after waiting for the screen capture fence.
 func CopyRGBA(b *Buffer) (pixels []byte, resultErr error) {
-	if b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic {
-		return copyQcomRGBA(b)
-	}
-	l, err := pixelRGBALayout(b)
-	if err != nil {
+	if _, err := captureRGBALayout(b); err != nil {
 		return nil, err
+	}
+	pixels = make([]byte, int(b.Width)*int(b.Height)*rgbaBytesPerPixel)
+	if err := CopyRGBAInto(b, pixels); err != nil {
+		return nil, err
+	}
+	return pixels, nil
+}
+
+// captureRGBALayout validates the supported vendor-specific pixel layout.
+//
+// Example: reject a compressed or unknown handle before allocating output.
+func captureRGBALayout(b *Buffer) (rgbaLayout, error) {
+	if b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic {
+		return qcomRGBALayout(b)
+	}
+	return pixelRGBALayout(b)
+}
+
+// CopyRGBAInto copies a supported linear buffer into a caller-owned packed slice.
+// The caller must wait for the acquire fence and supply exactly width*height*4 bytes.
+// The destination may contain partial pixels if an error is returned.
+//
+// Example: reuse one destination across a sequence of captured frames.
+func CopyRGBAInto(b *Buffer, pixels []byte) (resultErr error) {
+	l, err := captureRGBALayout(b)
+	if err != nil {
+		return err
+	}
+	if err := validateRGBADestination(b, pixels); err != nil {
+		return err
+	}
+	if len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic {
+		return copyQcomRGBAInto(b, l, pixels)
 	}
 	var stat unix.Stat_t
 	if err := unix.Fstat(l.fd, &stat); err != nil {
-		return nil, fmt.Errorf("stat pixel fd: %w", err)
+		return fmt.Errorf("stat pixel fd: %w", err)
 	}
 	if stat.Size < int64(l.length) {
-		return nil, fmt.Errorf("pixel fd too short: %d bytes, need %d", stat.Size, l.length)
+		return fmt.Errorf("pixel fd too short: %d bytes, need %d", stat.Size, l.length)
 	}
 	if err = dmaBufBeginCPUAccess(l.fd); err != nil {
-		return nil, fmt.Errorf("start DMA-BUF read: %w", err)
+		return fmt.Errorf("start DMA-BUF read: %w", err)
 	}
 	defer // End CPU access even if mapping or copying fails.
 	//
 	// Example: report cache synchronization failures to the caller.
 	func() {
 		if err := dmaBufSync(l.fd, dmaBufSyncRead|dmaBufSyncEnd); err != nil {
-			pixels = nil
 			resultErr = errors.Join(resultErr, fmt.Errorf("end DMA-BUF read: %w", err))
 		}
 	}()
 	data, err := unix.Mmap(l.fd, 0, l.length, unix.PROT_READ, unix.MAP_SHARED)
 	if err != nil {
-		return nil, fmt.Errorf("map pixel plane: %w", err)
+		return fmt.Errorf("map pixel plane: %w", err)
 	}
 	defer // Unmap the pixel plane and preserve any cleanup failure.
 	//
 	// Example: return an unmap error with any other error.
 	func() {
 		if err := unix.Munmap(data); err != nil {
-			pixels = nil
 			resultErr = errors.Join(resultErr, fmt.Errorf("unmap pixel plane: %w", err))
 		}
 	}()
 	row := int(b.Width) * rgbaBytesPerPixel
-	out := make([]byte, row*int(b.Height))
 	for y := 0; y < int(b.Height); y++ {
-		copy(out[y*row:(y+1)*row], data[l.offset+y*l.stride:l.offset+y*l.stride+row])
+		copy(pixels[y*row:(y+1)*row], data[l.offset+y*l.stride:l.offset+y*l.stride+row])
 	}
-	return out, nil
+	return nil
+}
+
+// validateRGBADestination enforces exact packed output geometry.
+//
+// Example: reject a short destination before mapping a graphics buffer.
+func validateRGBADestination(b *Buffer, pixels []byte) error {
+	if b == nil || b.Width == 0 || b.Height == 0 || uint64(b.Width)*uint64(b.Height) > uint64(math.MaxInt)/rgbaBytesPerPixel || len(pixels) != int(uint64(b.Width)*uint64(b.Height)*rgbaBytesPerPixel) {
+		return errors.New("invalid RGBA destination size")
+	}
+	return nil
 }

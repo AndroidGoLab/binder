@@ -227,7 +227,7 @@ func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []
 	return buffers, nil
 }
 
-// copyQcomRGBA maps an explicitly validated uncached SDM845 ION allocation.
+// copyQcomRGBAInto maps an explicitly validated uncached SDM845 ION allocation.
 // The caller must have waited for the producer's acquire fence. The vendor's
 // mapper skips cache operations for uncached read-only buffers; its ION mapper
 // also requires /dev/ion open in the mapping process.
@@ -235,55 +235,47 @@ func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []
 // https://android.googlesource.com/platform/hardware/qcom/sdm845/display/+/refs/tags/android-10.0.0_r40/gralloc/gr_ion_alloc.cpp
 //
 // Example: read tightly packed RGBA rows from a virtual-display buffer.
-func copyQcomRGBA(b *Buffer) (pixels []byte, resultErr error) {
-	layout, err := qcomRGBALayout(b)
-	if err != nil {
-		return nil, err
-	}
+func copyQcomRGBAInto(b *Buffer, layout rgbaLayout, pixels []byte) (resultErr error) {
 	ion, err := unix.Open("/dev/ion", unix.O_RDONLY|unix.O_CLOEXEC, 0)
 	if err != nil {
-		return nil, fmt.Errorf("open ion: %w", err)
+		return fmt.Errorf("open ion: %w", err)
 	}
 	defer // Keep ION open for the lifetime of the mapping.
 	//
 	// Example: preserve a descriptor close error after copying pixels.
 	func() {
 		resultErr = errors.Join(resultErr, unix.Close(ion))
-		if resultErr != nil {
-			pixels = nil
-		}
 	}()
-	return copyQcomMappedRGBA(b, layout)
+	return copyQcomMappedRGBAInto(b, layout, pixels)
 }
 
-// copyQcomMappedRGBA maps a validated pixel plane and strips row padding.
+// copyQcomMappedRGBAInto maps a validated plane into a caller-owned slice.
 //
-// Example: copy visible RGBA rows from a padded ION allocation.
-func copyQcomMappedRGBA(b *Buffer, layout rgbaLayout) (pixels []byte, resultErr error) {
+// Example: reuse a packed output buffer while stripping padded ION rows.
+func copyQcomMappedRGBAInto(b *Buffer, layout rgbaLayout, pixels []byte) (resultErr error) {
+	if err := validateRGBADestination(b, pixels); err != nil {
+		return err
+	}
 	var stat unix.Stat_t
 	if err := unix.Fstat(layout.fd, &stat); err != nil {
-		return nil, fmt.Errorf("stat Qualcomm buffer: %w", err)
+		return fmt.Errorf("stat Qualcomm buffer: %w", err)
 	}
 	if stat.Size < int64(layout.length) {
-		return nil, errors.New("Qualcomm buffer descriptor is too short")
+		return errors.New("Qualcomm buffer descriptor is too short")
 	}
 	data, err := unix.Mmap(layout.fd, 0, layout.length, unix.PROT_READ|unix.PROT_WRITE, unix.MAP_SHARED)
 	if err != nil {
-		return nil, fmt.Errorf("map Qualcomm buffer: %w", err)
+		return fmt.Errorf("map Qualcomm buffer: %w", err)
 	}
 	defer // Release the mapping and surface any cleanup failure.
 	//
 	// Example: an unmap failure invalidates the returned frame.
 	func() {
 		resultErr = errors.Join(resultErr, unix.Munmap(data))
-		if resultErr != nil {
-			pixels = nil
-		}
 	}()
 	row := int(b.Width) * rgbaBytesPerPixel
-	pixels = make([]byte, row*int(b.Height))
 	for y := 0; y < int(b.Height); y++ {
 		copy(pixels[y*row:(y+1)*row], data[y*layout.stride:y*layout.stride+row])
 	}
-	return pixels, nil
+	return nil
 }

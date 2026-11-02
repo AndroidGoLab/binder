@@ -150,6 +150,23 @@ func (f *Frame) CopyRGBA(ctx context.Context) ([]byte, error) {
 	return gralloc.CopyRGBA(f.producer.slots[f.slot].buffer)
 }
 
+// CopyRGBAInto waits for rendering and copies pixels into a caller-owned slice.
+// The destination must contain exactly width*height*4 bytes; it may be partly
+// modified if an error is returned. The frame remains leased until Release.
+//
+// Example: reuse one RGBA slice for successive display frames.
+func (f *Frame) CopyRGBAInto(ctx context.Context, pixels []byte) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.released {
+		return errors.New("frame released")
+	}
+	if err := f.waitFence(ctx); err != nil {
+		return fmt.Errorf("wait frame fence: %w", err)
+	}
+	return gralloc.CopyRGBAInto(f.producer.slots[f.slot].buffer, pixels)
+}
+
 // Release waits for the producer fence and returns the slot to the queue.
 // On failure the frame remains leased, so a caller may retry safely.
 //

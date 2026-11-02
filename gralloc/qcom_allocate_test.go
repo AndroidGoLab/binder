@@ -174,10 +174,10 @@ func TestQcomAllocationReplyClosesPartialTransfer(t *testing.T) {
 	require.NoError(t, err)
 }
 
-// TestQcomMappedRGBAIgnoresPadding checks real mapping and packed row output.
+// TestQcomMappedRGBAIntoReusesDestination checks padded rows and length validation.
 //
-// Example: two visible pixels per row omit a third padding pixel.
-func TestQcomMappedRGBAIgnoresPadding(t *testing.T) {
+// Example: a stream reuses one caller-owned pixel slice across frames.
+func TestQcomMappedRGBAIntoReusesDestination(t *testing.T) {
 	fd, err := unix.MemfdCreate("qcom-row-test", 0)
 	require.NoError(t, err)
 	defer unix.Close(fd)
@@ -186,9 +186,12 @@ func TestQcomMappedRGBAIgnoresPadding(t *testing.T) {
 	_, err = unix.Pwrite(fd, raw, 0)
 	require.NoError(t, err)
 	b := &Buffer{Width: 2, Height: 2}
-	pixels, err := copyQcomMappedRGBA(b, rgbaLayout{fd: fd, stride: 12, length: 24})
-	require.NoError(t, err)
-	require.Equal(t, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, pixels)
+	layout := rgbaLayout{fd: fd, stride: 12, length: 24}
+	dst := make([]byte, 16)
+	require.NoError(t, copyQcomMappedRGBAInto(b, layout, dst))
+	require.Equal(t, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, dst)
+	require.Error(t, copyQcomMappedRGBAInto(b, layout, dst[:15]))
+	require.Error(t, copyQcomMappedRGBAInto(b, layout, make([]byte, 17)))
 	_, err = unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
 	require.NoError(t, err)
 }
