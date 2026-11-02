@@ -293,6 +293,9 @@ func (p *InputManagerProxy) GetInputDevice(
 ) (view.InputDevice, error) {
 	var _result view.InputDevice
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetInputDevice)
@@ -321,6 +324,11 @@ func (p *InputManagerProxy) GetInputDevice(
 		return _result, _err
 	}
 	defer _reply.Recycle()
+	_reply.SetTargetAPILevel(_data.TargetAPILevel())
+	if _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+	}
+	_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
@@ -653,6 +661,9 @@ func (p *InputManagerProxy) GetKeyCharacterMap(
 ) (view.KeyCharacterMap, error) {
 	var _result view.KeyCharacterMap
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCharacterMap)
@@ -681,6 +692,11 @@ func (p *InputManagerProxy) GetKeyCharacterMap(
 		return _result, _err
 	}
 	defer _reply.Recycle()
+	_reply.SetTargetAPILevel(_data.TargetAPILevel())
+	if _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+	}
+	_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
@@ -4014,8 +4030,18 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		_result, _err := s.Impl.GetInputDevice(ctx, _arg_deviceId)
 		_reply := parcel.New()
+		_replyOwned := true
+		defer func() {
+			if _replyOwned {
+				_ = _reply.Recycle()
+			}
+		}()
+		_reply.SetTargetAPILevel(_data.TargetAPILevel())
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+		_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
+			_replyOwned = false
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
@@ -4023,6 +4049,7 @@ func (s *InputManagerStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		_replyOwned = false
 		return _reply, nil
 	case TransactionIInputManagerGetInputDeviceIds:
 		_result, _err := s.Impl.GetInputDeviceIds(ctx)
@@ -4152,8 +4179,18 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		_result, _err := s.Impl.GetKeyCharacterMap(ctx, _arg_layoutDescriptor)
 		_reply := parcel.New()
+		_replyOwned := true
+		defer func() {
+			if _replyOwned {
+				_ = _reply.Recycle()
+			}
+		}()
+		_reply.SetTargetAPILevel(_data.TargetAPILevel())
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+		_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
+			_replyOwned = false
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
@@ -4161,6 +4198,7 @@ func (s *InputManagerStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		_replyOwned = false
 		return _reply, nil
 	case TransactionIInputManagerGetMousePointerSpeed:
 		_result, _err := s.Impl.GetMousePointerSpeed(ctx)

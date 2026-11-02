@@ -45,6 +45,9 @@ func (p *ScreenCaptureListenerProxy) OnScreenCaptureCompleted(
 	captureResults ScreenCaptureResults,
 ) error {
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenCaptureListener)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorIScreenCaptureListener, MethodIScreenCaptureListenerOnScreenCaptureCompleted)

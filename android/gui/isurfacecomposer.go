@@ -1393,6 +1393,9 @@ func (p *SurfaceComposerProxy) CaptureDisplayById(
 	listener IScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureDisplayById)
@@ -1440,6 +1443,9 @@ func (p *SurfaceComposerProxy) CaptureLayersSync(
 ) (ScreenCaptureResults, error) {
 	var _result ScreenCaptureResults
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureLayersSync)
@@ -1474,6 +1480,11 @@ func (p *SurfaceComposerProxy) CaptureLayersSync(
 		return _result, _err
 	}
 	defer _reply.Recycle()
+	_reply.SetTargetAPILevel(_data.TargetAPILevel())
+	if _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+	}
+	_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
@@ -1497,6 +1508,9 @@ func (p *SurfaceComposerProxy) CaptureLayers(
 	listener IScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))
+	_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))
+	_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_sig := binder.ResolveMethodSignature(p.Remote, ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureLayers)
@@ -3917,8 +3931,18 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		_result, _err := s.Impl.CaptureLayersSync(ctx, _arg_args)
 		_reply := parcel.New()
+		_replyOwned := true
+		defer func() {
+			if _replyOwned {
+				_ = _reply.Recycle()
+			}
+		}()
+		_reply.SetTargetAPILevel(_data.TargetAPILevel())
+		_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())
+		_reply.SetBinderSerializationContext(_data.BinderSerializationContext())
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
+			_replyOwned = false
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
@@ -3926,6 +3950,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		_replyOwned = false
 		return _reply, nil
 	case TransactionISurfaceComposerCaptureLayers:
 		var _arg_args LayerCaptureArgs
