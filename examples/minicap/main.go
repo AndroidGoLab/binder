@@ -4,7 +4,9 @@
 // On a supported device, run as a user with SurfaceFlinger capture permission:
 // minicap -source-width 1080 -source-height 2400 -width 360 -height 800 > frames.rgba
 // Each frame contains width*height*4 bytes with no padding. Android 14 Pixel
-// gchips is the currently implemented allocator; other allocators fail explicitly.
+// gchips and Android 10 Qualcomm SDM845 are the supported allocator layouts.
+// The Android 10 path has source-based tests but has not been tested on a device;
+// unsupported handles are rejected.
 package main
 
 import (
@@ -93,7 +95,7 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 			return fmt.Errorf("get SurfaceFlinger AIDL: %w", err)
 		}
 	}
-	buffers, err := gralloc.AllocatePixelRGBA(ctx, sm, api, width, height, 4)
+	buffers, err := gralloc.AllocateRGBA(ctx, sm, api, width, height, 4)
 	if err != nil {
 		return fmt.Errorf("allocate capture buffers: %w", err)
 	}
