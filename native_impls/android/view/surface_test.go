@@ -35,6 +35,9 @@ func TestSurfaceWire(t *testing.T) {
 			p.SetPosition(0)
 			var decoded Surface
 			require.NoError(t, decoded.UnmarshalParcel(p))
+			if api == 34 {
+				s.Producer.Stability = parcel.StabilitySystem
+			}
 			require.Equal(t, s, decoded)
 			v, err := p.ReadInt32()
 			require.NoError(t, err)
@@ -64,33 +67,34 @@ func TestSurfaceErrors(t *testing.T) {
 	require.Error(t, (&Surface{}).UnmarshalParcel(p))
 }
 
-func TestSurfaceLocalAndControlReferences(t *testing.T) {
+func TestSurfaceLocalReadAndTruncation(t *testing.T) {
 	for _, api := range []int{29, 34} {
 		p := parcel.New()
 		p.SetTargetAPILevel(api)
-		s := Surface{Producer: parcel.BinderReference{Kind: parcel.BinderReferenceLocal, Pointer: 0x100000001, Cookie: 0x200000002}}
+		p.WriteString16("")
+		p.WriteBool(false)
+		p.WriteUint32(0x62717565)
+		p.WriteLocalBinderLegacy(0x100000001, 0x200000002)
 		if api == 34 {
-			s.Control = parcel.BinderReference{Kind: parcel.BinderReferenceRemote, Handle: 17}
+			p.WriteInt32(12)
+			p.WriteStrongBinder(17)
 		}
-		require.NoError(t, s.MarshalParcel(p))
-		if api == 29 {
-			require.Equal(t, []uint64{16}, p.Objects())
-			require.Len(t, p.Data(), 40)
-		} else {
-			require.Equal(t, []uint64{16, 44}, p.Objects())
-			require.Len(t, p.Data(), 72)
-		}
-		require.Equal(t, uint64(0x100000001), binary.LittleEndian.Uint64(p.Data()[24:]))
-		require.Equal(t, uint64(0x200000002), binary.LittleEndian.Uint64(p.Data()[32:]))
-		p.SetPosition(0)
-		var got Surface
-		require.NoError(t, got.UnmarshalParcel(p))
-		require.Equal(t, s, got)
-		for end := 0; end < len(p.Data()); end++ {
-			q := parcel.FromBytes(p.Data()[:end])
+		data := p.Data()
+		objects := p.Objects()
+		for end := 0; end < len(data); end++ {
+			q := parcel.FromBytesWithObjects(data[:end], objects)
 			q.SetTargetAPILevel(api)
-			var truncated Surface
-			require.Error(t, truncated.UnmarshalParcel(q), "API %d truncated at %d", api, end)
+			var s Surface
+			require.Error(t, s.UnmarshalParcel(q))
 		}
+		p.SetPosition(0)
+		var s Surface
+		require.NoError(t, s.UnmarshalParcel(p))
+		require.Equal(t, uintptr(0x100000001), s.Producer.Pointer)
+		require.Equal(t, uintptr(0x200000002), s.Producer.Cookie)
+		q := parcel.New()
+		q.SetTargetAPILevel(api)
+		require.Error(t, s.MarshalParcel(q))
+		require.Empty(t, q.Data())
 	}
 }

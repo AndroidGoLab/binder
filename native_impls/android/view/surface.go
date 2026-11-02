@@ -25,7 +25,7 @@ func (s *Surface) MarshalParcel(p *parcel.Parcel) error {
 	if api != 29 && api != 34 {
 		return fmt.Errorf("Surface: unsupported API level %d", api)
 	}
-	if api == 29 && s.Control != (parcel.BinderReference{}) {
+	if api == 29 && (s.Control.Kind != parcel.BinderReferenceNull || s.Control.Handle != 0 || s.Control.Pointer != 0 || s.Control.Cookie != 0 || s.Control.Stability != 0) {
 		return fmt.Errorf("Surface: control Binder is unsupported on API 29")
 	}
 	// Validate references before mutating the output.

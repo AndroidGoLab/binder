@@ -14,32 +14,38 @@ const (
 	BinderReferenceLocal
 )
 
-// BinderReference preserves a handle or a local Binder's pointer and dispatch cookie.
-// Local references must already be registered with the transport. The caller owns
-// that registration and must keep it alive while the reference is in use.
+// BinderReference preserves Binder identity and its Android stability level.
+// Local identities read from a parcel are retained, but writing them requires
+// registration lifetime support and is currently unsupported. A zero stability
+// on a new non-null reference selects system stability on API 34.
 type BinderReference struct {
-	Kind    BinderReferenceKind
-	Handle  uint32
-	Pointer uintptr
-	Cookie  uintptr
+	Kind      BinderReferenceKind
+	Handle    uint32
+	Pointer   uintptr
+	Cookie    uintptr
+	Stability StabilityLevel
 }
 
-func (r BinderReference) validate() error {
+func (r BinderReference) validate(api int) error {
+	if api == 29 && r.Stability != 0 {
+		return fmt.Errorf("parcel: legacy Binder has stability")
+	}
 	switch r.Kind {
 	case BinderReferenceNull:
-		if r.Handle != 0 || r.Pointer != 0 || r.Cookie != 0 {
-			return fmt.Errorf("parcel: null Binder has identity")
+		if r.Handle != 0 || r.Pointer != 0 || r.Cookie != 0 || r.Stability != 0 {
+			return fmt.Errorf("parcel: null Binder has identity or stability")
 		}
 	case BinderReferenceRemote:
 		if r.Pointer != 0 || r.Cookie != 0 {
 			return fmt.Errorf("parcel: remote Binder has local identity")
 		}
 	case BinderReferenceLocal:
-		if r.Handle != 0 || r.Pointer == 0 || r.Cookie == 0 {
-			return fmt.Errorf("parcel: local Binder requires pointer and cookie")
-		}
+		return fmt.Errorf("parcel: writing local Binder references is unsupported")
 	default:
 		return fmt.Errorf("parcel: unknown Binder reference kind %d", r.Kind)
+	}
+	if r.Kind != BinderReferenceNull && r.Stability != 0 && r.Stability != 3 && r.Stability != 12 && r.Stability != 63 {
+		return fmt.Errorf("parcel: invalid Binder stability %d", r.Stability)
 	}
 	return nil
 }
@@ -50,7 +56,7 @@ func (p *Parcel) WriteBinderReference(r BinderReference) error {
 	if api != 29 && api != 34 {
 		return fmt.Errorf("parcel: unsupported Binder API level %d", api)
 	}
-	if err := r.validate(); err != nil {
+	if err := r.validate(api); err != nil {
 		return err
 	}
 	if api == 29 {
@@ -59,8 +65,6 @@ func (p *Parcel) WriteBinderReference(r BinderReference) error {
 			p.WriteNullStrongBinderLegacy()
 		case BinderReferenceRemote:
 			p.WriteStrongBinderLegacy(r.Handle)
-		case BinderReferenceLocal:
-			p.WriteLocalBinderLegacy(r.Pointer, r.Cookie)
 		}
 	} else {
 		switch r.Kind {
@@ -68,8 +72,9 @@ func (p *Parcel) WriteBinderReference(r BinderReference) error {
 			p.WriteNullStrongBinder()
 		case BinderReferenceRemote:
 			p.WriteStrongBinder(r.Handle)
-		case BinderReferenceLocal:
-			p.WriteLocalBinder(r.Pointer, r.Cookie)
+		}
+		if r.Stability != 0 {
+			binary.LittleEndian.PutUint32(p.data[len(p.data)-4:], uint32(r.Stability))
 		}
 	}
 	return nil
@@ -82,6 +87,7 @@ func (p *Parcel) ReadBinderReference() (BinderReference, error) {
 	if api != 29 && api != 34 {
 		return r, fmt.Errorf("parcel: unsupported Binder API level %d", api)
 	}
+	offset := p.Position()
 	b, err := p.read(flatBinderObjectSize)
 	if err != nil {
 		return r, err
@@ -90,26 +96,47 @@ func (p *Parcel) ReadBinderReference() (BinderReference, error) {
 	value := binary.LittleEndian.Uint64(b[8:])
 	cookie := binary.LittleEndian.Uint64(b[16:])
 	if api == 34 {
-		if _, err = p.ReadInt32(); err != nil {
-			return r, fmt.Errorf("parcel: reading binder stability: %w", err)
+		level, e := p.ReadInt32()
+		if e != nil {
+			return r, fmt.Errorf("parcel: reading binder stability: %w", e)
 		}
+		r.Stability = StabilityLevel(level)
 	}
 	switch kind {
 	case binderTypeBinder:
 		if value == 0 && cookie == 0 {
+			if r.Stability != 0 {
+				return BinderReference{}, fmt.Errorf("parcel: null Binder has stability %d", r.Stability)
+			}
 			return r, nil
 		}
 		if value == 0 || cookie == 0 || uint64(uintptr(value)) != value || uint64(uintptr(cookie)) != cookie {
-			return r, fmt.Errorf("parcel: invalid local Binder identity")
+			return BinderReference{}, fmt.Errorf("parcel: invalid local Binder identity")
 		}
-		r = BinderReference{Kind: BinderReferenceLocal, Pointer: uintptr(value), Cookie: uintptr(cookie)}
+		r.Kind = BinderReferenceLocal
+		r.Pointer = uintptr(value)
+		r.Cookie = uintptr(cookie)
 	case binderTypeHandle:
 		if value>>32 != 0 || cookie != 0 {
-			return r, fmt.Errorf("parcel: invalid remote Binder identity")
+			return BinderReference{}, fmt.Errorf("parcel: invalid remote Binder identity")
 		}
-		r = BinderReference{Kind: BinderReferenceRemote, Handle: uint32(value)}
+		r.Kind = BinderReferenceRemote
+		r.Handle = uint32(value)
 	default:
-		return r, fmt.Errorf("parcel: unexpected Binder type %#x", kind)
+		return BinderReference{}, fmt.Errorf("parcel: unexpected Binder type %#x", kind)
+	}
+	found := false
+	for _, off := range p.objects {
+		if off == uint64(offset) {
+			found = true
+			break
+		}
+	}
+	if !found {
+		return BinderReference{}, fmt.Errorf("parcel: Binder object at offset %d missing from objects", offset)
+	}
+	if api == 34 && r.Stability != 3 && r.Stability != 12 && r.Stability != 63 {
+		return BinderReference{}, fmt.Errorf("parcel: invalid Binder stability %d", r.Stability)
 	}
 	return r, nil
 }
