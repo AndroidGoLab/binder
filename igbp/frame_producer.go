@@ -58,6 +58,7 @@ type FrameProducer struct {
 	slots    []frameSlot
 	frames   chan *Frame
 	closed   chan struct{}
+	changed  chan struct{}
 	isClosed bool
 	sequence uint64
 	id       uint64
@@ -94,7 +95,7 @@ func NewFrameProducer(api int, buffers []*gralloc.Buffer) (*FrameProducer, error
 		}
 		slots[i].buffer = b
 	}
-	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{})}, nil
+	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{}), changed: make(chan struct{}, 1)}, nil
 }
 
 // Descriptor returns the native producer interface name.
@@ -154,6 +155,7 @@ func (f *Frame) Release(ctx context.Context) error {
 	defer f.producer.mu.Unlock()
 	f.producer.slots[f.slot].state = frameSlotFree
 	f.released = true
+	f.producer.signalChange()
 	return nil
 }
 
@@ -168,24 +170,41 @@ func (p *FrameProducer) Close(ctx context.Context) error {
 		close(p.closed)
 	}
 	p.mu.Unlock()
-	var errs []error
 	for {
 		select {
 		case f := <-p.frames:
 			if err := f.Release(ctx); err != nil {
 				p.frames <- f
-				return errors.Join(append(errs, err)...)
+				return err
 			}
 		default:
 			p.mu.Lock()
+			owned := false
 			for i := range p.slots {
 				if p.slots[i].state != frameSlotFree {
-					errs = append(errs, fmt.Errorf("buffer slot %d remains owned", i))
+					owned = true
 				}
 			}
 			p.mu.Unlock()
-			return errors.Join(errs...)
+			if !owned {
+				return nil
+			}
+			select {
+			case <-ctx.Done():
+				return fmt.Errorf("waiting for buffer ownership: %w", ctx.Err())
+			case <-p.changed:
+			}
 		}
+	}
+}
+
+// signalChange wakes a shutdown waiting for slot ownership to change.
+//
+// Example: a late producer callback wakes Close after the display is destroyed.
+func (p *FrameProducer) signalChange() {
+	select {
+	case p.changed <- struct{}{}:
+	default:
 	}
 }
 
@@ -349,7 +368,7 @@ func (p *FrameProducer) queue(data *parcel.Parcel) (*parcel.Parcel, error) {
 	}
 	p.mu.Lock()
 	defer p.mu.Unlock()
-	if p.isClosed || slot < 0 || int(slot) >= len(p.slots) || p.slots[slot].state != frameSlotDequeued {
+	if slot < 0 || int(slot) >= len(p.slots) || p.slots[slot].state != frameSlotDequeued {
 		if fd >= 0 {
 			_ = unix.Close(int(fd))
 		}
@@ -358,6 +377,7 @@ func (p *FrameProducer) queue(data *parcel.Parcel) (*parcel.Parcel, error) {
 	p.slots[slot].state = frameSlotQueued
 	p.sequence++
 	p.frames <- &Frame{producer: p, slot: int(slot), fence: fd}
+	p.signalChange()
 	return p.queueOutput(), nil
 }
 
@@ -403,6 +423,7 @@ func (p *FrameProducer) cancel(ctx context.Context, data *parcel.Parcel) (*parce
 		return nil, fmt.Errorf("invalid canceled slot %d", slot)
 	}
 	p.slots[slot].state = frameSlotFree
+	p.signalChange()
 	return simpleOKReply()
 }
 

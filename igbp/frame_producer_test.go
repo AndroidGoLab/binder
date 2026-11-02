@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/binary"
 	"testing"
+	"time"
 
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
@@ -18,7 +19,7 @@ func TestFrameProducerLeasePreventsReuse(t *testing.T) {
 	ctx := context.Background()
 	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
 	require.NoError(t, err)
-	defer p.Close(ctx)
+	defer func() { c, cancel := context.WithCancel(ctx); cancel(); _ = p.Close(c) }()
 	dequeue := func() (int32, int32) {
 		req := parcel.New()
 		req.WriteInterfaceToken(Descriptor)
@@ -113,7 +114,9 @@ func TestFrameProducerCloseDetectsOutstandingLease(t *testing.T) {
 	require.NoError(t, err)
 	frame, err := p.Next(ctx)
 	require.NoError(t, err)
-	require.Error(t, p.Close(ctx))
+	closeCtx, cancelClose := context.WithCancel(ctx)
+	cancelClose()
+	require.Error(t, p.Close(closeCtx))
 	require.NoError(t, frame.Release(ctx))
 	require.NoError(t, p.Close(ctx))
 }
@@ -155,7 +158,9 @@ func TestFrameProducerFenceRetainsSlot(t *testing.T) {
 	cancelled, cancel := context.WithCancel(ctx)
 	cancel()
 	require.ErrorIs(t, frame.Release(cancelled), context.Canceled)
-	require.Error(t, p.Close(ctx))
+	closeCtx, cancelClose := context.WithCancel(ctx)
+	cancelClose()
+	require.Error(t, p.Close(closeCtx))
 	_, err = unix.Write(fds[1], []byte{1})
 	require.NoError(t, err)
 	require.NoError(t, frame.Release(ctx))
@@ -346,5 +351,41 @@ func TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled(t *testing.T) {
 	cancel()
 	_, err = p.OnTransaction(canceled, CancelBuffer, req)
 	require.ErrorIs(t, err, context.Canceled)
-	require.Error(t, p.Close(ctx))
+	closeCtx, cancelClose := context.WithCancel(ctx)
+	cancelClose()
+	require.Error(t, p.Close(closeCtx))
+}
+
+// TestFrameProducerCloseWaitsForLateQueue checks asynchronous display teardown.
+//
+// Example: a final frame queued during shutdown releases its buffer safely.
+func TestFrameProducerCloseWaitsForLateQueue(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	closeCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+	done := make(chan error, 1)
+	go func() { done <- p.Close(closeCtx) }()
+	<-p.closed
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(61)
+	req.WriteInt32(0)
+	req.WriteRawBytes(make([]byte, 61))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, QueueBuffer, req)
+	require.NoError(t, err)
+	require.NoError(t, <-done)
 }
