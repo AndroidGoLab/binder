@@ -37,6 +37,8 @@ const (
 
 	// flatBinderObjectSize is the size of a flat_binder_object (24 bytes on 64-bit).
 	flatBinderObjectSize = 24
+	// binderFlagsWeakLegacy are Android 10 weak Binder flags.
+	binderFlagsWeakLegacy = binderFlags(0x7f) | binderFlags(0x100)
 )
 
 // WriteLocalBinder writes a local binder object to the parcel.
@@ -227,4 +229,58 @@ func (p *Parcel) readNullableStrongBinder(stability bool) (uint32, bool, error) 
 	}
 
 	return handle, true, nil
+}
+
+// WriteLocalBinderLegacy writes a local Binder using the Android 10 layout.
+//
+// Example: pass a local callback to an Android 10 service.
+func (p *Parcel) WriteLocalBinderLegacy(
+	binderPtr uintptr,
+	cookie uintptr,
+) {
+	if binderPtr == 0 || cookie == 0 {
+		panic("WriteLocalBinderLegacy: binderPtr and cookie must be non-zero")
+	}
+	p.writeBinderLegacy(binderTypeBinder, binderFlagsAcceptFDs, uint64(binderPtr), uint64(cookie), true)
+}
+
+// WriteStrongBinderLegacy writes a remote Binder handle using the Android 10 layout.
+//
+// Example: pass a remote Binder handle to an Android 10 service.
+func (p *Parcel) WriteStrongBinderLegacy(handle uint32) {
+	p.writeBinderLegacy(binderTypeHandle, binderFlagsAcceptFDs, uint64(handle), 0, true)
+}
+
+// WriteNullStrongBinderLegacy writes an Android 10 null strong Binder.
+//
+// Example: pass an optional empty Binder to an Android 10 service.
+func (p *Parcel) WriteNullStrongBinderLegacy() {
+	p.writeBinderLegacy(binderTypeBinder, binderFlagsAcceptFDs, 0, 0, false)
+}
+
+// WriteNullWeakBinderLegacy writes an Android 10 null weak Binder.
+//
+// Example: pass an empty weak Binder to an Android 10 service.
+func (p *Parcel) WriteNullWeakBinderLegacy() {
+	p.writeBinderLegacy(binderTypeBinder, binderFlagsWeakLegacy, 0, 0, false)
+}
+
+// writeBinderLegacy writes an Android 10 flat Binder object without stability.
+//
+// Example: encode an object before the next transaction field.
+func (p *Parcel) writeBinderLegacy(
+	kind binderObjectType,
+	flags binderFlags,
+	value uint64,
+	cookie uint64,
+	record bool,
+) {
+	if record {
+		p.objects = append(p.objects, uint64(p.Len()))
+	}
+	buf := p.grow(flatBinderObjectSize)
+	binary.LittleEndian.PutUint32(buf, uint32(kind))
+	binary.LittleEndian.PutUint32(buf[4:], uint32(flags))
+	binary.LittleEndian.PutUint64(buf[8:], value)
+	binary.LittleEndian.PutUint64(buf[16:], cookie)
 }
