@@ -13,16 +13,17 @@ const maxParcelableDepth = 32
 //
 // Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
-	binderContext     BinderSerializationContext
-	binderLeases      []*sharedBinderLease
-	targetAPILevel    int
-	data              []byte
-	pos               int           // current read position
-	objects           []uint64      // offsets of flat_binder_objects
-	parcelableDepth   int           // current nesting depth for parcelable unmarshal
-	readLimit         int           // when > 0, Len() returns min(len(data), readLimit)
-	interfaceTokenEnd int           // end of a token written at byte zero, or zero if absent
-	receivedFDs       map[int]int32 // received descriptor offsets still owned by this parcel; -1 after transfer
+	displayInfoWireProfile DisplayInfoWireProfile
+	binderContext          BinderSerializationContext
+	binderLeases           []*sharedBinderLease
+	targetAPILevel         int
+	data                   []byte
+	pos                    int           // current read position
+	objects                []uint64      // offsets of flat_binder_objects
+	parcelableDepth        int           // current nesting depth for parcelable unmarshal
+	readLimit              int           // when > 0, Len() returns min(len(data), readLimit)
+	interfaceTokenEnd      int           // end of a token written at byte zero, or zero if absent
+	receivedFDs            map[int]int32 // received descriptor offsets still owned by this parcel; -1 after transfer
 }
 
 // SetTargetAPILevel sets the target Android API level; zero means unknown.
@@ -124,6 +125,7 @@ func (p *Parcel) Recycle() error {
 	}
 	p.binderLeases = nil
 	p.binderContext = nil
+	p.displayInfoWireProfile = DisplayInfoWireProfileUnknown
 	p.data = nil
 	p.pos = 0
 	p.objects = nil

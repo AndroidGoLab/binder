@@ -76,6 +76,7 @@ func (p *Parcel) Android10Request() *Parcel {
 	}
 	clone := FromBytesWithObjects(data, objects)
 	clone.SetTargetAPILevel(p.TargetAPILevel())
+	clone.SetDisplayInfoWireProfile(p.DisplayInfoWireProfile())
 	clone.SetBinderSerializationContext(p.BinderSerializationContext())
 	for _, lease := range p.binderLeases {
 		lease.retain()

@@ -23,11 +23,13 @@ func (r *profiledReceiver) OnTransaction(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	level := r.transport.APILevel()
+	profile := data.DisplayInfoWireProfile()
 	data.SetTargetAPILevel(level)
 	data.SetBinderSerializationContext(binder.NewBinderSerializationContext(r.transport))
 	reply, err := r.receiver.OnTransaction(ctx, code, data)
 	if reply != nil {
 		reply.SetTargetAPILevel(level)
+		reply.SetDisplayInfoWireProfile(profile)
 		reply.SetBinderSerializationContext(binder.NewBinderSerializationContext(r.transport))
 	}
 	return reply, err

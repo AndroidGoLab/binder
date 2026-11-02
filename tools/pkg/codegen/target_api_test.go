@@ -28,6 +28,12 @@ func TestGeneratedTargetAPIPropagation(t *testing.T) {
 	if strings.Count(s, "_reply.SetBinderSerializationContext(_data.BinderSerializationContext())") != 2 {
 		t.Error("proxy and stub replies must carry the transport context")
 	}
+	if strings.Count(s, "_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())") != 2 {
+		t.Error("proxy and stub replies must carry the DisplayInfo profile")
+	}
+	if !strings.Contains(s, "if _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {") {
+		t.Error("proxy must preserve a profile supplied by the transport")
+	}
 	if !strings.Contains(s, "if _replyOwned {") || !strings.Contains(s, "_reply.Recycle()") || strings.Count(s, "_replyOwned = false") != 2 {
 		t.Error("stub must recycle an untransferred reply and transfer successful replies")
 	}

@@ -395,6 +395,7 @@ func writeStubCase(
 		f.P("\t\t\tif _replyOwned { _ = _reply.Recycle() }")
 		f.P("\t\t}()")
 		f.P("\t\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+		f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
 		f.P("\t\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
 		f.P("\t\tif _err != nil {")
 		f.P("\t\t\tbinder.WriteStatus(_reply, _err)")
@@ -1249,6 +1250,9 @@ func writeProxyMethod(
 		}
 		f.P("\tdefer _reply.Recycle()")
 		f.P("\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+		f.P("\tif _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {")
+		f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
+		f.P("\t}")
 		f.P("\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
 
 		// Read status.
