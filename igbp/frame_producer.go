@@ -6,12 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 )
+
+// cancelFenceTimeout bounds native cancellation when the graphics fence stalls.
+//
+// Example: an unsignaled fence cannot block the Binder callback indefinitely.
+const cancelFenceTimeout = 5 * time.Second
 
 // frameSlotState identifies the owner of a producer buffer slot.
 //
@@ -386,7 +392,9 @@ func (p *FrameProducer) cancel(ctx context.Context, data *parcel.Parcel) (*parce
 		}
 		defer unix.Close(int(fd))
 	}
-	if err = gralloc.WaitFence(ctx, fd); err != nil {
+	waitCtx, stop := context.WithTimeout(ctx, cancelFenceTimeout)
+	defer stop()
+	if err = gralloc.WaitFence(waitCtx, fd); err != nil {
 		return nil, err
 	}
 	p.mu.Lock()

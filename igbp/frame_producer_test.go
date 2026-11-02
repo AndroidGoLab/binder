@@ -312,3 +312,39 @@ func TestFrameProducerCloseRetriesQueuedFence(t *testing.T) {
 	require.NoError(t, err)
 	require.NoError(t, p.Close(ctx))
 }
+
+// TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled prevents unsafe reuse.
+//
+// Example: a stalled producer fence leaves its buffer quarantined.
+func TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[0])
+	defer unix.Close(fds[1])
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(4)
+	req.WriteInt32(1)
+	req.WriteInt32(1)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	canceled, cancel := context.WithCancel(ctx)
+	cancel()
+	_, err = p.OnTransaction(canceled, CancelBuffer, req)
+	require.ErrorIs(t, err, context.Canceled)
+	require.Error(t, p.Close(ctx))
+}
