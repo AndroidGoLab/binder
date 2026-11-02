@@ -259,7 +259,10 @@ func run(ctx context.Context, args []string, out io.Writer) (resultErr error) {
 	sw, sh, w, h := opts.projection.captureSize()
 	if opts.raw {
 		if f, ok := out.(*os.File); ok {
-			writer := newRawFileWriter(ctx, f)
+			writer, err := newRawFileWriter(ctx, f)
+			if err != nil {
+				return err
+			}
 			defer func() { resultErr = errors.Join(resultErr, writer.Close()) }()
 			out = writer
 		}

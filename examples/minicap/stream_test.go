@@ -5,11 +5,13 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"golang.org/x/sys/unix"
 	"image/jpeg"
 	"io"
 	"net"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -147,8 +149,10 @@ func TestRawPipeCancellation(t *testing.T) {
 	reader, writer, err := os.Pipe()
 	require.NoError(t, err)
 	defer reader.Close()
+	defer writer.Close()
 	ctx, cancel := context.WithCancel(context.Background())
-	w := newRawFileWriter(ctx, writer)
+	w, err := newRawFileWriter(ctx, writer)
+	require.NoError(t, err)
 	defer w.Close()
 	started := make(chan struct{})
 	done := make(chan error, 1)
@@ -156,4 +160,33 @@ func TestRawPipeCancellation(t *testing.T) {
 	<-started
 	cancel()
 	require.ErrorIs(t, <-done, context.Canceled)
+}
+
+// TestRawInheritedBlockingPipeCancellation covers an inherited blocking stdout.
+func TestRawInheritedBlockingPipeCancellation(t *testing.T) {
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	reader := os.NewFile(uintptr(fds[0]), "reader")
+	defer reader.Close()
+	writer := os.NewFile(uintptr(fds[1]), "inherited-stdout")
+	defer writer.Close()
+	ctx, cancel := context.WithCancel(context.Background())
+	w, err := newRawFileWriter(ctx, writer)
+	require.NoError(t, err)
+	done := make(chan error, 1)
+	go func() { _, err := w.Write(make([]byte, 4<<20)); done <- err }()
+	var first [1]byte
+	_, err = io.ReadFull(reader, first[:])
+	require.NoError(t, err)
+	cancel()
+	select {
+	case err := <-done:
+		require.ErrorIs(t, err, context.Canceled)
+	case <-time.After(time.Second):
+		t.Fatal("blocked write did not stop")
+	}
+	require.NoError(t, w.Close())
+	flags, err := unix.FcntlInt(writer.Fd(), unix.F_GETFL, 0)
+	require.NoError(t, err)
+	require.Zero(t, flags&unix.O_NONBLOCK)
 }

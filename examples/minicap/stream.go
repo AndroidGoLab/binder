@@ -13,6 +13,8 @@ import (
 	"os"
 	"sync"
 	"syscall"
+
+	"golang.org/x/sys/unix"
 )
 
 // projection describes source and requested output sizes and display rotation.
@@ -246,6 +248,8 @@ func (w singleFrameWriter) Write(p []byte) (int, error) {
 type rawFileWriter struct {
 	ctx      context.Context
 	file     *os.File
+	original *os.File
+	flags    int
 	stop     func() bool
 	done     chan struct{}
 	closeErr error
@@ -254,10 +258,24 @@ type rawFileWriter struct {
 // newRawFileWriter arranges for cancellation to close the owned output file.
 //
 // Example: unblock stdout when SIGTERM cancels capture.
-func newRawFileWriter(ctx context.Context, file *os.File) *rawFileWriter {
-	w := &rawFileWriter{ctx: ctx, file: file, done: make(chan struct{})}
-	w.stop = context.AfterFunc(ctx, func() { defer close(w.done); w.closeErr = file.Close() })
-	return w
+func newRawFileWriter(ctx context.Context, file *os.File) (*rawFileWriter, error) {
+	fd := int(file.Fd())
+	flags, err := unix.FcntlInt(uintptr(fd), unix.F_GETFL, 0)
+	if err != nil {
+		return nil, fmt.Errorf("read stdout flags: %w", err)
+	}
+	dup, err := unix.FcntlInt(uintptr(fd), unix.F_DUPFD_CLOEXEC, 0)
+	if err != nil {
+		return nil, fmt.Errorf("duplicate stdout: %w", err)
+	}
+	if err := unix.SetNonblock(dup, true); err != nil {
+		_ = unix.Close(dup)
+		return nil, fmt.Errorf("set stdout nonblocking: %w", err)
+	}
+	stream := os.NewFile(uintptr(dup), "raw-output")
+	w := &rawFileWriter{ctx: ctx, file: stream, original: file, flags: flags, done: make(chan struct{})}
+	w.stop = context.AfterFunc(ctx, func() { defer close(w.done); w.closeErr = stream.Close() })
+	return w, nil
 }
 
 // Write forwards bytes and reports cancellation after an interrupted write.
@@ -275,9 +293,17 @@ func (w *rawFileWriter) Write(p []byte) (int, error) {
 //
 // Example: avoid a late callback closing a reused file descriptor.
 func (w *rawFileWriter) Close() error {
-	if !w.stop() {
+	if w.stop() {
+		w.closeErr = w.file.Close()
+	} else {
 		<-w.done
-		return w.closeErr
 	}
-	return nil
+	fd := w.original.Fd()
+	flags, err := unix.FcntlInt(fd, unix.F_GETFL, 0)
+	if err != nil {
+		return errors.Join(w.closeErr, err)
+	}
+	flags = flags&^unix.O_NONBLOCK | w.flags&unix.O_NONBLOCK
+	_, err = unix.FcntlInt(fd, unix.F_SETFL, flags)
+	return errors.Join(w.closeErr, err)
 }
