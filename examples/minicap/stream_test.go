@@ -190,3 +190,23 @@ func TestRawInheritedBlockingPipeCancellation(t *testing.T) {
 	require.NoError(t, err)
 	require.Zero(t, flags&unix.O_NONBLOCK)
 }
+
+// TestRawWriterPreservesPollablePipeFlags checks caller-owned nonblocking state.
+func TestRawWriterPreservesPollablePipeFlags(t *testing.T) {
+	reader, writer, err := os.Pipe()
+	require.NoError(t, err)
+	defer reader.Close()
+	defer writer.Close()
+	conn, err := writer.SyscallConn()
+	require.NoError(t, err)
+	var before, after int
+	var inner error
+	require.NoError(t, conn.Control(func(fd uintptr) { before, inner = unix.FcntlInt(fd, unix.F_GETFL, 0) }))
+	require.NoError(t, inner)
+	w, err := newRawFileWriter(context.Background(), writer)
+	require.NoError(t, err)
+	require.NoError(t, w.Close())
+	require.NoError(t, conn.Control(func(fd uintptr) { after, inner = unix.FcntlInt(fd, unix.F_GETFL, 0) }))
+	require.NoError(t, inner)
+	require.Equal(t, before&unix.O_NONBLOCK, after&unix.O_NONBLOCK)
+}

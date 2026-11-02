@@ -54,3 +54,16 @@ func TestFrameDelay(t *testing.T) {
 	require.Equal(t, 50*time.Millisecond, frameDelay(start, start.Add(50*time.Millisecond), 10))
 	require.Equal(t, time.Duration(0), frameDelay(start, start.Add(200*time.Millisecond), 10))
 }
+
+// TestOptionsAcceptsAttachedShortValues checks common getopt command forms.
+func TestOptionsAcceptsAttachedShortValues(t *testing.T) {
+	o, err := parseOptions([]string{"-P1080x2400@360x800/0", "-Q80", "-nstream", "-S"})
+	require.NoError(t, err)
+	require.Equal(t, 80, o.quality)
+	require.Equal(t, "stream", o.socketName)
+	require.True(t, o.skip)
+	o, err = parseOptions([]string{"-P1080x2400@360x800/0", "-sS"})
+	require.NoError(t, err)
+	require.True(t, o.screenshot)
+	require.True(t, o.skip)
+}

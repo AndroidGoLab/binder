@@ -248,7 +248,7 @@ func (w singleFrameWriter) Write(p []byte) (int, error) {
 type rawFileWriter struct {
 	ctx      context.Context
 	file     *os.File
-	original *os.File
+	original syscall.RawConn
 	flags    int
 	stop     func() bool
 	done     chan struct{}
@@ -259,21 +259,30 @@ type rawFileWriter struct {
 //
 // Example: unblock stdout when SIGTERM cancels capture.
 func newRawFileWriter(ctx context.Context, file *os.File) (*rawFileWriter, error) {
-	fd := int(file.Fd())
-	flags, err := unix.FcntlInt(uintptr(fd), unix.F_GETFL, 0)
+	raw, err := file.SyscallConn()
 	if err != nil {
-		return nil, fmt.Errorf("read stdout flags: %w", err)
+		return nil, fmt.Errorf("access stdout: %w", err)
 	}
-	dup, err := unix.FcntlInt(uintptr(fd), unix.F_DUPFD_CLOEXEC, 0)
-	if err != nil {
-		return nil, fmt.Errorf("duplicate stdout: %w", err)
-	}
-	if err := unix.SetNonblock(dup, true); err != nil {
-		_ = unix.Close(dup)
-		return nil, fmt.Errorf("set stdout nonblocking: %w", err)
+	var flags, dup int
+	var setupErr error
+	err = raw.Control(func(fd uintptr) {
+		flags, setupErr = unix.FcntlInt(fd, unix.F_GETFL, 0)
+		if setupErr != nil {
+			return
+		}
+		dup, setupErr = unix.FcntlInt(fd, unix.F_DUPFD_CLOEXEC, 0)
+		if setupErr != nil {
+			return
+		}
+		if setupErr = unix.SetNonblock(dup, true); setupErr != nil {
+			setupErr = errors.Join(setupErr, unix.Close(dup))
+		}
+	})
+	if err != nil || setupErr != nil {
+		return nil, fmt.Errorf("prepare stdout: %w", errors.Join(err, setupErr))
 	}
 	stream := os.NewFile(uintptr(dup), "raw-output")
-	w := &rawFileWriter{ctx: ctx, file: stream, original: file, flags: flags, done: make(chan struct{})}
+	w := &rawFileWriter{ctx: ctx, file: stream, original: raw, flags: flags, done: make(chan struct{})}
 	w.stop = context.AfterFunc(ctx, func() { defer close(w.done); w.closeErr = stream.Close() })
 	return w, nil
 }
@@ -298,12 +307,15 @@ func (w *rawFileWriter) Close() error {
 	} else {
 		<-w.done
 	}
-	fd := w.original.Fd()
-	flags, err := unix.FcntlInt(fd, unix.F_GETFL, 0)
-	if err != nil {
-		return errors.Join(w.closeErr, err)
-	}
-	flags = flags&^unix.O_NONBLOCK | w.flags&unix.O_NONBLOCK
-	_, err = unix.FcntlInt(fd, unix.F_SETFL, flags)
-	return errors.Join(w.closeErr, err)
+	var restoreErr error
+	err := w.original.Control(func(fd uintptr) {
+		var flags int
+		flags, restoreErr = unix.FcntlInt(fd, unix.F_GETFL, 0)
+		if restoreErr != nil {
+			return
+		}
+		flags = flags&^unix.O_NONBLOCK | w.flags&unix.O_NONBLOCK
+		_, restoreErr = unix.FcntlInt(fd, unix.F_SETFL, flags)
+	})
+	return errors.Join(w.closeErr, err, restoreErr)
 }

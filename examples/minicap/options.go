@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"strings"
 )
 
 // options defines capture projection, output, and client behavior.
@@ -39,7 +40,7 @@ func parseOptions(args []string) (options, error) {
 	fs.BoolVar(&o.skip, "S", false, "skip queued frames")
 	fs.BoolVar(&o.raw, "raw", false, "stream raw RGBA to stdout")
 	fs.Float64Var(&o.rate, "r", 0, "maximum frame rate")
-	if err := fs.Parse(args); err != nil {
+	if err := fs.Parse(expandShortOptions(args)); err != nil {
 		return o, err
 	}
 	if fs.NArg() != 0 {
@@ -84,4 +85,43 @@ func parseOptions(args []string) (options, error) {
 	}
 	o.projection = p
 	return o, nil
+}
+
+// expandShortOptions accepts getopt-style attached values and boolean groups.
+//
+// Example: translate -Q80 and -sS into their individual flag arguments.
+func expandShortOptions(args []string) []string {
+	out := make([]string, 0, len(args))
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		if len(arg) == 2 && strings.ContainsRune("PnQqdr", rune(arg[1])) && arg[0] == '-' {
+			out = append(out, arg)
+			if i+1 < len(args) {
+				i++
+				out = append(out, args[i])
+			}
+			continue
+		}
+		if len(arg) > 2 && arg[0] == '-' && arg[1] != '-' && arg != "-raw" && !strings.Contains(arg, "=") {
+			if strings.ContainsRune("PnQqdr", rune(arg[1])) {
+				out = append(out, arg[:2], arg[2:])
+				continue
+			}
+			group := true
+			for _, r := range arg[1:] {
+				if !strings.ContainsRune("siSth", r) {
+					group = false
+					break
+				}
+			}
+			if group {
+				for _, r := range arg[1:] {
+					out = append(out, "-"+string(r))
+				}
+				continue
+			}
+		}
+		out = append(out, arg)
+	}
+	return out
 }
