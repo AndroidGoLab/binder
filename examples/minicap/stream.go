@@ -58,8 +58,13 @@ func encodeJPEG(w io.Writer, pixels []byte, width, height int32, quality int) er
 }
 
 // jpegWriter reports incomplete writes even when the underlying writer does not.
+//
+// Example: turn a nil-error short write into io.ErrShortWrite.
 type jpegWriter struct{ io.Writer }
 
+// Write sends the encoded bytes and rejects incomplete writes.
+//
+// Example: propagate a screenshot output failure to the caller.
 func (w jpegWriter) Write(p []byte) (int, error) {
 	n, err := w.Writer.Write(p)
 	if err == nil && n != len(p) {

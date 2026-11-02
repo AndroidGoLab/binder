@@ -212,14 +212,29 @@ func TestRawWriterPreservesPollablePipeFlags(t *testing.T) {
 	require.Equal(t, before&unix.O_NONBLOCK, after&unix.O_NONBLOCK)
 }
 
+// shortJPEGWriter simulates a writer that silently discards part of its input.
+//
+// Example: verify JPEG output detects a short write.
 type shortJPEGWriter struct{}
 
+// Write returns a short count without an error.
+//
+// Example: exercise the strict JPEG writer.
 func (shortJPEGWriter) Write(p []byte) (int, error) { return len(p) / 2, nil }
 
+// failingJPEGWriter reports a configured write error.
+//
+// Example: verify JPEG output preserves an underlying error.
 type failingJPEGWriter struct{ err error }
 
+// Write returns the configured error.
+//
+// Example: simulate a failed screenshot destination.
 func (w failingJPEGWriter) Write([]byte) (int, error) { return 0, w.err }
 
+// TestJPEGEncodingContracts checks dimensions, quality zero and write errors.
+//
+// Example: encode an odd-sized screenshot.
 func TestJPEGEncodingContracts(t *testing.T) {
 	pixels := make([]byte, 17*19*4)
 	for i := 0; i < len(pixels); i += 4 {
@@ -238,6 +253,9 @@ func TestJPEGEncodingContracts(t *testing.T) {
 	require.ErrorIs(t, encodeJPEG(failingJPEGWriter{wantErr}, pixels, 17, 19, 80), wantErr)
 }
 
+// TestJPEGFrameBufferReuse checks that reused scratch space produces complete frames.
+//
+// Example: send successive images at different qualities.
 func TestJPEGFrameBufferReuse(t *testing.T) {
 	var scratch, out bytes.Buffer
 	pixels := bytes.Repeat([]byte{200, 70, 30, 255}, 17*19)
