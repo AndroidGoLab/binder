@@ -173,6 +173,9 @@ func handleUint64(
 //
 // Example: copy pixels after waiting for the screen capture fence.
 func CopyRGBA(b *Buffer) (pixels []byte, resultErr error) {
+	if b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic {
+		return copyQcomRGBA(b)
+	}
 	l, err := pixelRGBALayout(b)
 	if err != nil {
 		return nil, err
