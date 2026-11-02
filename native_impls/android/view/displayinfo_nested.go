@@ -51,11 +51,12 @@ type DisplayThermalRefreshRate struct {
 	Range  *DisplayRefreshRateRange
 }
 type DeviceProductInfo struct {
-	Name, ManufacturerPnpId string
-	ProductId               *string
-	ModelYear               *int32
-	ManufactureDate         *DisplayManufactureDate
-	ConnectionToSinkType    int32
+	Name                 *string
+	ManufacturerPnpId    string
+	ProductId            *string
+	ModelYear            *int32
+	ManufactureDate      *DisplayManufactureDate
+	ConnectionToSinkType int32
 }
 type DisplayManufactureDate struct{ Week, Year *int32 }
 
@@ -421,7 +422,7 @@ func (c *displayCodec) product(p **DeviceProductInfo) {
 		*p = &DeviceProductInfo{}
 	}
 	x := *p
-	c.s(&x.Name, false)
+	c.nullableString(&x.Name, false)
 	c.s(&x.ManufacturerPnpId, false)
 	c.valueString(&x.ProductId)
 	c.valueInt(&x.ModelYear)

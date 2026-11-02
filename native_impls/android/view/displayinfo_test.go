@@ -111,7 +111,7 @@ func TestDisplayInfoNestedRoundTripAndTruncation(t *testing.T) {
 			if api == 34 {
 				year := int32(2024)
 				product := "model"
-				v.DeviceProductInfo = &DeviceProductInfo{Name: "panel", ProductId: &product, ModelYear: &year, ManufactureDate: &DisplayManufactureDate{Year: &year}}
+				v.DeviceProductInfo = &DeviceProductInfo{Name: strptr("panel"), ProductId: &product, ModelYear: &year, ManufactureDate: &DisplayManufactureDate{Year: &year}}
 				v.RoundedCorners = &DisplayRoundedCorners{Variant: 1, Corners: []*DisplayRoundedCorner{{Radius: 3}, nil, nil, nil}}
 				v.DisplayShape = &DisplayInfoShape{Spec: "shape", Scale: 1}
 				v.LayoutLimitedRefreshRate = &DisplayRefreshRateRange{Min: 30, Max: 60}
@@ -350,5 +350,62 @@ func setTestDisplayInfoProfile(p *parcel.Parcel, api int) {
 		p.SetDisplayInfoWireProfile(parcel.DisplayInfoWireProfileAndroid10)
 	} else {
 		p.SetDisplayInfoWireProfile(parcel.DisplayInfoWireProfileAndroid14Vsync)
+	}
+}
+
+func TestDisplayInfoProductNameNullable(t *testing.T) {
+	for _, name := range []*string{nil, strptr("")} {
+		p := parcel.New()
+		p.SetTargetAPILevel(34)
+		p.SetDisplayInfoWireProfile(parcel.DisplayInfoWireProfileAndroid14Vsync)
+		original := DisplayInfo{DeviceProductInfo: &DeviceProductInfo{Name: name}}
+		if err := original.MarshalParcel(p); err != nil {
+			t.Fatal(err)
+		}
+		p.SetPosition(0)
+		var decoded DisplayInfo
+		if err := decoded.UnmarshalParcel(p); err != nil {
+			t.Fatal(err)
+		}
+		if (decoded.DeviceProductInfo.Name == nil) != (name == nil) {
+			t.Fatal("product name lost null distinction")
+		}
+	}
+}
+
+func TestDisplayInfoProductNameWire(t *testing.T) {
+	for _, name := range []*string{nil, strptr("")} {
+		p := parcel.New()
+		p.WriteString16("android.hardware.display.DeviceProductInfo")
+		p.WriteNullableString16(name)
+		p.WriteString16("ABC")
+		p.WriteInt32(-1)
+		p.WriteInt32(-1)
+		p.WriteInt32(-1)
+		p.WriteInt32(7)
+		wire := append([]byte(nil), p.Data()...)
+		p.WriteInt32(123)
+		p.SetPosition(0)
+		var product *DeviceProductInfo
+		c := displayCodec{p: p, read: true}
+		c.product(&product)
+		if c.err != nil {
+			t.Fatal(c.err)
+		}
+		if (product.Name == nil) != (name == nil) || product.ConnectionToSinkType != 7 {
+			t.Fatalf("bad product: %+v", product)
+		}
+		if v, err := p.ReadInt32(); err != nil || v != 123 {
+			t.Fatalf("sentinel: %d %v", v, err)
+		}
+		out := parcel.New()
+		w := displayCodec{p: out}
+		w.product(&product)
+		if w.err != nil {
+			t.Fatal(w.err)
+		}
+		if !bytes.Equal(out.Data(), wire) {
+			t.Fatal("product wire changed")
+		}
 	}
 }
