@@ -2,6 +2,7 @@ package view
 
 import (
 	"encoding/binary"
+	"fmt"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/parcel"
@@ -134,4 +135,31 @@ func TestSurfaceLocalLeases(t *testing.T) {
 			require.True(t, l.released)
 		}
 	}
+}
+
+type failingControlContext struct {
+	lease surfaceLease
+	calls int
+}
+
+func (c *failingControlContext) AcquireLocalBinder(owner parcel.RegisteredLocalBinder) (parcel.LocalBinderIdentity, parcel.BinderLease, error) {
+	c.calls++
+	if c.calls == 2 {
+		return parcel.LocalBinderIdentity{}, nil, fmt.Errorf("control unavailable")
+	}
+	return parcel.LocalBinderIdentity{Pointer: owner.BinderPtr(), Cookie: owner.Cookie()}, &c.lease, nil
+}
+func TestSurfaceControlFailureRetainsProducerLease(t *testing.T) {
+	p := parcel.New()
+	p.SetTargetAPILevel(34)
+	context := new(failingControlContext)
+	p.SetBinderSerializationContext(context)
+	reference := parcel.BinderReference{Kind: parcel.BinderReferenceLocal, LocalOwner: surfaceOwner{}}
+	err := (&Surface{Producer: reference, Control: reference}).MarshalParcel(p)
+	require.Error(t, err)
+	require.Len(t, p.Objects(), 1)
+	require.NotEmpty(t, p.Data())
+	require.False(t, context.lease.released)
+	require.NoError(t, p.Recycle())
+	require.True(t, context.lease.released)
 }

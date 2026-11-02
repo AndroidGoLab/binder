@@ -20,6 +20,8 @@ type Surface struct {
 var _ parcel.Parcelable = (*Surface)(nil)
 
 // MarshalParcel writes the API-specific native Surface representation.
+// On error, p may contain partial data and Binder leases. Discard and recycle
+// it before releasing local Binder owners.
 func (s *Surface) MarshalParcel(p *parcel.Parcel) error {
 	api := p.TargetAPILevel()
 	if api != 29 && api != 34 {
