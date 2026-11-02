@@ -80,14 +80,30 @@ func CreateVirtualDisplayOnLayerStack(
 // CreateVirtualDisplayWithOptions creates a projected display on layer stack zero.
 //
 // Example: request a secure virtual display using VirtualDisplayOptions{Secure: true}.
-func CreateVirtualDisplayWithOptions(ctx context.Context, raw, aidl binder.IBinder, transport binder.Transport, api int, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height int32, options VirtualDisplayOptions) (*VirtualDisplay, error) {
+func CreateVirtualDisplayWithOptions(
+	ctx context.Context,
+	raw, aidl binder.IBinder,
+	transport binder.Transport,
+	api int,
+	producer *binder.StubBinder,
+	sourceWidth, sourceHeight, width, height int32,
+	options VirtualDisplayOptions,
+) (*VirtualDisplay, error) {
 	return CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0, options)
 }
 
 // CreateVirtualDisplayOnLayerStackWithOptions projects a selected layer stack.
 //
 // Example: request secure composition for a selected display's layer stack.
-func CreateVirtualDisplayOnLayerStackWithOptions(ctx context.Context, raw, aidl binder.IBinder, transport binder.Transport, api int, producer *binder.StubBinder, sourceWidth, sourceHeight, width, height, stack int32, options VirtualDisplayOptions) (*VirtualDisplay, error) {
+func CreateVirtualDisplayOnLayerStackWithOptions(
+	ctx context.Context,
+	raw, aidl binder.IBinder,
+	transport binder.Transport,
+	api int,
+	producer *binder.StubBinder,
+	sourceWidth, sourceHeight, width, height, stack int32,
+	options VirtualDisplayOptions,
+) (*VirtualDisplay, error) {
 	if sourceWidth <= 0 || sourceHeight <= 0 || width <= 0 || height <= 0 {
 		return nil, fmt.Errorf("display dimensions must be positive")
 	}

@@ -10,7 +10,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// These assignments verify that existing constructor function types remain compatible.
 var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplay
+
+// This assignment also preserves the layer-stack constructor's function type.
 var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplayOnLayerStack
 
 // TestAndroid10DisplayState verifies the geometry and flag order from
@@ -169,9 +172,12 @@ func TestVirtualDisplayLayerStack(t *testing.T) {
 }
 
 // TestVirtualDisplaySecureOption verifies the create-display wire field on both APIs.
+//
+// Example: secure=true is encoded on Android 10 and Android 14.
 func TestVirtualDisplaySecureOption(t *testing.T) {
 	for _, api := range []int{29, 34} {
 		for _, secure := range []bool{false, true} {
+			// Check the selected secure value in this API's create request.
 			t.Run(fmt.Sprintf("api%d_secure%t", api, secure), func(t *testing.T) {
 				raw := &virtualDisplayRemote{}
 				aidl := &virtualDisplayRemote{aidl: true}
@@ -198,6 +204,8 @@ func TestVirtualDisplaySecureOption(t *testing.T) {
 }
 
 // TestVirtualDisplayDefaultAndOptions validates default and option forwarding.
+//
+// Example: the original constructor defaults to a non-secure display.
 func TestVirtualDisplayDefaultAndOptions(t *testing.T) {
 	for _, api := range []int{29, 34} {
 		for _, secure := range []bool{false, true} {
