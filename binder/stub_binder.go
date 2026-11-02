@@ -2,7 +2,9 @@ package binder
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"reflect"
 	"sync"
 	"sync/atomic"
 
@@ -21,10 +23,15 @@ type StubBinder struct {
 	Receiver  TransactionReceiver
 	transport Transport
 
-	mu         sync.Mutex
-	cookie     uintptr
-	released   bool
-	releaseErr error
+	mu              sync.Mutex
+	cookie          uintptr
+	released        bool
+	releaseErr      error
+	leases          int
+	drained         chan struct{}
+	unregistering   bool
+	unregisterDone  chan struct{}
+	releaseComplete bool
 
 	// nodeID is an opaque, process-unique kernel Binder node identity.
 	nodeID uintptr
@@ -34,24 +41,111 @@ type StubBinder struct {
 //
 // Example: release a callback after its request finishes.
 func (s *StubBinder) Release(ctx context.Context) error {
+	for {
+		s.mu.Lock()
+		s.released = true
+		if s.releaseComplete {
+			err := s.releaseErr
+			s.mu.Unlock()
+			return err
+		}
+		if s.leases != 0 || s.unregistering {
+			wait := s.drained
+			if s.unregistering {
+				wait = s.unregisterDone
+			}
+			s.mu.Unlock()
+			select {
+			case <-wait:
+				continue
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		}
+		if s.cookie == 0 {
+			s.releaseComplete = true
+			s.mu.Unlock()
+			return nil
+		}
+		s.unregistering = true
+		s.unregisterDone = make(chan struct{})
+		transport, cookie := s.transport, s.cookie
+		s.mu.Unlock()
+		var err error
+		switch unregister := transport.(type) {
+		case ReceiverUnregisterer:
+			err = unregister.UnregisterReceiver(ctx, cookie)
+		case ReceiverUnregistererNoError:
+			unregister.UnregisterReceiver(ctx, cookie)
+		default:
+			err = fmt.Errorf("binder: transport cannot unregister receiver")
+		}
+		s.mu.Lock()
+		s.unregistering = false
+		if !errors.Is(err, context.Canceled) && !errors.Is(err, context.DeadlineExceeded) {
+			s.releaseComplete = true
+			s.releaseErr = err
+		}
+		close(s.unregisterDone)
+		s.mu.Unlock()
+		return err
+	}
+}
+
+type serializationLease struct {
+	stub *StubBinder
+	once sync.Once
+}
+
+func (l *serializationLease) Release() {
+	l.once.Do(func() {
+		l.stub.mu.Lock()
+		defer l.stub.mu.Unlock()
+		l.stub.leases--
+		if l.stub.leases == 0 {
+			close(l.stub.drained)
+		}
+	})
+}
+
+func (s *StubBinder) acquireSerializationLease(t Transport) (*serializationLease, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.released {
-		return s.releaseErr
+	if s.released || s.cookie == 0 || !sameBinderTransport(s.transport, t) {
+		return nil, fmt.Errorf("binder: local binder is not live on this transport")
 	}
-	s.released = true
-	if s.cookie == 0 {
+	if s.leases == 0 {
+		s.drained = make(chan struct{})
+	}
+	s.leases++
+	return &serializationLease{stub: s}, nil
+}
+
+// BinderTransportUnwrapper identifies wrappers that share their underlying Binder namespace.
+type BinderTransportUnwrapper interface {
+	UnderlyingBinderTransport() Transport
+}
+
+func sameBinderTransport(a, b Transport) bool {
+	canonical := func(t Transport) Transport {
+		// Bound traversal also rejects malformed cyclic wrappers.
+		for i := 0; i < 64; i++ {
+			if t == nil {
+				return nil
+			}
+			wrapper, ok := t.(BinderTransportUnwrapper)
+			if !ok {
+				if !reflect.ValueOf(t).Comparable() {
+					return nil
+				}
+				return t
+			}
+			t = wrapper.UnderlyingBinderTransport()
+		}
 		return nil
 	}
-	switch unregister := s.transport.(type) {
-	case ReceiverUnregisterer:
-		s.releaseErr = unregister.UnregisterReceiver(ctx, s.cookie)
-	case ReceiverUnregistererNoError:
-		unregister.UnregisterReceiver(ctx, s.cookie)
-	default:
-		s.releaseErr = fmt.Errorf("binder: transport cannot unregister receiver")
-	}
-	return s.releaseErr
+	a, b = canonical(a), canonical(b)
+	return a != nil && b != nil && a == b
 }
 
 // nextLocalBinderIdentity assigns process-unique opaque Binder identities.
@@ -181,7 +275,7 @@ func (s *StubBinder) RegisterWithTransport(
 		return s.cookie
 	}
 	if s.cookie != 0 {
-		if s.transport != t {
+		if !sameBinderTransport(s.transport, t) {
 			logger.Warnf(ctx, "StubBinder.RegisterWithTransport called with a different transport; ignoring (already registered)")
 		}
 		return s.cookie
