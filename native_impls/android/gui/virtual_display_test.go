@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/AndroidGoLab/binder/binder"
@@ -36,6 +37,7 @@ type virtualDisplayRemote struct {
 	binder.IBinder
 	requests []*parcel.Parcel
 	codes    []binder.TransactionCode
+	aidl     bool
 }
 
 // Transact returns a legacy display token and records requests.
@@ -43,6 +45,10 @@ func (r *virtualDisplayRemote) Transact(_ context.Context, code binder.Transacti
 	r.codes = append(r.codes, code)
 	r.requests = append(r.requests, parcel.FromBytes(append([]byte(nil), p.Data()...)))
 	reply := parcel.New()
+	if r.aidl && code == 4 {
+		binder.WriteStatus(reply, nil)
+		reply.WriteStrongBinder(19)
+	}
 	if code == 5 {
 		reply.WriteStrongBinderLegacy(19)
 	}
@@ -157,4 +163,68 @@ func TestVirtualDisplayLayerStack(t *testing.T) {
 	stack, err := p.ReadInt32()
 	require.NoError(t, err)
 	require.EqualValues(t, 7, stack)
+}
+
+// TestVirtualDisplaySecureOption verifies the create-display wire field on both APIs.
+func TestVirtualDisplaySecureOption(t *testing.T) {
+	for _, api := range []int{29, 34} {
+		for _, secure := range []bool{false, true} {
+			t.Run(fmt.Sprintf("api%d_secure%t", api, secure), func(t *testing.T) {
+				raw := &virtualDisplayRemote{}
+				aidl := &virtualDisplayRemote{aidl: true}
+				_, err := CreateVirtualDisplayOnLayerStack(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 0, VirtualDisplayOptions{Secure: secure})
+				require.NoError(t, err)
+				p := raw.requests[0]
+				if api == 34 {
+					p = aidl.requests[0]
+				}
+				_, err = p.ReadInterfaceToken()
+				require.NoError(t, err)
+				if api == 29 {
+					_, err = p.ReadString()
+				} else {
+					_, err = p.ReadString16()
+				}
+				require.NoError(t, err)
+				got, err := p.ReadBool()
+				require.NoError(t, err)
+				require.Equal(t, secure, got)
+			})
+		}
+	}
+}
+
+// TestVirtualDisplayDefaultAndOptions validates default, forwarding, and rejection.
+func TestVirtualDisplayDefaultAndOptions(t *testing.T) {
+	for _, api := range []int{29, 34} {
+		for _, secure := range []bool{false, true} {
+			raw := &virtualDisplayRemote{}
+			aidl := &virtualDisplayRemote{aidl: true}
+			var options []VirtualDisplayOptions
+			if secure {
+				options = []VirtualDisplayOptions{{Secure: true}}
+			}
+			_, err := CreateVirtualDisplay(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, options...)
+			require.NoError(t, err)
+			p := raw.requests[0]
+			if api == 34 {
+				p = aidl.requests[0]
+			}
+			_, err = p.ReadInterfaceToken()
+			require.NoError(t, err)
+			if api == 29 {
+				_, err = p.ReadString()
+			} else {
+				_, err = p.ReadString16()
+			}
+			require.NoError(t, err)
+			got, err := p.ReadBool()
+			require.NoError(t, err)
+			require.Equal(t, secure, got)
+		}
+	}
+	raw := &virtualDisplayRemote{}
+	_, err := CreateVirtualDisplay(context.Background(), raw, nil, &virtualDisplayTransport{}, 29, binder.NewStubBinder(nil), 1080, 2400, 360, 800, VirtualDisplayOptions{}, VirtualDisplayOptions{})
+	require.Error(t, err)
+	require.Empty(t, raw.requests)
 }

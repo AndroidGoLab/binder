@@ -20,8 +20,9 @@ JPEG screenshot to stdout (`-s`). The default display is 0. Secondary-display
 capture requires an available layer-stack mapping; Android 10 does not expose
 that mapping through the supported native interface.
 
-The virtual display is non-secure. Android may omit or black out secure layers,
-and protected graphics buffers are unsupported.
+On Android 10, the virtual display requests secure composition, matching native
+minicap; Android 14 uses a non-secure virtual display. Secure layers may be
+omitted or blacked out, and protected graphics buffers are unsupported.
 
 Forward the abstract socket to a local TCP port:
 

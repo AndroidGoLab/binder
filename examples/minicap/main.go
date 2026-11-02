@@ -157,7 +157,7 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		}
 		resultErr = errors.Join(resultErr, err)
 	}()
-	display, err := gui.CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height, stack)
+	display, err := gui.CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height, stack, gui.VirtualDisplayOptions{Secure: api == binder.APILevelAndroid10})
 	if err != nil {
 		safeToFree = false
 		return err

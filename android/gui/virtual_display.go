@@ -39,6 +39,12 @@ type VirtualDisplay struct {
 	token  uint32
 }
 
+// VirtualDisplayOptions controls virtual display creation. Secure displays may
+// require elevated privileges on the device.
+type VirtualDisplayOptions struct {
+	Secure bool
+}
+
 // CreateVirtualDisplay creates a projected virtual display using the supplied producer.
 //
 // Example: project a physical screen into an RGBA buffer producer.
@@ -50,8 +56,9 @@ func CreateVirtualDisplay(
 	api int,
 	producer *binder.StubBinder,
 	sourceWidth, sourceHeight, width, height int32,
+	options ...VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
-	return CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0)
+	return CreateVirtualDisplayOnLayerStack(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0, options...)
 }
 
 // CreateVirtualDisplayOnLayerStack projects a selected composition layer stack.
@@ -65,7 +72,12 @@ func CreateVirtualDisplayOnLayerStack(
 	api int,
 	producer *binder.StubBinder,
 	sourceWidth, sourceHeight, width, height, stack int32,
+	options ...VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
+	if len(options) > 1 {
+		return nil, fmt.Errorf("at most one virtual display options value is allowed")
+	}
+	secure := len(options) == 1 && options[0].Secure
 	if sourceWidth <= 0 || sourceHeight <= 0 || width <= 0 || height <= 0 {
 		return nil, fmt.Errorf("display dimensions must be positive")
 	}
@@ -88,10 +100,10 @@ func CreateVirtualDisplayOnLayerStack(
 	}
 	if api == 29 {
 		p.WriteString("binder-go-capture")
-		p.WriteInt32(0)
+		p.WriteBool(secure)
 	} else {
 		p.WriteString16("binder-go-capture")
-		p.WriteBool(false)
+		p.WriteBool(secure)
 		p.WriteFloat32(0)
 	}
 	code := binder.TransactionCode(5)
