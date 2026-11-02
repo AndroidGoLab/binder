@@ -117,6 +117,24 @@ func (p *FrameProducer) Next(ctx context.Context) (*Frame, error) {
 	}
 }
 
+// TryNext acquires a queued frame without waiting. The returned frame retains
+// its slot and fence until the caller releases it, including when it is skipped.
+//
+// Example: drain queued frames before encoding the latest one.
+func (p *FrameProducer) TryNext() (*Frame, bool) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.isClosed {
+		return nil, false
+	}
+	select {
+	case frame := <-p.frames:
+		return frame, true
+	default:
+		return nil, false
+	}
+}
+
 // CopyRGBA waits for rendering and copies a supported buffer to packed pixels.
 //
 // Example: copy a frame before releasing it to SurfaceFlinger.
