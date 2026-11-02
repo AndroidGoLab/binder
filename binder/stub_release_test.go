@@ -113,6 +113,9 @@ func TestStubReleaseSupportsDriverStyleUnregistration(t *testing.T) {
 	require.Equal(t, 1, tr.releases)
 }
 
+// TestStubReleaseWaitsForSerializationLeaseAndCanRetry verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestStubReleaseWaitsForSerializationLeaseAndCanRetry(t *testing.T) {
 	tr := &releaseTransport{}
 	stub := NewStubBinder(&testReceiver{})
@@ -131,6 +134,9 @@ func TestStubReleaseWaitsForSerializationLeaseAndCanRetry(t *testing.T) {
 	require.Equal(t, 1, tr.releases)
 }
 
+// TestStubSerializationLeaseRejectsWrongTransport verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestStubSerializationLeaseRejectsWrongTransport(t *testing.T) {
 	tr := &releaseTransport{}
 	stub := NewStubBinder(&testReceiver{})
@@ -142,6 +148,9 @@ func TestStubSerializationLeaseRejectsWrongTransport(t *testing.T) {
 	require.Error(t, err)
 }
 
+// TestBinderSerializationContextPinsRegisteredStub verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestBinderSerializationContextPinsRegisteredStub(t *testing.T) {
 	tr := &releaseTransport{}
 	stub := NewStubBinder(&testReceiver{})
@@ -170,17 +179,32 @@ func TestBinderSerializationContextPinsRegisteredStub(t *testing.T) {
 	require.Error(t, p.WriteBinderReference(parcel.BinderReference{Kind: parcel.BinderReferenceLocal, LocalOwner: stub}))
 }
 
+// wrappedLeaseTransport provides a transport for lease tests.
+//
+// Example: exercise transport identity and release behavior.
 type wrappedLeaseTransport struct{ Transport }
 
+// UnderlyingBinderTransport returns the wrapped namespace owner.
+//
+// Example: compare a wrapper with its underlying driver.
 func (w *wrappedLeaseTransport) UnderlyingBinderTransport() Transport { return w.Transport }
 
+// nonComparableLeaseTransport provides a transport for lease tests.
+//
+// Example: exercise transport identity and release behavior.
 type nonComparableLeaseTransport struct {
 	Transport
 	values []int
 }
 
+// nestedLeaseTransport provides a transport for lease tests.
+//
+// Example: exercise transport identity and release behavior.
 type nestedLeaseTransport struct{ Transport }
 
+// TestStubSerializationLeaseTransportNamespace verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestStubSerializationLeaseTransportNamespace(t *testing.T) {
 	tr := &releaseTransport{}
 	stub := NewStubBinder(&testReceiver{})
@@ -195,6 +219,9 @@ func TestStubSerializationLeaseTransportNamespace(t *testing.T) {
 	require.NoError(t, stub.Release(context.Background()))
 }
 
+// TestStubReleaseWaitsForConcurrentLease verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestStubReleaseWaitsForConcurrentLease(t *testing.T) {
 	tr := &releaseTransport{}
 	stub := NewStubBinder(&testReceiver{})
@@ -202,6 +229,9 @@ func TestStubReleaseWaitsForConcurrentLease(t *testing.T) {
 	lease, err := stub.acquireSerializationLease(tr)
 	require.NoError(t, err)
 	done := make(chan error, 1)
+	// Release concurrently so the test can hold the lease while it waits.
+	//
+	// Example: verify unregister does not finish until the pin is dropped.
 	go func() { done <- stub.Release(context.Background()) }()
 	for {
 		stub.mu.Lock()
@@ -224,6 +254,9 @@ func TestStubReleaseWaitsForConcurrentLease(t *testing.T) {
 	require.Equal(t, 1, tr.releases)
 }
 
+// blockingReleaseTransport provides a transport for lease tests.
+//
+// Example: exercise transport identity and release behavior.
 type blockingReleaseTransport struct {
 	Transport
 	entered chan struct{}
@@ -231,29 +264,48 @@ type blockingReleaseTransport struct {
 	err     error
 }
 
+// RegisterReceiver supplies a test registration.
+//
+// Example: register a stub before concurrent release.
 func (t *blockingReleaseTransport) RegisterReceiver(context.Context, TransactionReceiver) uintptr {
 	return 42
 }
+
+// UnregisterReceiver blocks until the test permits completion.
+//
+// Example: keep one release in progress while another starts.
 func (t *blockingReleaseTransport) UnregisterReceiver(context.Context, uintptr) error {
 	close(t.entered)
 	<-t.resume
 	return t.err
 }
 
+// TestConcurrentStubReleaseSharesResult verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestConcurrentStubReleaseSharesResult(t *testing.T) {
 	want := errors.New("unregister failed")
 	tr := &blockingReleaseTransport{entered: make(chan struct{}), resume: make(chan struct{}), err: want}
 	stub := NewStubBinder(&testReceiver{})
 	stub.RegisterWithTransport(context.Background(), tr)
 	results := make(chan error, 2)
+	// Start the first release and hold its unregister call open.
+	//
+	// Example: establish an unregister owner before another caller arrives.
 	go func() { results <- stub.Release(context.Background()) }()
 	<-tr.entered
+	// Start a second release while the first owns unregistration.
+	//
+	// Example: both callers observe the same cleanup result.
 	go func() { results <- stub.Release(context.Background()) }()
 	close(tr.resume)
 	require.ErrorIs(t, <-results, want)
 	require.ErrorIs(t, <-results, want)
 }
 
+// TestStubReleaseRetriesCanceledUnregister verifies local registration lease behavior.
+//
+// Example: prevent unregistration while a request owns a lease.
 func TestStubReleaseRetriesCanceledUnregister(t *testing.T) {
 	tr := &releaseTransport{releaseErr: fmt.Errorf("interrupted: %w", context.Canceled)}
 	stub := NewStubBinder(&testReceiver{})

@@ -37,7 +37,8 @@ type StubBinder struct {
 	nodeID uintptr
 }
 
-// Release unregisters this stub once. A released stub cannot be registered again.
+// Release prevents new leases and waits for existing leases before unregistering.
+// Cancellation leaves the registration closed to new leases and permits retry.
 //
 // Example: release a callback after its request finishes.
 func (s *StubBinder) Release(ctx context.Context) error {
@@ -92,12 +93,21 @@ func (s *StubBinder) Release(ctx context.Context) error {
 	}
 }
 
+// serializationLease pins a registration until its idempotent release.
+//
+// Example: a parcel retains the lease through a transaction.
 type serializationLease struct {
 	stub *StubBinder
 	once sync.Once
 }
 
+// Release drops this lease's registration pin once.
+//
+// Example: recycling a parcel releases its local Binder pins.
 func (l *serializationLease) Release() {
+	// Drop the pin at most once.
+	//
+	// Example: repeated parcel cleanup cannot decrement the count twice.
 	l.once.Do(func() {
 		l.stub.mu.Lock()
 		defer l.stub.mu.Unlock()
@@ -108,6 +118,9 @@ func (l *serializationLease) Release() {
 	})
 }
 
+// acquireSerializationLease pins a live registration on the requested transport.
+//
+// Example: prevent unregistering a stub while its parcel is in flight.
 func (s *StubBinder) acquireSerializationLease(t Transport) (*serializationLease, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -122,11 +135,22 @@ func (s *StubBinder) acquireSerializationLease(t Transport) (*serializationLease
 }
 
 // BinderTransportUnwrapper identifies wrappers that share their underlying Binder namespace.
+//
+// Example: a version-aware transport exposes the driver it wraps.
 type BinderTransportUnwrapper interface {
+	// UnderlyingBinderTransport returns the transport owning this namespace.
+	//
+	// Example: return the wrapped driver.
 	UnderlyingBinderTransport() Transport
 }
 
+// sameBinderTransport compares the canonical owners of two Binder namespaces.
+//
+// Example: a driver and its version-aware wrapper share an identity.
 func sameBinderTransport(a, b Transport) bool {
+	// canonical resolves wrappers to a comparable namespace owner.
+	//
+	// Example: resolve a version-aware transport to its driver.
 	canonical := func(t Transport) Transport {
 		// Bound traversal also rejects malformed cyclic wrappers.
 		for i := 0; i < 64; i++ {
