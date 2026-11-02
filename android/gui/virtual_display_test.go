@@ -11,9 +11,13 @@ import (
 )
 
 // These assignments verify that existing constructor function types remain compatible.
+//
+// Example: callers may assign CreateVirtualDisplay to its original function type.
 var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplay
 
 // This assignment also preserves the layer-stack constructor's function type.
+//
+// Example: callers may store CreateVirtualDisplayOnLayerStack as a function value.
 var _ func(context.Context, binder.IBinder, binder.IBinder, binder.Transport, int, *binder.StubBinder, int32, int32, int32, int32, int32) (*VirtualDisplay, error) = CreateVirtualDisplayOnLayerStack
 
 // TestAndroid10DisplayState verifies the geometry and flag order from
@@ -177,28 +181,31 @@ func TestVirtualDisplayLayerStack(t *testing.T) {
 func TestVirtualDisplaySecureOption(t *testing.T) {
 	for _, api := range []int{29, 34} {
 		for _, secure := range []bool{false, true} {
-			// Check the selected secure value in this API's create request.
-			t.Run(fmt.Sprintf("api%d_secure%t", api, secure), func(t *testing.T) {
-				raw := &virtualDisplayRemote{}
-				aidl := &virtualDisplayRemote{aidl: true}
-				_, err := CreateVirtualDisplayOnLayerStackWithOptions(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 0, VirtualDisplayOptions{Secure: secure})
-				require.NoError(t, err)
-				p := raw.requests[0]
-				if api == 34 {
-					p = aidl.requests[0]
-				}
-				_, err = p.ReadInterfaceToken()
-				require.NoError(t, err)
-				if api == 29 {
-					_, err = p.ReadString()
-				} else {
-					_, err = p.ReadString16()
-				}
-				require.NoError(t, err)
-				got, err := p.ReadBool()
-				require.NoError(t, err)
-				require.Equal(t, secure, got)
-			})
+			t.Run(fmt.Sprintf("api%d_secure%t", api, secure),
+				// Check the selected secure value in this API's create request.
+				//
+				// Example: API 29 encodes true as a nonzero integer.
+				func(t *testing.T) {
+					raw := &virtualDisplayRemote{}
+					aidl := &virtualDisplayRemote{aidl: true}
+					_, err := CreateVirtualDisplayOnLayerStackWithOptions(context.Background(), raw, aidl, &virtualDisplayTransport{}, api, binder.NewStubBinder(nil), 1080, 2400, 360, 800, 0, VirtualDisplayOptions{Secure: secure})
+					require.NoError(t, err)
+					p := raw.requests[0]
+					if api == 34 {
+						p = aidl.requests[0]
+					}
+					_, err = p.ReadInterfaceToken()
+					require.NoError(t, err)
+					if api == 29 {
+						_, err = p.ReadString()
+					} else {
+						_, err = p.ReadString16()
+					}
+					require.NoError(t, err)
+					got, err := p.ReadBool()
+					require.NoError(t, err)
+					require.Equal(t, secure, got)
+				})
 		}
 	}
 }

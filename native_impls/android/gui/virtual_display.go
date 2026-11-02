@@ -82,11 +82,15 @@ func CreateVirtualDisplayOnLayerStack(
 // Example: request a secure virtual display using VirtualDisplayOptions{Secure: true}.
 func CreateVirtualDisplayWithOptions(
 	ctx context.Context,
-	raw, aidl binder.IBinder,
+	raw binder.IBinder,
+	aidl binder.IBinder,
 	transport binder.Transport,
 	api int,
 	producer *binder.StubBinder,
-	sourceWidth, sourceHeight, width, height int32,
+	sourceWidth int32,
+	sourceHeight int32,
+	width int32,
+	height int32,
 	options VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
 	return CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, producer, sourceWidth, sourceHeight, width, height, 0, options)
@@ -97,11 +101,16 @@ func CreateVirtualDisplayWithOptions(
 // Example: request secure composition for a selected display's layer stack.
 func CreateVirtualDisplayOnLayerStackWithOptions(
 	ctx context.Context,
-	raw, aidl binder.IBinder,
+	raw binder.IBinder,
+	aidl binder.IBinder,
 	transport binder.Transport,
 	api int,
 	producer *binder.StubBinder,
-	sourceWidth, sourceHeight, width, height, stack int32,
+	sourceWidth int32,
+	sourceHeight int32,
+	width int32,
+	height int32,
+	stack int32,
 	options VirtualDisplayOptions,
 ) (*VirtualDisplay, error) {
 	if sourceWidth <= 0 || sourceHeight <= 0 || width <= 0 || height <= 0 {
