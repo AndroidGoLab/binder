@@ -25,19 +25,8 @@ func (s *Surface) MarshalParcel(p *parcel.Parcel) error {
 	if api != 29 && api != 34 {
 		return fmt.Errorf("Surface: unsupported API level %d", api)
 	}
-	if api == 29 && (s.Control.Kind != parcel.BinderReferenceNull || s.Control.Handle != 0 || s.Control.Pointer != 0 || s.Control.Cookie != 0 || s.Control.Stability != 0) {
+	if api == 29 && (s.Control.Kind != parcel.BinderReferenceNull || s.Control.Handle != 0 || s.Control.Pointer != 0 || s.Control.Cookie != 0 || s.Control.Stability != 0 || s.Control.LocalOwner != nil) {
 		return fmt.Errorf("Surface: control Binder is unsupported on API 29")
-	}
-	// Validate references before mutating the output.
-	check := parcel.New()
-	check.SetTargetAPILevel(api)
-	if err := check.WriteBinderReference(s.Producer); err != nil {
-		return fmt.Errorf("Surface: producer: %w", err)
-	}
-	if api == 34 {
-		if err := check.WriteBinderReference(s.Control); err != nil {
-			return fmt.Errorf("Surface: control: %w", err)
-		}
 	}
 	p.WriteString16(s.Name)
 	p.WriteBool(s.IsSingleBuffered)

@@ -2,6 +2,7 @@ package parcel
 
 import (
 	"encoding/binary"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -106,4 +107,62 @@ func TestBinderReferencePreservesDeclaredStability(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, original, got)
 	}
+}
+
+type testLeaseOwner struct{}
+
+func (testLeaseOwner) BinderPtr() uintptr { return 1 }
+func (testLeaseOwner) Cookie() uintptr    { return 2 }
+
+type testBinderLease struct{ released bool }
+
+func (l *testBinderLease) Release() { l.released = true }
+
+type testBinderContext struct{ lease *testBinderLease }
+
+func (c *testBinderContext) AcquireLocalBinder(owner RegisteredLocalBinder) (LocalBinderIdentity, BinderLease, error) {
+	return LocalBinderIdentity{Pointer: owner.BinderPtr(), Cookie: owner.Cookie()}, c.lease, nil
+}
+func TestBinderReferenceLocalLease(t *testing.T) {
+	for _, api := range []int{29, 34} {
+		lease := new(testBinderLease)
+		p := New()
+		p.SetTargetAPILevel(api)
+		p.SetBinderSerializationContext(&testBinderContext{lease})
+		ref := BinderReference{Kind: BinderReferenceLocal, LocalOwner: testLeaseOwner{}}
+		require.NoError(t, p.WriteBinderReference(ref))
+		require.Equal(t, uint64(1), binary.LittleEndian.Uint64(p.Data()[8:]))
+		require.Equal(t, uint64(2), binary.LittleEndian.Uint64(p.Data()[16:]))
+		require.Equal(t, []uint64{0}, p.Objects())
+		require.False(t, lease.released)
+		require.NoError(t, p.Recycle())
+		require.True(t, lease.released)
+	}
+}
+
+func TestBinderReferenceLocalIdentityMismatchReleasesLease(t *testing.T) {
+	lease := new(testBinderLease)
+	p := New()
+	p.SetTargetAPILevel(34)
+	p.SetBinderSerializationContext(&testBinderContext{lease})
+	err := p.WriteBinderReference(BinderReference{Kind: BinderReferenceLocal, Pointer: 9, LocalOwner: testLeaseOwner{}})
+	require.Error(t, err)
+	require.True(t, lease.released)
+	require.Empty(t, p.Data())
+	require.Empty(t, p.Objects())
+}
+
+type failingBinderContext struct{ lease *testBinderLease }
+
+func (c *failingBinderContext) AcquireLocalBinder(RegisteredLocalBinder) (LocalBinderIdentity, BinderLease, error) {
+	return LocalBinderIdentity{}, c.lease, fmt.Errorf("registration failed")
+}
+func TestBinderReferenceAcquireErrorReleasesLease(t *testing.T) {
+	lease := new(testBinderLease)
+	p := New()
+	p.SetTargetAPILevel(34)
+	p.SetBinderSerializationContext(&failingBinderContext{lease})
+	require.Error(t, p.WriteBinderReference(BinderReference{Kind: BinderReferenceLocal, LocalOwner: testLeaseOwner{}}))
+	require.True(t, lease.released)
+	require.Empty(t, p.Data())
 }

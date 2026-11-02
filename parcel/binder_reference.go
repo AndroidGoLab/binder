@@ -15,15 +15,16 @@ const (
 )
 
 // BinderReference preserves Binder identity and its Android stability level.
-// Local identities read from a parcel are retained, but writing them requires
-// registration lifetime support and is currently unsupported. A zero stability
-// on a new non-null reference selects system stability on API 34.
+// Local writes require a registered owner and a serialization context; the
+// parcel retains its registration lease until Recycle. A zero stability on a
+// new non-null reference selects system stability on API 34.
 type BinderReference struct {
-	Kind      BinderReferenceKind
-	Handle    uint32
-	Pointer   uintptr
-	Cookie    uintptr
-	Stability StabilityLevel
+	Kind       BinderReferenceKind
+	Handle     uint32
+	Pointer    uintptr
+	Cookie     uintptr
+	Stability  StabilityLevel
+	LocalOwner RegisteredLocalBinder
 }
 
 func (r BinderReference) validate(api int) error {
@@ -32,15 +33,17 @@ func (r BinderReference) validate(api int) error {
 	}
 	switch r.Kind {
 	case BinderReferenceNull:
-		if r.Handle != 0 || r.Pointer != 0 || r.Cookie != 0 || r.Stability != 0 {
+		if r.Handle != 0 || r.Pointer != 0 || r.Cookie != 0 || r.Stability != 0 || r.LocalOwner != nil {
 			return fmt.Errorf("parcel: null Binder has identity or stability")
 		}
 	case BinderReferenceRemote:
-		if r.Pointer != 0 || r.Cookie != 0 {
+		if r.Pointer != 0 || r.Cookie != 0 || r.LocalOwner != nil {
 			return fmt.Errorf("parcel: remote Binder has local identity")
 		}
 	case BinderReferenceLocal:
-		return fmt.Errorf("parcel: writing local Binder references is unsupported")
+		if r.LocalOwner == nil || r.Handle != 0 {
+			return fmt.Errorf("parcel: local Binder requires registered owner")
+		}
 	default:
 		return fmt.Errorf("parcel: unknown Binder reference kind %d", r.Kind)
 	}
@@ -59,12 +62,37 @@ func (p *Parcel) WriteBinderReference(r BinderReference) error {
 	if err := r.validate(api); err != nil {
 		return err
 	}
+	if r.Kind == BinderReferenceLocal {
+		context := p.BinderSerializationContext()
+		if context == nil {
+			return fmt.Errorf("parcel: local Binder requires serialization context")
+		}
+		identity, lease, err := context.AcquireLocalBinder(r.LocalOwner)
+		if err != nil {
+			if lease != nil {
+				lease.Release()
+			}
+			return fmt.Errorf("parcel: acquire local Binder: %w", err)
+		}
+		if lease == nil {
+			return fmt.Errorf("parcel: local Binder acquisition returned nil lease")
+		}
+		if identity.Pointer == 0 || identity.Cookie == 0 || (r.Pointer != 0 && r.Pointer != identity.Pointer) || (r.Cookie != 0 && r.Cookie != identity.Cookie) {
+			lease.Release()
+			return fmt.Errorf("parcel: invalid local Binder identity")
+		}
+		r.Pointer = identity.Pointer
+		r.Cookie = identity.Cookie
+		p.RetainBinderLease(lease)
+	}
 	if api == 29 {
 		switch r.Kind {
 		case BinderReferenceNull:
 			p.WriteNullStrongBinderLegacy()
 		case BinderReferenceRemote:
 			p.WriteStrongBinderLegacy(r.Handle)
+		case BinderReferenceLocal:
+			p.WriteLocalBinderLegacy(r.Pointer, r.Cookie)
 		}
 	} else {
 		switch r.Kind {
@@ -72,6 +100,8 @@ func (p *Parcel) WriteBinderReference(r BinderReference) error {
 			p.WriteNullStrongBinder()
 		case BinderReferenceRemote:
 			p.WriteStrongBinder(r.Handle)
+		case BinderReferenceLocal:
+			p.WriteLocalBinder(r.Pointer, r.Cookie)
 		}
 		if r.Stability != 0 {
 			binary.LittleEndian.PutUint32(p.data[len(p.data)-4:], uint32(r.Stability))

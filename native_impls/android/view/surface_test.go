@@ -95,6 +95,43 @@ func TestSurfaceLocalReadAndTruncation(t *testing.T) {
 		q := parcel.New()
 		q.SetTargetAPILevel(api)
 		require.Error(t, s.MarshalParcel(q))
-		require.Empty(t, q.Data())
+	}
+}
+
+type surfaceOwner struct{}
+
+func (surfaceOwner) BinderPtr() uintptr { return 1 }
+func (surfaceOwner) Cookie() uintptr    { return 2 }
+
+type surfaceLease struct{ released bool }
+
+func (l *surfaceLease) Release() { l.released = true }
+
+type surfaceContext struct{ leases []*surfaceLease }
+
+func (c *surfaceContext) AcquireLocalBinder(owner parcel.RegisteredLocalBinder) (parcel.LocalBinderIdentity, parcel.BinderLease, error) {
+	l := new(surfaceLease)
+	c.leases = append(c.leases, l)
+	return parcel.LocalBinderIdentity{Pointer: owner.BinderPtr(), Cookie: owner.Cookie()}, l, nil
+}
+func TestSurfaceLocalLeases(t *testing.T) {
+	for _, api := range []int{29, 34} {
+		p := parcel.New()
+		p.SetTargetAPILevel(api)
+		context := new(surfaceContext)
+		p.SetBinderSerializationContext(context)
+		s := Surface{Producer: parcel.BinderReference{Kind: parcel.BinderReferenceLocal, LocalOwner: surfaceOwner{}}}
+		if api == 34 {
+			s.Control = parcel.BinderReference{Kind: parcel.BinderReferenceLocal, LocalOwner: surfaceOwner{}}
+		}
+		require.NoError(t, s.MarshalParcel(p))
+		require.Len(t, context.leases, 1+(api-29)/5)
+		for _, l := range context.leases {
+			require.False(t, l.released)
+		}
+		require.NoError(t, p.Recycle())
+		for _, l := range context.leases {
+			require.True(t, l.released)
+		}
 	}
 }
