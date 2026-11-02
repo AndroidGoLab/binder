@@ -256,6 +256,7 @@ func run(ctx context.Context, args []string, out io.Writer) (resultErr error) {
 	if opts.info {
 		return writeDisplayInfo(ctx, out, opts.displayID)
 	}
+	fmt.Fprintf(os.Stderr, "PID: %d\n", os.Getpid())
 	sw, sh, w, h := opts.projection.captureSize()
 	if opts.raw {
 		if f, ok := out.(*os.File); ok {
