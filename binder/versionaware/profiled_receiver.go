@@ -24,9 +24,11 @@ func (r *profiledReceiver) OnTransaction(
 ) (*parcel.Parcel, error) {
 	level := r.transport.APILevel()
 	data.SetTargetAPILevel(level)
+	data.SetBinderSerializationContext(binder.NewBinderSerializationContext(r.transport))
 	reply, err := r.receiver.OnTransaction(ctx, code, data)
 	if reply != nil {
 		reply.SetTargetAPILevel(level)
+		reply.SetBinderSerializationContext(binder.NewBinderSerializationContext(r.transport))
 	}
 	return reply, err
 }

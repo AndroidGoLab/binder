@@ -21,6 +21,25 @@ type captureTransport struct {
 	Objects []uint64
 }
 
+type translationLease struct{ releases int }
+
+func (l *translationLease) Release() { l.releases++ }
+
+// TestAndroid10TranslationReleasesClone verifies that translation keeps the
+// caller's lease alive while releasing the temporary request's ownership.
+func TestAndroid10TranslationReleasesClone(t *testing.T) {
+	p := parcel.New()
+	p.WriteInterfaceToken("test.Interface")
+	lease := &translationLease{}
+	p.RetainBinderLease(lease)
+	transport := &Transport{inner: &captureTransport{}, apiLevel: binder.APILevelAndroid10}
+	_, err := transport.Transact(context.Background(), 1, 2, 0, p)
+	require.NoError(t, err)
+	require.Zero(t, lease.releases)
+	require.NoError(t, p.Recycle())
+	require.Equal(t, 1, lease.releases)
+}
+
 // Transact copies the request for inspection.
 //
 // Example: capture a request before returning an empty reply.

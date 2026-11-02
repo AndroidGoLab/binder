@@ -1121,9 +1121,18 @@ func (t *Transport) Transact(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	if t.apiLevel == binder.APILevelAndroid10 && data != nil {
-		data = data.Android10Request()
+		adapted := data.Android10Request()
+		if adapted != data {
+			defer adapted.Recycle()
+		}
+		data = adapted
 	}
 	return t.inner.Transact(ctx, handle, code, flags, data)
+}
+
+// UnderlyingBinderTransport returns the wrapped transport for identity checks.
+func (t *Transport) UnderlyingBinderTransport() binder.Transport {
+	return t.inner
 }
 
 func (t *Transport) AcquireHandle(

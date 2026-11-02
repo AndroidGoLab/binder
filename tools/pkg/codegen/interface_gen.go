@@ -390,9 +390,15 @@ func writeStubCase(
 	} else {
 		// Write the reply parcel.
 		f.P("\t\t_reply := parcel.New()")
+		f.P("\t\t_replyOwned := true")
+		f.P("\t\tdefer func() {")
+		f.P("\t\t\tif _replyOwned { _ = _reply.Recycle() }")
+		f.P("\t\t}()")
 		f.P("\t\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+		f.P("\t\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
 		f.P("\t\tif _err != nil {")
 		f.P("\t\t\tbinder.WriteStatus(_reply, _err)")
+		f.P("\t\t\t_replyOwned = false")
 		f.P("\t\t\treturn _reply, nil")
 		f.P("\t\t}")
 		f.P("\t\tbinder.WriteStatus(_reply, nil)")
@@ -410,6 +416,7 @@ func writeStubCase(
 			}
 		}
 
+		f.P("\t\t_replyOwned = false")
 		f.P("\t\treturn _reply, nil")
 	}
 }
@@ -1163,6 +1170,7 @@ func writeProxyMethod(
 	// Build and write data parcel.
 	f.P("\t_data := parcel.New()")
 	f.P("\t_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))")
+	f.P("\t_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))")
 	f.P("\tdefer _data.Recycle()")
 	f.P("\t_data.WriteInterfaceToken(%s)", descriptorConst)
 
@@ -1241,6 +1249,7 @@ func writeProxyMethod(
 		}
 		f.P("\tdefer _reply.Recycle()")
 		f.P("\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+		f.P("\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
 
 		// Read status.
 		f.P("")
@@ -2532,7 +2541,7 @@ var goReservedIdents = map[string]bool{
 	"clear": true, "min": true, "max": true,
 	// Codegen-internal variable names used in generated proxy/stub method bodies.
 	"ctx": true, "_data": true, "_reply": true, "_err": true,
-	"_result": true, "_code": true, "_identity": true,
+	"_result": true, "_code": true, "_identity": true, "_replyOwned": true,
 }
 
 func sanitizeGoIdent(name string) string {

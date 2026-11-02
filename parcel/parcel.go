@@ -13,6 +13,8 @@ const maxParcelableDepth = 32
 //
 // Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
+	binderContext     BinderSerializationContext
+	binderLeases      []*sharedBinderLease
 	targetAPILevel    int
 	data              []byte
 	pos               int           // current read position
@@ -117,6 +119,11 @@ func (p *Parcel) SetPosition(
 // Example: release a request parcel after a transaction.
 func (p *Parcel) Recycle() error {
 	err := p.Close()
+	for _, lease := range p.binderLeases {
+		lease.release()
+	}
+	p.binderLeases = nil
+	p.binderContext = nil
 	p.data = nil
 	p.pos = 0
 	p.objects = nil

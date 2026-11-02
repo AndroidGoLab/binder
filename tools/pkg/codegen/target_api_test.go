@@ -22,6 +22,15 @@ func TestGeneratedTargetAPIPropagation(t *testing.T) {
 	if strings.Count(s, "_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))") != 2 {
 		t.Error("both oneway and synchronous requests must carry the profile")
 	}
+	if strings.Count(s, "_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))") != 2 {
+		t.Error("both requests must carry their transport context")
+	}
+	if strings.Count(s, "_reply.SetBinderSerializationContext(_data.BinderSerializationContext())") != 2 {
+		t.Error("proxy and stub replies must carry the transport context")
+	}
+	if !strings.Contains(s, "if _replyOwned {") || !strings.Contains(s, "_reply.Recycle()") || strings.Count(s, "_replyOwned = false") != 2 {
+		t.Error("stub must recycle an untransferred reply and transfer successful replies")
+	}
 	if strings.Count(s, "_reply.SetTargetAPILevel(_data.TargetAPILevel())") != 2 {
 		t.Error("proxy and stub replies must carry the profile")
 	}

@@ -76,6 +76,11 @@ func (p *Parcel) Android10Request() *Parcel {
 	}
 	clone := FromBytesWithObjects(data, objects)
 	clone.SetTargetAPILevel(p.TargetAPILevel())
+	clone.SetBinderSerializationContext(p.BinderSerializationContext())
+	for _, lease := range p.binderLeases {
+		lease.retain()
+		clone.binderLeases = append(clone.binderLeases, lease)
+	}
 	return clone
 }
 
