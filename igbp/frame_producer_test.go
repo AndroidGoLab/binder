@@ -318,10 +318,10 @@ func TestFrameProducerCloseRetriesQueuedFence(t *testing.T) {
 	require.NoError(t, p.Close(ctx))
 }
 
-// TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled prevents unsafe reuse.
+// TestFrameProducerCancelFenceRecovers verifies asynchronous cancellation.
 //
-// Example: a stalled producer fence leaves its buffer quarantined.
-func TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled(t *testing.T) {
+// Example: an unsignaled fence prevents reuse until a later dequeue sees it signal.
+func TestFrameProducerCancelFenceRecovers(t *testing.T) {
 	ctx := context.Background()
 	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
 	require.NoError(t, err)
@@ -347,13 +347,49 @@ func TestFrameProducerCancelFenceKeepsSlotWhenWaitCanceled(t *testing.T) {
 	req.WriteInt32(1)
 	req.WriteFileDescriptor(int32(fds[0]))
 	req.SetPosition(0)
-	canceled, cancel := context.WithCancel(ctx)
-	cancel()
-	_, err = p.OnTransaction(canceled, CancelBuffer, req)
-	require.ErrorIs(t, err, context.Canceled)
-	closeCtx, cancelClose := context.WithCancel(ctx)
-	cancelClose()
-	require.Error(t, p.Close(closeCtx))
+	done := make(chan error, 1)
+	go func() { _, err := p.OnTransaction(ctx, CancelBuffer, req); done <- err }()
+	select {
+	case err := <-done:
+		require.NoError(t, err)
+	case <-time.After(time.Second):
+		t.Fatal("cancel callback waited for an unsignaled fence")
+	}
+	p.mu.Lock()
+	ownedFD := p.slots[0].fence
+	p.mu.Unlock()
+	require.NotEqual(t, int32(fds[0]), ownedFD)
+	dequeue := func() int32 {
+		r := parcel.New()
+		r.WriteInterfaceToken(Descriptor)
+		r.WriteUint32(1)
+		r.WriteUint32(1)
+		r.WriteInt32(1)
+		r.WriteUint64(0)
+		r.WriteBool(false)
+		r.SetPosition(0)
+		reply, err := p.OnTransaction(ctx, DequeueBuffer, r)
+		require.NoError(t, err)
+		slot, err := reply.ReadInt32()
+		require.NoError(t, err)
+		return slot
+	}
+	require.Equal(t, int32(-1), dequeue())
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	require.Equal(t, int32(0), dequeue())
+	_, err = unix.FcntlInt(uintptr(ownedFD), unix.F_GETFD, 0)
+	require.ErrorIs(t, err, unix.EBADF)
+	r := parcel.New()
+	r.WriteInterfaceToken(Descriptor)
+	r.WriteInt32(0)
+	r.WriteInt32(4)
+	r.WriteInt32(0)
+	r.WriteInt32(0)
+	r.SetPosition(0)
+	_, err = p.OnTransaction(ctx, CancelBuffer, r)
+	require.NoError(t, err)
+	require.NoError(t, p.Close(ctx))
 }
 
 // TestFrameProducerCloseWaitsForLateQueue checks asynchronous display teardown.
@@ -466,4 +502,134 @@ func TestFrameCopyIntoHonorsCancellation(t *testing.T) {
 	require.ErrorIs(t, frame.CopyRGBAInto(ctx, dst), context.Canceled)
 	require.Equal(t, []byte{1, 2, 3, 4}, dst)
 	require.NoError(t, frame.Release(context.Background()))
+}
+
+// TestFrameProducerCloseRetriesCanceledFence preserves a pending producer fence.
+//
+// Example: shutdown can retry after an unsignaled cancellation fence later signals.
+func TestFrameProducerCloseRetriesCanceledFence(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[0])
+	defer unix.Close(fds[1])
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(4)
+	req.WriteInt32(1)
+	req.WriteInt32(1)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, CancelBuffer, req)
+	require.NoError(t, err)
+	canceled, cancel := context.WithCancel(ctx)
+	cancel()
+	require.ErrorIs(t, p.Close(canceled), context.Canceled)
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	require.NoError(t, p.Close(ctx))
+}
+
+// TestFrameProducerCloseWaitsForLateCancel handles cancellation after shutdown begins.
+//
+// Example: a late GPU fence is retained until it signals during Close.
+func TestFrameProducerCloseWaitsForLateCancel(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[0])
+	defer unix.Close(fds[1])
+	closeCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+	done := make(chan error, 1)
+	go func() { done <- p.Close(closeCtx) }()
+	<-p.closed
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(4)
+	req.WriteInt32(1)
+	req.WriteInt32(1)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, CancelBuffer, req)
+	require.NoError(t, err)
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	require.NoError(t, <-done)
+}
+
+// TestFrameProducerRejectsCanceledFenceHangup preserves unsafe slots.
+//
+// Example: a broken fence cannot be interpreted as a completed render.
+func TestFrameProducerRejectsCanceledFenceHangup(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[0])
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(4)
+	req.WriteInt32(1)
+	req.WriteInt32(1)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, CancelBuffer, req)
+	require.NoError(t, err)
+	require.NoError(t, unix.Close(fds[1]))
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.Error(t, err)
+	p.mu.Lock()
+	require.Equal(t, frameSlotCanceled, p.slots[0].state)
+	fd := p.slots[0].fence
+	p.slots[0].state = frameSlotFree
+	p.mu.Unlock()
+	require.NoError(t, unix.Close(int(fd)))
+	require.NoError(t, p.Close(ctx))
 }

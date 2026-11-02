@@ -6,18 +6,12 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 )
-
-// cancelFenceTimeout bounds native cancellation when the graphics fence stalls.
-//
-// Example: an unsignaled fence cannot block the Binder callback indefinitely.
-const cancelFenceTimeout = 5 * time.Second
 
 // frameSlotState identifies the owner of a producer buffer slot.
 //
@@ -37,6 +31,14 @@ const (
 	//
 	// Example: it cannot be returned from dequeueBuffer.
 	frameSlotQueued
+	// frameSlotCanceled retains a producer fence until it signals.
+	//
+	// Example: a canceled GPU write cannot race the next dequeue.
+	frameSlotCanceled
+	// frameSlotWaiting reserves a canceled fence for shutdown cleanup.
+	//
+	// Example: concurrent dequeues cannot take a fence being waited on.
+	frameSlotWaiting
 )
 
 // frameSlot holds a buffer's ownership and cached-buffer state.
@@ -46,6 +48,7 @@ type frameSlot struct {
 	buffer    *gralloc.Buffer
 	state     frameSlotState
 	requested bool
+	fence     int32
 }
 
 // FrameProducer implements the native producer side of a display frame queue.
@@ -228,12 +231,38 @@ func (p *FrameProducer) Close(ctx context.Context) error {
 		default:
 			p.mu.Lock()
 			owned := false
+			pending := -1
+			var pendingFD int32
 			for i := range p.slots {
 				if p.slots[i].state != frameSlotFree {
 					owned = true
 				}
+				if pending < 0 && p.slots[i].state == frameSlotCanceled {
+					pending = i
+					pendingFD = p.slots[i].fence
+					p.slots[i].state = frameSlotWaiting
+				}
 			}
 			p.mu.Unlock()
+			if pending >= 0 {
+				err := gralloc.WaitFence(ctx, pendingFD)
+				p.mu.Lock()
+				if err != nil {
+					p.slots[pending].state = frameSlotCanceled
+					p.signalChange()
+					p.mu.Unlock()
+					return fmt.Errorf("wait canceled buffer fence: %w", err)
+				}
+				closeErr := unix.Close(int(pendingFD))
+				p.slots[pending].fence = -1
+				p.slots[pending].state = frameSlotFree
+				p.signalChange()
+				p.mu.Unlock()
+				if closeErr != nil {
+					return fmt.Errorf("close canceled buffer fence: %w", closeErr)
+				}
+				continue
+			}
 			if !owned {
 				return nil
 			}
@@ -275,7 +304,7 @@ func (p *FrameProducer) OnTransaction(ctx context.Context, code binder.Transacti
 	case QueueBuffer:
 		return p.queue(data)
 	case CancelBuffer:
-		return p.cancel(ctx, data)
+		return p.cancel(data)
 	case Connect:
 		return p.connect(data)
 	case Query:
@@ -324,6 +353,30 @@ func (p *FrameProducer) dequeue(data *parcel.Parcel) (*parcel.Parcel, error) {
 	status := int32(-11)
 	if !p.isClosed {
 		for i := range p.slots {
+			if p.slots[i].state == frameSlotCanceled {
+				fds := []unix.PollFd{{Fd: p.slots[i].fence, Events: unix.POLLIN}}
+				for {
+					_, err := unix.Poll(fds, 0)
+					if errors.Is(err, unix.EINTR) {
+						continue
+					}
+					if err != nil {
+						return nil, fmt.Errorf("poll canceled buffer fence: %w", err)
+					}
+					break
+				}
+				if fds[0].Revents&(unix.POLLERR|unix.POLLHUP|unix.POLLNVAL) != 0 {
+					return nil, fmt.Errorf("canceled buffer fence poll failed: %#x", fds[0].Revents)
+				}
+				if fds[0].Revents&unix.POLLIN != 0 {
+					fd := p.slots[i].fence
+					p.slots[i].fence = -1
+					p.slots[i].state = frameSlotFree
+					if err := unix.Close(int(fd)); err != nil {
+						return nil, fmt.Errorf("close canceled buffer fence: %w", err)
+					}
+				}
+			}
 			if p.slots[i].state == frameSlotFree {
 				slot = i
 				p.slots[i].state = frameSlotDequeued
@@ -429,10 +482,10 @@ func (p *FrameProducer) queue(data *parcel.Parcel) (*parcel.Parcel, error) {
 	return p.queueOutput(), nil
 }
 
-// cancel waits for the cancellation fence before reusing its slot.
+// cancel retains the cancellation fence without blocking the Binder callback.
 //
 // Example: a canceled GPU write cannot race a subsequent dequeue.
-func (p *FrameProducer) cancel(ctx context.Context, data *parcel.Parcel) (*parcel.Parcel, error) {
+func (p *FrameProducer) cancel(data *parcel.Parcel) (*parcel.Parcel, error) {
 	slot, err := data.ReadInt32()
 	if err != nil {
 		return nil, err
@@ -458,19 +511,21 @@ func (p *FrameProducer) cancel(ctx context.Context, data *parcel.Parcel) (*parce
 		if err != nil {
 			return nil, err
 		}
-		defer unix.Close(int(fd))
-	}
-	waitCtx, stop := context.WithTimeout(ctx, cancelFenceTimeout)
-	defer stop()
-	if err = gralloc.WaitFence(waitCtx, fd); err != nil {
-		return nil, err
 	}
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	if slot < 0 || int(slot) >= len(p.slots) || p.slots[slot].state != frameSlotDequeued {
+		if fd >= 0 {
+			return nil, errors.Join(fmt.Errorf("invalid canceled slot %d", slot), unix.Close(int(fd)))
+		}
 		return nil, fmt.Errorf("invalid canceled slot %d", slot)
 	}
-	p.slots[slot].state = frameSlotFree
+	if fd >= 0 {
+		p.slots[slot].state = frameSlotCanceled
+		p.slots[slot].fence = fd
+	} else {
+		p.slots[slot].state = frameSlotFree
+	}
 	p.signalChange()
 	return simpleOKReply()
 }
