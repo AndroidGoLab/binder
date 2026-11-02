@@ -7,13 +7,13 @@ import (
 	"errors"
 	"fmt"
 	"image"
-	"image/jpeg"
 	"io"
 	"net"
 	"os"
 	"sync"
 	"syscall"
 
+	"github.com/gen2brain/jpegn"
 	"golang.org/x/sys/unix"
 )
 
@@ -50,8 +50,22 @@ func encodeJPEG(w io.Writer, pixels []byte, width, height int32, quality int) er
 	if quality < 0 || quality > 100 {
 		return fmt.Errorf("invalid JPEG quality %d", quality)
 	}
+	if quality == 0 {
+		quality = 1
+	}
 	img := &image.RGBA{Pix: pixels, Stride: int(width) * 4, Rect: image.Rect(0, 0, int(width), int(height))}
-	return jpeg.Encode(w, img, &jpeg.Options{Quality: quality})
+	return jpegn.Encode(jpegWriter{w}, img, &jpegn.EncodeOptions{Quality: quality, Subsampling: jpegn.Subsample420})
+}
+
+// jpegWriter reports incomplete writes even when the underlying writer does not.
+type jpegWriter struct{ io.Writer }
+
+func (w jpegWriter) Write(p []byte) (int, error) {
+	n, err := w.Writer.Write(p)
+	if err == nil && n != len(p) {
+		err = io.ErrShortWrite
+	}
+	return n, err
 }
 
 // writeJPEGFrame writes a little-endian size followed by one JPEG image.

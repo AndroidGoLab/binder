@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
-	"golang.org/x/sys/unix"
 	"image/jpeg"
 	"io"
 	"net"
@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"golang.org/x/sys/unix"
 )
 
 // TestBanner verifies the documented minicap v1 wire layout.
@@ -209,4 +210,51 @@ func TestRawWriterPreservesPollablePipeFlags(t *testing.T) {
 	require.NoError(t, conn.Control(func(fd uintptr) { after, inner = unix.FcntlInt(fd, unix.F_GETFL, 0) }))
 	require.NoError(t, inner)
 	require.Equal(t, before&unix.O_NONBLOCK, after&unix.O_NONBLOCK)
+}
+
+type shortJPEGWriter struct{}
+
+func (shortJPEGWriter) Write(p []byte) (int, error) { return len(p) / 2, nil }
+
+type failingJPEGWriter struct{ err error }
+
+func (w failingJPEGWriter) Write([]byte) (int, error) { return 0, w.err }
+
+func TestJPEGEncodingContracts(t *testing.T) {
+	pixels := make([]byte, 17*19*4)
+	for i := 0; i < len(pixels); i += 4 {
+		pixels[i], pixels[i+1], pixels[i+2], pixels[i+3] = 200, 70, 30, 255
+	}
+	var zero, one bytes.Buffer
+	require.NoError(t, encodeJPEG(&zero, pixels, 17, 19, 0))
+	require.NoError(t, encodeJPEG(&one, pixels, 17, 19, 1))
+	require.Equal(t, one.Bytes(), zero.Bytes())
+	img, err := jpeg.Decode(bytes.NewReader(zero.Bytes()))
+	require.NoError(t, err)
+	require.Equal(t, 17, img.Bounds().Dx())
+	require.Equal(t, 19, img.Bounds().Dy())
+	require.ErrorIs(t, encodeJPEG(shortJPEGWriter{}, pixels, 17, 19, 80), io.ErrShortWrite)
+	wantErr := errors.New("write failed")
+	require.ErrorIs(t, encodeJPEG(failingJPEGWriter{wantErr}, pixels, 17, 19, 80), wantErr)
+}
+
+func TestJPEGFrameBufferReuse(t *testing.T) {
+	var scratch, out bytes.Buffer
+	pixels := bytes.Repeat([]byte{200, 70, 30, 255}, 17*19)
+	for _, quality := range []int{100, 1} {
+		require.NoError(t, writeJPEGFrameBuffer(&out, &scratch, pixels, 17, 19, quality))
+	}
+	for range 2 {
+		var prefix [4]byte
+		_, err := io.ReadFull(&out, prefix[:])
+		require.NoError(t, err)
+		data := make([]byte, binary.LittleEndian.Uint32(prefix[:]))
+		_, err = io.ReadFull(&out, data)
+		require.NoError(t, err)
+		img, err := jpeg.Decode(bytes.NewReader(data))
+		require.NoError(t, err)
+		require.Equal(t, 17, img.Bounds().Dx())
+		require.Equal(t, 19, img.Bounds().Dy())
+	}
+	require.Zero(t, out.Len())
 }

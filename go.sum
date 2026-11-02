@@ -14,6 +14,8 @@ github.com/electricbubble/gadb v0.1.0 h1:h7RKlToMlFtGW4rUkAd4GSiFAHioMH5Nx7jtbb2
 github.com/electricbubble/gadb v0.1.0/go.mod h1:3293YJ6OWHv/Q6NA5dwSbK43MbmYm8+Vz2d7h5J3IA8=
 github.com/facebookincubator/go-belt v0.0.0-20250308011339-62fb7027b11f h1:MlG3PjCUpnbPN0JVX8UFu2Qherr6VzWqXo4GYF3J5nI=
 github.com/facebookincubator/go-belt v0.0.0-20250308011339-62fb7027b11f/go.mod h1:ATrLnViIvvcC4AbrF7g/s2MXJPfl6+MEQNCXwKOIB+M=
+github.com/gen2brain/jpegn v0.5.0 h1:j423h1wDeofdBAuBEwNkONaHHDJZt5wrx3dMvPFlcPU=
+github.com/gen2brain/jpegn v0.5.0/go.mod h1:YvcVOmVPSAsefH6yn9HBW3uY0EHlZwCMoiJXoAWfgL0=
 github.com/go-ng/slices v0.0.0-20230703171042-6195d35636a2 h1:UkoycH6lT7QfBw3LqHLe6GdFRhxScvVaI7A5oiAjy5s=
 github.com/go-ng/slices v0.0.0-20230703171042-6195d35636a2/go.mod h1:bVEceuoz83G4yjq9Os7lCYe+lf46uY8EFEHkxSCywvM=
 github.com/go-ng/sort v0.0.0-20220617173827-2cc7cd04f7c7 h1:Ng6QMSlQSB+goG6430/Fp7O4YO2BJZXZJaldtg+7kEc=
