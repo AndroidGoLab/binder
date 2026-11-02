@@ -389,3 +389,24 @@ func TestFrameProducerCloseWaitsForLateQueue(t *testing.T) {
 	require.NoError(t, err)
 	require.NoError(t, <-done)
 }
+
+// TestFrameCopyReleasesSignaledFence avoids a second fence wait on release.
+//
+// Example: even if pixel decoding fails, a signaled fence is closed promptly.
+func TestFrameCopyReleasesSignaledFence(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[1])
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	p.slots[0].state = frameSlotQueued
+	frame := &Frame{producer: p, slot: 0, fence: int32(fds[0])}
+	_, err = frame.CopyRGBA(ctx)
+	require.Error(t, err)
+	_, err = unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
+	require.ErrorIs(t, err, unix.EBADF)
+	require.NoError(t, frame.Release(ctx))
+}

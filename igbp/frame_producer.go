@@ -126,7 +126,7 @@ func (f *Frame) CopyRGBA(ctx context.Context) ([]byte, error) {
 	if f.released {
 		return nil, errors.New("frame released")
 	}
-	if err := gralloc.WaitFence(ctx, f.fence); err != nil {
+	if err := f.waitFence(ctx); err != nil {
 		return nil, fmt.Errorf("wait frame fence: %w", err)
 	}
 	return gralloc.CopyRGBA(f.producer.slots[f.slot].buffer)
@@ -142,20 +142,33 @@ func (f *Frame) Release(ctx context.Context) error {
 	if f.released {
 		return errors.New("frame already released")
 	}
-	if err := gralloc.WaitFence(ctx, f.fence); err != nil {
+	if err := f.waitFence(ctx); err != nil {
 		return fmt.Errorf("wait frame fence: %w", err)
-	}
-	if f.fence >= 0 {
-		if err := unix.Close(int(f.fence)); err != nil {
-			return fmt.Errorf("close frame fence: %w", err)
-		}
-		f.fence = -1
 	}
 	f.producer.mu.Lock()
 	defer f.producer.mu.Unlock()
 	f.producer.slots[f.slot].state = frameSlotFree
 	f.released = true
 	f.producer.signalChange()
+	return nil
+}
+
+// waitFence waits once and releases the frame's owned acquire fence.
+// The caller holds the frame mutex.
+//
+// Example: a copied frame can be released without polling the fence again.
+func (f *Frame) waitFence(ctx context.Context) error {
+	if err := gralloc.WaitFence(ctx, f.fence); err != nil {
+		return err
+	}
+	if f.fence < 0 {
+		return nil
+	}
+	fd := f.fence
+	f.fence = -1
+	if err := unix.Close(int(fd)); err != nil {
+		return fmt.Errorf("close fence: %w", err)
+	}
 	return nil
 }
 
