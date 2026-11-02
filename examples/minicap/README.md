@@ -20,6 +20,9 @@ JPEG screenshot to stdout (`-s`). The default display is 0. Secondary-display
 capture requires an available layer-stack mapping; Android 10 does not expose
 that mapping through the supported native interface.
 
+The virtual display is non-secure. Android may omit or black out secure layers,
+and protected graphics buffers are unsupported.
+
 Forward the abstract socket to a local TCP port:
 
 ```sh
@@ -48,4 +51,5 @@ the Android 10 Qualcomm SDM845 uncached, linear ION layout. Unknown layouts
 fail rather than being interpreted as pixels. Android 14 capture has been
 exercised on a Pixel 6a; the Android 10 protocol and allocator have
 source-based tests but have not been verified on Android 10 hardware. Other
-Android versions and allocator layouts require additional support.
+Android versions and allocator layouts require additional support; Android 10
+on arm64 alone does not establish that the SDM845 backend applies.

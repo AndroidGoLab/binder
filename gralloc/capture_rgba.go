@@ -239,10 +239,7 @@ func CopyRGBAInto(b *Buffer, pixels []byte) (resultErr error) {
 			resultErr = errors.Join(resultErr, fmt.Errorf("unmap pixel plane: %w", err))
 		}
 	}()
-	row := int(b.Width) * rgbaBytesPerPixel
-	for y := 0; y < int(b.Height); y++ {
-		copy(pixels[y*row:(y+1)*row], data[l.offset+y*l.stride:l.offset+y*l.stride+row])
-	}
+	copyRGBARows(pixels, data, l, b.Width, b.Height)
 	return nil
 }
 
@@ -250,8 +247,139 @@ func CopyRGBAInto(b *Buffer, pixels []byte) (resultErr error) {
 //
 // Example: reject a short destination before mapping a graphics buffer.
 func validateRGBADestination(b *Buffer, pixels []byte) error {
-	if b == nil || b.Width == 0 || b.Height == 0 || uint64(b.Width)*uint64(b.Height) > uint64(math.MaxInt)/rgbaBytesPerPixel || len(pixels) != int(uint64(b.Width)*uint64(b.Height)*rgbaBytesPerPixel) {
+	if b == nil {
+		return errors.New("invalid RGBA destination size")
+	}
+	return validateRGBASize(b.Width, b.Height, pixels)
+}
+
+func validateRGBASize(width, height uint32, pixels []byte) error {
+	if width == 0 || height == 0 || uint64(width)*uint64(height) > uint64(math.MaxInt)/rgbaBytesPerPixel || len(pixels) != int(uint64(width)*uint64(height)*rgbaBytesPerPixel) {
 		return errors.New("invalid RGBA destination size")
 	}
 	return nil
+}
+
+// RGBAReader owns a persistent mapping for repeated reads of one buffer.
+// The buffer and its descriptors must outlive the reader. The caller must wait
+// for the producer fence before each read and must serialize reads and Close.
+//
+// Example: retain one reader for the lifetime of a reusable graphics slot.
+type RGBAReader struct {
+	layout  rgbaLayout
+	data    []byte
+	width   uint32
+	height  uint32
+	ion     int
+	hasION  bool
+	syncDMA bool
+}
+
+// NewRGBAReader maps a supported linear capture buffer for repeated reads.
+// Call Close before closing the buffer's descriptors.
+//
+// Example: map a capture allocation once before reading successive frames.
+func NewRGBAReader(b *Buffer) (*RGBAReader, error) {
+	qcom := b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic
+	return newRGBAReader(b, !qcom, qcom)
+}
+
+// newRGBAReader permits tests to use a regular file without DMA-BUF ioctls.
+func newRGBAReader(b *Buffer, syncDMA, useION bool) (_ *RGBAReader, resultErr error) {
+	l, err := captureRGBALayout(b)
+	if err != nil {
+		return nil, err
+	}
+	var stat unix.Stat_t
+	if err := unix.Fstat(l.fd, &stat); err != nil {
+		return nil, fmt.Errorf("stat pixel fd: %w", err)
+	}
+	if stat.Size < int64(l.length) {
+		return nil, fmt.Errorf("pixel fd too short: %d bytes, need %d", stat.Size, l.length)
+	}
+	r := &RGBAReader{layout: l, width: b.Width, height: b.Height, ion: -1, syncDMA: syncDMA}
+	defer func() {
+		if resultErr != nil {
+			resultErr = errors.Join(resultErr, r.Close())
+		}
+	}()
+	if useION {
+		r.ion, err = unix.Open("/dev/ion", unix.O_RDONLY|unix.O_CLOEXEC, 0)
+		if err != nil {
+			r.ion = -1
+			return nil, fmt.Errorf("open ion: %w", err)
+		}
+		r.hasION = true
+	}
+	if syncDMA {
+		if err := dmaBufBeginCPUAccess(l.fd); err != nil {
+			return nil, fmt.Errorf("start DMA-BUF read: %w", err)
+		}
+	}
+	prot := unix.PROT_READ
+	if useION {
+		prot |= unix.PROT_WRITE
+	}
+	r.data, err = unix.Mmap(l.fd, 0, l.length, prot, unix.MAP_SHARED)
+	if syncDMA {
+		err = errors.Join(err, dmaBufSync(l.fd, dmaBufSyncRead|dmaBufSyncEnd))
+	}
+	if err != nil {
+		return nil, fmt.Errorf("map pixel plane: %w", err)
+	}
+	return r, nil
+}
+
+// CopyInto copies visible RGBA rows after the caller has waited for the fence.
+// The destination may be partly modified if an error is returned.
+//
+// Example: copy a leased frame into a reusable packed destination.
+func (r *RGBAReader) CopyInto(pixels []byte) (resultErr error) {
+	if r.data == nil {
+		return errors.New("RGBA reader closed")
+	}
+	if err := validateRGBASize(r.width, r.height, pixels); err != nil {
+		return err
+	}
+	if r.syncDMA {
+		if err := dmaBufBeginCPUAccess(r.layout.fd); err != nil {
+			return fmt.Errorf("start DMA-BUF read: %w", err)
+		}
+		defer func() {
+			if err := dmaBufSync(r.layout.fd, dmaBufSyncRead|dmaBufSyncEnd); err != nil {
+				resultErr = errors.Join(resultErr, fmt.Errorf("end DMA-BUF read: %w", err))
+			}
+		}()
+	}
+	copyRGBARows(pixels, r.data, r.layout, r.width, r.height)
+	return nil
+}
+
+func copyRGBARows(pixels, data []byte, layout rgbaLayout, width, height uint32) {
+	row := int(width) * rgbaBytesPerPixel
+	for y := 0; y < int(height); y++ {
+		copy(pixels[y*row:(y+1)*row], data[layout.offset+y*layout.stride:layout.offset+y*layout.stride+row])
+	}
+}
+
+// Close releases the mapping and its supporting descriptor. It is idempotent.
+//
+// Example: unmap a slot after its last frame lease is released.
+func (r *RGBAReader) Close() error {
+	var errs []error
+	if r.data != nil {
+		if err := unix.Munmap(r.data); err != nil {
+			errs = append(errs, fmt.Errorf("unmap pixel plane: %w", err))
+		} else {
+			r.data = nil
+		}
+	}
+	if r.data == nil && r.hasION {
+		err := unix.Close(r.ion)
+		r.hasION = false
+		if err != nil {
+			errs = append(errs, fmt.Errorf("close ion: %w", err))
+		}
+	}
+	return errors.Join(errs...)
 }

@@ -273,9 +273,6 @@ func copyQcomMappedRGBAInto(b *Buffer, layout rgbaLayout, pixels []byte) (result
 	func() {
 		resultErr = errors.Join(resultErr, unix.Munmap(data))
 	}()
-	row := int(b.Width) * rgbaBytesPerPixel
-	for y := 0; y < int(b.Height); y++ {
-		copy(pixels[y*row:(y+1)*row], data[y*layout.stride:y*layout.stride+row])
-	}
+	copyRGBARows(pixels, data, layout, b.Width, b.Height)
 	return nil
 }

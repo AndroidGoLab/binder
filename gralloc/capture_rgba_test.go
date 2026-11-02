@@ -109,3 +109,36 @@ func TestPixelRGBALayoutRejectsUnsupported(t *testing.T) {
 		)
 	}
 }
+
+// TestRGBAReaderReuse verifies that one mapping can read successive padded frames.
+func TestRGBAReaderReuse(t *testing.T) {
+	f, err := os.CreateTemp(t.TempDir(), "pixels")
+	require.NoError(t, err)
+	defer f.Close()
+	require.NoError(t, f.Truncate(32))
+	b := pixelHandle()
+	b.Handle.Fds[0] = int32(f.Fd())
+	reader, err := newRGBAReader(b, false, false)
+	require.NoError(t, err)
+	defer reader.Close()
+	first := []byte{1, 2, 3, 4, 5, 6, 7, 8}
+	second := []byte{9, 10, 11, 12, 13, 14, 15, 16}
+	_, err = f.WriteAt(first, 0)
+	require.NoError(t, err)
+	_, err = f.WriteAt(second, 16)
+	require.NoError(t, err)
+	dst := make([]byte, 16)
+	require.NoError(t, reader.CopyInto(dst))
+	require.Equal(t, append(first, second...), dst)
+	_, err = f.WriteAt(second, 0)
+	require.NoError(t, err)
+	// A reader's geometry belongs to its validated mapping, even if the
+	// caller subsequently changes the Buffer metadata.
+	b.Width = 100
+	require.NoError(t, reader.CopyInto(dst))
+	require.Equal(t, append(second, second...), dst)
+	require.Error(t, reader.CopyInto(dst[:15]))
+	require.NoError(t, reader.Close())
+	require.NoError(t, reader.Close())
+	require.Error(t, reader.CopyInto(dst))
+}

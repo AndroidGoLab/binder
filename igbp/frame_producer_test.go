@@ -633,3 +633,37 @@ func TestFrameProducerRejectsCanceledFenceHangup(t *testing.T) {
 	require.NoError(t, unix.Close(int(fd)))
 	require.NoError(t, p.Close(ctx))
 }
+
+// TestCloseRetainsReaderUntilLeaseReleased checks shutdown retry ownership.
+func TestCloseRetainsReaderUntilLeaseReleased(t *testing.T) {
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	p.slots[0].state = frameSlotQueued
+	reader := &gralloc.RGBAReader{}
+	p.slots[0].reader = reader
+	frame := &Frame{producer: p, slot: 0, fence: -1}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	require.ErrorIs(t, p.Close(ctx), context.Canceled)
+	require.Same(t, reader, p.slots[0].reader)
+	require.NoError(t, frame.Release(context.Background()))
+	require.NoError(t, p.Close(context.Background()))
+	require.Nil(t, p.slots[0].reader)
+	require.NoError(t, p.Close(context.Background()))
+}
+
+// TestConcurrentCloseHonorsCancellation keeps a second shutdown bounded.
+func TestConcurrentCloseHonorsCancellation(t *testing.T) {
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	p.slots[0].state = frameSlotQueued
+	frame := &Frame{producer: p, slot: 0, fence: -1}
+	done := make(chan error, 1)
+	go func() { done <- p.Close(context.Background()) }()
+	<-p.closed
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	require.ErrorIs(t, p.Close(ctx), context.Canceled)
+	require.NoError(t, frame.Release(context.Background()))
+	require.NoError(t, <-done)
+}

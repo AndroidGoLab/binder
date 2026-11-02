@@ -46,6 +46,7 @@ const (
 // Example: requested prevents unnecessary native buffer reallocation.
 type frameSlot struct {
 	buffer    *gralloc.Buffer
+	reader    *gralloc.RGBAReader
 	state     frameSlotState
 	requested bool
 	fence     int32
@@ -57,6 +58,7 @@ type frameSlot struct {
 // Example: register it as a Binder stub and pass that stub to a virtual display.
 type FrameProducer struct {
 	api      int
+	closing  chan struct{}
 	mu       sync.Mutex
 	slots    []frameSlot
 	frames   chan *Frame
@@ -98,7 +100,7 @@ func NewFrameProducer(api int, buffers []*gralloc.Buffer) (*FrameProducer, error
 		}
 		slots[i].buffer = b
 	}
-	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{}), changed: make(chan struct{}, 1)}, nil
+	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{}), changed: make(chan struct{}, 1), closing: make(chan struct{}, 1)}, nil
 }
 
 // Descriptor returns the native producer interface name.
@@ -167,7 +169,15 @@ func (f *Frame) CopyRGBAInto(ctx context.Context, pixels []byte) error {
 	if err := f.waitFence(ctx); err != nil {
 		return fmt.Errorf("wait frame fence: %w", err)
 	}
-	return gralloc.CopyRGBAInto(f.producer.slots[f.slot].buffer, pixels)
+	slot := &f.producer.slots[f.slot]
+	if slot.reader == nil {
+		reader, err := gralloc.NewRGBAReader(slot.buffer)
+		if err != nil {
+			return err
+		}
+		slot.reader = reader
+	}
+	return slot.reader.CopyInto(pixels)
 }
 
 // Release waits for the producer fence and returns the slot to the queue.
@@ -215,6 +225,16 @@ func (f *Frame) waitFence(ctx context.Context) error {
 //
 // Example: destroy the display before closing its producer and allocations.
 func (p *FrameProducer) Close(ctx context.Context) error {
+	select {
+	case p.closing <- struct{}{}:
+	default:
+		select {
+		case p.closing <- struct{}{}:
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+	defer func() { <-p.closing }()
 	p.mu.Lock()
 	if !p.isClosed {
 		p.isClosed = true
@@ -264,7 +284,17 @@ func (p *FrameProducer) Close(ctx context.Context) error {
 				continue
 			}
 			if !owned {
-				return nil
+				var errs []error
+				for i := range p.slots {
+					if p.slots[i].reader != nil {
+						if err := p.slots[i].reader.Close(); err != nil {
+							errs = append(errs, err)
+						} else {
+							p.slots[i].reader = nil
+						}
+					}
+				}
+				return errors.Join(errs...)
 			}
 			select {
 			case <-ctx.Done():
