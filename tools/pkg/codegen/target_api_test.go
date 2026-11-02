@@ -5,11 +5,14 @@ import (
 	"testing"
 
 	"github.com/AndroidGoLab/binder/tools/pkg/parser"
+	"github.com/AndroidGoLab/binder/tools/pkg/resolver"
 )
 
 func TestGeneratedTargetAPIPropagation(t *testing.T) {
-	doc := parseAIDL(t, `package example; interface IExample { int call(int input); oneway void notify(int input); }`)
-	src, err := GenerateInterface(doc.Definitions[0].(*parser.InterfaceDecl), "example", "example.IExample")
+	doc := parseAIDL(t, `package example; interface IExample { int call(in FutureNative input); oneway void notify(in FutureNative input); int scalar(int input); }`)
+	registry := resolver.NewTypeRegistry()
+	registry.Register("example.FutureNative", &parser.ParcelableDecl{ParcName: "FutureNative", NativeParcelable: true})
+	src, err := GenerateInterface(doc.Definitions[0].(*parser.InterfaceDecl), "example", "example.IExample", WithRegistry(registry), WithCurrentPkg("example"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -22,8 +25,16 @@ func TestGeneratedTargetAPIPropagation(t *testing.T) {
 	if strings.Count(s, "_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))") != 2 {
 		t.Error("both oneway and synchronous requests must carry the profile")
 	}
+	scalar := s[strings.Index(s, "func (p *ExampleProxy) Scalar"):]
+	scalar = scalar[:strings.Index(scalar, "\n}")]
+	if strings.Contains(scalar, "SetTargetAPILevel") || strings.Contains(scalar, "SetBinderSerializationContext") {
+		t.Error("scalar method must not emit native context plumbing")
+	}
 	if strings.Count(s, "_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))") != 2 {
 		t.Error("both requests must carry their transport context")
+	}
+	if strings.Count(s, "_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))") != 2 {
+		t.Error("native requests must carry the connection's DisplayInfo profile")
 	}
 	if strings.Count(s, "_reply.SetBinderSerializationContext(_data.BinderSerializationContext())") != 2 {
 		t.Error("proxy and stub replies must carry the transport context")

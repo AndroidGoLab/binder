@@ -389,17 +389,22 @@ func writeStubCase(
 		f.P("\t\treturn nil, _err")
 	} else {
 		// Write the reply parcel.
+		needsContext := methodNeedsNativeContext(m, opts)
 		f.P("\t\t_reply := parcel.New()")
-		f.P("\t\t_replyOwned := true")
-		f.P("\t\tdefer func() {")
-		f.P("\t\t\tif _replyOwned { _ = _reply.Recycle() }")
-		f.P("\t\t}()")
-		f.P("\t\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
-		f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
-		f.P("\t\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
+		if needsContext {
+			f.P("\t\t_replyOwned := true")
+			f.P("\t\tdefer func() {")
+			f.P("\t\t\tif _replyOwned { _ = _reply.Recycle() }")
+			f.P("\t\t}()")
+			f.P("\t\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+			f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
+			f.P("\t\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
+		}
 		f.P("\t\tif _err != nil {")
 		f.P("\t\t\tbinder.WriteStatus(_reply, _err)")
-		f.P("\t\t\t_replyOwned = false")
+		if needsContext {
+			f.P("\t\t\t_replyOwned = false")
+		}
 		f.P("\t\t\treturn _reply, nil")
 		f.P("\t\t}")
 		f.P("\t\tbinder.WriteStatus(_reply, nil)")
@@ -417,7 +422,9 @@ func writeStubCase(
 			}
 		}
 
-		f.P("\t\t_replyOwned = false")
+		if needsContext {
+			f.P("\t\t_replyOwned = false")
+		}
 		f.P("\t\treturn _reply, nil")
 	}
 }
@@ -1170,8 +1177,12 @@ func writeProxyMethod(
 
 	// Build and write data parcel.
 	f.P("\t_data := parcel.New()")
-	f.P("\t_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))")
-	f.P("\t_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))")
+	needsContext := methodNeedsNativeContext(m, opts)
+	if needsContext {
+		f.P("\t_data.SetTargetAPILevel(binder.APILevelFromBinder(p.Remote))")
+		f.P("\t_data.SetDisplayInfoWireProfile(binder.DisplayInfoWireProfileFromBinder(p.Remote))")
+		f.P("\t_data.SetBinderSerializationContext(binder.NewBinderSerializationContext(p.Remote.Transport()))")
+	}
 	f.P("\tdefer _data.Recycle()")
 	f.P("\t_data.WriteInterfaceToken(%s)", descriptorConst)
 
@@ -1249,11 +1260,13 @@ func writeProxyMethod(
 			f.P("\t}")
 		}
 		f.P("\tdefer _reply.Recycle()")
-		f.P("\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
-		f.P("\tif _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {")
-		f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
-		f.P("\t}")
-		f.P("\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
+		if needsContext {
+			f.P("\t_reply.SetTargetAPILevel(_data.TargetAPILevel())")
+			f.P("\tif _reply.DisplayInfoWireProfile() == parcel.DisplayInfoWireProfileUnknown {")
+			f.P("\t\t_reply.SetDisplayInfoWireProfile(_data.DisplayInfoWireProfile())")
+			f.P("\t}")
+			f.P("\t_reply.SetBinderSerializationContext(_data.BinderSerializationContext())")
+		}
 
 		// Read status.
 		f.P("")

@@ -156,9 +156,17 @@ func (r *TypeRefResolver) resolveUserType(aidlName string) string {
 
 // resolveUserTypeUncached performs the actual type resolution without caching.
 func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
+	if name := r.resolveUserQualifiedName(aidlName); name != "" {
+		return r.qualifiedGoRef(name, aidlName)
+	}
+	return "any"
+}
+
+// resolveUserQualifiedName follows the same identity rules as Go type rendering.
+func (r *TypeRefResolver) resolveUserQualifiedName(aidlName string) string {
 	// Try fully qualified lookup first (e.g., "android.os.Bundle").
 	if qualifiedName, ok := r.tryResolve(aidlName); ok {
-		return r.qualifiedGoRef(qualifiedName, aidlName)
+		return qualifiedName
 	}
 
 	// Try short name lookup. When multiple types share the same short name,
@@ -166,23 +174,23 @@ func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
 	// current package (closest sibling/cousin in the package hierarchy).
 	candidates := r.Registry.LookupAllByShortName(aidlName)
 	if len(candidates) == 1 {
-		return r.qualifiedGoRef(candidates[0].QualifiedName, aidlName)
+		return candidates[0].QualifiedName
 	}
 	if len(candidates) > 1 {
 		best := r.pickBestCandidate(candidates)
-		return r.qualifiedGoRef(best, aidlName)
+		return best
 	}
 
 	// For dotted names like "ActivityManager.RunningTaskInfo", try resolving
 	// the first segment and appending the rest as a nested type.
 	if strings.Contains(aidlName, ".") {
 		if qualifiedName, ok := r.resolveNestedType(aidlName); ok {
-			return r.qualifiedGoRef(qualifiedName, aidlName)
+			return qualifiedName
 		}
 	}
 
 	// Unknown type: fall back to any to avoid compile errors.
-	return "any"
+	return ""
 }
 
 // pickBestCandidate selects the best match among multiple short-name
@@ -558,8 +566,6 @@ func (r *TypeRefResolver) isInterfaceType(aidlName string) bool {
 	_, isIface := def.(*parser.InterfaceDecl)
 	return isIface
 }
-
-
 
 // IsCycleBroken returns true if the given AIDL type name was resolved
 // to any due to an import cycle.
