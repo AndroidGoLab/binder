@@ -1,0 +1,204 @@
+package igbp
+
+import (
+	"context"
+	"encoding/binary"
+	"testing"
+
+	"github.com/AndroidGoLab/binder/gralloc"
+	"github.com/AndroidGoLab/binder/parcel"
+	"github.com/stretchr/testify/require"
+	"golang.org/x/sys/unix"
+)
+
+// TestFrameProducerLeasePreventsReuse verifies producer slots stay owned until released.
+//
+// Example: a queued image cannot be overwritten while its consumer uses it.
+func TestFrameProducerLeasePreventsReuse(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	defer p.Close(ctx)
+	dequeue := func() (int32, int32) {
+		req := parcel.New()
+		req.WriteInterfaceToken(Descriptor)
+		req.WriteUint32(1)
+		req.WriteUint32(1)
+		req.WriteInt32(1)
+		req.WriteUint64(0)
+		req.WriteBool(false)
+		req.SetPosition(0)
+		reply, err := p.OnTransaction(ctx, DequeueBuffer, req)
+		require.NoError(t, err)
+		slot, err := reply.ReadInt32()
+		require.NoError(t, err)
+		_, err = reply.Read(20)
+		require.NoError(t, err)
+		status, err := reply.ReadInt32()
+		require.NoError(t, err)
+		return slot, status
+	}
+	slot, status := dequeue()
+	require.Equal(t, int32(0), slot)
+	require.Equal(t, int32(BufferNeedsRealloc), status)
+	reqBuffer := parcel.New()
+	reqBuffer.WriteInterfaceToken(Descriptor)
+	reqBuffer.WriteInt32(slot)
+	reqBuffer.SetPosition(0)
+	_, err = p.OnTransaction(ctx, RequestBuffer, reqBuffer)
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(slot)
+	req.WriteInt32(61)
+	req.WriteInt32(0)
+	req.WriteRawBytes(make([]byte, 61))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, QueueBuffer, req)
+	require.NoError(t, err)
+	frame, err := p.Next(ctx)
+	require.NoError(t, err)
+	slot, status = dequeue()
+	require.Equal(t, int32(-1), slot)
+	require.Less(t, status, int32(0))
+	require.NoError(t, frame.Release(ctx))
+	slot, status = dequeue()
+	require.Equal(t, int32(0), slot)
+	require.Equal(t, int32(0), status)
+}
+
+// TestFrameProducerAndroid10Token verifies native Android 10 callback decoding.
+//
+// Example: queue setup accepts the legacy interface token and replies in its wire format.
+func TestFrameProducerAndroid10Token(t *testing.T) {
+	p, err := NewFrameProducer(29, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(int32(NativeWindowFormat))
+	req = req.Android10Request()
+	req.SetPosition(0)
+	reply, err := p.OnTransaction(context.Background(), Query, req)
+	require.NoError(t, err)
+	format, err := reply.ReadInt32()
+	require.NoError(t, err)
+	require.Equal(t, int32(1), format)
+}
+
+// TestFrameProducerCloseDetectsOutstandingLease prevents freeing live buffers.
+//
+// Example: a shutdown must wait until the consumer releases its frame.
+func TestFrameProducerCloseDetectsOutstandingLease(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(61)
+	req.WriteInt32(0)
+	req.WriteRawBytes(make([]byte, 61))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, QueueBuffer, req)
+	require.NoError(t, err)
+	frame, err := p.Next(ctx)
+	require.NoError(t, err)
+	require.Error(t, p.Close(ctx))
+	require.NoError(t, frame.Release(ctx))
+	require.NoError(t, p.Close(ctx))
+}
+
+// TestFrameProducerFenceRetainsSlot checks that a canceled fence wait retains ownership.
+//
+// Example: a frame can be released after its rendering fence signals.
+func TestFrameProducerFenceRetainsSlot(t *testing.T) {
+	ctx := context.Background()
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteUint32(1)
+	req.WriteUint32(1)
+	req.WriteInt32(1)
+	req.WriteUint64(0)
+	req.WriteBool(false)
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, DequeueBuffer, req)
+	require.NoError(t, err)
+	var fds [2]int
+	require.NoError(t, unix.Pipe(fds[:]))
+	defer unix.Close(fds[1])
+	raw := make([]byte, 61)
+	binary.LittleEndian.PutUint32(raw[45:], 1)
+	req = parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.WriteInt32(0)
+	req.WriteInt32(int32(len(raw)))
+	req.WriteInt32(1)
+	req.WriteRawBytes(raw)
+	req.WriteFileDescriptor(int32(fds[0]))
+	req.SetPosition(0)
+	_, err = p.OnTransaction(ctx, QueueBuffer, req)
+	require.NoError(t, err)
+	frame, err := p.Next(ctx)
+	require.NoError(t, err)
+	cancelled, cancel := context.WithCancel(ctx)
+	cancel()
+	require.ErrorIs(t, frame.Release(cancelled), context.Canceled)
+	require.Error(t, p.Close(ctx))
+	_, err = unix.Write(fds[1], []byte{1})
+	require.NoError(t, err)
+	require.NoError(t, frame.Release(ctx))
+	require.NoError(t, unix.Close(fds[0]))
+	require.NoError(t, p.Close(ctx))
+}
+
+// TestFrameProducerNameUsesString8 verifies the native consumer-name wire format.
+//
+// Example: both Android 10 and Android 14 expect UTF-8 bytes.
+func TestFrameProducerNameUsesString8(t *testing.T) {
+	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
+	require.NoError(t, err)
+	req := parcel.New()
+	req.WriteInterfaceToken(Descriptor)
+	req.SetPosition(0)
+	reply, err := p.OnTransaction(context.Background(), GetConsumerName, req)
+	require.NoError(t, err)
+	n, err := reply.ReadInt32()
+	require.NoError(t, err)
+	raw, err := reply.Read(int(n))
+	require.NoError(t, err)
+	require.Equal(t, "GoFrameProducer", string(raw))
+}
+
+// TestFrameProducerIDsDiffer ensures separate queues are distinguishable.
+//
+// Example: two virtual displays expose different native queue IDs.
+func TestFrameProducerIDsDiffer(t *testing.T) {
+	buffers := []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}}
+	a, err := NewFrameProducer(34, buffers)
+	require.NoError(t, err)
+	b, err := NewFrameProducer(34, buffers)
+	require.NoError(t, err)
+	id := func(p *FrameProducer) uint64 {
+		req := parcel.New()
+		req.WriteInterfaceToken(Descriptor)
+		req.SetPosition(0)
+		r, err := p.OnTransaction(context.Background(), GetUniqueId, req)
+		require.NoError(t, err)
+		v, err := r.ReadUint64()
+		require.NoError(t, err)
+		return v
+	}
+	require.NotEqual(t, id(a), id(b))
+}
