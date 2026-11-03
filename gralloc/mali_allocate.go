@@ -13,12 +13,19 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// The version 30 descriptor encoding is defined by TinkerBoard2's Bifrost
+// BufferDescriptor.h at b7a3ba9a7d860ce3301c22c6cb71177a9a6c84c5:
+// https://github.com/TinkerBoard2-Android/hardware-rockchip-libgralloc-bifrost/blob/b7a3ba9a7d860ce3301c22c6cb71177a9a6c84c5/src/hidl_common/BufferDescriptor.h#L139-L167
+// This source documents the descriptor, not the native handle below.
 const (
 	maliDescriptorVersion = 30
 	maliHandleMagic       = 0x03141592
 	maliHandleIntCount    = 129
 	maliRGBAUsage         = uint64(gfx.BufferUsageCpuReadOften | gfx.BufferUsageGpuTexture | gfx.BufferUsageGpuRenderTarget | gfx.BufferUsageComposerOverlay)
 
+	// These word offsets are limited to the 129-word profile described in
+	// https://github.com/AndroidGoLab/binder/pull/3. That PR reports device
+	// testing but does not include a raw handle capture or matching header.
 	maliWidthIndex            = 2
 	maliHeightIndex           = 3
 	maliFormatIndex           = 4
