@@ -34,6 +34,7 @@ type ProducerStub struct {
 // slotBuffer holds per-slot buffer state backed by a gralloc buffer.
 type slotBuffer struct {
 	gralloc *gralloc.Buffer
+	id      uint64
 }
 
 // NewProducerStub creates a new IGraphicBufferProducer stub backed by

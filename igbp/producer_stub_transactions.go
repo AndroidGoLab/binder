@@ -22,8 +22,7 @@ func (g *ProducerStub) onRequestBuffer(
 
 	reply.WriteInt32(1) // nonNull=1
 
-	bufID := uint64(0xCAFE0000) | uint64(slot)
-	WriteGrallocGraphicBuffer(reply, buf.gralloc, bufID)
+	WriteGrallocGraphicBuffer(reply, buf.gralloc, buf.id)
 
 	reply.WriteInt32(int32(StatusOK))
 	return reply, nil
@@ -32,23 +31,29 @@ func (g *ProducerStub) onRequestBuffer(
 func (g *ProducerStub) onDequeueBuffer(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
-	_, _ = data.ReadUint32()  // w
-	_, _ = data.ReadUint32()  // h
-	_, _ = data.ReadInt32()   // format
-	_, _ = data.ReadUint64()  // usage
+	_, _ = data.ReadUint32() // w
+	_, _ = data.ReadUint32() // h
+	_, _ = data.ReadInt32()  // format
+	_, _ = data.ReadUint64() // usage
 	getTimestamps, _ := data.ReadBool()
 
 	g.mu.Lock()
 	slot := g.nextSlot
-	g.nextSlot = (g.nextSlot + 1) % 4
 
 	needsRealloc := false
 	if g.slots[slot] == nil {
+		id, err := graphicBufferIDs.next()
+		if err != nil {
+			g.mu.Unlock()
+			return nil, err
+		}
 		needsRealloc = true
 		g.slots[slot] = &slotBuffer{
 			gralloc: g.grallocBufs[slot],
+			id:      id,
 		}
 	}
+	g.nextSlot = (g.nextSlot + 1) % 4
 	g.mu.Unlock()
 
 	reply := parcel.New()

@@ -2,10 +2,42 @@ package igbp
 
 import (
 	"encoding/binary"
+	"errors"
+	"os"
+	"sync/atomic"
 
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/parcel"
 )
+
+// graphicBufferIDGenerator allocates IDs without reusing an exhausted counter.
+//
+// Example: each flattened wrapper receives its own ID.
+type graphicBufferIDGenerator struct{ counter atomic.Uint32 }
+
+// graphicBufferIDs owns the process-wide synthetic ID sequence.
+//
+// Example: separate producers allocate from the same sequence.
+var graphicBufferIDs graphicBufferIDGenerator
+
+// next returns a process-unique synthetic ID or an exhaustion error.
+//
+// Example: a producer calls next once for each slot wrapper.
+func (g *graphicBufferIDGenerator) next() (uint64, error) {
+	pid := os.Getpid()
+	if pid <= 0 || uint64(pid) > 0x7fffffff {
+		return 0, errors.New("invalid process ID for GraphicBuffer ID")
+	}
+	for {
+		current := g.counter.Load()
+		if current == ^uint32(0) {
+			return 0, errors.New("GraphicBuffer ID space exhausted")
+		}
+		if g.counter.CompareAndSwap(current, current+1) {
+			return uint64(1)<<63 | uint64(pid)<<32 | uint64(current+1), nil
+		}
+	}
+}
 
 // WriteGrallocGraphicBuffer writes a flattened GraphicBuffer backed by a
 // gralloc NativeHandle. The wire format follows GraphicBuffer::flatten():

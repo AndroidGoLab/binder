@@ -46,6 +46,7 @@ const (
 // Example: requested prevents unnecessary native buffer reallocation.
 type frameSlot struct {
 	buffer    *gralloc.Buffer
+	id        uint64
 	reader    *gralloc.RGBAReader
 	state     frameSlotState
 	requested bool
@@ -98,7 +99,12 @@ func NewFrameProducer(api int, buffers []*gralloc.Buffer) (*FrameProducer, error
 		if i > 0 && (b.Width != buffers[0].Width || b.Height != buffers[0].Height || b.Format != buffers[0].Format) {
 			return nil, errors.New("buffer dimensions or formats differ")
 		}
+		id, err := graphicBufferIDs.next()
+		if err != nil {
+			return nil, fmt.Errorf("allocating buffer ID: %w", err)
+		}
 		slots[i].buffer = b
+		slots[i].id = id
 	}
 	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{}), changed: make(chan struct{}, 1), closing: make(chan struct{}, 1)}, nil
 }
@@ -450,7 +456,7 @@ func (p *FrameProducer) request(data *parcel.Parcel) (*parcel.Parcel, error) {
 	p.slots[slot].requested = true
 	r := parcel.New()
 	r.WriteInt32(1)
-	WriteGrallocGraphicBuffer(r, p.slots[slot].buffer, uint64(slot)+1)
+	WriteGrallocGraphicBuffer(r, p.slots[slot].buffer, p.slots[slot].id)
 	r.WriteInt32(0)
 	return r, nil
 }
