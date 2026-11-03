@@ -29,18 +29,21 @@ func TestWriteFlattenedGraphicBufferPreservesMetadata(t *testing.T) {
 	require.Equal(t, raw, got)
 }
 
+type failingCPUAccess struct{ calls int }
+
+func (f *failingCPUAccess) FinishCPUAccess() error {
+	f.calls++
+	if f.calls == 1 {
+		return errors.New("unlock failed")
+	}
+	return nil
+}
+
 func TestReleaseRetainsSlotWhenFinishCPUAccessFails(t *testing.T) {
 	p, err := NewFrameProducer(34, []*gralloc.Buffer{{Width: 1, Height: 1, Stride: 1, Format: 1}})
 	require.NoError(t, err)
 	p.slots[0].state = frameSlotQueued
-	calls := 0
-	p.slots[0].finishCPUAccess = func() error {
-		calls++
-		if calls == 1 {
-			return errors.New("unlock failed")
-		}
-		return nil
-	}
+	p.slots[0].cpuAccess = &failingCPUAccess{}
 	frame := &Frame{producer: p, slot: 0, fence: -1}
 	require.ErrorContains(t, frame.Release(context.Background()), "unlock failed")
 	request := func() *parcel.Parcel {
