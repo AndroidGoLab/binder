@@ -1,0 +1,29 @@
+package gralloc
+
+import (
+	"context"
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
+
+func TestAllocateRGBARejectsInvalidAndroid10Input(t *testing.T) {
+	for _, tc := range []struct {
+		width, height int32
+		count         int
+		message       string
+	}{
+		{0, 1, 1, "dimensions"},
+		{1, -1, 1, "dimensions"},
+		{1, 1, 0, "count"},
+		{1, 1, 65, "count"},
+	} {
+		_, err := AllocateRGBA(context.Background(), nil, 29, tc.width, tc.height, tc.count)
+		require.ErrorContains(t, err, tc.message)
+	}
+}
+
+func TestAllocateRGBAPreservesPixelValidation(t *testing.T) {
+	_, err := AllocateRGBA(context.Background(), nil, 34, 0, 1, 1)
+	require.ErrorContains(t, err, "invalid service manager or buffer count")
+}
