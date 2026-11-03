@@ -11,7 +11,6 @@ import (
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
 	"github.com/AndroidGoLab/binder/hwservicemanager"
-	"github.com/AndroidGoLab/binder/kernelbinder"
 	"golang.org/x/sys/unix"
 )
 
@@ -51,7 +50,7 @@ func maliDescriptor(width, height int32) ([]uint32, error) {
 	}, nil
 }
 
-func allocateMaliRGBA(ctx context.Context, width, height int32, count int) (_ []*Buffer, resultErr error) {
+func allocateMaliRGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (_ []*Buffer, resultErr error) {
 	if count < 1 || count > 64 {
 		return nil, errors.New("invalid Mali buffer count")
 	}
@@ -59,13 +58,8 @@ func allocateMaliRGBA(ctx context.Context, width, height int32, count int) (_ []
 	if err != nil {
 		return nil, err
 	}
-	driver, err := kernelbinder.Open(ctx, binder.WithDevicePath("/dev/hwbinder"), binder.WithMapSize(256*1024))
-	if err != nil {
-		return nil, fmt.Errorf("open hwbinder: %w", err)
-	}
 	var buffers []*Buffer
 	defer func() {
-		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
 		}

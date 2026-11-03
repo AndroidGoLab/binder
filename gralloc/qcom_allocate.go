@@ -163,11 +163,17 @@ func readQcomAllocation(p *parcel.Parcel) (_ int32, _ common.NativeHandle, resul
 func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api int, width, height int32, count int) ([]*Buffer, error) {
 	switch api {
 	case 29:
-		buffers, err := allocateQcomRGBA(ctx, width, height, count)
-		if !errors.Is(err, errQcomAllocatorUnavailable) {
-			return buffers, err
+		if count < 1 || count > 64 {
+			return nil, errors.New("invalid Qualcomm buffer count")
 		}
-		return allocateMaliRGBA(ctx, width, height, count)
+		if _, err := qcomDescriptor(width, height); err != nil {
+			return nil, err
+		}
+		driver, err := kernelbinder.Open(ctx, binder.WithDevicePath("/dev/hwbinder"), binder.WithMapSize(256*1024))
+		if err != nil {
+			return nil, fmt.Errorf("open hwbinder: %w", err)
+		}
+		return allocateAndroid10RGBA(ctx, driver, width, height, count)
 	case 34:
 		return AllocatePixelRGBA(ctx, sm, api, width, height, count)
 	default:
@@ -175,10 +181,28 @@ func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api in
 	}
 }
 
+// allocateAndroid10RGBA probes Android 10 allocators and owns the connection.
+//
+// Example: an absent Qualcomm allocator triggers the Mali probe.
+func allocateAndroid10RGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (buffers []*Buffer, resultErr error) {
+	defer func() {
+		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
+		if resultErr != nil {
+			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
+			buffers = nil
+		}
+	}()
+	buffers, resultErr = allocateQcomRGBA(ctx, driver, width, height, count)
+	if errors.Is(resultErr, errQcomAllocatorUnavailable) {
+		buffers, resultErr = allocateMaliRGBA(ctx, driver, width, height, count)
+	}
+	return buffers, resultErr
+}
+
 // allocateQcomRGBA uses Android 10's HIDL allocator@2 and validates each handle.
 //
 // Example: allocate one buffer per transaction to simplify HIDL FD ownership.
-func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []*Buffer, resultErr error) {
+func allocateQcomRGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (_ []*Buffer, resultErr error) {
 	if count < 1 || count > 64 {
 		return nil, errors.New("invalid Qualcomm buffer count")
 	}
@@ -186,16 +210,11 @@ func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []
 	if err != nil {
 		return nil, err
 	}
-	driver, err := kernelbinder.Open(ctx, binder.WithDevicePath("/dev/hwbinder"), binder.WithMapSize(256*1024))
-	if err != nil {
-		return nil, fmt.Errorf("open hwbinder: %w", err)
-	}
 	var buffers []*Buffer
-	defer // Close partial buffers and the HIDL connection on error.
+	defer // Close partial buffers on error.
 	//
 	// Example: an unsupported second handle releases the first allocation.
 	func() {
-		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
 		}
