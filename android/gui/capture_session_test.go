@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/gralloc"
 	"github.com/AndroidGoLab/binder/igbp"
 	"github.com/AndroidGoLab/binder/parcel"
@@ -61,5 +62,65 @@ func TestCaptureSessionCloseWaitsForBorrowedFrame(t *testing.T) {
 	}
 	if _, err := s.Next(context.Background()); err == nil {
 		t.Fatal("closed session accepted Next")
+	}
+}
+
+type failingDisplayRemote struct {
+	binder.IBinder
+	destroyFails bool
+}
+
+func (r *failingDisplayRemote) Transact(_ context.Context, code binder.TransactionCode, _ binder.TransactionFlags, _ *parcel.Parcel) (*parcel.Parcel, error) {
+	switch code {
+	case 5:
+		p := parcel.New()
+		p.WriteStrongBinderLegacy(19)
+		return p, nil
+	case 8:
+		return nil, errors.New("configure failed")
+	case 6:
+		if r.destroyFails {
+			return nil, errors.New("destroy failed")
+		}
+		return parcel.New(), nil
+	}
+	return nil, errors.New("unexpected transaction")
+}
+func TestCaptureRetainsDisplayWhenDestroyFails(t *testing.T) {
+	remote := &failingDisplayRemote{destroyFails: true}
+	_, err := CreateVirtualDisplay(context.Background(), remote, nil, &virtualDisplayTransport{}, 29, binder.NewStubBinder(nil), 1, 1, 1, 1)
+	var pending *VirtualDisplayCleanupError
+	if !errors.As(err, &pending) {
+		t.Fatalf("missing retryable display: %v", err)
+	}
+	s := &CaptureSession{display: pending.Display}
+	remote.destroyFails = false
+	if err := s.Close(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCaptureConfigureFailureWithSuccessfulDestroyNeedsNoRetry(t *testing.T) {
+	remote := &failingDisplayRemote{}
+	_, err := CreateVirtualDisplay(context.Background(), remote, nil, &virtualDisplayTransport{}, 29, binder.NewStubBinder(nil), 1, 1, 1, 1)
+	var pending *VirtualDisplayCleanupError
+	if err == nil || errors.As(err, &pending) {
+		t.Fatalf("expected cleaned configure failure, got %v", err)
+	}
+}
+
+type failingCaptureDriver struct{}
+
+func (failingCaptureDriver) Close(context.Context) error { return errors.New("driver close failed") }
+func TestCaptureCloseContinuesAfterDriverError(t *testing.T) {
+	s := &CaptureSession{driver: failingCaptureDriver{}, stub: binder.NewStubBinder(nil)}
+	if err := s.Close(context.Background()); err == nil {
+		t.Fatal("expected driver error")
+	}
+	if s.driver != nil || s.stub != nil {
+		t.Fatal("terminal driver or stub was retained")
+	}
+	if err := s.Close(context.Background()); err != nil {
+		t.Fatal(err)
 	}
 }

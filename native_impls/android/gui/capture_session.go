@@ -24,17 +24,17 @@ type CaptureOptions struct {
 // CaptureSession owns a virtual display and its buffer producer. Release every
 // acquired frame before closing the session. Methods must not run concurrently.
 type CaptureSession struct {
-	driver        *kernelbinder.Driver
-	stub          *binder.StubBinder
-	producer      *igbp.FrameProducer
-	display       *VirtualDisplay
-	buffers       []*gralloc.Buffer
-	unsafeDisplay bool
-	closing       bool
+	driver   interface{ Close(context.Context) error }
+	stub     *binder.StubBinder
+	producer *igbp.FrameProducer
+	display  *VirtualDisplay
+	buffers  []*gralloc.Buffer
+	closing  bool
 }
 
-// OpenCapture starts a virtual display capture session.
-func OpenCapture(ctx context.Context, opts CaptureOptions) (_ *CaptureSession, resultErr error) {
+// OpenCapture starts a virtual display capture session. If it returns a non-nil
+// session with an error, call Close again to finish cleanup.
+func OpenCapture(ctx context.Context, opts CaptureOptions) (result *CaptureSession, resultErr error) {
 	if opts.SourceWidth <= 0 || opts.SourceHeight <= 0 || opts.Width <= 0 || opts.Height <= 0 {
 		return nil, errors.New("capture dimensions must be positive")
 	}
@@ -43,15 +43,20 @@ func OpenCapture(ctx context.Context, opts CaptureOptions) (_ *CaptureSession, r
 		if resultErr != nil {
 			cleanupCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
-			resultErr = errors.Join(resultErr, s.Close(cleanupCtx))
+			cleanupErr := s.Close(cleanupCtx)
+			resultErr = errors.Join(resultErr, cleanupErr)
+			if cleanupErr != nil {
+				result = s
+			}
 		}
 	}()
 	var err error
-	s.driver, err = kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
+	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
 	if err != nil {
 		return nil, fmt.Errorf("open binder: %w", err)
 	}
-	transport, err := versionaware.NewTransport(ctx, s.driver, 0, versionaware.OptionCachePath(""))
+	s.driver = driver
+	transport, err := versionaware.NewTransport(ctx, driver, 0, versionaware.OptionCachePath(""))
 	if err != nil {
 		return nil, fmt.Errorf("configure binder: %w", err)
 	}
@@ -112,7 +117,10 @@ func OpenCapture(ctx context.Context, opts CaptureOptions) (_ *CaptureSession, r
 	s.stub = binder.NewStubBinder(s.producer)
 	s.display, err = CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, s.stub, opts.SourceWidth, opts.SourceHeight, opts.Width, opts.Height, stack, VirtualDisplayOptions{Secure: api == binder.APILevelAndroid10})
 	if err != nil {
-		s.unsafeDisplay = true
+		var pending *VirtualDisplayCleanupError
+		if errors.As(err, &pending) {
+			s.display = pending.Display
+		}
 		return nil, err
 	}
 	return s, nil
@@ -150,26 +158,22 @@ func (s *CaptureSession) Close(ctx context.Context) error {
 		}
 		s.producer = nil
 	}
-	if s.unsafeDisplay {
-		return errors.New("capture display teardown could not be confirmed; buffers retained")
-	}
 	if s.buffers != nil {
 		if err := gralloc.CloseBuffers(s.buffers); err != nil {
 			return err
 		}
 		s.buffers = nil
 	}
+	var closeErr error
 	if s.driver != nil {
-		if err := s.driver.Close(ctx); err != nil {
-			return err
-		}
+		closeErr = s.driver.Close(ctx)
 		s.driver = nil
 	}
 	if s.stub != nil {
 		if err := s.stub.Release(ctx); err != nil {
-			return err
+			return errors.Join(closeErr, err)
 		}
 		s.stub = nil
 	}
-	return nil
+	return closeErr
 }

@@ -72,14 +72,16 @@ func frameDelay(start, now time.Time, rate float64) time.Duration {
 // Example: stream a scaled display to standard output.
 func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, width, height int32, displayID int, skip bool, rate float64) (resultErr error) {
 	session, err := gui.OpenCapture(ctx, gui.CaptureOptions{SourceWidth: sourceWidth, SourceHeight: sourceHeight, Width: width, Height: height, DisplayID: uint64(displayID)})
+	if session != nil {
+		defer func() {
+			cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
+			defer cancel()
+			resultErr = errors.Join(resultErr, session.Close(cleanupCtx))
+		}()
+	}
 	if err != nil {
 		return err
 	}
-	defer func() {
-		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
-		defer cancel()
-		resultErr = errors.Join(resultErr, session.Close(cleanupCtx))
-	}()
 	pixels := make([]byte, int(width)*int(height)*4)
 	for {
 		if server, ok := out.(*socketStream); ok {

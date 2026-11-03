@@ -30,6 +30,16 @@ func writeAndroid10DisplayGeometryOnStack(p *parcel.Parcel, sourceWidth, sourceH
 	}
 }
 
+// VirtualDisplayCleanupError reports a failed setup and failed display destruction.
+// Call Close on Display to retry destruction before releasing its producer.
+type VirtualDisplayCleanupError struct {
+	Display *VirtualDisplay
+	err     error
+}
+
+func (e *VirtualDisplayCleanupError) Error() string { return e.err.Error() }
+func (e *VirtualDisplayCleanupError) Unwrap() error { return e.err }
+
 // VirtualDisplay owns a SurfaceFlinger virtual display token.
 //
 // Example: close it after finishing capture to stop composition.
@@ -97,6 +107,7 @@ func CreateVirtualDisplayWithOptions(
 }
 
 // CreateVirtualDisplayOnLayerStackWithOptions projects a selected layer stack.
+// If cleanup fails, errors.As can retrieve a *VirtualDisplayCleanupError.
 //
 // Example: request secure composition for a selected display's layer stack.
 func CreateVirtualDisplayOnLayerStackWithOptions(
@@ -172,7 +183,11 @@ func CreateVirtualDisplayOnLayerStackWithOptions(
 	if err := d.configure(ctx, raw, transport, producer, sourceWidth, sourceHeight, width, height, stack); err != nil {
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		return nil, errors.Join(err, d.Close(cleanupCtx))
+		cleanupErr := d.Close(cleanupCtx)
+		if cleanupErr != nil {
+			return nil, &VirtualDisplayCleanupError{Display: d, err: errors.Join(err, cleanupErr)}
+		}
+		return nil, err
 	}
 	return d, nil
 }
