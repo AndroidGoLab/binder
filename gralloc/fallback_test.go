@@ -233,6 +233,9 @@ func TestAndroid10MissingServicesAndCloseFailure(t *testing.T) {
 	require.Equal(t, 1, s.closes)
 }
 
+// TestAndroid10SecondLookupFailureClosesConnection checks failed Mali discovery.
+//
+// Example: an unavailable allocator@2 followed by a failed allocator@3 lookup.
 func TestAndroid10SecondLookupFailureClosesConnection(t *testing.T) {
 	failure := errors.New("Mali lookup failure")
 	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(0)}, failure: failure}
@@ -243,6 +246,9 @@ func TestAndroid10SecondLookupFailureClosesConnection(t *testing.T) {
 	require.Equal(t, 1, s.closes)
 }
 
+// TestAndroid10AllocationErrorDoesNotProbeAnotherBackend checks HAL errors.
+//
+// Example: an allocator@2 error does not cause an allocator@3 lookup.
 func TestAndroid10AllocationErrorDoesNotProbeAnotherBackend(t *testing.T) {
 	raw := make([]byte, 12)
 	binary.LittleEndian.PutUint32(raw[4:], 1)

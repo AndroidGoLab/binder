@@ -41,7 +41,10 @@ const (
 	qcomIonFlag int32 = 8
 )
 
+// qcomAllocatorFQName identifies the allocator used by the Qualcomm profile.
 const qcomAllocatorFQName = "android.hardware.graphics.allocator@2.0::IAllocator"
+
+// maliAllocatorFQName identifies the allocator used by the Mali profile.
 const maliAllocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
 
 // qcomDescriptor serializes the Android 10 SDM845 gralloc2 buffer descriptor.
