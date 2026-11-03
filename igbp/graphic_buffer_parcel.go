@@ -49,14 +49,15 @@ func WriteGrallocGraphicBuffer(
 	buf *gralloc.Buffer,
 	bufID uint64,
 ) {
+	if raw, ok := buf.FlattenedGraphicBuffer(); ok {
+		writeFlattenedGraphicBuffer(p, raw, buf.Handle.Fds)
+		return
+	}
 	numFds := int32(len(buf.Handle.Fds))
 	numInts := int32(len(buf.Handle.Ints))
 
 	// Flattened size: 13 int32s (header) + numInts int32s.
 	flattenedSize := (13 + numInts) * 4
-
-	p.WriteInt32(flattenedSize)
-	p.WriteInt32(numFds)
 
 	raw := make([]byte, flattenedSize)
 	binary.LittleEndian.PutUint32(raw[0:], uint32(GraphicBufferMagicGB01))
@@ -78,10 +79,17 @@ func WriteGrallocGraphicBuffer(
 		binary.LittleEndian.PutUint32(raw[52+i*4:], uint32(v))
 	}
 
+	writeFlattenedGraphicBuffer(p, raw, buf.Handle.Fds)
+}
+
+// writeFlattenedGraphicBuffer preserves the flattened bytes and descriptor order.
+func writeFlattenedGraphicBuffer(p *parcel.Parcel, raw []byte, fds []int32) {
+	p.WriteInt32(int32(len(raw)))
+	p.WriteInt32(int32(len(fds)))
 	p.WriteRawBytes(raw)
 
 	// Write each FD as a flat_binder_object.
-	for _, fd := range buf.Handle.Fds {
+	for _, fd := range fds {
 		p.WriteFileDescriptor(fd)
 	}
 }

@@ -45,12 +45,13 @@ const (
 //
 // Example: requested prevents unnecessary native buffer reallocation.
 type frameSlot struct {
-	buffer    *gralloc.Buffer
-	id        uint64
-	reader    *gralloc.RGBAReader
-	state     frameSlotState
-	requested bool
-	fence     int32
+	buffer          *gralloc.Buffer
+	id              uint64
+	reader          *gralloc.RGBAReader
+	finishCPUAccess func() error
+	state           frameSlotState
+	requested       bool
+	fence           int32
 }
 
 // FrameProducer implements the native producer side of a display frame queue.
@@ -104,6 +105,7 @@ func NewFrameProducer(api int, buffers []*gralloc.Buffer) (*FrameProducer, error
 			return nil, fmt.Errorf("allocating buffer ID: %w", err)
 		}
 		slots[i].buffer = b
+		slots[i].finishCPUAccess = b.FinishCPUAccess
 		slots[i].id = id
 	}
 	return &FrameProducer{api: api, id: uint64(binder.NewLocalBinderIdentity()), slots: slots, frames: make(chan *Frame, len(buffers)), closed: make(chan struct{}), changed: make(chan struct{}, 1), closing: make(chan struct{}, 1)}, nil
@@ -198,6 +200,9 @@ func (f *Frame) Release(ctx context.Context) error {
 	}
 	if err := f.waitFence(ctx); err != nil {
 		return fmt.Errorf("wait frame fence: %w", err)
+	}
+	if err := f.producer.slots[f.slot].finishCPUAccess(); err != nil {
+		return fmt.Errorf("finish frame CPU access: %w", err)
 	}
 	f.producer.mu.Lock()
 	defer f.producer.mu.Unlock()
