@@ -24,6 +24,8 @@ github.com/go-ng/xatomic v0.0.0-20230519181013-85c0ec87e55f h1:lifmuIc/S/hzVoStb
 github.com/go-ng/xatomic v0.0.0-20230519181013-85c0ec87e55f/go.mod h1:+3P6aQ4zDVR6jGPnXq3g/7kHnKLB73EsnGBhM0adWhA=
 github.com/go-ng/xsort v0.0.0-20220617174223-1d146907bccc h1:VNz633GRJx2/hL0SpBNoNlLid4xtyi7LSJP1kHpD2Fo=
 github.com/go-ng/xsort v0.0.0-20220617174223-1d146907bccc/go.mod h1:Pz/V4pxeXP0hjBlXIrm2ehR0GJ0l4Bon3fsOl6TmoJs=
+github.com/go-webgpu/goffi v0.6.8 h1:FjNYbHf+zvJXxbRM/PaTqwuhlgzypBNgA12Vo1updQk=
+github.com/go-webgpu/goffi v0.6.8/go.mod h1:wfoxNsJkU+5RFbV1kNN1kunhc1lFHuJKK3zpgx08/uM=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=

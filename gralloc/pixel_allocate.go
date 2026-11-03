@@ -190,14 +190,9 @@ func CloseBuffers(buffers []*Buffer) error {
 		if b == nil {
 			continue
 		}
-		for _, fd := range b.Handle.Fds {
-			if fd >= 0 {
-				if err := unix.Close(int(fd)); err != nil {
-					errs = append(errs, fmt.Errorf("close buffer descriptor: %w", err))
-				}
-			}
+		if err := b.Close(); err != nil {
+			errs = append(errs, err)
 		}
-		b.Handle.Fds = nil
 	}
 	return errors.Join(errs...)
 }

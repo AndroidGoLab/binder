@@ -173,6 +173,16 @@ func handleUint64(
 //
 // Example: copy pixels after waiting for the screen capture fence.
 func CopyRGBA(b *Buffer) (pixels []byte, resultErr error) {
+	if b != nil && b.native != nil {
+		if b.Width == 0 || b.Height == 0 || uint64(b.Width)*uint64(b.Height) > uint64(math.MaxInt)/4 {
+			return nil, errors.New("invalid dimensions")
+		}
+		pixels = make([]byte, int(uint64(b.Width)*uint64(b.Height)*4))
+		if err := b.native.copyInto(pixels); err != nil {
+			return nil, err
+		}
+		return pixels, nil
+	}
 	if _, err := captureRGBALayout(b); err != nil {
 		return nil, err
 	}
@@ -202,6 +212,9 @@ func captureRGBALayout(b *Buffer) (rgbaLayout, error) {
 //
 // Example: reuse one destination across a sequence of captured frames.
 func CopyRGBAInto(b *Buffer, pixels []byte) (resultErr error) {
+	if b != nil && b.native != nil {
+		return b.native.copyInto(pixels)
+	}
 	l, err := captureRGBALayout(b)
 	if err != nil {
 		return err
@@ -272,6 +285,7 @@ func validateRGBASize(width, height uint32, pixels []byte) error {
 //
 // Example: retain one reader for the lifetime of a reusable graphics slot.
 type RGBAReader struct {
+	native  nativeBuffer
 	layout  rgbaLayout
 	data    []byte
 	width   uint32
@@ -286,6 +300,9 @@ type RGBAReader struct {
 //
 // Example: map a capture allocation once before reading successive frames.
 func NewRGBAReader(b *Buffer) (*RGBAReader, error) {
+	if b != nil && b.native != nil {
+		return &RGBAReader{native: b.native}, nil
+	}
 	qcom := b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic
 	return newRGBAReader(b, !qcom, qcom)
 }
@@ -346,6 +363,9 @@ func newRGBAReader(b *Buffer, syncDMA, useION bool) (_ *RGBAReader, resultErr er
 //
 // Example: copy a leased frame into a reusable packed destination.
 func (r *RGBAReader) CopyInto(pixels []byte) (resultErr error) {
+	if r.native != nil {
+		return r.native.copyInto(pixels)
+	}
 	if r.data == nil {
 		return errors.New("RGBA reader closed")
 	}
@@ -383,6 +403,7 @@ func copyRGBARows(pixels, data []byte, layout rgbaLayout, width, height uint32) 
 //
 // Example: unmap a slot after its last frame lease is released.
 func (r *RGBAReader) Close() error {
+	r.native = nil
 	var errs []error
 	if r.data != nil {
 		if err := unix.Munmap(r.data); err != nil {

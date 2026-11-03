@@ -17,6 +17,7 @@ import (
 
 // Buffer holds a gralloc-allocated buffer with its NativeHandle.
 type Buffer struct {
+	native nativeBuffer
 	Handle common.NativeHandle
 	Stride int32
 	Width  uint32

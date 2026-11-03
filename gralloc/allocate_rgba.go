@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"runtime"
 
 	"github.com/AndroidGoLab/binder/android/hardware/common"
 	gfx "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
@@ -113,6 +114,9 @@ func AllocateRGBA(
 	height int32,
 	count int,
 ) ([]*Buffer, error) {
+	if runtime.GOOS == "android" && runtime.GOARCH == "arm64" {
+		return allocateNativeRGBA(width, height, count)
+	}
 	switch api {
 	case 34:
 		return AllocatePixelRGBA(ctx, sm, api, width, height, count)
