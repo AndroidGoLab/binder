@@ -16,63 +16,92 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// ahbDesc mirrors the Android AHardwareBuffer_Desc ABI.
+//
+// Example: describe an allocated RGBA buffer.
 type ahbDesc struct {
 	Width, Height, Layers, Format uint32
 	Usage                         uint64
 	Stride, Reserved              uint32
 	Reserved2                     uint64
 }
+
+// ahbFunction retains a prepared native function call.
+//
+// Example: invoke the native lock function.
 type ahbFunction struct {
 	symbol unsafe.Pointer
 	cif    types.CallInterface
 }
+
+// ahbLibrary holds native buffer entry points.
+//
+// Example: share one loaded library across allocations.
 type ahbLibrary struct{ allocate, describe, release, lock, unlock, send ahbFunction }
 
+// ahbOnce serializes process-wide library loading.
 var ahbOnce sync.Once
+
+// ahbLib holds the process-wide native entry points.
 var ahbLib *ahbLibrary
+
+// ahbErr records the first library loading failure.
 var ahbErr error
 
+// loadAHB loads and prepares the Android hardware buffer functions once.
+//
+// Example: reuse the prepared functions for multiple allocations.
 func loadAHB() (*ahbLibrary, error) {
-	ahbOnce.Do(func() {
-		lib, err := ffi.LoadLibrary("libnativewindow.so")
-		if err != nil {
-			ahbErr = err
-			return
-		}
-		l := new(ahbLibrary)
-		p, i, u := types.PointerTypeDescriptor, types.SInt32TypeDescriptor, types.UInt64TypeDescriptor
-		defs := []struct {
-			dst    *ahbFunction
-			name   string
-			result *types.TypeDescriptor
-			args   []*types.TypeDescriptor
-		}{
-			{&l.allocate, "AHardwareBuffer_allocate", i, []*types.TypeDescriptor{p, p}},
-			{&l.describe, "AHardwareBuffer_describe", types.VoidTypeDescriptor, []*types.TypeDescriptor{p, p}},
-			{&l.release, "AHardwareBuffer_release", types.VoidTypeDescriptor, []*types.TypeDescriptor{p}},
-			{&l.lock, "AHardwareBuffer_lock", i, []*types.TypeDescriptor{p, u, i, p, p}},
-			{&l.unlock, "AHardwareBuffer_unlock", i, []*types.TypeDescriptor{p, p}},
-			{&l.send, "AHardwareBuffer_sendHandleToUnixSocket", i, []*types.TypeDescriptor{p, i}},
-		}
-		for _, d := range defs {
-			d.dst.symbol, err = ffi.GetSymbol(lib, d.name)
-			if err == nil {
-				err = ffi.PrepareCallInterface(&d.dst.cif, types.DefaultCall, d.result, d.args)
-			}
+	ahbOnce.Do( // Initialize native symbols exactly once.
+		//
+		// Example: subsequent callers reuse the same entry points.
+		func() {
+			lib, err := ffi.LoadLibrary("libnativewindow.so")
 			if err != nil {
-				ahbErr = fmt.Errorf("%s: %w", d.name, err)
+				ahbErr = err
 				return
 			}
-		}
-		ahbLib = l
-	})
+			l := new(ahbLibrary)
+			p, i, u := types.PointerTypeDescriptor, types.SInt32TypeDescriptor, types.UInt64TypeDescriptor
+			defs := []struct {
+				dst    *ahbFunction
+				name   string
+				result *types.TypeDescriptor
+				args   []*types.TypeDescriptor
+			}{
+				{&l.allocate, "AHardwareBuffer_allocate", i, []*types.TypeDescriptor{p, p}},
+				{&l.describe, "AHardwareBuffer_describe", types.VoidTypeDescriptor, []*types.TypeDescriptor{p, p}},
+				{&l.release, "AHardwareBuffer_release", types.VoidTypeDescriptor, []*types.TypeDescriptor{p}},
+				{&l.lock, "AHardwareBuffer_lock", i, []*types.TypeDescriptor{p, u, i, p, p}},
+				{&l.unlock, "AHardwareBuffer_unlock", i, []*types.TypeDescriptor{p, p}},
+				{&l.send, "AHardwareBuffer_sendHandleToUnixSocket", i, []*types.TypeDescriptor{p, i}},
+			}
+			for _, d := range defs {
+				d.dst.symbol, err = ffi.GetSymbol(lib, d.name)
+				if err == nil {
+					err = ffi.PrepareCallInterface(&d.dst.cif, types.DefaultCall, d.result, d.args)
+				}
+				if err != nil {
+					ahbErr = fmt.Errorf("%s: %w", d.name, err)
+					return
+				}
+			}
+			ahbLib = l
+		})
 	return ahbLib, ahbErr
 }
+
+// call invokes a prepared function and returns FFI errors.
+//
+// Example: interpret an Android status separately from FFI errors.
 func (f *ahbFunction) call(result unsafe.Pointer, args ...unsafe.Pointer) error {
 	_, err := ffi.CallFunction(&f.cif, f.symbol, result, args)
 	return err
 }
 
+// ahbOwner owns an allocation, transported descriptors, and CPU lock state.
+//
+// Example: retain an allocation until every frame lease ends.
 type ahbOwner struct {
 	mu     sync.Mutex
 	lib    *ahbLibrary
@@ -83,7 +112,14 @@ type ahbOwner struct {
 	locked bool
 }
 
+// flattened copies the original serialized GraphicBuffer metadata.
+//
+// Example: preserve the native identity during Binder transport.
 func (o *ahbOwner) flattened() []byte { return append([]byte(nil), o.raw...) }
+
+// unlock finishes CPU access while the owner mutex is held.
+//
+// Example: keep the allocation quarantined if unlocking fails.
 func (o *ahbOwner) unlock() error {
 	var status int32
 	var null unsafe.Pointer
@@ -96,6 +132,10 @@ func (o *ahbOwner) unlock() error {
 	o.locked = false
 	return nil
 }
+
+// finish retries outstanding CPU unlock before buffer reuse.
+//
+// Example: refuse to release a frame when unlock still fails.
 func (o *ahbOwner) finish() error {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -104,6 +144,10 @@ func (o *ahbOwner) finish() error {
 	}
 	return nil
 }
+
+// close releases native and descriptor resources once CPU access ends.
+//
+// Example: preserve a locked buffer for a later cleanup attempt.
 func (o *ahbOwner) close() error {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -128,6 +172,10 @@ func (o *ahbOwner) close() error {
 	o.fds = nil
 	return errors.Join(errs...)
 }
+
+// copyInto locks, copies packed RGBA rows, and unlocks the allocation.
+//
+// Example: remove padding between native buffer rows.
 func (o *ahbOwner) copyInto(dst []byte) (result error) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -155,7 +203,10 @@ func (o *ahbOwner) copyInto(dst []byte) (result error) {
 		return fmt.Errorf("AHardwareBuffer_lock: %d", status)
 	}
 	o.locked = true
-	defer func() { result = errors.Join(result, o.unlock()) }()
+	defer // Preserve an unlock error even when copying also fails.
+	//
+	// Example: quarantine the allocation after a failed unlock.
+	func() { result = errors.Join(result, o.unlock()) }()
 	if pixels == nil {
 		return errors.New("AHardwareBuffer_lock returned nil pixels")
 	}
@@ -168,6 +219,10 @@ func (o *ahbOwner) copyInto(dst []byte) (result error) {
 	runtime.KeepAlive(o)
 	return nil
 }
+
+// allocateNativeRGBA allocates CPU-readable display buffers through Android.
+//
+// Example: return a batch whose native handles survive Binder transport.
 func allocateNativeRGBA(width, height int32, count int) (_ []*Buffer, result error) {
 	if width <= 0 || height <= 0 || count < 1 || count > 64 {
 		return nil, errors.New("invalid buffer allocation dimensions or count")
@@ -177,7 +232,10 @@ func allocateNativeRGBA(width, height int32, count int) (_ []*Buffer, result err
 		return nil, err
 	}
 	var buffers []*Buffer
-	defer func() {
+	defer // Release the whole partial batch on allocation failure.
+	//
+	// Example: close earlier buffers if a later allocation fails.
+	func() {
 		if result != nil {
 			result = errors.Join(result, CloseBuffers(buffers))
 		}

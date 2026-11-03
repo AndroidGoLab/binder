@@ -5,11 +5,17 @@ import (
 	"errors"
 )
 
+// ahbMetadata describes the expected native buffer geometry and usage.
+//
+// Example: validate socket metadata against AHardwareBuffer_describe.
 type ahbMetadata struct {
 	width, height, layers, format, stride uint32
 	usage                                 uint64
 }
 
+// validateAHBMetadata checks the flattened header and extracts opaque integers.
+//
+// Example: reject a transport whose descriptor count disagrees with the header.
 func validateAHBMetadata(raw []byte, d ahbMetadata, fdCount int) ([]int32, error) {
 	if len(raw) < 52 {
 		return nil, errors.New("short AHardwareBuffer metadata")

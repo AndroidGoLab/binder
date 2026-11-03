@@ -6,12 +6,16 @@ import (
 	"testing"
 )
 
+// testNativeBuffer simulates failed unlock for shared-owner tests.
+//
+// Example: keep a buffer locked until a later retry succeeds.
 type testNativeBuffer struct {
 	locked      bool
 	unlockFails bool
 	closed      bool
 }
 
+// copyInto simulates a CPU read followed by unlock.
 func (n *testNativeBuffer) copyInto([]byte) error {
 	n.locked = true
 	if n.unlockFails {
@@ -20,6 +24,8 @@ func (n *testNativeBuffer) copyInto([]byte) error {
 	n.locked = false
 	return nil
 }
+
+// finish simulates retrying an outstanding unlock.
 func (n *testNativeBuffer) finish() error {
 	if n.locked && n.unlockFails {
 		return errors.New("unlock failed")
@@ -27,6 +33,8 @@ func (n *testNativeBuffer) finish() error {
 	n.locked = false
 	return nil
 }
+
+// close refuses to release a buffer whose unlock still fails.
 func (n *testNativeBuffer) close() error {
 	if err := n.finish(); err != nil {
 		return err
@@ -34,7 +42,11 @@ func (n *testNativeBuffer) close() error {
 	n.closed = true
 	return nil
 }
+
+// flattened supplies empty test metadata.
 func (n *testNativeBuffer) flattened() []byte { return nil }
+
+// TestNativeBufferOwnership verifies failed unlock blocks release across copies.
 func TestNativeBufferOwnership(t *testing.T) {
 	native := &testNativeBuffer{unlockFails: true}
 	b := &Buffer{native: native}
@@ -57,6 +69,7 @@ func TestNativeBufferOwnership(t *testing.T) {
 	}
 }
 
+// TestFlattenedMetadataValidation checks native metadata counts and payload.
 func TestFlattenedMetadataValidation(t *testing.T) {
 	d := ahbMetadata{width: 16, height: 8, layers: 1, format: 1, usage: 0xb03, stride: 32}
 	raw := make([]byte, 56)
