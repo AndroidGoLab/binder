@@ -279,3 +279,15 @@ func TestAndroid10AllocationErrorDoesNotProbeAnotherBackend(t *testing.T) {
 	require.Equal(t, []binder.TransactionCode{1, 2}, s.codes)
 	require.Equal(t, 1, s.closes)
 }
+
+func TestAndroid10QualcommRejectsWrongShapeAndClosesDescriptors(t *testing.T) {
+	reply, fds := maliReply(t, true)
+	s := &allocatorScript{replies: []*parcel.Parcel{reply}}
+	buffers, err := allocateAndroid10Buffers(context.Background(), s, 9, 1, 1, 1, android10Qcom)
+	require.ErrorContains(t, err, "unsupported Qualcomm handle shape")
+	require.Nil(t, buffers)
+	for _, fd := range fds {
+		_, err := unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
+		require.ErrorIs(t, err, unix.EBADF)
+	}
+}

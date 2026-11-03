@@ -249,3 +249,32 @@ func TestParseAllocateResponseRejectsInvalidHandleExtent(t *testing.T) {
 		})
 	}
 }
+
+func TestAllocateClosesTransferredDescriptorsWhenRecycleFails(t *testing.T) {
+	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
+	require.NoError(t, err)
+	defer unix.Close(fds[1])
+	closed, err := unix.Dup(fds[1])
+	require.NoError(t, err)
+	require.NoError(t, unix.Close(closed))
+	const handleOffset = 208
+	data := make([]byte, handleOffset+20)
+	for _, pos := range []int{12, 52, 100} {
+		binary.LittleEndian.PutUint32(data[pos:], binderTypePTR)
+	}
+	binary.LittleEndian.PutUint64(data[108:], handleOffset)
+	binary.LittleEndian.PutUint64(data[116:], 16)
+	binary.LittleEndian.PutUint32(data[handleOffset:], 12)
+	binary.LittleEndian.PutUint32(data[handleOffset+4:], 1)
+	binary.LittleEndian.PutUint32(data[handleOffset+12:], uint32(fds[0]))
+	binary.LittleEndian.PutUint32(data[handleOffset+16:], uint32(closed))
+	setTestTopology(data, 16, 1)
+	reply := parcel.FromReceivedBytes(data, []uint64{12, 52, 100, 140}, handleOffset+12, handleOffset+16)
+	result, err := AllocateDescriptorForInterface(context.Background(), allocationTransport{reply: reply}, 1, allocatorFQName, []uint32{1}, 1)
+	require.ErrorContains(t, err, "recycle response")
+	require.Nil(t, result)
+	_, err = unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
+	require.ErrorIs(t, err, unix.EBADF)
+	_, err = unix.FcntlInt(uintptr(fds[1]), unix.F_GETFD, 0)
+	require.NoError(t, err)
+}

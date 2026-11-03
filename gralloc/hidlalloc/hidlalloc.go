@@ -19,6 +19,7 @@ package hidlalloc
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"os"
 
@@ -188,6 +189,19 @@ func AllocateDescriptor(
 	descriptor []uint32,
 	count uint32,
 ) (_ *AllocateResult, _err error) {
+	return AllocateDescriptorForInterface(ctx, transport, allocatorHandle, allocatorFQName, descriptor, count)
+}
+
+// AllocateDescriptorForInterface allocates using the specified HIDL interface token.
+// On success, ownership of the returned descriptors transfers to the caller.
+func AllocateDescriptorForInterface(
+	ctx context.Context,
+	transport binder.Transport,
+	allocatorHandle uint32,
+	interfaceName string,
+	descriptor []uint32,
+	count uint32,
+) (_ *AllocateResult, _err error) {
 	if len(descriptor) == 0 {
 		return nil, fmt.Errorf("hidlalloc: empty buffer descriptor")
 	}
@@ -199,7 +213,7 @@ func AllocateDescriptor(
 	}
 
 	hp := hwparcel.New()
-	hp.WriteInterfaceToken(allocatorFQName)
+	hp.WriteInterfaceToken(interfaceName)
 	hp.WriteHidlVecUint32(append([]uint32(nil), descriptor...))
 	hp.WriteUint32(count)
 
@@ -207,11 +221,16 @@ func AllocateDescriptor(
 	if err != nil {
 		return nil, fmt.Errorf("hidlalloc: allocate transaction: %w", err)
 	}
-	defer reply.Recycle()
-
 	result, err := ParseAllocateResponse(reply)
+	recycleErr := reply.Recycle()
 	if err != nil {
-		return nil, fmt.Errorf("hidlalloc: parsing response: %w", err)
+		return nil, errors.Join(fmt.Errorf("hidlalloc: parsing response: %w", err), recycleErr)
+	}
+	if recycleErr != nil {
+		for _, fd := range result.Fds {
+			recycleErr = errors.Join(recycleErr, os.NewFile(uintptr(fd), "hidl descriptor").Close())
+		}
+		return nil, fmt.Errorf("hidlalloc: recycle response: %w", recycleErr)
 	}
 
 	return result, nil

@@ -1,15 +1,8 @@
 package gralloc
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"github.com/AndroidGoLab/binder/android/hardware/common"
-	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
-	"github.com/AndroidGoLab/binder/hwparcel"
-	"github.com/AndroidGoLab/binder/hwservicemanager"
-	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 	"math"
 
@@ -89,77 +82,6 @@ func qcomRGBALayout(b *Buffer) (rgbaLayout, error) {
 	}
 	out = rgbaLayout{fd: int(b.Handle.Fds[0]), stride: int(stride), length: int(extent)}
 	return out, nil
-}
-
-// readQcomAllocation decodes one HIDL allocator@2 reply and transfers its FDs.
-//
-// Example: reject HAL errors before accepting a native handle.
-func readQcomAllocation(p *parcel.Parcel) (_ int32, _ common.NativeHandle, resultErr error) {
-	var handle common.NativeHandle
-	result, err := hidlalloc.ParseAllocateResponse(p)
-	if err != nil {
-		return 0, handle, err
-	}
-	if result.Error != 0 {
-		return 0, handle, fmt.Errorf("HIDL allocator error=%d", result.Error)
-	}
-	handle = common.NativeHandle{Fds: result.Fds, Ints: result.Ints}
-	if len(handle.Fds) != 2 || len(handle.Ints) != 22 {
-		err = errors.New("unsupported Qualcomm handle shape")
-		for _, fd := range handle.Fds {
-			err = errors.Join(err, unix.Close(int(fd)))
-		}
-		return 0, common.NativeHandle{}, err
-	}
-	return result.Stride, handle, nil
-}
-
-// allocateQcomRGBA uses Android 10's HIDL allocator@2 and validates each handle.
-//
-// Example: allocate one buffer per transaction to simplify HIDL FD ownership.
-func allocateQcomRGBA(ctx context.Context, driver binder.Transport, handle uint32, width, height int32, count int) (_ []*Buffer, resultErr error) {
-	if count < 1 || count > 64 {
-		return nil, errors.New("invalid Qualcomm buffer count")
-	}
-	desc, err := qcomDescriptor(width, height)
-	if err != nil {
-		return nil, err
-	}
-	var buffers []*Buffer
-	defer // Close partial buffers on error.
-	//
-	// Example: an unsupported second handle releases the first allocation.
-	func() {
-		if resultErr != nil {
-			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
-		}
-	}()
-	for range count {
-		req := hwparcel.New()
-		req.WriteInterfaceToken(qcomAllocatorFQName)
-		req.WriteHidlVecUint32(desc)
-		req.WriteUint32(1)
-		reply, err := hwservicemanager.TransactHidl(ctx, driver, handle, 2, req)
-		if err != nil {
-			return nil, fmt.Errorf("allocate Qualcomm buffer: %w", err)
-		}
-		stride, h, parseErr := readQcomAllocation(reply)
-		readErr := errors.Join(parseErr, reply.Recycle())
-		if readErr != nil {
-			if parseErr == nil {
-				for _, fd := range h.Fds {
-					readErr = errors.Join(readErr, unix.Close(int(fd)))
-				}
-			}
-			return nil, fmt.Errorf("decode Qualcomm buffer: %w", readErr)
-		}
-		b := &Buffer{Handle: h, Width: uint32(width), Height: uint32(height), Stride: stride, Format: int32(gfx.PixelFormatRgba8888), Usage: qcomRGBAUsage}
-		buffers = append(buffers, b)
-		if _, err = qcomRGBALayout(b); err != nil {
-			return nil, fmt.Errorf("unsupported Qualcomm allocation: %w", err)
-		}
-	}
-	return buffers, nil
 }
 
 // copyQcomRGBAInto maps an explicitly validated uncached SDM845 ION allocation.

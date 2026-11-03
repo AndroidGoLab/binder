@@ -33,3 +33,8 @@ func TestAllocateRGBAPreservesPixelValidation(t *testing.T) {
 	_, err := AllocateRGBA(context.Background(), nil, 34, 0, 1, 1)
 	require.ErrorContains(t, err, "invalid service manager or buffer count")
 }
+
+func TestAndroid10AllocationRejectsUnknownProfile(t *testing.T) {
+	_, err := allocateAndroid10Buffers(context.Background(), nil, 1, 1, 1, 1, android10Profile(99))
+	require.ErrorContains(t, err, "unsupported")
+}

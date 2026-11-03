@@ -5,7 +5,10 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/AndroidGoLab/binder/android/hardware/common"
+	gfx "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
 	"github.com/AndroidGoLab/binder/hwservicemanager"
 	"github.com/AndroidGoLab/binder/kernelbinder"
 	"github.com/AndroidGoLab/binder/servicemanager"
@@ -15,6 +18,66 @@ import (
 //
 // Example: query its default instance after allocator@2 is unavailable.
 const maliAllocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
+
+type android10Profile uint8
+
+const (
+	android10Qcom android10Profile = iota
+	android10Mali
+)
+
+func allocateAndroid10Buffers(ctx context.Context, driver binder.Transport, handle uint32, width, height int32, count int, profile android10Profile) (_ []*Buffer, resultErr error) {
+	var name, token string
+	var usage uint64
+	var desc []uint32
+	var err error
+	switch profile {
+	case android10Qcom:
+		name, token, usage = "Qualcomm", qcomAllocatorFQName, qcomRGBAUsage
+		desc, err = qcomDescriptor(width, height)
+	case android10Mali:
+		name, token, usage = "Mali", maliAllocatorFQName, maliRGBAUsage
+		desc, err = maliDescriptor(width, height)
+	default:
+		return nil, errors.New("unsupported Android 10 allocation profile")
+	}
+	if count < 1 || count > 64 {
+		return nil, fmt.Errorf("invalid %s buffer count", name)
+	}
+	if err != nil {
+		return nil, err
+	}
+	var buffers []*Buffer
+	defer func() {
+		if resultErr != nil {
+			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
+		}
+	}()
+	for range count {
+		result, err := hidlalloc.AllocateDescriptorForInterface(ctx, driver, handle, token, desc, 1)
+		if err != nil {
+			return nil, fmt.Errorf("allocate %s buffer: %w", name, err)
+		}
+		if result.Error != 0 {
+			if profile == android10Qcom {
+				return nil, fmt.Errorf("HIDL allocator error=%d", result.Error)
+			}
+			return nil, fmt.Errorf("%s allocator returned error %d", name, result.Error)
+		}
+		buffer := &Buffer{Handle: common.NativeHandle{Fds: result.Fds, Ints: result.Ints}, Stride: result.Stride, Width: uint32(width), Height: uint32(height), Format: int32(gfx.PixelFormatRgba8888), Usage: usage}
+		buffers = append(buffers, buffer)
+		switch profile {
+		case android10Qcom:
+			_, err = qcomRGBALayout(buffer)
+		case android10Mali:
+			_, err = maliRGBALayout(buffer)
+		}
+		if err != nil {
+			return nil, fmt.Errorf("unsupported %s allocation: %w", name, err)
+		}
+	}
+	return buffers, nil
+}
 
 // AllocateRGBA allocates buffers for a verified platform-specific capture ABI.
 //
@@ -73,7 +136,7 @@ func allocateAndroid10RGBA(
 		return nil, fmt.Errorf("get allocator@2.0: %w", err)
 	}
 	if handle != 0 {
-		return allocateQcomRGBA(ctx, driver, handle, width, height, count)
+		return allocateAndroid10Buffers(ctx, driver, handle, width, height, count, android10Qcom)
 	}
 	handle, err = sm.GetService(ctx, maliAllocatorFQName, "default")
 	if err != nil {
@@ -82,5 +145,5 @@ func allocateAndroid10RGBA(
 	if handle == 0 {
 		return nil, errors.New("allocator@3.0 unavailable")
 	}
-	return allocateMaliRGBA(ctx, driver, handle, width, height, count)
+	return allocateAndroid10Buffers(ctx, driver, handle, width, height, count, android10Mali)
 }

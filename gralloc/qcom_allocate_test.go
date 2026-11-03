@@ -2,8 +2,6 @@ package gralloc
 
 import (
 	"context"
-	"encoding/binary"
-	"github.com/AndroidGoLab/binder/parcel"
 	"golang.org/x/sys/unix"
 	"testing"
 
@@ -63,169 +61,12 @@ func TestQcomLayoutRejectsUnsafeBuffers(t *testing.T) {
 	require.Error(t, err)
 }
 
-// TestQcomAllocationReplyOwnsDescriptors validates HIDL status and FD transfer.
-//
-// Example: allocated descriptors outlive recycling the HIDL reply.
-func TestQcomAllocationReplyOwnsDescriptors(t *testing.T) {
-	var fds [2]int
-	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
-	fd0, err := unix.Dup(fds[0])
-	require.NoError(t, err)
-	fd1, err := unix.Dup(fds[0])
-	require.NoError(t, err)
-	raw := make([]byte, 316)
-	binary.LittleEndian.PutUint32(raw[8:], 16)
-	for _, off := range []int{12, 52, 100} {
-		binary.LittleEndian.PutUint32(raw[off:], 0x70742a85)
-	}
-	binary.LittleEndian.PutUint32(raw[56:], 1)
-	binary.LittleEndian.PutUint32(raw[104:], 1)
-	binary.LittleEndian.PutUint64(raw[124:], 1)
-	binary.LittleEndian.PutUint64(raw[20:], 172)
-	binary.LittleEndian.PutUint64(raw[28:], 16)
-	binary.LittleEndian.PutUint32(raw[180:], 1)
-	binary.LittleEndian.PutUint64(raw[60:], 192)
-	binary.LittleEndian.PutUint64(raw[68:], 16)
-	binary.LittleEndian.PutUint64(raw[92:], 108)
-	binary.LittleEndian.PutUint64(raw[108:], 208)
-	binary.LittleEndian.PutUint64(raw[116:], 108)
-	binary.LittleEndian.PutUint32(raw[140:], 0x66646185)
-	binary.LittleEndian.PutUint64(raw[148:], 2)
-	binary.LittleEndian.PutUint64(raw[156:], 2)
-	binary.LittleEndian.PutUint64(raw[164:], 12)
-	binary.LittleEndian.PutUint32(raw[208:], 12)
-	binary.LittleEndian.PutUint32(raw[212:], 2)
-	binary.LittleEndian.PutUint32(raw[216:], 22)
-	binary.LittleEndian.PutUint32(raw[220:], uint32(fd0))
-	binary.LittleEndian.PutUint32(raw[224:], uint32(fd1))
-	p := parcel.FromReceivedBytes(raw, []uint64{12, 52, 100, 140}, 220, 224)
-	stride, h, err := readQcomAllocation(p)
-	require.NoError(t, err)
-	require.Equal(t, int32(16), stride)
-	require.Len(t, h.Fds, 2)
-	require.NoError(t, p.Recycle())
-	require.NoError(t, unix.Close(int(h.Fds[0])))
-	require.NoError(t, unix.Close(int(h.Fds[1])))
-}
-
-// TestQcomAllocationReplyRejectsHALFailure prevents interpreting errors as buffers.
-//
-// Example: a successful HIDL transaction may still return an allocator error.
-func TestQcomAllocationReplyRejectsHALFailure(t *testing.T) {
-	for _, offset := range []int{0, 4} {
-		raw := make([]byte, 12)
-		binary.LittleEndian.PutUint32(raw[offset:], 1)
-		p := parcel.FromReceivedBytes(raw, nil)
-		_, _, err := readQcomAllocation(p)
-		require.Error(t, err)
-	}
-}
-
-// TestQcomAllocationReplyRejectsMissingHandle checks a successful empty reply.
-func TestQcomAllocationReplyRejectsMissingHandle(t *testing.T) {
-	p := parcel.FromReceivedBytes(make([]byte, 12), nil)
-	_, _, err := readQcomAllocation(p)
-	require.Error(t, err)
-	require.NoError(t, p.Recycle())
-}
-
-// TestQcomAllocationReplyRejectsWrongShapeClosesDescriptors checks vendor validation.
-func TestQcomAllocationReplyRejectsWrongShapeClosesDescriptors(t *testing.T) {
-	var pipe [2]int
-	require.NoError(t, unix.Pipe(pipe[:]))
-	defer unix.Close(pipe[0])
-	defer unix.Close(pipe[1])
-	fd0, err := unix.Dup(pipe[0])
-	require.NoError(t, err)
-	fd1, err := unix.Dup(pipe[0])
-	require.NoError(t, err)
-	raw := make([]byte, 312)
-	for _, off := range []int{12, 52, 100} {
-		binary.LittleEndian.PutUint32(raw[off:], 0x70742a85)
-	}
-	binary.LittleEndian.PutUint32(raw[56:], 1)
-	binary.LittleEndian.PutUint32(raw[104:], 1)
-	binary.LittleEndian.PutUint64(raw[124:], 1)
-	binary.LittleEndian.PutUint64(raw[20:], 172)
-	binary.LittleEndian.PutUint64(raw[28:], 16)
-	binary.LittleEndian.PutUint32(raw[180:], 1)
-	binary.LittleEndian.PutUint64(raw[60:], 192)
-	binary.LittleEndian.PutUint64(raw[68:], 16)
-	binary.LittleEndian.PutUint64(raw[92:], 104)
-	binary.LittleEndian.PutUint64(raw[108:], 208)
-	binary.LittleEndian.PutUint64(raw[116:], 104)
-	binary.LittleEndian.PutUint32(raw[140:], 0x66646185)
-	binary.LittleEndian.PutUint64(raw[148:], 2)
-	binary.LittleEndian.PutUint64(raw[156:], 2)
-	binary.LittleEndian.PutUint64(raw[164:], 12)
-	binary.LittleEndian.PutUint32(raw[208:], 12)
-	binary.LittleEndian.PutUint32(raw[212:], 2)
-	binary.LittleEndian.PutUint32(raw[216:], 21)
-	binary.LittleEndian.PutUint32(raw[220:], uint32(fd0))
-	binary.LittleEndian.PutUint32(raw[224:], uint32(fd1))
-	p := parcel.FromReceivedBytes(raw, []uint64{12, 52, 100, 140}, 220, 224)
-	_, _, err = readQcomAllocation(p)
-	require.ErrorContains(t, err, "unsupported Qualcomm handle shape")
-	require.NoError(t, p.Recycle())
-	for _, fd := range []int{fd0, fd1} {
-		_, err = unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
-		require.ErrorIs(t, err, unix.EBADF)
-	}
-}
-
 // TestAllocateRGBARejectsUnknownAPI ensures unknown allocator ABIs fail closed.
 //
 // Example: Android versions with unverified gralloc layouts are not guessed.
 func TestAllocateRGBARejectsUnknownAPI(t *testing.T) {
 	_, err := AllocateRGBA(context.Background(), nil, 28, 1, 1, 1)
 	require.Error(t, err)
-}
-
-// TestQcomAllocationReplyClosesPartialTransfer checks cleanup on an FD ownership failure.
-//
-// Example: failure to transfer the second descriptor closes the first exactly once.
-func TestQcomAllocationReplyClosesPartialTransfer(t *testing.T) {
-	var fds [2]int
-	require.NoError(t, unix.Pipe(fds[:]))
-	defer unix.Close(fds[0])
-	defer unix.Close(fds[1])
-	first, err := unix.Dup(fds[0])
-	require.NoError(t, err)
-	raw := make([]byte, 316)
-	binary.LittleEndian.PutUint32(raw[8:], 16)
-	for _, off := range []int{12, 52, 100} {
-		binary.LittleEndian.PutUint32(raw[off:], 0x70742a85)
-	}
-	binary.LittleEndian.PutUint32(raw[56:], 1)
-	binary.LittleEndian.PutUint32(raw[104:], 1)
-	binary.LittleEndian.PutUint64(raw[124:], 1)
-	binary.LittleEndian.PutUint64(raw[20:], 172)
-	binary.LittleEndian.PutUint64(raw[28:], 16)
-	binary.LittleEndian.PutUint32(raw[180:], 1)
-	binary.LittleEndian.PutUint64(raw[60:], 192)
-	binary.LittleEndian.PutUint64(raw[68:], 16)
-	binary.LittleEndian.PutUint64(raw[92:], 108)
-	binary.LittleEndian.PutUint64(raw[108:], 208)
-	binary.LittleEndian.PutUint64(raw[116:], 108)
-	binary.LittleEndian.PutUint32(raw[140:], 0x66646185)
-	binary.LittleEndian.PutUint64(raw[148:], 2)
-	binary.LittleEndian.PutUint64(raw[156:], 2)
-	binary.LittleEndian.PutUint64(raw[164:], 12)
-	binary.LittleEndian.PutUint32(raw[208:], 12)
-	binary.LittleEndian.PutUint32(raw[212:], 2)
-	binary.LittleEndian.PutUint32(raw[216:], 22)
-	binary.LittleEndian.PutUint32(raw[220:], uint32(first))
-	binary.LittleEndian.PutUint32(raw[224:], uint32(fds[0]))
-	p := parcel.FromReceivedBytes(raw, []uint64{12, 52, 100, 140}, 220)
-	_, _, err = readQcomAllocation(p)
-	require.Error(t, err)
-	require.NoError(t, p.Recycle())
-	_, err = unix.FcntlInt(uintptr(first), unix.F_GETFD, 0)
-	require.ErrorIs(t, err, unix.EBADF)
-	_, err = unix.FcntlInt(uintptr(fds[0]), unix.F_GETFD, 0)
-	require.NoError(t, err)
 }
 
 // TestQcomMappedRGBAIntoReusesDestination checks padded rows and length validation.
