@@ -20,7 +20,8 @@ type graphicBufferIDGenerator struct{ counter atomic.Uint32 }
 // Example: separate producers allocate from the same sequence.
 var graphicBufferIDs graphicBufferIDGenerator
 
-// next returns a process-unique synthetic ID or an exhaustion error.
+// next returns a synthetic ID unique within this process lifetime or an exhaustion error.
+// Bit 63 separates it from native GraphicBuffer IDs made with positive PIDs.
 //
 // Example: a producer calls next once for each slot wrapper.
 func (g *graphicBufferIDGenerator) next() (uint64, error) {
