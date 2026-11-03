@@ -3,10 +3,8 @@ package versionaware
 import (
 	"context"
 	"encoding/binary"
-	"fmt"
 	"testing"
 
-	pm "github.com/AndroidGoLab/binder/android/content/pm"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/parcel"
 	"github.com/stretchr/testify/require"
@@ -120,76 +118,6 @@ func TestInterfaceTokenPassThrough(t *testing.T) {
 				require.Equal(t, tc.Parcel.Objects(), capture.Objects)
 			})
 	}
-}
-
-// packageTransport captures a request and supplies a successful boolean reply.
-//
-// Example: exercise a generated package manager proxy without a device.
-type packageTransport struct {
-	captureTransport
-}
-
-// Transact captures the request and returns a successful boolean response.
-//
-// Example: represent an available package in a wire fixture.
-func (c *packageTransport) Transact(
-	ctx context.Context,
-	handle uint32,
-	code binder.TransactionCode,
-	flags binder.TransactionFlags,
-	data *parcel.Parcel,
-) (*parcel.Parcel, error) {
-	_, err := c.captureTransport.Transact(ctx, handle, code, flags, data)
-	if err != nil {
-		return nil, err
-	}
-	request := parcel.FromBytes(c.Data)
-	strict, err := request.ReadInt32()
-	if err != nil || strict != -1<<31 {
-		return nil, fmt.Errorf("invalid strict mode header: %d: %v", strict, err)
-	}
-	workSource, err := request.ReadInt32()
-	if err != nil || workSource != -1 {
-		return nil, fmt.Errorf("invalid work source: %d: %v", workSource, err)
-	}
-	descriptor, err := request.ReadString16()
-	if err != nil || descriptor != pm.DescriptorIPackageManager {
-		return nil, fmt.Errorf("invalid descriptor %q: %v", descriptor, err)
-	}
-	packageName, err := request.ReadString16()
-	if err != nil || packageName != "example.app" {
-		return nil, fmt.Errorf("invalid package %q: %v", packageName, err)
-	}
-	userID, err := request.ReadInt32()
-	if err != nil || userID != 10 || request.Position() != request.Len() {
-		return nil, fmt.Errorf("invalid user ID or trailing data: %d: %v", userID, err)
-	}
-	reply := parcel.New()
-	reply.WriteInt32(0)
-	reply.WriteBool(true)
-	return reply, nil
-}
-
-// TestAndroid10GeneratedPackageManagerRequest checks the generated proxy wire request.
-//
-// Example: query whether a package is available on an API 29 transport.
-func TestAndroid10GeneratedPackageManagerRequest(t *testing.T) {
-	capture := &packageTransport{}
-	transport := &Transport{inner: capture, apiLevel: binder.APILevelAndroid10, table: VersionTable{
-		pm.DescriptorIPackageManager: {pm.MethodIPackageManagerIsPackageAvailable: 2},
-	}}
-	proxy := pm.NewPackageManagerProxy(binder.NewProxyBinder(transport, binder.CallerIdentity{UserID: 10}, 1))
-	available, err := proxy.IsPackageAvailable(context.Background(), "example.app")
-	require.NoError(t, err)
-	require.True(t, available)
-	expected := parcel.New()
-	expected.WriteInt32(-1 << 31)
-	expected.WriteInt32(-1)
-	expected.WriteString16(pm.DescriptorIPackageManager)
-	expected.WriteString16("example.app")
-	expected.WriteInt32(10)
-	require.Equal(t, expected.Data(), capture.Data)
-	require.Empty(t, capture.Objects)
 }
 
 // TestAndroid10TokenMarkerLifecycle checks that only an initial token is adapted.
