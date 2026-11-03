@@ -7,6 +7,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TestAllocateRGBARejectsInvalidAndroid10Input checks validation before opening hwbinder.
+//
+// Example: a zero width is rejected without accessing a device.
 func TestAllocateRGBARejectsInvalidAndroid10Input(t *testing.T) {
 	for _, tc := range []struct {
 		width, height int32
@@ -23,6 +26,9 @@ func TestAllocateRGBARejectsInvalidAndroid10Input(t *testing.T) {
 	}
 }
 
+// TestAllocateRGBAPreservesPixelValidation checks the API 34 validation order.
+//
+// Example: a missing service manager is reported before invalid dimensions.
 func TestAllocateRGBAPreservesPixelValidation(t *testing.T) {
 	_, err := AllocateRGBA(context.Background(), nil, 34, 0, 1, 1)
 	require.ErrorContains(t, err, "invalid service manager or buffer count")

@@ -11,10 +11,22 @@ import (
 	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
+// maliAllocatorFQName identifies the HIDL allocator used by the Mali profile.
+//
+// Example: query its default instance after allocator@2 is unavailable.
 const maliAllocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
 
 // AllocateRGBA allocates buffers for a verified platform-specific capture ABI.
-func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api int, width, height int32, count int) ([]*Buffer, error) {
+//
+// Example: allocate CPU-readable buffers for a virtual display.
+func AllocateRGBA(
+	ctx context.Context,
+	sm *servicemanager.ServiceManager,
+	api int,
+	width int32,
+	height int32,
+	count int,
+) ([]*Buffer, error) {
 	switch api {
 	case 34:
 		return AllocatePixelRGBA(ctx, sm, api, width, height, count)
@@ -36,8 +48,19 @@ func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api in
 }
 
 // allocateAndroid10RGBA probes Android 10 allocators and owns the connection.
-func allocateAndroid10RGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (buffers []*Buffer, resultErr error) {
-	defer func() {
+//
+// Example: try allocator@3 when allocator@2 has no service handle.
+func allocateAndroid10RGBA(
+	ctx context.Context,
+	driver binder.Transport,
+	width int32,
+	height int32,
+	count int,
+) (buffers []*Buffer, resultErr error) {
+	defer // Release the connection and discard buffers if closing fails.
+	//
+	// Example: a driver close failure closes a successfully allocated batch.
+	func() {
 		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
