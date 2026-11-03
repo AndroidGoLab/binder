@@ -71,15 +71,15 @@ func maliRGBALayout(b *Buffer) (rgbaLayout, error) {
 		b.Format != int32(gfx.PixelFormatRgba8888) {
 		return out, errors.New("inconsistent Mali buffer dimensions or format")
 	}
-	producerUsage := uint64(uint32(a[maliProducerUsageIndex])) | uint64(uint32(a[maliProducerUsageIndex+1]))<<32
-	consumerUsage := uint64(uint32(a[maliConsumerUsageIndex])) | uint64(uint32(a[maliConsumerUsageIndex+1]))<<32
+	producerUsage := handleUint64(a, maliProducerUsageIndex)
+	consumerUsage := handleUint64(a, maliConsumerUsageIndex)
 	if producerUsage != maliRGBAUsage || consumerUsage != maliRGBAUsage || b.Usage != maliRGBAUsage {
 		return out, errors.New("unsupported Mali buffer usage")
 	}
-	if uint64(uint32(a[maliInternalFormatIndex]))|uint64(uint32(a[maliInternalFormatIndex+1]))<<32 != uint64(gfx.PixelFormatRgba8888) {
+	if handleUint64(a, maliInternalFormatIndex) != uint64(gfx.PixelFormatRgba8888) {
 		return out, errors.New("unsupported Mali internal format or compression")
 	}
-	stridePixels := uint64(uint32(a[maliStrideIndex])) | uint64(uint32(a[maliStrideIndex+1]))<<32
+	stridePixels := handleUint64(a, maliStrideIndex)
 	byteStride := uint64(uint32(a[maliPlaneByteStrideIndex]))
 	allocWidth := uint64(uint32(a[maliPlaneAllocWidthIndex]))
 	allocHeight := uint64(uint32(a[maliPlaneAllocHeightIndex]))

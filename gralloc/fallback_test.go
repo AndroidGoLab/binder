@@ -280,6 +280,9 @@ func TestAndroid10AllocationErrorDoesNotProbeAnotherBackend(t *testing.T) {
 	require.Equal(t, 1, s.closes)
 }
 
+// TestAndroid10QualcommRejectsWrongShapeAndClosesDescriptors checks ownership.
+//
+// Example: a Mali-shaped handle is rejected and both descriptors are closed.
 func TestAndroid10QualcommRejectsWrongShapeAndClosesDescriptors(t *testing.T) {
 	reply, fds := maliReply(t, true)
 	s := &allocatorScript{replies: []*parcel.Parcel{reply}}

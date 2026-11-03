@@ -19,14 +19,33 @@ import (
 // Example: query its default instance after allocator@2 is unavailable.
 const maliAllocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
 
+// android10Profile selects one verified Android 10 allocator ABI.
+//
+// Example: select Qualcomm when allocator@2 is registered.
 type android10Profile uint8
 
 const (
+	// android10Qcom selects the Qualcomm allocator@2 ABI.
+	//
+	// Example: validate an SDM845 private handle.
 	android10Qcom android10Profile = iota
+	// android10Mali selects the Mali allocator@3 ABI.
+	//
+	// Example: validate the supported Bifrost handle.
 	android10Mali
 )
 
-func allocateAndroid10Buffers(ctx context.Context, driver binder.Transport, handle uint32, width, height int32, count int, profile android10Profile) (_ []*Buffer, resultErr error) {
+// allocateAndroid10Buffers allocates and validates a batch for one vendor ABI.
+//
+// Example: close earlier buffers when a later allocation fails validation.
+func allocateAndroid10Buffers(
+	ctx context.Context,
+	driver binder.Transport,
+	handle uint32,
+	width, height int32,
+	count int,
+	profile android10Profile,
+) (_ []*Buffer, resultErr error) {
 	var name, token string
 	var usage uint64
 	var desc []uint32
@@ -48,7 +67,10 @@ func allocateAndroid10Buffers(ctx context.Context, driver binder.Transport, hand
 		return nil, err
 	}
 	var buffers []*Buffer
-	defer func() {
+	defer // Release every acquired handle if the batch cannot be returned.
+	//
+	// Example: reject the second buffer without leaking the first.
+	func() {
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
 		}

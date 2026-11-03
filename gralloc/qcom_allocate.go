@@ -30,6 +30,20 @@ const (
 	//
 	// Example: non-ION handles are not accepted by this reader.
 	qcomIonFlag int32 = 8
+
+	// Qualcomm private_handle_t integer field positions for this ABI.
+	qcomHandleIntCount     = 22
+	qcomMagicIndex         = 0
+	qcomFlagsIndex         = 1
+	qcomStrideIndex        = 2
+	qcomAlignedHeightIndex = 3
+	qcomWidthIndex         = 4
+	qcomHeightIndex        = 5
+	qcomFormatIndex        = 6
+	qcomLayerCountIndex    = 8
+	qcomUsageIndex         = 11
+	qcomSizeIndex          = 13
+	qcomOffsetIndex        = 14
 )
 
 // qcomAllocatorFQName identifies the allocator used by the Qualcomm profile.
@@ -52,24 +66,24 @@ func qcomDescriptor(width, height int32) ([]uint32, error) {
 // Example: reject compressed, cached, non-ION, or inconsistent buffers.
 func qcomRGBALayout(b *Buffer) (rgbaLayout, error) {
 	var out rgbaLayout
-	if b == nil || len(b.Handle.Fds) != 2 || len(b.Handle.Ints) != 22 {
+	if b == nil || len(b.Handle.Fds) != 2 || len(b.Handle.Ints) != qcomHandleIntCount {
 		return out, errors.New("unsupported Qualcomm handle shape")
 	}
 	a := b.Handle.Ints
-	if a[0] != qcomHandleMagic || a[1]&qcomIonFlag == 0 || a[1]&qcomUnsafeFlags != 0 {
+	if a[qcomMagicIndex] != qcomHandleMagic || a[qcomFlagsIndex]&qcomIonFlag == 0 || a[qcomFlagsIndex]&qcomUnsafeFlags != 0 {
 		return out, errors.New("unsupported Qualcomm allocation flags or magic")
 	}
-	if b.Handle.Fds[0] < 0 || b.Format != int32(gfx.PixelFormatRgba8888) || a[6] != int32(gfx.PixelFormatRgba8888) || a[8] != 1 {
+	if b.Handle.Fds[0] < 0 || b.Format != int32(gfx.PixelFormatRgba8888) || a[qcomFormatIndex] != int32(gfx.PixelFormatRgba8888) || a[qcomLayerCountIndex] != 1 {
 		return out, errors.New("unsupported Qualcomm format or descriptor")
 	}
-	if b.Width == 0 || b.Height == 0 || b.Stride <= 0 || a[2] != b.Stride || uint32(a[2]) < b.Width || a[3] <= 0 || uint32(a[3]) < b.Height || uint32(a[4]) != b.Width || uint32(a[5]) != b.Height {
+	if b.Width == 0 || b.Height == 0 || b.Stride <= 0 || a[qcomStrideIndex] != b.Stride || uint32(a[qcomStrideIndex]) < b.Width || a[qcomAlignedHeightIndex] <= 0 || uint32(a[qcomAlignedHeightIndex]) < b.Height || uint32(a[qcomWidthIndex]) != b.Width || uint32(a[qcomHeightIndex]) != b.Height {
 		return out, errors.New("inconsistent Qualcomm dimensions")
 	}
-	usage := uint64(uint32(a[11])) | uint64(uint32(a[12]))<<32
+	usage := handleUint64(a, qcomUsageIndex)
 	if usage&qcomRGBAUsage != qcomRGBAUsage || b.Usage&qcomRGBAUsage != qcomRGBAUsage || usage&0xf != 2 || b.Usage&0xf != 2 {
 		return out, errors.New("unsupported Qualcomm buffer usage")
 	}
-	if a[13] <= 0 || a[14] != 0 {
+	if a[qcomSizeIndex] <= 0 || a[qcomOffsetIndex] != 0 {
 		return out, errors.New("invalid Qualcomm allocation size or offset")
 	}
 	stride := uint64(uint32(b.Stride)) * 4
@@ -77,7 +91,7 @@ func qcomRGBALayout(b *Buffer) (rgbaLayout, error) {
 		return out, errors.New("Qualcomm buffer dimensions overflow")
 	}
 	extent := stride * uint64(b.Height)
-	if extent > uint64(uint32(a[13])) {
+	if extent > uint64(uint32(a[qcomSizeIndex])) {
 		return out, fmt.Errorf("Qualcomm pixel plane exceeds allocation")
 	}
 	out = rgbaLayout{fd: int(b.Handle.Fds[0]), stride: int(stride), length: int(extent)}

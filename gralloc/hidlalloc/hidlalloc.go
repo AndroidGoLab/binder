@@ -192,8 +192,10 @@ func AllocateDescriptor(
 	return AllocateDescriptorForInterface(ctx, transport, allocatorHandle, allocatorFQName, descriptor, count)
 }
 
-// AllocateDescriptorForInterface allocates using the specified HIDL interface token.
-// On success, ownership of the returned descriptors transfers to the caller.
+// AllocateDescriptorForInterface allocates one buffer using the specified HIDL
+// interface token. On success, descriptor ownership transfers to the caller.
+//
+// Example: use the allocator@2 token with its vendor descriptor.
 func AllocateDescriptorForInterface(
 	ctx context.Context,
 	transport binder.Transport,

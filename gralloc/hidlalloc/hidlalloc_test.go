@@ -250,6 +250,9 @@ func TestParseAllocateResponseRejectsInvalidHandleExtent(t *testing.T) {
 	}
 }
 
+// TestAllocateClosesTransferredDescriptorsWhenRecycleFails checks failed ownership transfer.
+//
+// Example: a reply cleanup failure closes the returned handle's descriptor.
 func TestAllocateClosesTransferredDescriptorsWhenRecycleFails(t *testing.T) {
 	fds, err := unix.Socketpair(unix.AF_UNIX, unix.SOCK_STREAM, 0)
 	require.NoError(t, err)
