@@ -82,6 +82,7 @@ func TestAndroid10GeneratedPackageManagerRequest(t *testing.T) {
 	t.Cleanup(func() { versionaware.Revisions, versionaware.Tables = oldRevisions, oldTables })
 	transport, err := versionaware.NewTransport(context.Background(), capture, binder.APILevelAndroid10, versionaware.OptionCachePath(""))
 	require.NoError(t, err)
+	transport.MergeTable(versionaware.VersionTable{pm.DescriptorIPackageManager: {pm.MethodIPackageManagerIsPackageAvailable: 2}})
 	proxy := pm.NewPackageManagerProxy(binder.NewProxyBinder(transport, binder.CallerIdentity{UserID: 10}, 1))
 	available, err := proxy.IsPackageAvailable(context.Background(), "example.app")
 	require.NoError(t, err)
