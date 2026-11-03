@@ -45,6 +45,102 @@ const (
 
 	// bufObjSize is sizeof(binder_buffer_object) on 64-bit.
 	bufObjSize = 40
+
+	// fdArrayType is BINDER_TYPE_FDA for an array of file descriptors.
+	fdArrayType = uint32(0x66646185)
+
+	// Binder buffer-object fields are relative to the object header.
+	// bufferFlagsOffset locates buffer flags.
+	//
+	// Example: check parent presence.
+	bufferFlagsOffset = 4
+	// bufferPointerOffset locates the resolved buffer pointer.
+	//
+	// Example: find vector data.
+	bufferPointerOffset = 8
+	// bufferLengthOffset locates the buffer length.
+	//
+	// Example: check handle size.
+	bufferLengthOffset = 16
+	// bufferParentOffset locates the parent object index.
+	//
+	// Example: check the handle's vector parent.
+	bufferParentOffset = 24
+	// bufferParentOffsetOffset locates the offset within the parent.
+	//
+	// Example: check the handle location.
+	bufferParentOffsetOffset = 32
+
+	// Binder fd-array fields are relative to the object header.
+	// fdArrayCountOffset locates the descriptor count.
+	//
+	// Example: compare native handle counts.
+	fdArrayCountOffset = 8
+	// fdArrayParentOffset locates the parent object index.
+	//
+	// Example: check the native handle parent.
+	fdArrayParentOffset = 16
+	// fdArrayParentOffsetOffset locates the offset in the parent.
+	//
+	// Example: check the descriptor array location.
+	fdArrayParentOffsetOffset = 24
+
+	// The allocator reply places these objects after its status and result fields.
+	// vectorObjectOffset locates the HIDL vector object.
+	//
+	// Example: validate the reply layout.
+	vectorObjectOffset = 12
+	// handleObjectOffset locates the HIDL handle object.
+	//
+	// Example: validate its parent.
+	handleObjectOffset = vectorObjectOffset + bufObjSize
+	// nativeHandleSizeOffset locates the declared native handle size.
+	//
+	// Example: compare its buffer length.
+	nativeHandleSizeOffset = handleObjectOffset + bufObjSize
+	// nativeHandleObjectOffset locates the native handle buffer object.
+	//
+	// Example: read its pointer.
+	nativeHandleObjectOffset = nativeHandleSizeOffset + 8
+	// fdArrayObjectOffset locates the descriptor array object.
+	//
+	// Example: validate its parent.
+	fdArrayObjectOffset = nativeHandleObjectOffset + bufObjSize
+	// allocationObjectsEnd is the end of the descriptor array object.
+	//
+	// Example: check reply length.
+	allocationObjectsEnd = fdArrayObjectOffset + 32
+
+	// HIDL handles and vector headers occupy 16 bytes; native handles start with
+	// three 32-bit fields, followed by descriptor and integer words.
+	// hidlHeaderSize is the size of a vector or handle header.
+	//
+	// Example: validate a vector buffer.
+	hidlHeaderSize = 16
+	// hidlVectorCountOffset locates the vector element count.
+	//
+	// Example: require one handle.
+	hidlVectorCountOffset = 8
+	// nativeHandleHeaderSize is the native handle header size and version.
+	//
+	// Example: locate descriptor words.
+	nativeHandleHeaderSize = 12
+	// nativeHandleFDCountOffset locates the descriptor count.
+	//
+	// Example: validate the fd array.
+	nativeHandleFDCountOffset = 4
+	// nativeHandleIntCountOffset locates the integer count.
+	//
+	// Example: validate the handle size.
+	nativeHandleIntCountOffset = 8
+	// wireWordSize is the size of one native handle data word.
+	//
+	// Example: advance to the next descriptor.
+	wireWordSize = 4
+	// maxNativeHandleEntries limits each native handle count.
+	//
+	// Example: reject excessive counts.
+	maxNativeHandleEntries = 1024
 )
 
 // AllocateResult holds the result of a gralloc 3.0 allocate() call.
@@ -173,28 +269,32 @@ func ParseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 			return nil, fmt.Errorf("invalid native handle buffer object")
 		}
 	}
-	if objects[0] != 12 || objects[1] != 52 || objects[2] != 100 || objects[3] != 140 || len(data) < 172 {
+	if objects[0] != vectorObjectOffset || objects[1] != handleObjectOffset ||
+		objects[2] != nativeHandleObjectOffset || objects[3] != fdArrayObjectOffset || len(data) < allocationObjectsEnd {
 		return nil, fmt.Errorf("invalid allocation object layout")
 	}
-	if binary.LittleEndian.Uint32(data[16:]) != 0 || binary.LittleEndian.Uint32(data[56:]) != 1 ||
-		binary.LittleEndian.Uint64(data[76:]) != 0 || binary.LittleEndian.Uint64(data[84:]) != 0 ||
-		binary.LittleEndian.Uint32(data[104:]) != 1 || binary.LittleEndian.Uint64(data[124:]) != 1 ||
-		binary.LittleEndian.Uint64(data[132:]) != 0 || binary.LittleEndian.Uint32(data[140:]) != 0x66646185 ||
-		binary.LittleEndian.Uint64(data[156:]) != 2 || binary.LittleEndian.Uint64(data[164:]) != 12 {
+	vecObject := data[vectorObjectOffset:]
+	handleObject := data[handleObjectOffset:]
+	nativeHandleObject := data[nativeHandleObjectOffset:]
+	fdArrayObject := data[fdArrayObjectOffset:]
+	if binary.LittleEndian.Uint32(vecObject[bufferFlagsOffset:]) != 0 || binary.LittleEndian.Uint32(handleObject[bufferFlagsOffset:]) != 1 ||
+		binary.LittleEndian.Uint64(handleObject[bufferParentOffset:]) != 0 || binary.LittleEndian.Uint64(handleObject[bufferParentOffsetOffset:]) != 0 ||
+		binary.LittleEndian.Uint32(nativeHandleObject[bufferFlagsOffset:]) != 1 || binary.LittleEndian.Uint64(nativeHandleObject[bufferParentOffset:]) != 1 ||
+		binary.LittleEndian.Uint64(nativeHandleObject[bufferParentOffsetOffset:]) != 0 || binary.LittleEndian.Uint32(fdArrayObject) != fdArrayType ||
+		binary.LittleEndian.Uint64(fdArrayObject[fdArrayParentOffset:]) != 2 || binary.LittleEndian.Uint64(fdArrayObject[fdArrayParentOffsetOffset:]) != nativeHandleHeaderSize {
 		return nil, fmt.Errorf("invalid allocation object topology")
 	}
-	vecOffset := binary.LittleEndian.Uint64(data[20:])
-	vecLen := binary.LittleEndian.Uint64(data[28:])
-	childOffset := binary.LittleEndian.Uint64(data[60:])
-	childLen := binary.LittleEndian.Uint64(data[68:])
-	if vecLen != 16 || vecOffset > uint64(len(data))-16 || binary.LittleEndian.Uint32(data[vecOffset+8:]) != 1 ||
-		childLen != 16 || childOffset > uint64(len(data))-16 {
+	vecOffset := binary.LittleEndian.Uint64(vecObject[bufferPointerOffset:])
+	vecLen := binary.LittleEndian.Uint64(vecObject[bufferLengthOffset:])
+	childOffset := binary.LittleEndian.Uint64(handleObject[bufferPointerOffset:])
+	childLen := binary.LittleEndian.Uint64(handleObject[bufferLengthOffset:])
+	if vecLen != hidlHeaderSize || vecOffset > uint64(len(data))-hidlHeaderSize || binary.LittleEndian.Uint32(data[vecOffset+hidlVectorCountOffset:]) != 1 ||
+		childLen != hidlHeaderSize || childOffset > uint64(len(data))-hidlHeaderSize {
 		return nil, fmt.Errorf("invalid allocation buffer vector")
 	}
-	off := objects[2]
-	nativeHandleBufPtr := binary.LittleEndian.Uint64(data[off+8:])
-	nativeHandleBufLen := binary.LittleEndian.Uint64(data[off+16:])
-	if binary.LittleEndian.Uint64(data[92:]) != nativeHandleBufLen {
+	nativeHandleBufPtr := binary.LittleEndian.Uint64(nativeHandleObject[bufferPointerOffset:])
+	nativeHandleBufLen := binary.LittleEndian.Uint64(nativeHandleObject[bufferLengthOffset:])
+	if binary.LittleEndian.Uint64(data[nativeHandleSizeOffset:]) != nativeHandleBufLen {
 		return nil, fmt.Errorf("native handle size mismatch")
 	}
 
@@ -204,27 +304,27 @@ func ParseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 	}
 
 	nhData := data[nativeHandleBufPtr : nativeHandleBufPtr+nativeHandleBufLen]
-	if len(nhData) < 12 {
+	if len(nhData) < nativeHandleHeaderSize {
 		return result, fmt.Errorf("native_handle too short: %d bytes", len(nhData))
 	}
-	if binary.LittleEndian.Uint32(nhData) != 12 {
+	if binary.LittleEndian.Uint32(nhData) != nativeHandleHeaderSize {
 		return nil, fmt.Errorf("invalid native_handle version")
 	}
 
 	// native_handle_t: version, numFds, numInts, data[numFds+numInts]
-	fdCount := binary.LittleEndian.Uint32(nhData[4:])
-	intCount := binary.LittleEndian.Uint32(nhData[8:])
-	if binary.LittleEndian.Uint64(data[148:]) != uint64(fdCount) {
+	fdCount := binary.LittleEndian.Uint32(nhData[nativeHandleFDCountOffset:])
+	intCount := binary.LittleEndian.Uint32(nhData[nativeHandleIntCountOffset:])
+	if binary.LittleEndian.Uint64(fdArrayObject[fdArrayCountOffset:]) != uint64(fdCount) {
 		return nil, fmt.Errorf("native handle descriptor count mismatch")
 	}
-	if fdCount > 1024 || intCount > 1024 || uint64(fdCount)+uint64(intCount) != uint64(len(nhData)-12)/4 || (len(nhData)-12)%4 != 0 {
+	if fdCount > maxNativeHandleEntries || intCount > maxNativeHandleEntries || uint64(fdCount)+uint64(intCount) != uint64(len(nhData)-nativeHandleHeaderSize)/wireWordSize || (len(nhData)-nativeHandleHeaderSize)%wireWordSize != 0 {
 		return nil, fmt.Errorf("invalid native_handle size or counts: have %d bytes (numFds=%d numInts=%d)",
 			len(nhData), fdCount, intCount)
 	}
 	numFds, numInts := int(fdCount), int(intCount)
 
 	// Read FDs (kernel has already translated them to our fd table).
-	offset := 12
+	offset := nativeHandleHeaderSize
 	result.Fds = make([]int32, numFds)
 	for i := range numFds {
 		fd, err := p.TakeReceivedFileDescriptor(int(nativeHandleBufPtr) + offset)
@@ -235,14 +335,14 @@ func ParseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 			return nil, fmt.Errorf("native_handle descriptor %d: %w", i, err)
 		}
 		result.Fds[i] = fd
-		offset += 4
+		offset += wireWordSize
 	}
 
 	// Read ints.
 	result.Ints = make([]int32, numInts)
 	for i := range numInts {
 		result.Ints[i] = int32(binary.LittleEndian.Uint32(nhData[offset:]))
-		offset += 4
+		offset += wireWordSize
 	}
 
 	return result, nil
