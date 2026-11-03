@@ -20,12 +20,6 @@ import (
 	"time"
 
 	"github.com/AndroidGoLab/binder/android/gui"
-	"github.com/AndroidGoLab/binder/binder"
-	"github.com/AndroidGoLab/binder/binder/versionaware"
-	"github.com/AndroidGoLab/binder/gralloc"
-	"github.com/AndroidGoLab/binder/igbp"
-	"github.com/AndroidGoLab/binder/kernelbinder"
-	"github.com/AndroidGoLab/binder/servicemanager"
 )
 
 // writeFrame writes one complete frame or reports a short write.
@@ -77,98 +71,14 @@ func frameDelay(start, now time.Time, rate float64) time.Duration {
 //
 // Example: stream a scaled display to standard output.
 func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, width, height int32, displayID int, skip bool, rate float64) (resultErr error) {
-	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(4*1024*1024))
+	session, err := gui.OpenCapture(ctx, gui.CaptureOptions{SourceWidth: sourceWidth, SourceHeight: sourceHeight, Width: width, Height: height, DisplayID: uint64(displayID)})
 	if err != nil {
-		return fmt.Errorf("open binder: %w", err)
-	}
-	var stub *binder.StubBinder
-	defer func() {
-		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
-		if stub != nil {
-			resultErr = errors.Join(resultErr, stub.Release(context.Background()))
-		}
-	}()
-	transport, err := versionaware.NewTransport(ctx, driver, 0, versionaware.OptionCachePath(""))
-	if err != nil {
-		return fmt.Errorf("configure binder: %w", err)
-	}
-	api := transport.APILevel()
-	if api == 34 {
-		if err := transport.CheckSurfaceComposerAndroid14R35(); err != nil {
-			return err
-		}
-	}
-	sm := servicemanager.New(transport)
-	raw, err := sm.GetService(ctx, "SurfaceFlinger")
-	if err != nil {
-		return fmt.Errorf("get SurfaceFlinger: %w", err)
-	}
-	var aidl binder.IBinder
-	if api == 34 {
-		aidl, err = sm.GetService(ctx, "SurfaceFlingerAIDL")
-		if err != nil {
-			return fmt.Errorf("get SurfaceFlinger AIDL: %w", err)
-		}
-	}
-	var stack int32
-	if displayID != 0 {
-		if api != 34 {
-			return errors.New("secondary display capture requires a known layer stack")
-		}
-		ids, err := gui.PhysicalDisplayIDs(ctx, aidl, api)
-		if err != nil {
-			return fmt.Errorf("list physical displays: %w", err)
-		}
-		id, err := chooseDisplay(ids, displayID)
-		if err != nil {
-			return err
-		}
-		info, err := gui.GetPhysicalDisplayInfo(ctx, aidl, api, id)
-		if err != nil {
-			return fmt.Errorf("read display info: %w", err)
-		}
-		if info.LayerStack == nil {
-			return errors.New("display layer stack unavailable")
-		}
-		stack = *info.LayerStack
-	}
-	buffers, err := gralloc.AllocateRGBA(ctx, sm, api, width, height, captureBufferCount)
-	if err != nil {
-		return fmt.Errorf("allocate capture buffers: %w", err)
-	}
-	safeToFree := true
-	defer func() {
-		if safeToFree {
-			resultErr = errors.Join(resultErr, gralloc.CloseBuffers(buffers))
-		}
-	}()
-	producer, err := igbp.NewFrameProducer(api, buffers)
-	if err != nil {
-		return err
-	}
-	stub = binder.NewStubBinder(producer)
-	defer func() {
-		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
-		defer cancel()
-		err := producer.Close(cleanupCtx)
-		if err != nil {
-			safeToFree = false
-		}
-		resultErr = errors.Join(resultErr, err)
-	}()
-	display, err := gui.CreateVirtualDisplayOnLayerStackWithOptions(ctx, raw, aidl, transport, api, stub, sourceWidth, sourceHeight, width, height, stack, gui.VirtualDisplayOptions{Secure: api == binder.APILevelAndroid10})
-	if err != nil {
-		safeToFree = false
 		return err
 	}
 	defer func() {
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
 		defer cancel()
-		err := display.Close(cleanupCtx)
-		if err != nil {
-			safeToFree = false
-		}
-		resultErr = errors.Join(resultErr, err)
+		resultErr = errors.Join(resultErr, session.Close(cleanupCtx))
 	}()
 	pixels := make([]byte, int(width)*int(height)*4)
 	for {
@@ -181,7 +91,7 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 				return err
 			}
 		}
-		frame, err := producer.Next(ctx)
+		frame, err := session.Next(ctx)
 		if errors.Is(err, context.Canceled) {
 			return nil
 		}
@@ -190,16 +100,13 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		}
 		frameStart := time.Now()
 		if skip {
-			skipper := &queuedFrameSkipper{producer: producer, current: frame}
+			skipper := &queuedFrameSkipper{producer: session, current: frame}
 			err := skipAtMost(ctx, captureBufferCount-1, skipper)
 			frame = skipper.current
 			if err != nil {
 				cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
 				releaseErr := releaseFrame(cleanupCtx, frame)
 				cancel()
-				if releaseErr != nil || !errors.Is(err, context.Canceled) {
-					safeToFree = false
-				}
 				if errors.Is(err, context.Canceled) {
 					return releaseErr
 				}
@@ -210,9 +117,6 @@ func capture(ctx context.Context, out io.Writer, sourceWidth, sourceHeight, widt
 		cleanupCtx, cancel := context.WithTimeout(context.Background(), cleanupTimeout)
 		releaseErr := releaseFrame(cleanupCtx, frame)
 		cancel()
-		if releaseErr != nil {
-			safeToFree = false
-		}
 		if errors.Is(copyErr, context.Canceled) && releaseErr == nil {
 			return nil
 		}

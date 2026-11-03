@@ -37,7 +37,7 @@ func skipAtMost(ctx context.Context, limit int, s pendingFrameSkipper) error {
 //
 // Example: keep the newest queued lease after acquiring one frame.
 type queuedFrameSkipper struct {
-	producer *igbp.FrameProducer
+	producer interface{ TryNext() (*igbp.Frame, bool) }
 	current  *igbp.Frame
 }
 
