@@ -2,11 +2,11 @@ package gralloc
 
 import (
 	"context"
-	"encoding/binary"
 	"errors"
 	"fmt"
 	"github.com/AndroidGoLab/binder/android/hardware/common"
 	"github.com/AndroidGoLab/binder/binder"
+	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
 	"github.com/AndroidGoLab/binder/hwparcel"
 	"github.com/AndroidGoLab/binder/hwservicemanager"
 	"github.com/AndroidGoLab/binder/kernelbinder"
@@ -101,64 +101,22 @@ func qcomRGBALayout(b *Buffer) (rgbaLayout, error) {
 // Example: reject HAL errors before accepting a native handle.
 func readQcomAllocation(p *parcel.Parcel) (_ int32, _ common.NativeHandle, resultErr error) {
 	var handle common.NativeHandle
-	defer // Close transferred FDs if subsequent validation fails.
-	//
-	// Example: a missing second FD cannot leak the first FD.
-	func() {
-		if resultErr != nil {
-			for _, fd := range handle.Fds {
-				resultErr = errors.Join(resultErr, unix.Close(int(fd)))
-			}
+	result, err := hidlalloc.ParseAllocateResponse(p)
+	if err != nil {
+		return 0, handle, err
+	}
+	if result.Error != 0 {
+		return 0, handle, fmt.Errorf("HIDL allocator error=%d", result.Error)
+	}
+	handle = common.NativeHandle{Fds: result.Fds, Ints: result.Ints}
+	if len(handle.Fds) != 2 || len(handle.Ints) != 22 {
+		err = errors.New("unsupported Qualcomm handle shape")
+		for _, fd := range handle.Fds {
+			err = errors.Join(err, unix.Close(int(fd)))
 		}
-	}()
-	data := p.Data()
-	objs := p.Objects()
-	if len(data) < 12 {
-		return 0, handle, errors.New("truncated HIDL allocation reply")
+		return 0, common.NativeHandle{}, err
 	}
-	status := int32(binary.LittleEndian.Uint32(data))
-	halErr := int32(binary.LittleEndian.Uint32(data[4:]))
-	stride := int32(binary.LittleEndian.Uint32(data[8:]))
-	if status != 0 || halErr != 0 {
-		return 0, handle, fmt.Errorf("HIDL allocator status=%d error=%d", status, halErr)
-	}
-	if len(objs) != 4 || objs[0] != 12 || objs[1] != 52 || objs[2] != 92 || objs[3] != 132 || len(data) < 164 {
-		return 0, handle, errors.New("unsupported HIDL allocation object layout")
-	}
-	for _, off := range objs[:3] {
-		if binary.LittleEndian.Uint32(data[off:]) != 0x70742a85 {
-			return 0, handle, errors.New("invalid HIDL buffer object")
-		}
-	}
-	if binary.LittleEndian.Uint32(data[132:]) != 0x66646185 || binary.LittleEndian.Uint64(data[140:]) != 2 || binary.LittleEndian.Uint64(data[148:]) != 2 || binary.LittleEndian.Uint64(data[156:]) != 12 {
-		return 0, handle, errors.New("invalid HIDL descriptor array")
-	}
-	vecOff := binary.LittleEndian.Uint64(data[20:])
-	vecSize := binary.LittleEndian.Uint64(data[28:])
-	if vecSize != 16 || vecOff > uint64(len(data))-16 || binary.LittleEndian.Uint32(data[vecOff+8:]) != 1 {
-		return 0, handle, errors.New("invalid HIDL buffer vector")
-	}
-	handleOff := binary.LittleEndian.Uint64(data[100:])
-	handleSize := binary.LittleEndian.Uint64(data[108:])
-	const nativeHandleSize = 12 + 2*4 + 22*4
-	if handleSize != nativeHandleSize || handleOff > uint64(len(data))-nativeHandleSize {
-		return 0, handle, errors.New("invalid Qualcomm native handle size")
-	}
-	raw := data[handleOff : handleOff+nativeHandleSize]
-	if binary.LittleEndian.Uint32(raw) != 12 || binary.LittleEndian.Uint32(raw[4:]) != 2 || binary.LittleEndian.Uint32(raw[8:]) != 22 {
-		return 0, handle, errors.New("invalid Qualcomm native handle header")
-	}
-	for i := 0; i < 2; i++ {
-		fd, err := p.TakeReceivedFileDescriptor(int(handleOff) + 12 + i*4)
-		if err != nil {
-			return 0, handle, fmt.Errorf("take allocator descriptor: %w", err)
-		}
-		handle.Fds = append(handle.Fds, fd)
-	}
-	for i := 0; i < 22; i++ {
-		handle.Ints = append(handle.Ints, int32(binary.LittleEndian.Uint32(raw[20+i*4:])))
-	}
-	return stride, handle, nil
+	return result.Stride, handle, nil
 }
 
 // AllocateRGBA allocates buffers for a verified platform-specific capture ABI.
