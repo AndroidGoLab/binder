@@ -115,6 +115,9 @@ func AllocateRGBA(
 	count int,
 ) ([]*Buffer, error) {
 	if runtime.GOOS == "android" && runtime.GOARCH == "arm64" {
+		if api < 29 {
+			return nil, fmt.Errorf("unsupported capture allocator API %d", api)
+		}
 		return allocateNativeRGBA(width, height, count)
 	}
 	switch api {
