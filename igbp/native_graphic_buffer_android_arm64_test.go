@@ -9,10 +9,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TestNativeGraphicBufferSerialization checks native metadata and descriptor order.
+//
+// Example: serialize an allocated Android hardware buffer for a producer request.
 func TestNativeGraphicBufferSerialization(t *testing.T) {
 	buffers, err := gralloc.AllocateRGBA(context.Background(), nil, 29, 8, 8, 1)
 	require.NoError(t, err)
-	defer func() { require.NoError(t, gralloc.CloseBuffers(buffers)) }()
+	defer // Release the allocation after checking its serialized representation.
+	//
+	// Example: close descriptors acquired for this test.
+	func() { require.NoError(t, gralloc.CloseBuffers(buffers)) }()
 	b := buffers[0]
 	raw, ok := b.FlattenedGraphicBuffer()
 	require.True(t, ok)

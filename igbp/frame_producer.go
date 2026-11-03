@@ -42,7 +42,12 @@ const (
 )
 
 // cpuAccessFinisher completes outstanding buffer access before slot reuse.
+//
+// Example: finish a failed unlock before returning a frame to the producer.
 type cpuAccessFinisher interface {
+	// FinishCPUAccess ends any outstanding access or reports why it cannot.
+	//
+	// Example: retry an unlock that failed during frame copying.
 	FinishCPUAccess() error
 }
 

@@ -83,6 +83,8 @@ func WriteGrallocGraphicBuffer(
 }
 
 // writeFlattenedGraphicBuffer preserves the flattened bytes and descriptor order.
+//
+// Example: send an allocator's native GraphicBuffer metadata unchanged.
 func writeFlattenedGraphicBuffer(p *parcel.Parcel, raw []byte, fds []int32) {
 	p.WriteInt32(int32(len(raw)))
 	p.WriteInt32(int32(len(fds)))
