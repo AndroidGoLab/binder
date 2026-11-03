@@ -2,6 +2,7 @@ package gralloc
 
 import (
 	"context"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -26,12 +27,16 @@ func TestAllocateRGBARejectsInvalidAndroid10Input(t *testing.T) {
 	}
 }
 
-// TestAllocateRGBAPreservesPixelValidation checks the API 34 validation order.
+// TestAllocateRGBAPreservesPixelValidation checks the platform-specific validation order.
 //
-// Example: a missing service manager is reported before invalid dimensions.
+// Example: the native Android allocator checks dimensions without a service manager.
 func TestAllocateRGBAPreservesPixelValidation(t *testing.T) {
 	_, err := AllocateRGBA(context.Background(), nil, 34, 0, 1, 1)
-	require.ErrorContains(t, err, "invalid service manager or buffer count")
+	if runtime.GOOS == "android" && runtime.GOARCH == "arm64" {
+		require.ErrorContains(t, err, "dimensions")
+	} else {
+		require.ErrorContains(t, err, "invalid service manager or buffer count")
+	}
 }
 
 // TestAndroid10AllocationRejectsUnknownProfile checks selection before I/O.
