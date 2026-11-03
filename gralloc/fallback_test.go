@@ -226,9 +226,31 @@ func TestAndroid10MissingServicesAndCloseFailure(t *testing.T) {
 	failure := errors.New("close failure")
 	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(0), serviceReply(0)}, closeErr: failure}
 	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
-	require.ErrorContains(t, err, "Mali allocator@3.0 is not registered")
+	require.ErrorContains(t, err, "allocator@3.0 unavailable")
 	require.ErrorIs(t, err, failure)
 	require.Nil(t, buffers)
 	require.Equal(t, 2, s.calls)
+	require.Equal(t, 1, s.closes)
+}
+
+func TestAndroid10SecondLookupFailureClosesConnection(t *testing.T) {
+	failure := errors.New("Mali lookup failure")
+	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(0)}, failure: failure}
+	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
+	require.ErrorIs(t, err, failure)
+	require.Nil(t, buffers)
+	require.Equal(t, []uint32{0, 0}, s.handles)
+	require.Equal(t, 1, s.closes)
+}
+
+func TestAndroid10AllocationErrorDoesNotProbeAnotherBackend(t *testing.T) {
+	raw := make([]byte, 12)
+	binary.LittleEndian.PutUint32(raw[4:], 1)
+	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(9), parcel.FromReceivedBytes(raw, nil)}}
+	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
+	require.ErrorContains(t, err, "HIDL allocator status=0 error=1")
+	require.Nil(t, buffers)
+	require.Equal(t, []uint32{0, 9}, s.handles)
+	require.Equal(t, []binder.TransactionCode{1, 2}, s.codes)
 	require.Equal(t, 1, s.closes)
 }

@@ -10,7 +10,6 @@ import (
 	gfx "github.com/AndroidGoLab/binder/android/hardware/graphics/common"
 	"github.com/AndroidGoLab/binder/binder"
 	"github.com/AndroidGoLab/binder/gralloc/hidlalloc"
-	"github.com/AndroidGoLab/binder/hwservicemanager"
 	"golang.org/x/sys/unix"
 )
 
@@ -50,7 +49,7 @@ func maliDescriptor(width, height int32) ([]uint32, error) {
 	}, nil
 }
 
-func allocateMaliRGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (_ []*Buffer, resultErr error) {
+func allocateMaliRGBA(ctx context.Context, driver binder.Transport, handle uint32, width, height int32, count int) (_ []*Buffer, resultErr error) {
 	if count < 1 || count > 64 {
 		return nil, errors.New("invalid Mali buffer count")
 	}
@@ -65,14 +64,6 @@ func allocateMaliRGBA(ctx context.Context, driver binder.Transport, width, heigh
 		}
 	}()
 
-	const allocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
-	handle, err := hwservicemanager.New(driver).GetService(ctx, allocatorFQName, "default")
-	if err != nil {
-		return nil, fmt.Errorf("get Mali allocator@3: %w", err)
-	}
-	if handle == 0 {
-		return nil, errors.New("Mali allocator@3.0 is not registered")
-	}
 	for range count {
 		result, err := hidlalloc.AllocateDescriptor(ctx, driver, handle, desc, 1)
 		if err != nil {
