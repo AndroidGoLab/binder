@@ -68,7 +68,8 @@ type AllocateResult struct {
 	Ints []int32
 }
 
-// Allocate calls IAllocator::allocate() via HIDL/hwbinder.
+// Allocate calls IAllocator::allocate() via HIDL/hwbinder. It supports one
+// buffer per call because AllocateResult represents a single native handle.
 func Allocate(
 	ctx context.Context,
 	transport binder.Transport,
@@ -89,7 +90,7 @@ func Allocate(
 }
 
 // AllocateDescriptor calls IAllocator::allocate with a descriptor produced
-// using the target mapper's descriptor ABI.
+// using the target mapper's descriptor ABI. It supports one buffer per call.
 func AllocateDescriptor(
 	ctx context.Context,
 	transport binder.Transport,
@@ -102,6 +103,9 @@ func AllocateDescriptor(
 	}
 	if count == 0 {
 		return nil, fmt.Errorf("hidlalloc: buffer count must be positive")
+	}
+	if count != 1 {
+		return nil, fmt.Errorf("hidlalloc: only one buffer per allocation is supported (count=%d)", count)
 	}
 
 	hp := hwparcel.New()

@@ -95,3 +95,23 @@ func TestAllocateDescriptorValidatesRequest(t *testing.T) {
 	_, err = AllocateDescriptor(context.Background(), nil, 0, []uint32{1}, 0)
 	require.ErrorContains(t, err, "buffer count must be positive")
 }
+
+func TestAllocateRejectsMultipleBuffers(t *testing.T) {
+	for _, allocate := range []struct {
+		name string
+		call func() (*AllocateResult, error)
+	}{
+		{"descriptor", func() (*AllocateResult, error) {
+			return AllocateDescriptor(context.Background(), allocationTransport{reply: parcel.FromReceivedBytes(make([]byte, 12), nil)}, 0, []uint32{1}, 2)
+		}},
+		{"legacy", func() (*AllocateResult, error) {
+			return Allocate(context.Background(), allocationTransport{reply: parcel.FromReceivedBytes(make([]byte, 12), nil)}, 0, 1, 1, 1, 1, 1, 2)
+		}},
+	} {
+		t.Run(allocate.name, func(t *testing.T) {
+			result, err := allocate.call()
+			require.ErrorContains(t, err, "only one buffer")
+			require.Nil(t, result)
+		})
+	}
+}
