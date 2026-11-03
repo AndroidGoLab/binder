@@ -85,10 +85,28 @@ func Allocate(
 
 	// BufferDescriptor: goldfish/ranchu encoding (5 uint32 values).
 	descriptor := []uint32{width, height, layerCount, format, uint32(usage)}
+	return AllocateDescriptor(ctx, transport, allocatorHandle, descriptor, count)
+}
+
+// AllocateDescriptor calls IAllocator::allocate with a descriptor produced
+// using the target mapper's descriptor ABI.
+func AllocateDescriptor(
+	ctx context.Context,
+	transport binder.Transport,
+	allocatorHandle uint32,
+	descriptor []uint32,
+	count uint32,
+) (_ *AllocateResult, _err error) {
+	if len(descriptor) == 0 {
+		return nil, fmt.Errorf("hidlalloc: empty buffer descriptor")
+	}
+	if count == 0 {
+		return nil, fmt.Errorf("hidlalloc: buffer count must be positive")
+	}
 
 	hp := hwparcel.New()
 	hp.WriteInterfaceToken(allocatorFQName)
-	hp.WriteHidlVecUint32(descriptor)
+	hp.WriteHidlVecUint32(append([]uint32(nil), descriptor...))
 	hp.WriteUint32(count)
 
 	reply, err := hwservicemanager.TransactHidl(ctx, transport, allocatorHandle, transactionAllocate, hp)
@@ -109,8 +127,8 @@ func Allocate(
 //
 // Wire format after scatter-gather resolution:
 //
-//	[0:4]     int32 error
-//	[4:8]     padding (alignment)
+//	[0:4]     int32 HIDL transport status
+//	[4:8]     int32 allocator error
 //	[8:12]    int32 stride
 //	[12:52]   binder_buffer_object: hidl_vec<handle> header (bufLen=16)
 //	[52:92]   binder_buffer_object: hidl_handle (bufLen=16, child of vec)
@@ -131,8 +149,12 @@ func parseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 		return nil, fmt.Errorf("response too short: %d bytes", len(data))
 	}
 
+	transportStatus := int32(binary.LittleEndian.Uint32(data[0:]))
+	if transportStatus != 0 {
+		return nil, fmt.Errorf("HIDL allocator transport status: %d", transportStatus)
+	}
 	result := &AllocateResult{
-		Error:  int32(binary.LittleEndian.Uint32(data[0:])),
+		Error:  int32(binary.LittleEndian.Uint32(data[4:])),
 		Stride: int32(binary.LittleEndian.Uint32(data[8:])),
 	}
 

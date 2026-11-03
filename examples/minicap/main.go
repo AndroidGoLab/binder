@@ -4,9 +4,8 @@
 // On a supported device, run as a user with SurfaceFlinger capture permission:
 // minicap -P 1080x2400@360x800/0 -n minicap
 // Use -raw to write tightly packed RGBA frames to stdout. Android 14 Pixel
-// gchips and Android 10 Qualcomm SDM845 are the supported allocator layouts.
-// The Android 10 path has source-based tests but has not been tested on a device;
-// unsupported handles are rejected.
+// gchips, Android 10 Qualcomm SDM845, and the tested Rockchip Bifrost
+// allocator@3.0 handle layout are supported; unknown layouts are rejected.
 package main
 
 import (

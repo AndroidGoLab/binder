@@ -41,6 +41,8 @@ const (
 	qcomIonFlag int32 = 8
 )
 
+var errQcomAllocatorUnavailable = errors.New("Qualcomm allocator@2.0 is not registered")
+
 // qcomDescriptor serializes the Android 10 SDM845 gralloc2 buffer descriptor.
 // https://android.googlesource.com/platform/hardware/qcom/sdm845/display/+/refs/tags/android-10.0.0_r40/gralloc/gr_buf_descriptor.h
 //
@@ -161,7 +163,11 @@ func readQcomAllocation(p *parcel.Parcel) (_ int32, _ common.NativeHandle, resul
 func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api int, width, height int32, count int) ([]*Buffer, error) {
 	switch api {
 	case 29:
-		return allocateQcomRGBA(ctx, width, height, count)
+		buffers, err := allocateQcomRGBA(ctx, width, height, count)
+		if !errors.Is(err, errQcomAllocatorUnavailable) {
+			return buffers, err
+		}
+		return allocateMaliRGBA(ctx, width, height, count)
 	case 34:
 		return AllocatePixelRGBA(ctx, sm, api, width, height, count)
 	default:
@@ -198,6 +204,9 @@ func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []
 	handle, err := hwservicemanager.New(driver).GetService(ctx, fqName, "default")
 	if err != nil {
 		return nil, fmt.Errorf("get Qualcomm allocator@2: %w", err)
+	}
+	if handle == 0 {
+		return nil, errQcomAllocatorUnavailable
 	}
 	for range count {
 		req := hwparcel.New()
