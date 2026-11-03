@@ -31,19 +31,54 @@ const (
 	// Example: non-ION handles are not accepted by this reader.
 	qcomIonFlag int32 = 8
 
-	// Qualcomm private_handle_t integer field positions for this ABI.
-	qcomHandleIntCount     = 22
-	qcomMagicIndex         = 0
-	qcomFlagsIndex         = 1
-	qcomStrideIndex        = 2
+	// qcomHandleIntCount is the number of integer words in the handle.
+	//
+	// Example: reject handles from a different ABI.
+	qcomHandleIntCount = 22
+	// qcomMagicIndex identifies the handle magic word.
+	//
+	// Example: check the vendor identifier.
+	qcomMagicIndex = 0
+	// qcomFlagsIndex identifies the allocation flags word.
+	//
+	// Example: reject compressed allocations.
+	qcomFlagsIndex = 1
+	// qcomStrideIndex identifies the pixel stride word.
+	//
+	// Example: compare the handle stride with the allocator reply.
+	qcomStrideIndex = 2
+	// qcomAlignedHeightIndex identifies the allocation height word.
+	//
+	// Example: verify the allocation covers the requested height.
 	qcomAlignedHeightIndex = 3
-	qcomWidthIndex         = 4
-	qcomHeightIndex        = 5
-	qcomFormatIndex        = 6
-	qcomLayerCountIndex    = 8
-	qcomUsageIndex         = 11
-	qcomSizeIndex          = 13
-	qcomOffsetIndex        = 14
+	// qcomWidthIndex identifies the requested width word.
+	//
+	// Example: compare it with the buffer width.
+	qcomWidthIndex = 4
+	// qcomHeightIndex identifies the requested height word.
+	//
+	// Example: compare it with the buffer height.
+	qcomHeightIndex = 5
+	// qcomFormatIndex identifies the pixel format word.
+	//
+	// Example: require RGBA8888.
+	qcomFormatIndex = 6
+	// qcomLayerCountIndex identifies the layer count word.
+	//
+	// Example: require a single layer.
+	qcomLayerCountIndex = 8
+	// qcomUsageIndex identifies the first of two usage words.
+	//
+	// Example: decode the 64-bit usage value.
+	qcomUsageIndex = 11
+	// qcomSizeIndex identifies the allocation size word.
+	//
+	// Example: verify that the pixel plane fits.
+	qcomSizeIndex = 13
+	// qcomOffsetIndex identifies the allocation offset word.
+	//
+	// Example: require a zero pixel-plane offset.
+	qcomOffsetIndex = 14
 )
 
 // qcomAllocatorFQName identifies the allocator used by the Qualcomm profile.

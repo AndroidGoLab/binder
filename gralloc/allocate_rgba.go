@@ -42,7 +42,8 @@ func allocateAndroid10Buffers(
 	ctx context.Context,
 	driver binder.Transport,
 	handle uint32,
-	width, height int32,
+	width int32,
+	height int32,
 	count int,
 	profile android10Profile,
 ) (_ []*Buffer, resultErr error) {
