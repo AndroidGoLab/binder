@@ -6,7 +6,7 @@ Running it requires access to SurfaceFlinger and the graphics allocator. Some
 devices grant this access to the ADB shell; others require a privileged account.
 
 ```sh
-GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o minicap ./examples/minicap
+GOOS=android GOARCH=arm64 CGO_ENABLED=0 go build -o minicap ./examples/minicap
 adb push minicap /data/local/tmp/minicap
 adb shell /data/local/tmp/minicap -P 1080x2400@360x800/0 -n minicap
 ```
@@ -62,13 +62,15 @@ capture with SIGINT or SIGTERM. Since raw output has no framing, read fixed-size
 frame chunks and discard any incomplete trailing bytes if capture is interrupted
 mid-frame.
 
-The graphics backends recognize the Android 14 r35 Pixel gchips layout, the
-Android 10 Qualcomm SDM845 uncached, linear ION layout, and the tested Rockchip
-Bifrost gralloc3 ABI (allocator@3.0 descriptor version 30 with a linear,
-CPU-readable RGBA dma-buf). The Rockchip handle reader validates the observed
-native-handle shape and plane geometry; unknown or compressed layouts fail
-rather than being interpreted as pixels. This confirms support for the tested
-device's ABI, not every RK3588 board or Mali allocator. Android 14 capture has
-been exercised on a Pixel 6a; Android 10 Qualcomm remains source-tested but
-has not been verified on SDM845 hardware. Android 10 on arm64 alone does not
-establish that the Qualcomm backend applies.
+On Android arm64, the native AHardwareBuffer allocator is used on API 29 and
+later, without assuming a vendor-specific buffer layout. Capture still depends
+on the supported SurfaceFlinger protocols: Android 10 (API 29) and Android 14
+(API 34), with the Android 14 transaction layout checked against r35. Other
+versions or incompatible builds are rejected. Android 14 capture and socket
+streaming have been exercised on a Pixel 6a; Android 10 native-buffer capture
+has not been verified on hardware.
+
+A Linux arm64 build (`GOOS=linux`) uses the existing vendor-specific allocator
+backends for the Android 14 r35 Pixel gchips layout, Android 10 Qualcomm SDM845
+linear ION layout, and the tested Rockchip Bifrost gralloc3 ABI. Unknown layouts
+are rejected.

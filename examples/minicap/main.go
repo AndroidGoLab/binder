@@ -1,11 +1,9 @@
 // The minicap example streams JPEG or raw RGBA8888 frames from a virtual display.
 //
-// Build with GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build ./examples/minicap.
+// Build with GOOS=android GOARCH=arm64 CGO_ENABLED=0 go build ./examples/minicap.
 // On a supported device, run as a user with SurfaceFlinger capture permission:
 // minicap -P 1080x2400@360x800/0 -n minicap
-// Use -raw to write tightly packed RGBA frames to stdout. Android 14 Pixel
-// gchips, Android 10 Qualcomm SDM845, and the tested Rockchip Bifrost
-// allocator@3.0 handle layout are supported; unknown layouts are rejected.
+// Use -raw to write tightly packed RGBA frames to stdout.
 package main
 
 import (
