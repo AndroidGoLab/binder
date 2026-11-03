@@ -87,14 +87,27 @@ func maliReply(t *testing.T, valid bool) (*parcel.Parcel, []int) {
 	ints[maliPlaneByteStrideIndex] = 4
 	ints[maliPlaneAllocWidthIndex] = 1
 	ints[maliPlaneAllocHeightIndex] = 1
-	const off = 164
+	const off = 208
 	data := make([]byte, off+12+8+4*maliHandleIntCount)
 	binary.LittleEndian.PutUint32(data[8:], 1)
-	for _, pos := range []int{12, 52, 92} {
+	for _, pos := range []int{12, 52, 100} {
 		binary.LittleEndian.PutUint32(data[pos:], 0x70742a85)
 	}
-	binary.LittleEndian.PutUint64(data[100:], off)
-	binary.LittleEndian.PutUint64(data[108:], uint64(len(data)-off))
+	binary.LittleEndian.PutUint64(data[20:], 172)
+	binary.LittleEndian.PutUint64(data[28:], 16)
+	binary.LittleEndian.PutUint32(data[56:], 1)
+	binary.LittleEndian.PutUint64(data[60:], 192)
+	binary.LittleEndian.PutUint64(data[68:], 16)
+	binary.LittleEndian.PutUint32(data[180:], 1)
+	binary.LittleEndian.PutUint64(data[92:], uint64(len(data)-off))
+	binary.LittleEndian.PutUint32(data[104:], 1)
+	binary.LittleEndian.PutUint64(data[124:], 1)
+	binary.LittleEndian.PutUint32(data[140:], 0x66646185)
+	binary.LittleEndian.PutUint64(data[148:], 2)
+	binary.LittleEndian.PutUint64(data[156:], 2)
+	binary.LittleEndian.PutUint64(data[164:], 12)
+	binary.LittleEndian.PutUint64(data[108:], off)
+	binary.LittleEndian.PutUint64(data[116:], uint64(len(data)-off))
 	binary.LittleEndian.PutUint32(data[off:], 12)
 	binary.LittleEndian.PutUint32(data[off+4:], 2)
 	binary.LittleEndian.PutUint32(data[off+8:], maliHandleIntCount)
@@ -103,7 +116,7 @@ func maliReply(t *testing.T, valid bool) (*parcel.Parcel, []int) {
 	for i, v := range ints {
 		binary.LittleEndian.PutUint32(data[off+20+i*4:], uint32(v))
 	}
-	return parcel.FromReceivedBytes(data, nil, off+12, off+16), []int{fd, attr}
+	return parcel.FromReceivedBytes(data, []uint64{12, 52, 100, 140}, off+12, off+16), []int{fd, attr}
 }
 
 // TestAndroid10Fallback exercises service discovery and real Mali reply handling.
@@ -184,30 +197,36 @@ func TestAndroid10QualcommSuccessStopsDiscovery(t *testing.T) {
 	attr, err := unix.Dup(fd)
 	require.NoError(t, err)
 	t.Cleanup(func() { _ = unix.Close(fd); _ = unix.Close(attr) })
-	raw := make([]byte, 308)
+	raw := make([]byte, 316)
 	binary.LittleEndian.PutUint32(raw[8:], 1)
-	for _, off := range []int{12, 52, 92} {
+	for _, off := range []int{12, 52, 100} {
 		binary.LittleEndian.PutUint32(raw[off:], 0x70742a85)
 	}
-	binary.LittleEndian.PutUint64(raw[20:], 164)
+	binary.LittleEndian.PutUint64(raw[20:], 172)
 	binary.LittleEndian.PutUint64(raw[28:], 16)
-	binary.LittleEndian.PutUint32(raw[172:], 1)
-	binary.LittleEndian.PutUint64(raw[100:], 200)
-	binary.LittleEndian.PutUint64(raw[108:], 108)
-	binary.LittleEndian.PutUint32(raw[132:], 0x66646185)
-	binary.LittleEndian.PutUint64(raw[140:], 2)
+	binary.LittleEndian.PutUint32(raw[56:], 1)
+	binary.LittleEndian.PutUint64(raw[60:], 192)
+	binary.LittleEndian.PutUint64(raw[68:], 16)
+	binary.LittleEndian.PutUint32(raw[180:], 1)
+	binary.LittleEndian.PutUint64(raw[92:], 108)
+	binary.LittleEndian.PutUint32(raw[104:], 1)
+	binary.LittleEndian.PutUint64(raw[108:], 208)
+	binary.LittleEndian.PutUint64(raw[116:], 108)
+	binary.LittleEndian.PutUint64(raw[124:], 1)
+	binary.LittleEndian.PutUint32(raw[140:], 0x66646185)
 	binary.LittleEndian.PutUint64(raw[148:], 2)
-	binary.LittleEndian.PutUint64(raw[156:], 12)
-	binary.LittleEndian.PutUint32(raw[200:], 12)
-	binary.LittleEndian.PutUint32(raw[204:], 2)
-	binary.LittleEndian.PutUint32(raw[208:], 22)
-	binary.LittleEndian.PutUint32(raw[212:], uint32(fd))
-	binary.LittleEndian.PutUint32(raw[216:], uint32(attr))
+	binary.LittleEndian.PutUint64(raw[156:], 2)
+	binary.LittleEndian.PutUint64(raw[164:], 12)
+	binary.LittleEndian.PutUint32(raw[208:], 12)
+	binary.LittleEndian.PutUint32(raw[212:], 2)
+	binary.LittleEndian.PutUint32(raw[216:], 22)
+	binary.LittleEndian.PutUint32(raw[220:], uint32(fd))
+	binary.LittleEndian.PutUint32(raw[224:], uint32(attr))
 	ints := []int32{qcomHandleMagic, qcomIonFlag, 1, 1, 1, 1, 1, 0, 1, 0, 0, int32(qcomRGBAUsage), 0, 4}
 	for i, v := range ints {
-		binary.LittleEndian.PutUint32(raw[220+i*4:], uint32(v))
+		binary.LittleEndian.PutUint32(raw[228+i*4:], uint32(v))
 	}
-	reply := parcel.FromReceivedBytes(raw, []uint64{12, 52, 92, 132}, 212, 216)
+	reply := parcel.FromReceivedBytes(raw, []uint64{12, 52, 100, 140}, 220, 224)
 	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(9), reply}}
 	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
 	require.NoError(t, err)
@@ -254,7 +273,7 @@ func TestAndroid10AllocationErrorDoesNotProbeAnotherBackend(t *testing.T) {
 	binary.LittleEndian.PutUint32(raw[4:], 1)
 	s := &allocatorScript{replies: []*parcel.Parcel{serviceReply(9), parcel.FromReceivedBytes(raw, nil)}}
 	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
-	require.ErrorContains(t, err, "HIDL allocator status=0 error=1")
+	require.ErrorContains(t, err, "HIDL allocator error=1")
 	require.Nil(t, buffers)
 	require.Equal(t, []uint32{0, 9}, s.handles)
 	require.Equal(t, []binder.TransactionCode{1, 2}, s.codes)

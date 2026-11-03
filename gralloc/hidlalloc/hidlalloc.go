@@ -43,14 +43,8 @@ const (
 	// binderTypePTR is BINDER_TYPE_PTR for scatter-gather buffer objects.
 	binderTypePTR = uint32(0x70742a85)
 
-	// binderTypeFDA is BINDER_TYPE_FDA for file descriptor arrays.
-	binderTypeFDA = uint32(0x66646185)
-
 	// bufObjSize is sizeof(binder_buffer_object) on 64-bit.
 	bufObjSize = 40
-
-	// fdaObjSize is sizeof(binder_fd_array_object) on 64-bit.
-	fdaObjSize = 32
 )
 
 // AllocateResult holds the result of a gralloc 3.0 allocate() call.
@@ -119,7 +113,7 @@ func AllocateDescriptor(
 	}
 	defer reply.Recycle()
 
-	result, err := parseAllocateResponse(reply)
+	result, err := ParseAllocateResponse(reply)
 	if err != nil {
 		return nil, fmt.Errorf("hidlalloc: parsing response: %w", err)
 	}
@@ -127,7 +121,8 @@ func AllocateDescriptor(
 	return result, nil
 }
 
-// parseAllocateResponse parses the raw reply data from an allocate() call.
+// ParseAllocateResponse parses a resolved HIDL allocator reply and transfers
+// its received file descriptors to the caller.
 //
 // Wire format after scatter-gather resolution:
 //
@@ -136,9 +131,10 @@ func AllocateDescriptor(
 //	[8:12]    int32 stride
 //	[12:52]   binder_buffer_object: hidl_vec<handle> header (bufLen=16)
 //	[52:92]   binder_buffer_object: hidl_handle (bufLen=16, child of vec)
-//	[92:132]  binder_buffer_object: native_handle_t data (child of handle)
-//	[132:164] binder_fd_array_object: fd array referencing native_handle
-//	[164+]    scatter-gather buffer data (resolved by kernel driver)
+//	[92:100]  uint64 native_handle_t size
+//	[100:140] binder_buffer_object: native_handle_t data (child of handle)
+//	[140:172] binder_fd_array_object: fd array referencing native_handle
+//	[172+]    scatter-gather buffer data (resolved by kernel driver)
 //
 // The native_handle_t buffer contains:
 //
@@ -147,7 +143,7 @@ func AllocateDescriptor(
 //	int32 numInts
 //	int32[numFds] fds  (translated by kernel)
 //	int32[numInts] ints
-func parseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
+func ParseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 	data := p.Data()
 	if len(data) < 12 {
 		return nil, fmt.Errorf("response too short: %d bytes", len(data))
@@ -166,41 +162,40 @@ func parseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 		return result, nil
 	}
 
-	// Find the native_handle_t data by scanning for PTR objects.
-	// The third PTR object (index 2) contains the native_handle_t.
-	pos := 12
-	ptrIndex := 0
-	var nativeHandleBufPtr uint64
-	var nativeHandleBufLen uint64
-
-	for pos+bufObjSize <= len(data) {
-		objType := binary.LittleEndian.Uint32(data[pos:])
-
-		switch objType {
-		case binderTypePTR:
-			bufPtr := binary.LittleEndian.Uint64(data[pos+8:])
-			bufLen := binary.LittleEndian.Uint64(data[pos+16:])
-
-			if ptrIndex == 2 {
-				// Third PTR: native_handle_t data.
-				nativeHandleBufPtr = bufPtr
-				nativeHandleBufLen = bufLen
-			}
-			ptrIndex++
-			pos += bufObjSize
-
-		case binderTypeFDA:
-			pos += fdaObjSize
-
-		default:
-			// Unknown object type or end of objects.
-			pos += 4
+	// Binder's object-offset table identifies objects; payload bytes can contain
+	// the same type values and must not be interpreted as object headers.
+	objects := p.Objects()
+	if len(objects) != 4 {
+		return nil, fmt.Errorf("missing native handle buffer objects")
+	}
+	for _, off := range objects[:3] {
+		if off > uint64(len(data)) || uint64(len(data))-off < bufObjSize || binary.LittleEndian.Uint32(data[off:]) != binderTypePTR {
+			return nil, fmt.Errorf("invalid native handle buffer object")
 		}
 	}
-
-	// Parse the native_handle_t from the resolved buffer data.
-	if nativeHandleBufLen == 0 {
-		return result, nil
+	if objects[0] != 12 || objects[1] != 52 || objects[2] != 100 || objects[3] != 140 || len(data) < 172 {
+		return nil, fmt.Errorf("invalid allocation object layout")
+	}
+	if binary.LittleEndian.Uint32(data[16:]) != 0 || binary.LittleEndian.Uint32(data[56:]) != 1 ||
+		binary.LittleEndian.Uint64(data[76:]) != 0 || binary.LittleEndian.Uint64(data[84:]) != 0 ||
+		binary.LittleEndian.Uint32(data[104:]) != 1 || binary.LittleEndian.Uint64(data[124:]) != 1 ||
+		binary.LittleEndian.Uint64(data[132:]) != 0 || binary.LittleEndian.Uint32(data[140:]) != 0x66646185 ||
+		binary.LittleEndian.Uint64(data[156:]) != 2 || binary.LittleEndian.Uint64(data[164:]) != 12 {
+		return nil, fmt.Errorf("invalid allocation object topology")
+	}
+	vecOffset := binary.LittleEndian.Uint64(data[20:])
+	vecLen := binary.LittleEndian.Uint64(data[28:])
+	childOffset := binary.LittleEndian.Uint64(data[60:])
+	childLen := binary.LittleEndian.Uint64(data[68:])
+	if vecLen != 16 || vecOffset > uint64(len(data))-16 || binary.LittleEndian.Uint32(data[vecOffset+8:]) != 1 ||
+		childLen != 16 || childOffset > uint64(len(data))-16 {
+		return nil, fmt.Errorf("invalid allocation buffer vector")
+	}
+	off := objects[2]
+	nativeHandleBufPtr := binary.LittleEndian.Uint64(data[off+8:])
+	nativeHandleBufLen := binary.LittleEndian.Uint64(data[off+16:])
+	if binary.LittleEndian.Uint64(data[92:]) != nativeHandleBufLen {
+		return nil, fmt.Errorf("native handle size mismatch")
 	}
 
 	if nativeHandleBufPtr > uint64(len(data)) || nativeHandleBufLen > uint64(len(data))-nativeHandleBufPtr {
@@ -212,16 +207,21 @@ func parseAllocateResponse(p *parcel.Parcel) (*AllocateResult, error) {
 	if len(nhData) < 12 {
 		return result, fmt.Errorf("native_handle too short: %d bytes", len(nhData))
 	}
+	if binary.LittleEndian.Uint32(nhData) != 12 {
+		return nil, fmt.Errorf("invalid native_handle version")
+	}
 
 	// native_handle_t: version, numFds, numInts, data[numFds+numInts]
-	numFds := int(binary.LittleEndian.Uint32(nhData[4:]))
-	numInts := int(binary.LittleEndian.Uint32(nhData[8:]))
-
-	expectedSize := 12 + (numFds+numInts)*4
-	if len(nhData) < expectedSize {
-		return result, fmt.Errorf("native_handle data too short: have %d, need %d (numFds=%d numInts=%d)",
-			len(nhData), expectedSize, numFds, numInts)
+	fdCount := binary.LittleEndian.Uint32(nhData[4:])
+	intCount := binary.LittleEndian.Uint32(nhData[8:])
+	if binary.LittleEndian.Uint64(data[148:]) != uint64(fdCount) {
+		return nil, fmt.Errorf("native handle descriptor count mismatch")
 	}
+	if fdCount > 1024 || intCount > 1024 || uint64(fdCount)+uint64(intCount) != uint64(len(nhData)-12)/4 || (len(nhData)-12)%4 != 0 {
+		return nil, fmt.Errorf("invalid native_handle size or counts: have %d bytes (numFds=%d numInts=%d)",
+			len(nhData), fdCount, intCount)
+	}
+	numFds, numInts := int(fdCount), int(intCount)
 
 	// Read FDs (kernel has already translated them to our fd table).
 	offset := 12
