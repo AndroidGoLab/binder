@@ -22,6 +22,7 @@ type allocatorScript struct {
 	failure  error
 	closeErr error
 	calls    int
+	closes   int
 	requests [][]byte
 	handles  []uint32
 	codes    []binder.TransactionCode
@@ -46,7 +47,10 @@ func (s *allocatorScript) Transact(_ context.Context, handle uint32, code binder
 // Close simulates releasing the hwbinder connection.
 //
 // Example: report an error closing a connection after successful allocation.
-func (s *allocatorScript) Close(context.Context) error { return s.closeErr }
+func (s *allocatorScript) Close(context.Context) error {
+	s.closes++
+	return s.closeErr
+}
 
 // serviceReply constructs a HIDL service lookup response.
 //
@@ -112,6 +116,7 @@ func TestAndroid10Fallback(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, buffers, 1)
 	require.Equal(t, 3, s.calls)
+	require.Equal(t, 1, s.closes)
 	require.Equal(t, []uint32{0, 0, 7}, s.handles)
 	require.Equal(t, []binder.TransactionCode{1, 1, 2}, s.codes)
 	require.True(t, bytes.Contains(s.requests[2], []byte("android.hardware.graphics.allocator@3.0::IAllocator")))
@@ -133,6 +138,7 @@ func TestAndroid10FallbackFailureCleanup(t *testing.T) {
 	require.ErrorContains(t, err, "unsupported Mali allocation")
 	require.Nil(t, buffers)
 	require.Equal(t, 4, s.calls)
+	require.Equal(t, 1, s.closes)
 	for _, fd := range append(fds1, fds2...) {
 		_, err := unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
 		require.ErrorIs(t, err, unix.EBADF)
@@ -149,6 +155,7 @@ func TestAndroid10DoesNotFallbackOnDiscoveryError(t *testing.T) {
 	require.ErrorIs(t, err, failure)
 	require.Nil(t, buffers)
 	require.Equal(t, 1, s.calls)
+	require.Equal(t, 1, s.closes)
 }
 
 // TestAndroid10CloseFailureClosesBuffers protects descriptors on failed return.
@@ -161,6 +168,7 @@ func TestAndroid10CloseFailureClosesBuffers(t *testing.T) {
 	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
 	require.ErrorIs(t, err, failure)
 	require.Nil(t, buffers)
+	require.Equal(t, 1, s.closes)
 	for _, fd := range fds {
 		_, err := unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
 		require.ErrorIs(t, err, unix.EBADF)
@@ -204,6 +212,7 @@ func TestAndroid10QualcommSuccessStopsDiscovery(t *testing.T) {
 	buffers, err := allocateAndroid10RGBA(context.Background(), s, 1, 1, 1)
 	require.NoError(t, err)
 	require.Len(t, buffers, 1)
+	require.Equal(t, 1, s.closes)
 	require.Equal(t, []uint32{0, 9}, s.handles)
 	require.Equal(t, []binder.TransactionCode{1, 2}, s.codes)
 	require.True(t, bytes.Contains(s.requests[1], []byte("android.hardware.graphics.allocator@2.0::IAllocator")))
@@ -221,4 +230,5 @@ func TestAndroid10MissingServicesAndCloseFailure(t *testing.T) {
 	require.ErrorIs(t, err, failure)
 	require.Nil(t, buffers)
 	require.Equal(t, 2, s.calls)
+	require.Equal(t, 1, s.closes)
 }
