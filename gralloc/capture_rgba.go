@@ -190,6 +190,9 @@ func captureRGBALayout(b *Buffer) (rgbaLayout, error) {
 	if b != nil && len(b.Handle.Ints) == 22 && b.Handle.Ints[0] == qcomHandleMagic {
 		return qcomRGBALayout(b)
 	}
+	if b != nil && len(b.Handle.Ints) == maliHandleIntCount && b.Handle.Ints[0] == maliHandleMagic {
+		return maliRGBALayout(b)
+	}
 	return pixelRGBALayout(b)
 }
 

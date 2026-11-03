@@ -41,6 +41,12 @@ const (
 	qcomIonFlag int32 = 8
 )
 
+// qcomAllocatorFQName identifies the allocator used by the Qualcomm profile.
+const qcomAllocatorFQName = "android.hardware.graphics.allocator@2.0::IAllocator"
+
+// maliAllocatorFQName identifies the allocator used by the Mali profile.
+const maliAllocatorFQName = "android.hardware.graphics.allocator@3.0::IAllocator"
+
 // qcomDescriptor serializes the Android 10 SDM845 gralloc2 buffer descriptor.
 // https://android.googlesource.com/platform/hardware/qcom/sdm845/display/+/refs/tags/android-10.0.0_r40/gralloc/gr_buf_descriptor.h
 //
@@ -161,7 +167,17 @@ func readQcomAllocation(p *parcel.Parcel) (_ int32, _ common.NativeHandle, resul
 func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api int, width, height int32, count int) ([]*Buffer, error) {
 	switch api {
 	case 29:
-		return allocateQcomRGBA(ctx, width, height, count)
+		if count < 1 || count > 64 {
+			return nil, errors.New("invalid Qualcomm buffer count")
+		}
+		if _, err := qcomDescriptor(width, height); err != nil {
+			return nil, err
+		}
+		driver, err := kernelbinder.Open(ctx, binder.WithDevicePath("/dev/hwbinder"), binder.WithMapSize(256*1024))
+		if err != nil {
+			return nil, fmt.Errorf("open hwbinder: %w", err)
+		}
+		return allocateAndroid10RGBA(ctx, driver, width, height, count)
 	case 34:
 		return AllocatePixelRGBA(ctx, sm, api, width, height, count)
 	default:
@@ -169,10 +185,39 @@ func AllocateRGBA(ctx context.Context, sm *servicemanager.ServiceManager, api in
 	}
 }
 
+// allocateAndroid10RGBA probes Android 10 allocators and owns the connection.
+//
+// Example: an absent Qualcomm allocator triggers the Mali probe.
+func allocateAndroid10RGBA(ctx context.Context, driver binder.Transport, width, height int32, count int) (buffers []*Buffer, resultErr error) {
+	defer func() {
+		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
+		if resultErr != nil {
+			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
+			buffers = nil
+		}
+	}()
+	sm := hwservicemanager.New(driver)
+	handle, err := sm.GetService(ctx, qcomAllocatorFQName, "default")
+	if err != nil {
+		return nil, fmt.Errorf("get allocator@2.0: %w", err)
+	}
+	if handle != 0 {
+		return allocateQcomRGBA(ctx, driver, handle, width, height, count)
+	}
+	handle, err = sm.GetService(ctx, maliAllocatorFQName, "default")
+	if err != nil {
+		return nil, fmt.Errorf("get allocator@3.0: %w", err)
+	}
+	if handle == 0 {
+		return nil, errors.New("allocator@3.0 unavailable")
+	}
+	return allocateMaliRGBA(ctx, driver, handle, width, height, count)
+}
+
 // allocateQcomRGBA uses Android 10's HIDL allocator@2 and validates each handle.
 //
 // Example: allocate one buffer per transaction to simplify HIDL FD ownership.
-func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []*Buffer, resultErr error) {
+func allocateQcomRGBA(ctx context.Context, driver binder.Transport, handle uint32, width, height int32, count int) (_ []*Buffer, resultErr error) {
 	if count < 1 || count > 64 {
 		return nil, errors.New("invalid Qualcomm buffer count")
 	}
@@ -180,28 +225,18 @@ func allocateQcomRGBA(ctx context.Context, width, height int32, count int) (_ []
 	if err != nil {
 		return nil, err
 	}
-	driver, err := kernelbinder.Open(ctx, binder.WithDevicePath("/dev/hwbinder"), binder.WithMapSize(256*1024))
-	if err != nil {
-		return nil, fmt.Errorf("open hwbinder: %w", err)
-	}
 	var buffers []*Buffer
-	defer // Close partial buffers and the HIDL connection on error.
+	defer // Close partial buffers on error.
 	//
 	// Example: an unsupported second handle releases the first allocation.
 	func() {
-		resultErr = errors.Join(resultErr, driver.Close(context.Background()))
 		if resultErr != nil {
 			resultErr = errors.Join(resultErr, CloseBuffers(buffers))
 		}
 	}()
-	const fqName = "android.hardware.graphics.allocator@2.0::IAllocator"
-	handle, err := hwservicemanager.New(driver).GetService(ctx, fqName, "default")
-	if err != nil {
-		return nil, fmt.Errorf("get Qualcomm allocator@2: %w", err)
-	}
 	for range count {
 		req := hwparcel.New()
-		req.WriteInterfaceToken(fqName)
+		req.WriteInterfaceToken(qcomAllocatorFQName)
 		req.WriteHidlVecUint32(desc)
 		req.WriteUint32(1)
 		reply, err := hwservicemanager.TransactHidl(ctx, driver, handle, 2, req)

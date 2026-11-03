@@ -68,3 +68,50 @@ func TestAllocateClosesTransferredDescriptorsOnFailure(t *testing.T) {
 	_, err = unix.FcntlInt(uintptr(fds[1]), unix.F_GETFD, 0)
 	require.NoError(t, err)
 }
+
+func TestParseAllocateResponseReadsAllocatorError(t *testing.T) {
+	raw := make([]byte, 12)
+	binary.LittleEndian.PutUint32(raw[4:], 1)
+	binary.LittleEndian.PutUint32(raw[8:], 64)
+
+	result, err := parseAllocateResponse(parcel.FromReceivedBytes(raw, nil))
+	require.NoError(t, err)
+	require.Equal(t, int32(1), result.Error)
+	require.Equal(t, int32(64), result.Stride)
+}
+
+func TestParseAllocateResponseRejectsTransportError(t *testing.T) {
+	raw := make([]byte, 12)
+	binary.LittleEndian.PutUint32(raw, 1)
+
+	_, err := parseAllocateResponse(parcel.FromReceivedBytes(raw, nil))
+	require.ErrorContains(t, err, "HIDL allocator transport status: 1")
+}
+
+func TestAllocateDescriptorValidatesRequest(t *testing.T) {
+	_, err := AllocateDescriptor(context.Background(), nil, 0, nil, 1)
+	require.ErrorContains(t, err, "empty buffer descriptor")
+
+	_, err = AllocateDescriptor(context.Background(), nil, 0, []uint32{1}, 0)
+	require.ErrorContains(t, err, "buffer count must be positive")
+}
+
+func TestAllocateRejectsMultipleBuffers(t *testing.T) {
+	for _, allocate := range []struct {
+		name string
+		call func() (*AllocateResult, error)
+	}{
+		{"descriptor", func() (*AllocateResult, error) {
+			return AllocateDescriptor(context.Background(), allocationTransport{reply: parcel.FromReceivedBytes(make([]byte, 12), nil)}, 0, []uint32{1}, 2)
+		}},
+		{"legacy", func() (*AllocateResult, error) {
+			return Allocate(context.Background(), allocationTransport{reply: parcel.FromReceivedBytes(make([]byte, 12), nil)}, 0, 1, 1, 1, 1, 1, 2)
+		}},
+	} {
+		t.Run(allocate.name, func(t *testing.T) {
+			result, err := allocate.call()
+			require.ErrorContains(t, err, "only one buffer")
+			require.Nil(t, result)
+		})
+	}
+}
